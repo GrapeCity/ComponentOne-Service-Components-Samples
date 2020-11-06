@@ -1,0 +1,25 @@
+﻿<Window x:Class="D365SalesSimpleBinding.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:D365SalesSimpleBinding"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <DataGrid x:Name="grid" 
+                  AutoGenerateColumns="False" 
+                  HeadersVisibility="All" 
+                  CanUserAddRows="True" 
+                  CanUserSortColumns="True" 
+                  CanUserDeleteRows="True" 
+                  CanUserReorderColumns="True"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding accountid}" Header="ID"/>
+                <DataGridTextColumn Binding="{Binding name}" Header="Account Name"/>
+                <DataGridTextColumn Binding="{Binding emailaddress1}" Header="Email Address"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
