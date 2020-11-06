@@ -1,0 +1,80 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="small">
+    <h5>Query Design</h5>
+    <p>Visit the <a href="/Designer"><b>Designer</b></a> page to create and visualize ad-hoc C1DataEngine queries. With the <b>Data Sources</b> tab selected, you will see three accordion panels on the left:</p>
+    <ul>
+        <li><b>Base Tables</b> shows a list of available data source tables that you can drag onto the light gray area on the right side.</li>
+        <li><b>Queries</b> are named data views that you can build from one or more base tables, just as you would define queries in Microsoft Access.</li>
+        <li><b>Properties</b> lets you rename a query or limit the number of rows to be returned. You can also use this panel to view/edit properties of joins between base tables.</li>
+    </ul>
+    <p>To add an existing base table to a query, drag its name from the <b>Base Tables</b> list and drop it onto the light gray data surface on the right side. The base table is represented by a scrollable list of its available data fields. The first time you drag-and-drop a base table in this manner, a new query named <i>Query1</i> is created. If you select the <b>Queries</b> panel, you will see the new query listed there. The query name also appears in the dark gray title bar above the data surface.</i></p>
+    <p>Once you have added a base table to the design surface, you can use the query design grid at the bottom to specify sort, aggregation, and filter criteria for one or more fields. The query design grid contains the following rows:</p>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Field</td>
+            <td>Provides a dropdown list of available data fields.</td>
+        </tr>
+        <tr>
+            <td>Alias</td>
+            <td>Specifies an alternate name for the data field.</td>
+        </tr>
+        <tr>
+            <td>Sort</td>
+            <td>Specifies an optional sort order for the data field.</td>
+        </tr>
+        <tr>
+            <td>Op</td>
+            <td>Specifies an aggregation operator such as <i>Sum</i> or <i>Count</i>.</td>
+        </tr>
+        <tr>
+            <td>Range</td>
+            <td>Specifies a range or filter condition. The top cell provides a dropdown list of comparison operators such as <i>Eq</i>. The bottom cell is used to enter the value for the condition.</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>Use the hamburger menu at the right edge of the title bar to manage the list of queries. Before you can use a query in data visualizations, you need to run the <b>Execute</b> command to run the query on the server. Use the <b>New</b> command to clear the design surface and restore it to its initial state. Use the <b>Delete</b> command to remove the query from the design surface and also delete its associated files from the server (you will be asked to confirm the deletion). Open the <b>Queries</b> panel to select an existing query for editing.</p>
+    <h5>Query Visualization</h5>
+    <p>Once you have defined and executed at least one query, you can use the <b>Designer</b> tab to create controls and bind them to data. With this tab selected, you will see four accordion panels on the left:</p>
+    <ul>
+        <li><b>Controls</b> shows a toolbox of available UI elements that you can drag onto the light gray design surface on the right side. The controls are grouped by category (Charts, Grids, Values).</li>
+        <li><b>Data Source</b> lets you assign a specific query (created on the <b>Data Sources</b> tab) to an individual control, then apply the desired fields to control elements such as grid columns or chart axes.</li>
+        <li><b>Views</b> lets you manage named data visualizations.</li>
+        <li><b>Properties</b> provides an interface for customizing specific attributes of the selected control, such as axis lines and chart legends.</li>
+    </ul>
+    <p>To create a control, drag its icon from the <b>Controls</b> panel onto the design surface. On the design surface, only one control can be selected at a time. The selected control is highlighted with a dashed line border and eight grab handles. Use the grab handles to resize the control in the direction designated by the cursor. Use the center icon to move the control while maintaining its present size.</p>
+    <p>Use the <b>Data Source</b> panel to apply a query to the selected control. First, select a query from the dropdown list to reveal a list of its available fields. Then drag one or more fields to the <b>Values</b> or <b>Categories</b> lists as desired. For most chart types, the <b>Values</b> list corresponds to the Y axis, and the <b>Categories</b> list corresponds to the X axis. For grids, the <b>Values</b> list defines data columns, and the (optional) <b>Categories</b> list is used to specify grouped rows.</p>
+    <p>For some controls, such as pie charts and gauges, the <b>Values</b> list can only contain one field.</p>
+    <div class="alert alert-info" role="alert">
+        NOTE: All changes made on the <b>Designer</b> page are automatically saved to the browser's local storage. There are no save/cancel buttons. However, if you add or edit a query, you need to explicitly run the <b>Execute</b> command to notify the server.
+    </div>
+    <h5>Example</h5>
+    <p>To create a query:</p>
+    <ol>
+        <li>With the <b>Data Sources</b> tab selected, drag the base table named <i>PetLicenses</i> to the design surface.</li>
+        <li>In the <b>Field</b> row of the query design grid, select the following fields in the first three columns: <i>Species</i>, <i>PrimaryBreed</i>, <i>LicenseNumber</i>.</li>
+        <li>In the <b>Op</b> row under <i>LicenseNumber</i>, select <i>Count</i>.</li>
+        <li>Select <b>Execute</b> from the hamburger menu, then click <b>OK</b> when the operation is complete.</li>
+    </ol>
+    <p><img src="images/QueryDesign.png"></p>
+    <p>To visualize a query:</p>
+    <ol>
+        <li>Select the <b>Designer</b> tab and ensure that the <b>Controls</b> panel is selected.</li>
+        <li>Drag the <b>Tree Map</b> control onto the design surface. Move and resize it so that it takes up most of the available space.</li>
+        <li>Select the <b>Data Source</b> panel. From the dropdown control, select the query you just created (<i>Query1</i>). A list of available fields will appear.</li>
+        <li>Drag the fields named <i>Species</i> and <i>PrimaryBreed</i> to the <b>Categories</b> box, in that order.</li>
+        <li>Drag the field named <i>LicenseNumber</i> to the <b>Value</b> box. The <b>Tree Map</b> control should now be populated.</li>
+    </ol>
+    <p><img src="images/QueryVisualization.png"></p>
+</div>

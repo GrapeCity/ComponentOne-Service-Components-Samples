@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PetLicenses", "PetLicenses.csproj", "{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.GRAPECITY|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.GRAPECITY|Any CPU.Build.0 = Release|Any CPU
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BCA9BE7-A591-4DFD-AC1D-1D20237B0ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA17F98A-FE09-4B00-AFCC-06530AADCE3C}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "noImplicitAny": false,         
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "declaration": false,
+        "sourceMap": false,
+        "watch": false,
+        "lib": ["dom", "es2015.promise", "es5"],
+        "rootDir": "src",
+        "outDir": "wwwroot/dist"
+     },
+     "exclude": [
+         "node_modules"
+     ]
+}
