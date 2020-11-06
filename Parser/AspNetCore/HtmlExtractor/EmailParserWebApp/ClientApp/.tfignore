@@ -1,0 +1,13 @@
+
+# Ignore node modules
+\node_modules
+\www
+\Resource\html\AmazonEmail1.html
+\Resource\html\AmazonEmail2.html
+\Resource\html\bookingEmail1.html
+\Resource\html\bookingEmail2.html
+\Resource\html\bookingEmail3.html
+\Resource\html\jetStarEmail.html
+\Resource\html\vietjetairEmail1.html
+\Resource\html\vietjetairEmail2.html
+\Resource\template\AmazonTemplate.xml

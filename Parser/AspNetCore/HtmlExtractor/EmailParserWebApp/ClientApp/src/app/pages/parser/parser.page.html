@@ -1,0 +1,95 @@
+<ion-content scrollY="false">
+  <div class="a3-container a1-container a3-column">
+    <div style="background:rgb(36, 36, 36); color: white;" class="a3-container a3-items-center">
+      <div class="a3-flex-1 a1-height-100 a3-container a3-items-center">
+        <ion-button fill="clear" routerLink="/home" routerDirection="root">
+          <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+        <div class="nav-link ion-padding"><strong>Email Parser Demo</strong></div>
+      </div>
+    </div>
+
+    <div class="a3-flex-1">
+      <div class="a3-container a1-container">
+        <div class="a1-width-25 a1-height-100"
+          style="overflow-y: auto; max-height: calc(100vh - 50px); background: rgb(240, 240, 240)" padding>
+          <ion-list style="padding-top:0; padding-bottom:0">
+            <ion-list-header style="background-color:black; color: white">
+              <div class="a3-container a3-items-center a1-width-100 a1-height-100">
+                <ion-label class="a1-padding-left">Emails</ion-label>
+              </div>
+            </ion-list-header>
+            <ion-item *ngFor="let task of parser.Tasks">
+              <div class="a3-container a3-items-center a1-fill-parent">
+                <div class="a3-flex-1 a1-padding-left">
+                  {{task.Email._Name}}
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+
+
+          <ion-list style="padding-top:0px; padding-bottom:0; margin-top:20px">
+            <ion-list-header style="background-color:black; color: white">
+              <div class="a3-container a3-items-center a1-width-100 a1-height-100">
+                <ion-label class="a1-padding-left">Template</ion-label>
+              </div>
+            </ion-list-header>
+            <ion-item *ngIf="parser.Tasks.length>0">
+              <div class="a3-container a3-items-center a1-fill-parent">
+                <div class="a3-flex-1 a1-padding-left">
+                  {{parser.Tasks[0].Template._Name}}
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </div>
+
+        <div class="a3-flex-1 a1-height-100" style="overflow-y: auto; background: white;max-height: calc(100vh - 50px)"
+          padding>
+
+          <div padding>
+            <div class="heading">
+              Extraction Result
+            </div>
+
+            <div class="description">
+
+            </div>
+
+            <div class="navigation-container">
+              <div class="a3-container a3-items-center a1-width-100">
+                <!-- <div class="navigation-header" [class.active]="viewIndex==0" (click)="onClickViewData(0)">Grid Data
+                </div> -->
+                <div class="navigation-separater"></div>
+                <div class="navigation-header" [class.active]="viewIndex==1" (click)="onClickViewData(1)">Raw Data</div>
+              </div>
+            </div>
+
+            <div class="content-container">
+              <!-- Grid data view -->
+              <div *ngIf="viewIndex==0">
+
+
+              </div>
+              <!-- Raw data view -->
+              <div *ngIf="viewIndex==1">
+                <div *ngFor="let task of parser.Tasks" padding>
+                  <div [innerHtml]="task.toJSONHTML()"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+</ion-content>

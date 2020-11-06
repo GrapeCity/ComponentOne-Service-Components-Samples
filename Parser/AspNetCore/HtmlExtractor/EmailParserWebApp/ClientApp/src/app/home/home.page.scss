@@ -1,0 +1,31 @@
+.scroll-y {
+    overflow: hidden !important;
+}
+
+ion-textarea {
+    background: white;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    color: var(--ion-color-primary);
+}
+
+.nav-link:focus {
+    outline: 0;
+}
+
+.text-selection {
+    background: cyan;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ion-color-primary);
+    border-radius: 100px;
+}
+
+.border-bottom {
+    border-bottom: solid 1px gray;
+}

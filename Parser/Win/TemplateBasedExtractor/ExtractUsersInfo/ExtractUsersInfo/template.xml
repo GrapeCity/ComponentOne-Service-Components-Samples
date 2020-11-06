@@ -1,0 +1,25 @@
+﻿<template rootElement="user">
+  
+  <element name ="address" startingRegex="{" endingRegex="}" childrenSeparatorRegex=",">
+    <element name="country" startingRegex="country\s*:" extractFormat="quotedString"/>
+    <element name="zipcode" startingRegex="zip code\s*:" extractFormat="regex:[0-9]+"/>
+    <element name="street" startingRegex="street\s*:" extractFormat="quotedString"/>
+    <element name="door number" startingRegex="door number\s*:" extractFormat="int"/>
+  </element>
+  
+  <element name="user">
+    <element name="name" startingRegex="name" extractFormat="quotedString"/>
+    <element name="age" startingRegex="age" extractFormat="int"/>
+    <element name="residency address" startingRegex="residency address">
+      <element template="address"/>
+    </element>
+    <element name="work address" startingRegex="work address">
+      <element template="address"/>
+    </element>
+    <element name="contacts" startingRegex="contacts">
+      <element name="phone number" extractFormat="regex:[0-9]+" occurs="0-*"/>
+      <element name="email" extractFormat="email" occurs="0-*"/>
+    </element>
+  </element>
+  
+</template>

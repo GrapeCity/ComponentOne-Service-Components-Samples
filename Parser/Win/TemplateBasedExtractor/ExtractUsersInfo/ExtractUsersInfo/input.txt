@@ -1,0 +1,84 @@
+﻿User information list
+This file contains the information about each one of our users following a custom format as the following:
+
+name ___
+age ___
+residency address {country: ___, zip code: ___, street: ___, door number: ___}
+work address {country: ___, zip code: ___, street: ___, door number: ___}
+contacts ___ , ___ , ...
+
+given by the following xml template:
+
+<template rootElement="user">
+  
+  <element name ="address" startingRegex="{" endingRegex="}" childrenSeparatorRegex=",">
+    <element name="country" startingRegex="country\s*:" extractFormat="quotedString"/>
+    <element name="zipcode" startingRegex="zip code\s*:" extractFormat="regex:[0-9]+"/>
+    <element name="street" startingRegex="street\s*:" extractFormat="quotedString"/>
+    <element name="door number" startingRegex="door number\s*:" extractFormat="int"/>
+  </element>
+  
+  <element name="user">
+    <element name="name" startingRegex="name" extractFormat="quotedString"/>
+    <element name="age" startingRegex="age" extractFormat="int"/>
+    <element name="residency address" startingRegex="residency address">
+      <element template="address"/>
+    </element>
+    <element name="work address" startingRegex="work address">
+      <element template="address"/>
+    </element>
+    <element name="contacts" startingRegex="contacts">
+      <element name="phone number" extractFormat="regex:[0-9]+" occurs="0-*"/>
+      <element name="email" extractFormat="email" occurs="0-*"/>
+    </element>
+  </element>
+  
+</template>
+
+name "Robert Jones"
+age 24
+residency address {country: "France", zip code: 61200, street: "Rue des fleurs", door number: 64}
+work address {country: "France", zip code: 78900, street: "Rue aux chats", door number: 78}
+contacts 916908384
+
+name "Rodrigo Rodrigues Oliveira"
+age 56
+residency address {country: "Portugal", zip code: 4900000, street: "Avenida da liberdade", door number: 120}
+work address {country: "Portugal", zip code: 4700747, street: "Rua da aldeia", door number: 78}
+contacts rodrigorodrigues@hotmail.com rodrigor@gmail.com 886994201 023343812 933873123
+
+name "Theresa Smith"
+age 40
+residency address {country: "United States of America", zip code: 78000, street: "Vermont Avenue", door number: 120}
+work address {country: "United States of America", zip code: 78000, street: "Vermont Avenue", door number: 130}
+contacts theresasmith@hotmail.com theresa@gmail.com 0233674830
+
+name "John Smith"
+age 45
+residency address {country: "United States of America", zip code: 78000, street: "Vermont Avenue", door number: 120}
+contacts johns@hotmail.com johns@gmail.com 0245879630
+work address {country: "United States of America", zip code: 78000, street: "Vermont Avenue", door number: 130}
+
+name "Maria de Belem"
+age 65
+residency address {country: "Portugal", zip code: 4900000, street: "Avenida da liberdade", door number: 120}
+work address {country: "Portugal", zip code: 4700747, street: "Praça da Alegria", door number: 80}
+contacts mariabelem@hotmail.com mariabelem@gmail.com 916908384
+
+name "Henry de Lesquen"
+age 71
+residency address {country: "France", zip code: 12300, street: "Avenue des champs-élysées", door number: 13}
+work address {country: "France", zip code: 12300, street: "Avenue des champs-élysées", door number: 68}
+contacts 0278984530
+
+name "Manuel de Oliveira"
+age 32
+residency address {country: "Portugal", zip code: 78000, street: "Avenida da japoneira", door number: 89}
+work address {country: "Portugal", zip code: 78002, street: "Avenida do estadio", door number: 13}
+contacts manuel-oliveira@yahoo.com
+
+name "Yuri Petrov"
+age 24
+residency address {country: "Russia", zip code: 143006, street: "Moskovskaya oblast", door number: 60}
+work address {country: "Russia", zip code: 143006, street: "Moskovskaya oblast", door number: 78}
+contacts yuri1995@hotmail.com

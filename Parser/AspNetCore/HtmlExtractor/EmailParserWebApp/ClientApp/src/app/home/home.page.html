@@ -1,0 +1,254 @@
+<ion-content scrollY="false">
+  <div class="a3-container a1-container a3-column">
+    <div padding style="background:rgb(36, 36, 36); color: white;" class="a3-container a3-items-center">
+      <div class="a3-flex-1 a1-height-100 a3-container a3-items-center">
+        <div class="nav-link" (click)="onClickCloseFile()"><strong>Email Parser Demo</strong></div>
+        <div *ngIf="_SelectedFile" style="padding-left:4px">/ {{_SelectedFile._Name}}</div>
+      </div>
+    </div>
+
+    <div class="a3-flex-1">
+      <div class="a3-container a1-container">
+        <div class="a3-flex-1 a1-height-100" style="overflow-y: auto; max-height: calc(100vh - 50px)">
+          <div *ngIf="!_SelectedFile" padding>
+            <div padding text-center style="padding-top:0">
+              <ion-button class="a1-relative">
+                <ion-icon slot="start" name="add"></ion-icon> Upload emails
+                <input class="a1-absolute a1-fill-parent" type="file" multiple="true" id="ID_Input_Emails"
+                  name="htmlFile" accept=".html" (change)="onEmailFileChanged($event)" style="opacity: 0;">
+              </ion-button>
+            </div>
+
+            <ion-list [hidden]="_Files.length==0" style="padding-top:0; padding-bottom:0">
+              <ion-list-header style="background-color:black; color: white">
+                <div class="a3-container a3-items-center a1-width-100 a1-height-100">
+                  <ion-checkbox (ionChange)="onFilesCheckboxValueChanged()" [(ngModel)]="filesChecked"
+                    style="--border-color:none"></ion-checkbox>
+                  <ion-label class="a1-padding-left">Files</ion-label>
+                </div>
+              </ion-list-header>
+              <ion-item *ngFor="let file of _Files">
+                <div class="a3-container a3-items-center a1-fill-parent">
+
+                  <div class="a1-relative">
+                    <ion-checkbox [(ngModel)]="file.checked"></ion-checkbox>
+                  </div>
+
+                  <div class="a3-flex-1 nav-link a1-padding-left" (click)="onClickSelectEmail(file)">{{file._Name}}
+                  </div>
+                  <div>
+                    <!-- <ion-button size="small" fill="outline" color="success" style="margin-right:10px"
+                      (click)="onClickExtractData(file)">
+                      Extract Data
+                    </ion-button> -->
+
+                    <ion-button size="small" fill="outline" color="tertiary" style="margin-right:10px"
+                      (click)="onClickCreateTemplate(file)">
+                      <ion-icon slot="start" name="add"></ion-icon> Template
+                    </ion-button>
+
+                  </div>
+                </div>
+              </ion-item>
+            </ion-list>
+
+          </div>
+          <div [hidden]="!_SelectedFile" padding class="animated-quick fadeIn">
+            <div id="contents" (mouseup)="onMouseUp($event)" class="a3-flex-1"></div>
+          </div>
+        </div>
+
+        <div class="a1-width-25 a1-height-100" style="overflow-y: auto; background: rgb(240, 240, 240)" padding>
+
+          <div *ngIf="!_Template && !_SelectedFile">
+            <div text-center padding style="padding-top:0">
+              <ion-button class="a1-relative">
+                <ion-icon slot="start" name="add"></ion-icon> Upload templates
+                <input class="a1-absolute a1-fill-parent" type="file" multiple="true" id="ID_Input_Templates"
+                  name="TemplateFiles" accept=".xml" (change)="onTemplateFileChanged($event)" style="opacity: 0;">
+              </ion-button>
+            </div>
+
+            <ion-list style="padding-top:0; padding-bottom:0">
+              <ion-list-header style="background-color:black; color: rgb(240, 240, 240)">
+                <ion-label>Templates</ion-label>
+              </ion-list-header>
+              <ion-item *ngFor="let template of _Templates">
+                <div class="a3-container a3-items-center a1-width-100 a1-height-100">
+                  <div class="a1-relative a3-container a3-items-center a3-flex-1"
+                    (click)="onClickSelectTemplate(template)">
+                    <ion-checkbox [(ngModel)]="template.checked"></ion-checkbox>
+                    <div class="a3-flex-1" style="padding-left: 10px">{{template._Name}}</div>
+                  </div>
+                  <div>
+                    <ion-button size="small" color="secondary" fill="clear" (click)="onClickDownloadTemplate(template)">
+                      <ion-icon name="md-cloud-download"></ion-icon>
+                    </ion-button>
+
+                    <ion-button size="small" color="tertiary" fill="clear" (click)="onClickEditTemplate(template)">
+                      <ion-icon name="md-create"></ion-icon>
+                    </ion-button>
+
+                    <ion-button size="small" color="danger" fill="clear" (click)="onClickDeleteTemplate(template)">
+                      <ion-icon name="md-trash"></ion-icon>
+                    </ion-button>
+
+                    <!-- <ion-button size="small" color="success" fill="outline"
+                      (click)="onClickExtractData(_SelectedFile,template)">
+                      Use
+                    </ion-button> -->
+                  </div>
+                </div>
+              </ion-item>
+            </ion-list>
+          </div>
+
+          <div class="a3-container a3-items-center a1-padding-bottom" *ngIf="!_Template&&_SelectedFile">
+            <ion-button [disabled]="!_SelectedFile||_CurrentFileIndex<1" (click)="onClickPreviousFile()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+            <ion-button [disabled]="!_SelectedFile||_CurrentFileIndex>(_Files.length-2)" (click)="onClickNextFile()">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </ion-button>
+            <ion-button [disabled]="!_SelectedFile || _Template" (click)="onClickAddNewTemplate()">
+              <ion-icon slot="start" name="add"></ion-icon> Template
+            </ion-button>
+          </div>
+
+
+          <div *ngIf="!_Template && _SelectedFile">
+            <ion-list style="padding-top:0; padding-bottom:0">
+              <ion-list-header style="background-color:black; color: rgb(240, 240, 240)">
+                <ion-label>Templates</ion-label>
+                <!-- <div class="a1-width-100">
+                  <div style="text-transform: uppercase" class="a1-padding-bottom">Templates</div>
+                  <p style="font-size:.8em;color:gray">
+                    <span *ngIf="_Templates.length>0">Select template to extract data</span>
+                    <span *ngIf="_Templates.length==0">There's no template!, <span (click)="onClickAddNewTemplate()"
+                        style="color:blue; text-decoration: underline;cursor: pointer;">Create one</span></span>
+                  </p>
+                </div> -->
+              </ion-list-header>
+              <ion-item *ngFor="let template of _Templates">
+                <div class="a3-container a3-items-center a1-fill-parent">
+                  <div class="a3-flex-1">{{template._Name}}</div>
+                  <div>
+                    <ion-button size="small" color="success" fill="outline"
+                      (click)="onClickExtractData(_SelectedFile,template)">
+                      Use
+                    </ion-button>
+                  </div>
+                </div>
+
+              </ion-item>
+            </ion-list>
+            <!-- 
+            <div class="a1-padding-top a1-padding-bottom">
+              <div style="text-transform: uppercase" class="a1-padding-bottom">Templates</div>
+              <p style="font-size:.8em;color:gray">
+                <span *ngIf="_Templates.length>0">Select template to extract data</span>
+                <span *ngIf="_Templates.length==0">There's no template!, <span (click)="onClickAddNewTemplate()"
+                    style="color:blue; text-decoration: underline;cursor: pointer;">Create one</span></span>
+              </p>
+            </div>
+            <div *ngFor="let template of _Templates" padding>
+              <div class="a3-container a3-items-center">
+                <div class="a3-flex-1">{{template._Name}}</div>
+                <div>
+                  <ion-button size="small" color="success" fill="outline"
+                    (click)="onClickExtractData(_SelectedFile,template)">
+                    Use
+                  </ion-button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          </div>
+
+          <div *ngIf="_Template" class="a1-container">
+            <div class="a1-padding-top a1-padding-bottom"
+              style="text-transform: uppercase; font-size: 1.2em;font-weight: bold">Create new template</div>
+            <ion-item class="input-template-name">
+              <ion-label color="medium">Name</ion-label>
+              <ion-input type="text" [(ngModel)]="_Template._Name"></ion-input>
+            </ion-item>
+            <div padding text-center>
+              <ion-button (click)="onClickAddField()" [disabled]="!_Selection._Text">
+                Add Field
+              </ion-button>
+
+              <ion-button (click)="onClickAddBlock()">
+                Add Repeated Block
+              </ion-button>
+            </div>
+
+
+            <div *ngFor="let field of _Template._Fields"
+              class="a3-container a3-items-center a3-justify-between  border-bottom">
+              <div class="a3-container-center"> {{field._Name}}</div>
+              <div>
+                <ion-button fill="clear" (click)="onClickEditField(field)">
+                  <ion-icon name="md-create"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" color="danger" (click)="onClickDeleteField(field)">
+                  <ion-icon name="md-trash"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+
+            <div *ngFor="let block of _Template._Blocks">
+              <div class="block-header a3-container a3-items-center a3-justify-between border-bottom">
+                <div class="a3-container-center"> {{block._Name}}</div>
+                <div>
+                  <ion-button (click)="onClickAddBlockField(block)" [disabled]="!_Selection._Text">
+                    Add Repeated Field
+                  </ion-button>
+                  <ion-button fill="clear" (click)="onClickEditBlock(block)">
+                    <ion-icon name="md-create"></ion-icon>
+                  </ion-button>
+                  <ion-button color="danger" fill="clear" (click)="onClickDeleteBlock(block)">
+                    <ion-icon name="md-trash"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+
+
+              <div class="block-field-container" padding>
+                <div *ngFor="let field of block._Fields" class="a3-container a3-items-center">
+                  <div class="a3-flex-1">{{field._Name}} <span *ngIf="field._RepeatedFields.length>0"
+                      style="color:gray"> (repeated)</span></div>
+                  <div>
+                    <ion-button size="small" (click)="onClickAddRepeatedField(field)" [disabled]="!_Selection._Text">
+                      <ion-icon name="md-repeat"></ion-icon>
+                    </ion-button>
+                    <ion-button size="small" fill="clear" (click)="onClickEditBlockField(block,field)">
+                      <ion-icon name="md-create"></ion-icon>
+                    </ion-button>
+                    <ion-button size="small" fill="clear" color="danger" (click)="onClickDeleteBlockField(block,field)">
+                      <ion-icon name="md-trash"></ion-icon>
+                    </ion-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div padding text-center class="a1-absolute a1-width-100 a1-bottom">
+              <ion-button (click)="onClickSaveTemplate()" style="margin-right:16px">Save template</ion-button>
+              <ion-button (click)="onClickDiscardEditTemplate()" color="danger">Discard</ion-button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!_Template&&!_SelectedFile">
+    <ion-fab-button (click)="onClickExtractDatas()">
+      Parse
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>
