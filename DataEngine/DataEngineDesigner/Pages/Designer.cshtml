@@ -1,0 +1,224 @@
+﻿@page
+@model DesignerModel
+@{
+    Layout = "_DesignerLayout";
+    ViewData["Title"] = "Designer";
+}
+
+<form method="post">
+</form>
+
+<div id="dashboard-container" class="dashboard-container" style="display:block">
+    <img class="tab-indent">
+    <input id="tab-data-sources" type="radio" name="tabs" checked>
+    <label for="tab-data-sources">Data Sources</label>
+    <input id="tab-ui-designer" type="radio" name="tabs">
+    <label for="tab-ui-designer">Designer</label>
+    <div class="tab-content">
+        <div id="content-data-sources">
+            <div id="data-designer">
+                <div id="data-left-pane">
+                    <input id="ad-1" type="radio" name="add" checked />
+                    <label for="ad-1" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Base Tables</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div id="available-apps" class="listbox-no-selection">
+                        </div>
+                    </div>
+                    <input id="ad-2" type="radio" name="add"/>
+                    <label for="ad-2" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Queries</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div id="query-definitions" class="listbox-with-selection">
+                        </div>
+                    </div>
+                    <input id="ad-3" type="radio" name="add"/>
+                    <label for="ad-3" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Properties</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div id="data-properties">
+                        </div>
+                    </div>
+                </div>
+                <div id="data-splitter">
+                </div>
+                <div id="data-right-pane">
+                    <div id="query-toolbar">
+                        <label id="query-label"></label>
+                        <label id="query-menu-label" title="Menu">&#9776;</label>
+                    </div>
+                    <div id="selected-apps">
+                    </div>
+                    <div id="data-right-splitter">
+                    </div>
+                    <div id="query-grid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content-ui-designer">
+            <div id="ui-designer">
+                <div id="ui-left-pane">
+                    <input id="ac-1" type="radio" name="acc" checked />
+                    <label for="ac-1" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Controls</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div class="control-gallery">
+                            <div class="gallery-label">Charts</div>
+                            <div class="gallery-icon" ctor="wijmo.razor.ColumnChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.BarChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.LineChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.AreaChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.ScatterChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.SplineChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.PieChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.RadarChart"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.TreeMap"><img></div>
+                            <div class="gallery-label">Grids</div>
+                            <div class="gallery-icon" ctor="wijmo.razor.FlexGrid"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.PivotGrid"><img></div>
+                            <div class="gallery-label">Values</div>
+                            <div class="gallery-icon" ctor="wijmo.razor.LinearGauge"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.RadialGauge"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.Numeric"><img></div>
+                            <div class="gallery-icon" ctor="wijmo.razor.Label"><img></div>
+                        </div>
+                    </div>
+                    <input id="ac-2" type="radio" name="acc"/>
+                    <label for="ac-2" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Data Source</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div class="datasource-panel">
+                            <div id="datasource-combo"></div>
+                            <div id="datasource-fields" class="listbox-no-selection"></div>
+                            <div id="label-datasource-values" class="datasource-label">Values</div>
+                            <div id="datasource-values" class="listbox-no-selection"></div>
+                            <div id="label-datasource-category" class="datasource-label">Categories</div>
+                            <div id="datasource-category" class="listbox-no-selection"></div>
+                            <div id="label-datasource-columns" class="datasource-label">Columns</div>
+                            <div id="datasource-columns" class="listbox-no-selection"></div>
+                        </div>
+                    </div>
+                    <input id="ac-4" type="radio" name="acc"/>
+                    <label for="ac-4" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Views</span>
+                    </label>
+                    <div class="accordion-content">
+                        <div id="view-definitions" class="listbox-with-selection">
+                        </div>
+                    </div>
+                    <input id="ac-3" type="radio" name="acc"/>
+                    <label for="ac-3" class="accordion-label">
+                        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="accordion-img"/>
+                        <span>Properties</span>
+                    </label>
+                    <div class="accordion-content overflow-y">
+                        <div id="property-grid">
+                        </div>
+                    </div>
+                </div>
+                <div id="ui-splitter">
+                </div>
+                <div id="ui-right-pane">
+                    <div id="view-toolbar">
+                        <label id="view-label"></label>
+                        <label id="view-menu-label" title="Menu">&#9776;</label>
+                    </div>
+                    <div id="design-surface">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<select id="query-menu" style="display:none">
+    <option value="new">&#10059; New</option>
+    <option value="execute">&#11000; Execute</option>
+    <option></option>
+    <option value="delete">&#10007; Delete</option>
+</select>
+<select id="view-menu" style="display:none">
+    <option value="new">&#10059; New</option>
+    <option></option>
+    <option value="delete">&#10007; Delete</option>
+</select>
+<select id="data-table-menu" style="display:none">
+    <option value="delete">Delete</option>
+</select>
+<select id="table-join-menu" style="display:none">
+    <option value="delete">Delete</option>
+</select>
+<select id="ui-widget-menu" style="display:none">
+    <option value="delete">Delete</option>
+</select>
+<select id="data-value-menu" style="display:none">
+    <option value="none">No Aggregate</option>
+    <option value="sum">Sum</option>
+    <option value="cnt">Count</option>
+    <option value="avg">Average</option>
+    <option value="max">Max</option>
+    <option value="min">Min</option>
+    <option></option>
+    <option value="remove">Remove</option>
+</select>
+<div id="rename-popup" class="popup-dialog" style="display:none">
+    <input type="text" class="popup-input">
+    <div class="popup-button-row">
+        <button class='wj-hide-ok'></button>
+        <button class='wj-hide-cancel'></button>
+    </div>
+</div>
+<div id="query-popup" class="popup-dialog" style="display:none">
+    <div>Are you sure you want to delete this query?</div><br/>
+    <div class="popup-button-row">
+        <button class="wj-hide-ok">Yes</button>
+        <button class="wj-hide-cancel">No</button>
+    </div>
+</div>
+<div id="view-popup" class="popup-dialog" style="display:none">
+    <div>Are you sure you want to delete this view?</div><br/>
+    <div class="popup-button-row">
+        <button class="wj-hide-ok">Yes</button>
+        <button class="wj-hide-cancel">No</button>
+    </div>
+</div>
+<div id="reset-popup" class="popup-dialog" style="display:none">
+    <div>Are you sure you want to reset the app?</div><br/>
+    <div class="popup-button-row">
+        <button class="wj-hide-ok">Yes</button>
+        <button class="wj-hide-cancel">No</button>
+    </div>
+</div>
+<div id="success-popup" class="popup-dialog" style="display:none">
+    <div>Server operation completed successfully.</div><br/>
+    <div class="popup-button-row">
+        <button class="wj-hide-ok">OK</button>
+    </div>
+</div>
+<div id="failure-popup" class="popup-dialog" style="display:none">
+    <div id="failure-popup-msg">Server operation failed.</div><br/>
+    <div class="popup-button-row">
+        <button class="wj-hide-cancel">Close</button>
+    </div>
+</div>
+<div id="loading-popup" class="popup-dialog" style="display:none">
+    <img src="images/loading.gif"/>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+    var tables = @Html.Raw(Json.Serialize(Model.BaseTables));
+    var controller = new wijmo.razor.designer.DesignerController(tables);
+    </script>
+}

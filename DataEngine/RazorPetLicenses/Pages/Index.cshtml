@@ -1,0 +1,75 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<style>
+    .footer, .navbar-nav {
+        display: none;
+    }
+    .wj-dashboard {
+        margin-top: 20px;
+        background-color: transparent;
+        height: 688px;
+    }
+    .wj-dashboard .wj-flexpie, .wj-dashboard .wj-flexchart, .wj-dashboard .wj-treemap {
+        margin: 0px;
+        padding: 4px;
+        border: none;
+        height: 280px;
+        font-size: 14px;
+    }
+    .wj-dashboard .wj-flexgrid {
+        height: 280px;
+        font-size: 14px;
+    }
+    .wj-tile-content {
+        overflow: hidden;
+    }
+</style>
+
+<c1-dashboard-layout id="dash" allow-drag="false" allow-hide="false" allow-maximize="false" allow-resize="false" allow-show-all="false">
+    <c1-split-layout orientation="Vertical">
+        <c1-split-group orientation="Horizontal" size="*">
+            <c1-split-group orientation="Vertical" size="*">
+                <c1-split-tile header-text="Licenses By Species" size="*">
+                    <c1-flex-pie id="pie" binding="Count" binding-name="Species">
+                        <c1-items-source source-collection="Model.BySpecies"></c1-items-source>
+                    </c1-flex-pie>
+                </c1-split-tile>
+            </c1-split-group>
+            <c1-split-tile header-text="Licenses By Year" size="*">
+                <c1-flex-chart id="chart" binding-x="Year" chart-type="Column" legend-position="None">
+                    <c1-items-source source-collection="Model.ByYear"></c1-items-source>
+                    <c1-flex-chart-series binding="Count" name="Count"></c1-flex-chart-series>
+                    <c1-flex-chart-axis c1-property="AxisX" format="d"></c1-flex-chart-axis>
+                </c1-flex-chart>
+            </c1-split-tile>
+        </c1-split-group>
+        <c1-split-group orientation="Horizontal" size="*">
+            <c1-split-group orientation="Vertical" size="2*">
+                <c1-split-tile header-text="Most Popular Dog Names" size="*">
+                    <c1-tree-map id="tree" binding="Count" binding-name="DogName">
+                        <c1-items-source source-collection="Model.DogNames"></c1-items-source>
+                        <c1-flex-chart-datalabel position="Center" content="{name}"></c1-flex-chart-datalabel>
+                    </c1-tree-map>
+                </c1-split-tile>
+            </c1-split-group>
+            <c1-split-tile header-text="Other Animals" size="*">
+                <c1-flex-grid id="grid" auto-generate-columns="false" is-read-only="true" headers-visibility="Column" group-by="Species">
+                    <c1-items-source source-collection="Model.OtherAnimals"></c1-items-source>
+                    <c1-flex-grid-column binding="LicenseNumber" width="*" header="License Number" />
+                    <c1-flex-grid-column binding="AnimalName" width="*" header="Animal Name" />
+                </c1-flex-grid>
+            </c1-split-tile>
+            <c1-split-tile header-text="KingCounty" size="*">
+                <c1-flex-grid id="grid2" auto-generate-columns="false" is-read-only="true" headers-visibility="Column">
+                    <c1-items-source source-collection="Model.KingCounty"></c1-items-source>
+                    <c1-flex-grid-column binding="City" width="*" />
+                    <c1-flex-grid-column binding="Count" width="*" />
+                </c1-flex-grid>
+            </c1-split-tile>
+        </c1-split-group>
+    </c1-split-layout>
+</c1-dashboard-layout>

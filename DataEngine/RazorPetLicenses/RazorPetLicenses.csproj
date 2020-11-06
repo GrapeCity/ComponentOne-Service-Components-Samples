@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.AspNetCore.Mvc" Version="3.0.20202.*" />
+    <PackageReference Include="C1.DataEngine">
+      <Version>5.0.20203.163</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataEngine.Api">
+      <Version>5.0.20203.163</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
+  </ItemGroup>
+</Project>
