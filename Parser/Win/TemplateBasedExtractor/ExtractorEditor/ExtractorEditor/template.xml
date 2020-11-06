@@ -1,0 +1,29 @@
+﻿<!-- This is a custom template to extract directly from a csv file" -->
+
+<template rootElement="log">
+  
+  <element name="date" childrenSeparatorRegex="-" childrenOrderMatter="true">
+    <element name="year" extractFormat="int"/>
+    <element name="month" extractFormat="int"/>
+    <element name="day" extractFormat="int"/>
+  </element>
+  
+  <element name="timeHMS" childrenSeparatorRegex=":" childrenOrderMatter="true">
+    <element name="hour" extractFormat="int"/>
+    <element name="minute" extractFormat="int"/>
+    <element name="second" extractFormat="int"/>
+  </element>
+  
+  <element name="time" childrenSeparatorRegex="\." childrenOrderMatter="true">
+    <element template="timeHMS"/>
+    <element name="millisecond" extractFormat="int"/>
+  </element>
+    
+  <element name="log" childrenOrderMatter="true" childrenSeparatorRegex=",">
+    <element template="date"/>
+    <element template="time"/>
+    <element name="type" extractFormat="regex:ERROR|WARN|INFO"/>
+    <element name="description" extractFormat="regex:(.)+(?=(\r\n))"/>
+  </element>
+
+</template>

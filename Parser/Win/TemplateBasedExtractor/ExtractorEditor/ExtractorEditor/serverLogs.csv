@@ -1,0 +1,13 @@
+2012-11-11, 00:51:25.676, INFO, Starting Backup Manager 5.0.0 build 18536
+2012-11-11, 00:51:25.789, WARN, Generating Self-Signed SSL Certificate (alias = cdp)
+2012-11-11, 00:51:26.566, WARN, Saved SSL Certificate (alias = cdp) to Key Store /usr/sbin/r1soft/conf/comkeystore
+2012-11-11, 00:51:26.789, INFO, Operating System: Linux
+2012-11-11, 00:51:27.234, INFO, Architecture: amd64
+2012-11-11, 00:51:27.986, INFO, OS Version: 2.6.32-279.11.1.e16.x86_64
+2012-11-11, 00:51:28.123, INFO, Processors Detected: 1
+2012-11-11, 00:51:28.954, INFO, Max Configured Heap Memory: 989.9 MB
+2012-11-11, 00:51:29.276, ERROR, Unsuccessful: create index stateIndex on RecoveryPoint (state)
+2012-11-11, 00:51:29.980, ERROR, Index 'STATEINDEX' already exists in Schema 'R1DERBYUSER'.
+2012-11-11, 00:51:30.213, WARN, Invalid feature (0xECEBE6F7).
+2012-11-11, 00:51:30.736, INFO, Tomcat Wrapper starting
+2012-11-11, 00:51:30.800, INFO, Tomcat Wrapper started

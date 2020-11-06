@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailParserDemo", "EmailParserDemo.csproj", "{DC778715-90AE-4AE6-A266-3DBAE1E224FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC778715-90AE-4AE6-A266-3DBAE1E224FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC778715-90AE-4AE6-A266-3DBAE1E224FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC778715-90AE-4AE6-A266-3DBAE1E224FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC778715-90AE-4AE6-A266-3DBAE1E224FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12C5B6C1-10E9-44C7-ACC1-C00BF01DE750}
+	EndGlobalSection
+EndGlobal

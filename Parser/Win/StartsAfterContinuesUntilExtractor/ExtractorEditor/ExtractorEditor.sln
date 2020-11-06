@@ -1,0 +1,26 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtractorEditor", "ExtractorEditor\ExtractorEditor.csproj", "{E508D948-5A6A-4824-BF0F-0C99A952F202}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.GRAPECITY|Any CPU.ActiveCfg = Release|Any CPU
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.GRAPECITY|Any CPU.Build.0 = Release|Any CPU
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E508D948-5A6A-4824-BF0F-0C99A952F202}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9FE9DF0D-197A-47B3-87E9-B8E375C49DFE}
+	EndGlobalSection
+EndGlobal

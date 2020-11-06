@@ -1,0 +1,98 @@
+.scroll-y {
+    overflow: hidden !important;
+}
+
+ion-textarea {
+    background: white;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+    color: var(--ion-color-primary);
+}
+
+.nav-link:focus {
+    outline: 0;
+}
+
+.text-selection {
+    background: cyan;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+    background: var(--ion-color-primary);
+    border-radius: 100px;
+}
+
+.border-bottom {
+    border-bottom: solid 1px gray;
+}
+
+
+
+.heading {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.navigation-separater {
+    width: 2px;
+    height: 10 px;
+    background: lightgray;
+    margin: 0 10px;
+}
+
+.navigation-header {
+    border-bottom: solid 3px white;
+    padding: 4px 0;
+    opacity: 0.8;
+}
+
+.active {
+    opacity: 1;
+    border-bottom: solid 3px cyan;
+}
+
+.description {
+    padding: 10px;
+}
+
+.content-container {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px gray;
+    border-style: dashed;
+    min-height: 60vh;
+    max-height: 78vh;
+    overflow-y: scroll;
+}
+
+
+
+pre {
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+}
+
+.string {
+    color: green;
+}
+
+.number {
+    color: darkorange;
+}
+
+.boolean {
+    color: blue;
+}
+
+.null {
+    color: magenta;
+}
+
+.key {
+    color: red;
+}
