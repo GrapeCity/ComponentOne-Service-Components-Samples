@@ -1,5 +1,5 @@
 ## C1DataCollection101 for Winforms
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataCollection/Win/C1DataCollection101)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataCollection/Win/C1DataCollection101)
 ____
 #### Shows samples to use DataCollection in controls.
 ____

@@ -1,5 +1,5 @@
 ## EFCoreSamples for NetCore3.1
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataConnector/WPF/ODataEFCoreSamples)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataConnector/WPF/ODataEFCoreSamples)
 ____
 #### Shows how to query data from OData server using EFCore database first.
 ____

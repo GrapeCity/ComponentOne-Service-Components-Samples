@@ -1,5 +1,5 @@
 ## DataEngineDesigner
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/DataEngineDesigner)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/DataEngineDesigner)
 ____
 #### Implements a visual designer for C1DataEngine queries using Razor Pages.
 ____

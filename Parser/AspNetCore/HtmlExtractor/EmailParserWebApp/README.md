@@ -1,5 +1,5 @@
 ## EMailParserWebApp
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/AspNetCore/HtmlExtractor/EmailParserWebApp)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/AspNetCore/HtmlExtractor/EmailParserWebApp)
 ____
 #### This is a web app sample to demonstrate the capabilities of the C1TextParser library - Html extractor.
 ____

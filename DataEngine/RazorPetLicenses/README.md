@@ -1,5 +1,5 @@
 ## RazorPetLicenses
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/RazorPetLicenses)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/RazorPetLicenses)
 ____
 #### Shows how to implement a Razor Pages app that visualizes C1DataEngine queries.
 ____
