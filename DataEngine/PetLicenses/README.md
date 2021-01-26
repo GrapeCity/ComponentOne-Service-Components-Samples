@@ -1,5 +1,5 @@
 ## PetLicenses
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/PetLicenses)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/PetLicenses)
 ____
 #### Shows how to use C1DataEngine in a console app to import and analyze JSON data.
 ____

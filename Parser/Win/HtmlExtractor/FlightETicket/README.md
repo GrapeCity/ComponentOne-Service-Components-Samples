@@ -1,5 +1,5 @@
 ## FlightETicket
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/HtmlExtractor/FlightETicket)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/HtmlExtractor/FlightETicket)
 ____
 #### This is a console app sample to demonstrate the fixed place holder extraction capabilities of the C1TextParser library - Html extractor
 ____

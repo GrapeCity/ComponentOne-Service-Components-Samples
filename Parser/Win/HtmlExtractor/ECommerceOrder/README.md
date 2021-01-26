@@ -1,5 +1,5 @@
 ## ECommerce Order
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/HtmlExtractor/ECommerceOrder)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/HtmlExtractor/ECommerceOrder)
 ____
 #### This sample pretends to demonstrate the repeated place holder extraction capabilities of C1TextParser - Html extractor.
 ____

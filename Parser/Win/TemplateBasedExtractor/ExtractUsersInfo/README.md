@@ -1,5 +1,5 @@
 ## ExtractUsersInfo
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/TemplateBasedExtractor/ExtractUsersInfo)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Parser/Win/TemplateBasedExtractor/ExtractUsersInfo)
 ____
 #### This is a console app sample to demonstrate the capabilities of the C1TextParser library - TemplateBased extractor
 ____

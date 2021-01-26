@@ -1,5 +1,5 @@
 ## DataEngineMultiTarget
-#### [Download as zip](https://downgit.github.io/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/DataEngineMultiTarget)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataEngine/DataEngineMultiTarget)
 ____
 #### Shows how to use C1DataEngine in various combinations of frameworks/runtimes.
 ____
