@@ -1,0 +1,79 @@
+﻿<Window x:Class="ConnectorsSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        WindowState="Maximized"
+        xmlns:local="clr-namespace:ConnectorsSample"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="2"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal">
+                <Label Grid.Row="0" Grid.Column="0">Select DataSource</Label>
+                <ComboBox Grid.Row="0" Grid.Column="1" Name="cboDataSource" SelectionChanged="cboDataSource_SelectionChanged">
+                    <ComboBoxItem >OData</ComboBoxItem>
+                    <ComboBoxItem>Dynamics365 Sales</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Label Grid.Row="1">Connection string</Label>
+            <TextBox Grid.Row="2" Grid.ColumnSpan="2" Name="txtConnString" TextWrapping="Wrap">Url=""</TextBox>
+            <Button x:Name="btnConnect" Content="Connect to data source" Grid.Row="3" Grid.Column="1" Click="btnConnect_Click" />
+            <Label Grid.Row="4">Schema</Label>
+            <TreeView Grid.Row="5" Name="treeView" Grid.ColumnSpan="2" >
+                <TreeView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TableName}"></TextBlock>
+                    </DataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+        <GridSplitter Grid.Column="1" Width="1"
+                              HorizontalAlignment="Stretch" />
+
+        <Grid Grid.Column="2" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="3*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">SQL</Label>
+            <TextBox MinLines="5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Name="txtSqlString" >Input sql query here</TextBox>
+            <Button x:Name="btnExecute" Content="Execute query" Grid.Row="2" Grid.Column="1" Click="btnExecute_Click" />
+
+            <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">Query result</Label>
+            <DataGrid x:Name="dataGrid" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+            </DataGrid>
+
+        </Grid>
+    </Grid>
+</Window>

@@ -1,6 +1,6 @@
-## D365SalesSimpleBinding for WPF
+## DataConnectorExplorer sample for Winforms
 #### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/DataConnector/Win/DataConnectorExplorer)
 ____
-#### Shows how to use OData DataConnector and DataCollection to query data from Dynamics 365 Sales service.
+#### Shows how to connect and query data from various services in runtime.
 ____
-Shows how to create connection using C1ODataConnection, pass it to C1AdoNetCursorDataCollection then use it as ItemsSource for DataGrid
+The sample shows how to create connection string, connect to data source, perform query, then bind data to C1FlexPivot
