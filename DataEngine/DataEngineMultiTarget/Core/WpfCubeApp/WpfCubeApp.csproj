@@ -2,15 +2,14 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared\Northwind.cs" Link="Northwind.cs" />
+    <Compile Include="..\..\Shared\AdventureWorks.cs" Link="AdventureWorks.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
       <Version>5.0.20211.177</Version>
     </PackageReference>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
 </Project>

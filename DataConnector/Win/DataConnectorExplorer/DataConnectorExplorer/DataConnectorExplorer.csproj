@@ -91,25 +91,25 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.D365S">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.GoogleAnalytics">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Kintone">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.QuickBooksOnline">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Salesforce">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20203.45</Version>
+      <Version>1.0.20211.49</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1SplitContainer">
       <Version>4.5.20203.464</Version>

@@ -4,14 +4,16 @@ Shows how to use C1DataEngine in various combinations of frameworks/runtimes.
 
 This sample uses the multi-target version of C1DataEngine to demonstrate its
 usage in a variety of application contexts (console, Windows Forms, WPF) and
-target frameworks (netstandard2.0, net452). The solution contains 12 projects
+target frameworks (netcoreapp3.1, net452). The solution contains 14 projects
 organized as follows:
 
 Core
 - ConsoleApp
 - WinFormsApp
+- WinFormsCubeApp
 - WinFormsPivotApp
 - WpfApp
+- WpfCubeApp
 - WpfPivotApp
 
 Framework
@@ -23,7 +25,7 @@ Framework
 - WpfCubeApp
 - WpfPivotApp
 
-Projects in the Core folder target netstandard2.0. Projects in the Framework
+Projects in the Core folder target netcoreapp3.1. Projects in the Framework
 folder target net452. For non-Windows platforms, only the ConsoleApp project
 in the Core folder is usable.
 
@@ -40,13 +42,11 @@ connect directly to a cube hosted on a public SQL Server Analysis Services
 instance. C1FlexPivotEngine is also used here to create a pivot table view
 that is displayed in a grid control.
 
-Note that direct cube access is not possible when targeting netstandard2.0
-because of the dependency on Microsoft.AnalysisServices.AdomdClient, which
-is not compatible with netstandard2.0. The multi-target C1.DataEngine package
-automatically references the appropriate AdomdClient package from nuget.org,
-but only when added to a project that targets net452 or greater.
+UPDATE: As of 2021 v1, direct cube access is available when targeting .NET
+Core (netcoreapp3.0 or greater). Previous versions of C1.DataEngine only
+supported direct cube access when targeting .NET Framework (net452 or greater).
 
 All non-cube projects link to Northwind.cs in the Shared folder, which
 handles data download, workspace initialization, query execution, and pivot
-view creation. Both cube projects link to AdventureWorks.cs in the Shared
+view creation. All cube projects link to AdventureWorks.cs in the Shared
 folder, which handles cube connection and pivot view creation.
