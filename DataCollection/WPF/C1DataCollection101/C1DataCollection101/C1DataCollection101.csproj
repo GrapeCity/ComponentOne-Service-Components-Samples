@@ -99,10 +99,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20211.34</Version>
+      <Version>1.0.20212.57</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>1.0.20211.34</Version>
+      <Version>1.0.20212.57</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

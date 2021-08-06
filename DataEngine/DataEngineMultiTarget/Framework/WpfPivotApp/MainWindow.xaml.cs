@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Net;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace WpfPivotApp
 {
@@ -31,7 +31,7 @@ namespace WpfPivotApp
             Workspace workspace = Northwind.Invoice.GetWorkspace();
             Northwind.Invoice.GetPivotEngine(workspace, (pivot) =>
             {
-                dataGrid1.ItemsSource = pivot.FlexPivotDefaultView;
+                dataGrid1.ItemsSource = pivot.PivotDefaultView;
             });
         }
     }

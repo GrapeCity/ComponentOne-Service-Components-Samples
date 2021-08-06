@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace WinFormsCubeApp
 {
@@ -26,8 +26,8 @@ namespace WinFormsCubeApp
 			grid.AllowUserToDeleteRows = false;
 			grid.ColumnAdded += (s, e) => grid.Columns[0].Frozen = true;
 
-			C1FlexPivotEngine pivot = AdventureWorks.Cube.GetPivotEngine();
-			grid.DataSource = pivot.FlexPivotDefaultView;
+			C1PivotEngine pivot = AdventureWorks.Cube.GetPivotEngine();
+			grid.DataSource = pivot.PivotDefaultView;
         }
     }
 }

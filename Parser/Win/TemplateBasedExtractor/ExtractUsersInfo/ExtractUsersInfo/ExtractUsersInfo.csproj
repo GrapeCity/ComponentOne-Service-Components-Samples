@@ -14,7 +14,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20211.79</Version>
+      <Version>4.7.20212.83</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

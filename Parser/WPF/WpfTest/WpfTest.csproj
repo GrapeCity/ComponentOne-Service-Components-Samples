@@ -115,10 +115,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20211.79</Version>
+      <Version>4.7.20212.83</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.TextParser">
-      <Version>4.7.20211.79</Version>
+      <Version>4.7.20212.83</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>

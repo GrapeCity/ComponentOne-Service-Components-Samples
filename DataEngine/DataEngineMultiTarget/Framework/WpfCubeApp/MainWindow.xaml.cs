@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace WpfCubeApp
 {
@@ -28,7 +28,7 @@ namespace WpfCubeApp
 
 			AdventureWorks.Cube.GetPivotEngine((pivot) =>
             {
-                dataGrid1.ItemsSource = pivot.FlexPivotDefaultView;
+                dataGrid1.ItemsSource = pivot.PivotDefaultView;
             });
         }
     }

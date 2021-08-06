@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace Northwind
 {
@@ -50,34 +50,34 @@ namespace Northwind
             return workspace;
         }
 
-        public static C1FlexPivotEngine GetPivotEngine(Workspace workspace)
+        public static C1PivotEngine GetPivotEngine(Workspace workspace)
         {
-            C1FlexPivotEngine fp = new C1FlexPivotEngine();
-            fp.Workspace = workspace;
-            fp.ConnectDataEngine("SalesByEmployeeCountry");
-            fp.BeginUpdate();
-            fp.ColumnFields.Add("Country");
-            fp.RowFields.Add("Salesperson");
-            fp.ValueFields.Add("Sales");
-            fp.EndUpdate();
-            return fp;
+            C1PivotEngine pe = new C1PivotEngine();
+            pe.Workspace = workspace;
+            pe.ConnectDataEngine("SalesByEmployeeCountry");
+            pe.BeginUpdate();
+            pe.ColumnFields.Add("Country");
+            pe.RowFields.Add("Salesperson");
+            pe.ValueFields.Add("Sales");
+            pe.EndUpdate();
+            return pe;
         }
         
-        public static C1FlexPivotEngine GetPivotEngine(Workspace workspace, Action<C1FlexPivotEngine> action)
+        public static C1PivotEngine GetPivotEngine(Workspace workspace, Action<C1PivotEngine> action)
         {
-            C1FlexPivotEngine fp = new C1FlexPivotEngine();
-            fp.Workspace = workspace;
-            fp.ConnectDataEngine("SalesByEmployeeCountry");
-            fp.UpdateCompleted += (s, e) =>
+            C1PivotEngine pe = new C1PivotEngine();
+            pe.Workspace = workspace;
+            pe.ConnectDataEngine("SalesByEmployeeCountry");
+            pe.UpdateCompleted += (s, e) =>
             {
-                action.Invoke(fp);
+                action.Invoke(pe);
             };
-            fp.BeginUpdate();
-            fp.ColumnFields.Add("Country");
-            fp.RowFields.Add("Salesperson");
-            fp.ValueFields.Add("Sales");
-            fp.EndUpdate();
-            return fp;
+            pe.BeginUpdate();
+            pe.ColumnFields.Add("Country");
+            pe.RowFields.Add("Salesperson");
+            pe.ValueFields.Add("Sales");
+            pe.EndUpdate();
+            return pe;
         }
     }
 }

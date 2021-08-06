@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace WinFormsPivotApp
 {
@@ -27,8 +27,8 @@ namespace WinFormsPivotApp
             grid.ColumnAdded += (s, e) => grid.Columns[0].Frozen = true;
 
             Workspace workspace = Northwind.Invoice.GetWorkspace();
-            C1FlexPivotEngine pivot = Northwind.Invoice.GetPivotEngine(workspace);
-            grid.DataSource = pivot.FlexPivotDefaultView;
+            C1PivotEngine pivot = Northwind.Invoice.GetPivotEngine(workspace);
+            grid.DataSource = pivot.PivotDefaultView;
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
@@ -9,7 +9,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20211.177</Version>
+      <Version>5.0.20212.221</Version>
+    </PackageReference>
+    <PackageReference Include="C1.PivotEngine">
+      <Version>5.0.20212.221</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>

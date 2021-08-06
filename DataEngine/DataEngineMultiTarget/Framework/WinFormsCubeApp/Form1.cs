@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using C1.DataEngine;
-using C1.FlexPivot;
+using C1.PivotEngine;
 
 namespace WinFormsCubeApp
 {
@@ -18,9 +18,9 @@ namespace WinFormsCubeApp
         {
             InitializeComponent();
 
-            C1FlexPivotEngine pivot = AdventureWorks.Cube.GetPivotEngine();
+            C1PivotEngine pivot = AdventureWorks.Cube.GetPivotEngine();
 			dataGridView1.ColumnAdded += (s, e) => dataGridView1.Columns[0].Frozen = true;
-            dataGridView1.DataSource = pivot.FlexPivotDefaultView;
+            dataGridView1.DataSource = pivot.PivotDefaultView;
         }
     }
 }
