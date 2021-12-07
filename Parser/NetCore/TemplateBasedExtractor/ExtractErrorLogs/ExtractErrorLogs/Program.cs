@@ -47,8 +47,6 @@ namespace ExtractErrorLogs
     {
         public static void Main(string[] args)
         {
-            C1.TextParser.LicenseManager.Key = License.Key;
-
             FileStream fst = File.Open(@"template.xml", FileMode.Open);
             FileStream fss = File.Open(@"input.txt", FileMode.Open);
 

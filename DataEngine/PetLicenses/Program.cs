@@ -82,6 +82,49 @@ namespace PetLicenses
                 query.Query.Execute();
             }
 
+            // Number of licenses by species, year to date (as of 5/5/2017)
+            if (!workspace.QueryExists("YearToDate"))
+            {
+                var when = new DateTime(2017, 5, 5);
+                
+                // Create a query with all base table columns and a range expression with the Ytd operator
+                dynamic parent = workspace.query(new {
+                    _base = "*",
+                    _range = licenses.IssueDate.Ytd(when)
+                });
+
+                // Derive another query from the unnamed query above and perform the aggregation
+                dynamic query = workspace.query("YearToDate", new {
+                    Species = parent.Species,
+                    Count = Op.Count(parent.Species)
+                });
+
+                query.Query.Execute();
+            }
+
+            // Number of licenses by species, fiscal year to date (as of 5/5/2017)
+            if (!workspace.QueryExists("FiscalYearToDate"))
+            {
+                var when = new DateTime(2017, 5, 5);
+
+                // Fiscal year begins in April
+                workspace.FiscalYearFirstMonth = 4;
+                
+                // Create a query with all base table columns and a range expression with the Ytd operator
+                dynamic parent = workspace.query(new {
+                    _base = "*",
+                    _range = licenses.IssueDate.Ytd(when)
+                });
+
+                // Derive another query from the unnamed query above and perform the aggregation
+                dynamic query = workspace.query("FiscalYearToDate", new {
+                    Species = parent.Species,
+                    Count = Op.Count(parent.Species)
+                });
+
+                query.Query.Execute();
+            }
+
             // Most popular dog names (sort criteria and row limits are applied later)
             if (!workspace.QueryExists("DogNames"))
             {
@@ -154,6 +197,16 @@ namespace PetLicenses
             Console.WriteLine();
             Console.WriteLine("// Licenses issued, by year");
             DataList.Write(years, Console.Out);
+
+            IDataList yeartodate = workspace.GetQueryData("YearToDate");
+            Console.WriteLine();
+            Console.WriteLine("// Licenses issued, by species, year to date");
+            DataList.Write(yeartodate, Console.Out);
+
+            IDataList fiscalyeartodate = workspace.GetQueryData("FiscalYearToDate");
+            Console.WriteLine();
+            Console.WriteLine("// Licenses issued, by species, fiscal year to date");
+            DataList.Write(fiscalyeartodate, Console.Out);
 
             IDataList names = workspace.GetQueryData("DogNames", 10); // Limit results to 10 rows
             Console.WriteLine();

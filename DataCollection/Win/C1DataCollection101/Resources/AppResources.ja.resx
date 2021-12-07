@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -173,5 +173,11 @@ Please check your internet connection</comment>
   <data name="Sort" xml:space="preserve">
     <value>ソート</value>
     <comment>Sort</comment>
+  </data>
+  <data name="VirtualModeDescription" xml:space="preserve">
+    <value>Shows how to load data on demand thorugh C1VirtualCollectionView</value>
+  </data>
+  <data name="VirtualModeTitle" xml:space="preserve">
+    <value>Virtual Mode</value>
   </data>
 </root>

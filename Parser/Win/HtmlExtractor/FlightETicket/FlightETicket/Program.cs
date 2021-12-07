@@ -38,8 +38,6 @@ namespace FlightETicket
     {
         public static void Main()
         {
-            C1.TextParser.LicenseManager.Key = License.Key;
-
             /***********************************************Vietjetair template********************************************/
             Stream vietjetairTemplateStream = File.Open(@"vietjetairEmail1.html", FileMode.Open);
             HtmlExtractor vietjetairTemplate = new HtmlExtractor(vietjetairTemplateStream);

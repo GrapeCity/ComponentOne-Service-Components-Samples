@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace JsonEFTest.GeneratedCode.Relation
 {
@@ -33,9 +32,12 @@ namespace JsonEFTest.GeneratedCode.Relation
         {
             modelBuilder.Entity<Books>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("books");
+
+                entity.Property(e => e.Id)
+                    .IsRequired()
+                    .HasColumnName("_id")
+                    .ValueGeneratedOnAdd();
 
                 entity.Property(e => e.AuthorFirstName).HasColumnName("author.first-name");
 

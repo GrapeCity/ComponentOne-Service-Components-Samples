@@ -1,25 +1,20 @@
-﻿using C1.Win.TreeView;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.Common;
 using System.Windows.Forms;
+using System.ComponentModel;
+using C1.Win.TreeView;
 using C1.Win.C1Themes;
-using System.IO;
-using System.Data.OleDb;
+using C1.Win.C1Command;
 using C1.DataConnector;
 using C1.AdoNet.OData;
 using C1.AdoNet.D365S;
-using C1.AdoNet.Salesforce;
 using C1.AdoNet.Kintone;
-using C1.AdoNet.QuickBooksOnline;
+using C1.AdoNet.Salesforce;
 using C1.AdoNet.GoogleAnalytics;
-using System.Data.Common;
-using C1.Win.C1Command;
+using C1.AdoNet.QuickBooksOnline;
+using C1.AdoNet.Json;
 
 namespace DataConnectorExplorer
 {
@@ -69,6 +64,7 @@ namespace DataConnectorExplorer
             cboSource.Items.Add("Kintone");
             cboSource.Items.Add("QuickBooks Online");
             cboSource.Items.Add("Google Analytics");
+            cboSource.Items.Add("Json");
 
             cboSource.SelectedIndex = 0; //Select OData initially
         }
@@ -97,6 +93,9 @@ namespace DataConnectorExplorer
                     break;
                 case 5: //GA
                     _connStringBuilder = new C1GoogleAnalyticsConnectionStringBuilder();
+                    break;
+                case 6: //Json
+                    _connStringBuilder = new C1JsonConnectionStringBuilder();
                     break;
             }
 
@@ -135,6 +134,9 @@ namespace DataConnectorExplorer
                     case 5:
                         _connectionBase = new C1GoogleAnalyticsConnection(_connStringBuilder as C1GoogleAnalyticsConnectionStringBuilder);
                         break;
+                    case 6:
+                        _connectionBase = new C1JsonConnection(_connStringBuilder as C1JsonConnectionStringBuilder);
+                        break;
                 }
 
                 if (string.IsNullOrEmpty(_connectionBase.ConnectionString))
@@ -150,11 +152,11 @@ namespace DataConnectorExplorer
                     BindingList<SchemaTable> schemaSet = new BindingList<SchemaTable>();
                     for (int i = 0; i < tables.Count; i++)
                     {
-                        var sTable = new SchemaTable(tables[i][0].ToString());
+                        var sTable = new SchemaTable(tables[i]["TableName"].ToString());
                         var columns = _connectionBase.GetSchema("columns", new string[] { sTable.Name }).DefaultView;
                         for (int j = 0; j < columns.Count; j++)
                         {
-                            sTable.Columns.Add(new SchemaColumn(columns[j][0].ToString()));
+                            sTable.Columns.Add(new SchemaColumn(columns[j]["ColumnName"].ToString()));
                         }
                         schemaSet.Add(sTable);
                     }
@@ -264,6 +266,15 @@ namespace DataConnectorExplorer
                     case 5:
                         C1GoogleAnalyticsConnection c1GaConn = _connectionBase as C1GoogleAnalyticsConnection;
                         using (C1GoogleAnalyticsDataAdapter a = new C1GoogleAnalyticsDataAdapter(c1GaConn, sql))
+                        {
+                            DataTable t = new DataTable();
+                            a.Fill(t);
+                            pivotPage.DataSource = t;
+                        }
+                        break;
+                    case 6:
+                        C1JsonConnection c1JsonConn = _connectionBase as C1JsonConnection;
+                        using (C1JsonDataAdapter a = new C1JsonDataAdapter(c1JsonConn, sql))
                         {
                             DataTable t = new DataTable();
                             a.Fill(t);

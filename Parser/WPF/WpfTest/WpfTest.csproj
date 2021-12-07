@@ -115,14 +115,17 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="WpfTest.gclicx" />
+  </ItemGroup>
 </Project>

@@ -28,8 +28,6 @@ namespace ExtractComments
     {
         public static void Main()
         {
-            C1.TextParser.LicenseManager.Key = License.Key;
-
             StartsAfterContinuesUntil startsAfterContinuesUntil = new StartsAfterContinuesUntil(@"//", @"\r\n");
             Stream inputStream = File.Open(@"input.txt", FileMode.Open);
             IExtractionResult extractedResult = startsAfterContinuesUntil.Extract(inputStream);

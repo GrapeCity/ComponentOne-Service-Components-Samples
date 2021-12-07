@@ -1,9 +1,9 @@
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Globalization;
 using System.Collections.Generic;
 using C1.AdoNet.Json;
-using System.Data;
 
 namespace JsonTest
 {
@@ -26,20 +26,28 @@ namespace JsonTest
 
         static void Main(string[] args)
         {
-            SelectDocumentWithOAuth();
+            //SelectDocumentWithDataAdapter();
+            //Console.WriteLine("==================================================");
+            //SelectDocumentWithOAuth();
+            //Console.WriteLine("==================================================");
+            //SelectDocument();
+            //Console.WriteLine("==================================================");
+            //SelectFlattenedDocuments();
+            //Console.WriteLine("==================================================");
+            //SelectRelational();
+
+            Insert();
             Console.WriteLine("==================================================");
-            SelectDocument();
+            Update();
             Console.WriteLine("==================================================");
-            SelectFlattenedDocuments();
-            Console.WriteLine("==================================================");
-            SelectRelational();
+            Delete();
 
             Console.Read();
         }
 
         static void SelectDocument()
         {
-            Console.WriteLine("Query all Accounts...");
+            Console.WriteLine("Query all Books on Document mode...");
             using(var con = new C1JsonConnection(documentConnectionString))
             {
                 con.Open();
@@ -57,7 +65,7 @@ namespace JsonTest
 
         static void SelectFlattenedDocuments()
         {
-            Console.WriteLine("Query all Accounts...");
+            Console.WriteLine("Query all Books on FlattenedDocument mode...");
             using (var con = new C1JsonConnection(flattenedConnectionString))
             {
                 con.Open();
@@ -75,7 +83,7 @@ namespace JsonTest
 
         static void SelectRelational()
         {
-            Console.WriteLine("Query all Accounts...");
+            Console.WriteLine("Query all Books on Relational mode...");
             using (var con = new C1JsonConnection(relationConnectionString))
             {
                 con.Open();
@@ -92,7 +100,7 @@ namespace JsonTest
 
         static void SelectDocumentWithOAuth()
         {
-            Console.WriteLine("Query all Books...");
+            Console.WriteLine("Query all Books via OAuth...");
             using (var con = new C1JsonConnection(connectionStringForOAuth))
             {
                 con.Open();
@@ -104,6 +112,23 @@ namespace JsonTest
                 cmd.CommandText = "Select * From value";
                 var reader = cmd.ExecuteReader();
                 PrintStringContentFromReader(reader);
+            }
+        }
+
+        static void SelectDocumentWithDataAdapter()
+        {
+            Console.WriteLine("Query all Books with DataAdapter...");
+            using (var con = new C1JsonConnection(documentConnectionString))
+            {
+                con.Open();
+
+                using (var adapter = new C1JsonDataAdapter(con, "Select * From books"))
+                {
+                    var bookTbl = new DataTable();
+                    adapter.Fill(bookTbl);
+
+                    ShowDataTable(bookTbl, 20);
+                }
             }
         }
 
@@ -152,17 +177,120 @@ namespace JsonTest
 
         static void Insert()
         {
-            Console.WriteLine("\nQuery Insert...");
+            string connectionString = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Album", "$.Album");
+            
+            using (var con = new C1JsonConnection(connectionString))
+            {
+                con.Open();
+
+                var sqlInsert = "Insert Into Album([AlbumId], [Title], [ArtistId]) values (9999667,'test', 1)";
+                var cmdInsert = con.CreateCommand();
+                cmdInsert.CommandText = sqlInsert;
+                var result1 = cmdInsert.ExecuteNonQuery();
+
+                var sqlSelect = "Select [AlbumId], [Title] from Album where [AlbumId] = 9999667";
+                var cmdSelect = con.CreateCommand();
+                cmdSelect.CommandText = sqlSelect;
+                var reader = cmdSelect.ExecuteReader();
+                reader.Read();
+                Console.WriteLine("Title: " + reader["Title"].ToString());
+            }
+
+            string connectionString2 = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Customer", "$.Invoice");
+            
+            using (var con = new C1JsonConnection(connectionString2))
+            {
+                con.Open();
+
+                var sqlInsert = "Insert Into Customer([CustomerId], [FirstName], [LastName], [Company], [Address], [City], [State], [Country], [PostalCode], [Phone], [Fax], [Email], [SupportRepId]) " +
+                    "values (118,'test','test','test','test','test','test','test','test','test','test','test', 1)";
+                var cmdInsert = con.CreateCommand();
+                cmdInsert.CommandText = sqlInsert;
+                var result1 = cmdInsert.ExecuteNonQuery();
+
+                var sqlSelect = "Select [CustomerId], [FirstName], [LastName], [Company], [Address], [City], [State], [Country], [PostalCode], [Phone], [Fax], [Email], [SupportRepId] from Customer where [CustomerId] = 118";
+                var cmdSelect = con.CreateCommand();
+                cmdSelect.CommandText = sqlSelect;
+                var reader = cmdSelect.ExecuteReader();
+
+                reader.Read();
+                Console.WriteLine("FirstName: " + reader["FirstName"].ToString());
+                Console.WriteLine("LastName: " + reader["LastName"].ToString());
+                Console.WriteLine("Company: " + reader["Company"].ToString());
+                Console.WriteLine("Address: " + reader["Address"].ToString());
+            }
         }
 
         static void Update()
         {
-            Console.WriteLine("\nQuery Update...");
+            string connectionString = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Album", "$.Album");
+
+            using (var con = new C1JsonConnection(connectionString))
+            {
+                con.Open();
+
+                var sqlUpdate = "Update Album set [Title] = 'abcde' where [AlbumId] = 9999667";
+                var cmdUpdate = con.CreateCommand();
+                cmdUpdate.CommandText = sqlUpdate;
+                var result2 = cmdUpdate.ExecuteNonQuery();
+
+                var sqlSelect = "Select [AlbumId], [Title] from Album where [AlbumId] = 9999667";
+                var cmdSelect = con.CreateCommand();
+                cmdSelect.CommandText = sqlSelect;
+                var reader = cmdSelect.ExecuteReader();
+                reader.Read();
+                Console.WriteLine("Title: " + reader["Title"].ToString());
+            }
+
+            string connectionString2 = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Customer", "$.Invoice");
+
+            using (var con = new C1JsonConnection(connectionString2))
+            {
+                con.Open();
+
+                var sqlUpdate = "Update Customer set [FirstName]  = 'abcde', [LastName] = 'abcde', [Company] = 'abcde', [Address] = 'abcde' where [CustomerId] = 118";
+                var cmdUpdate = con.CreateCommand();
+                cmdUpdate.CommandText = sqlUpdate;
+                var result2 = cmdUpdate.ExecuteNonQuery();
+
+                var sqlSelect = "Select [CustomerId], [FirstName], [LastName], [Company], [Address], [City], [State], [Country], [PostalCode], [Phone], [Fax], [Email], [SupportRepId] from Customer where [CustomerId] = 118";
+                var cmdSelect = con.CreateCommand();
+                cmdSelect.CommandText = sqlSelect;
+                var reader = cmdSelect.ExecuteReader();
+
+                reader.Read();
+                Console.WriteLine("FirstName: " + reader["FirstName"].ToString());
+                Console.WriteLine("LastName: " + reader["LastName"].ToString());
+                Console.WriteLine("Company: " + reader["Company"].ToString());
+                Console.WriteLine("Address: " + reader["Address"].ToString());
+            }
         }
 
         static void Delete()
         {
-            Console.WriteLine("\nQuery Delete...");
+            string connectionString = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Album", "$.Invoice");
+
+            using (var con = new C1JsonConnection(connectionString))
+            {
+                con.Open();
+
+                var sqlDelete = "Delete from Album where [AlbumId] = 9999667";
+                var cmdDelete = con.CreateCommand();
+                cmdDelete.CommandText = sqlDelete;
+                var result3 = cmdDelete.ExecuteNonQuery();
+            }
+
+            string connectionString2 = string.Format(@"Data Model={0};Uri='{1}';Json Path='{2}';Use Pool=true; username='admin'; password='123456'", "Relational", "http://45.125.239.138:8088/api/Customer", "$.Invoice");
+
+            using (var con = new C1JsonConnection(connectionString2))
+            {
+                con.Open();
+
+                var sqlDelete = "Delete from Customer where [CustomerId] = 118";
+                var cmdDelete = con.CreateCommand();
+                cmdDelete.CommandText = sqlDelete;
+                cmdDelete.ExecuteNonQuery();
+            }
         }
 
         static void PrintStringContentFromReader(DbDataReader reader)

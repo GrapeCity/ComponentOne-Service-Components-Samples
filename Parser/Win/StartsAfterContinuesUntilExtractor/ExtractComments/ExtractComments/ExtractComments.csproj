@@ -47,17 +47,17 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsvExportHelper.cs" />
-    <Compile Include="License.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

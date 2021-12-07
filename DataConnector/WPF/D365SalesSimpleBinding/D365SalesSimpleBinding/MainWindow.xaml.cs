@@ -30,10 +30,10 @@ namespace D365SalesSimpleBinding
 
         public async void LoadItems()
         {
-            if (string.IsNullOrWhiteSpace(UrlDynamics) || string.IsNullOrWhiteSpace(AccessToken) || string.IsNullOrWhiteSpace(TokenEnpoint))
-            {
-                throw new InvalidOperationException("Please update the configuration constants");
-            }
+            //if (string.IsNullOrWhiteSpace(UrlDynamics) || string.IsNullOrWhiteSpace(AccessToken) || string.IsNullOrWhiteSpace(TokenEnpoint))
+            //{
+            //    throw new InvalidOperationException("Please update the configuration constants");
+            //}
 
             string connstr = $@"Url={UrlDynamics};OAuth Access Token={AccessToken};Use Etag=true;OAuth Client Id={ClientID};OAuth Client Secret={CllentSecret};OAuth Refresh Token={RefreshToken};OAuth Token Endpoint={TokenEnpoint};Max Page Size = {MaxPageSize}";
             string[] fields = new string[] { "accountid", "name", "emailaddress1" };

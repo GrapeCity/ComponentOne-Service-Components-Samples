@@ -1,3 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -5,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.EntityFrameworkCore.Json">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>
@@ -19,5 +20,8 @@
     <None Update="people.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JsonEFTest.gclicx" />
   </ItemGroup>
 </Project>

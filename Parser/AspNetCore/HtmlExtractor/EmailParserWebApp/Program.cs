@@ -14,7 +14,6 @@ namespace EmailParserDemo
     {
         public static void Main(string[] args)
         {
-          C1.TextParser.LicenseManager.Key = License.Key;
           CreateWebHostBuilder(args).Build().Run(); 
         }
 

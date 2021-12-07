@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using JsonEFTest.GeneratedCode.Document;
 using JsonEFTest.GeneratedCode.Flatten;
+using JsonEFTest.GeneratedCode.Http;
 using JsonEFTest.GeneratedCode.Relation;
+using Books = JsonEFTest.GeneratedCode.Relation.Books;
 
 namespace JsonEFTest
 {
@@ -11,10 +13,28 @@ namespace JsonEFTest
         static void Main(string[] args)
         {
             Console.WriteLine("Starting...");
-            SelectDocument();
-            SelectFlatten();
-            SelectRelation();
+            //SelectDocument();
+            //SelectFlatten();
+            //SelectRelation();
+            //SelectHttp();
+            //CUDJsonHttp();
+            CUDJsonFile();
             Console.Read();
+        }
+
+        static void SelectHttp()
+        {
+            Console.WriteLine("Query all Album...");
+            using (var db = new MainContext())
+            {
+                var albums = from p in db.Album select p;
+
+                foreach (var h in albums)
+                {
+                    Console.WriteLine($"{h.AlbumId} - {h.Title} - {h.ArtistId}");
+                }
+            }
+            Console.ReadLine();
         }
 
         static void SelectDocument()
@@ -59,19 +79,76 @@ namespace JsonEFTest
             }
         }
 
-        static void Insert()
+        static void CUDJsonHttp()
         {
-            Console.WriteLine("\nQuery Insert...");
+            Console.WriteLine("\nCUD Http...");
+            using (var context = new MainContext())
+            {
+                var album = new Album();
+
+                album.AlbumId = "1099";
+                album.Title = "Test Insert EFCore";
+                album.ArtistId = "1";
+                context.Album.Add(album);
+
+                int result = context.SaveChanges();
+                Console.WriteLine("Number of row inserted: " + result);
+            }
+
+            using (var context = new MainContext())
+            {
+                var album = context.Album.Where(x => x.Title.Equals("Test Insert EFCore")).FirstOrDefault();
+                if (album != null)
+                {
+                    album.Title = "Test Update EFCore";
+                    int result = context.SaveChanges();
+                    Console.WriteLine("Number of row updated: " + result);
+                }
+            }
+
+            using (var context = new MainContext())
+            {
+                context.Album.Remove(context.Album.Where(x => x.Title.Equals("Test Update EFCore")).FirstOrDefault());
+                var result = context.SaveChanges();
+                Console.WriteLine("Number of row deleted: " + result);
+            }
         }
 
-        static void Update()
+        static void CUDJsonFile()
         {
-            Console.WriteLine("\nQuery Update...");
-        }
+            Console.WriteLine("\nCUD Json file...");
+            using (var context = new RelationalContext())
+            {
+                var book = new Books();
 
-        static void Delete()
-        {
-            Console.WriteLine("\nQuery Delete...");
+                book.Id = "1";
+                book.Title = "Test Insert EFCore";
+                book.Price = 400;
+                book.Isbn = "1";
+                book.Publicationdate = new DateTime(2021, 10, 15);
+                context.Books.Add(book);
+
+                int result = context.SaveChanges();
+                Console.WriteLine("Number of row inserted: " + result);
+            }
+
+            using (var context = new RelationalContext())
+            {
+                var book = context.Books.Where(x => x.Title.Equals("Test Insert EFCore")).FirstOrDefault();
+                if (book != null)
+                {
+                    book.Title = "Test Update EFCore";
+                    int result = context.SaveChanges();
+                    Console.WriteLine("Number of row updated: " + result);
+                }
+            }
+
+            using (var context = new RelationalContext())
+            {
+                context.Books.Remove(context.Books.Where(x => x.Title.Equals("Test Update EFCore")).FirstOrDefault());
+                var result = context.SaveChanges();
+                Console.WriteLine("Number of row deleted: " + result);
+            }
         }
     }
 }

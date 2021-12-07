@@ -44,8 +44,6 @@ namespace ECommerceOrder
     {
         public static void Main()
         {
-            C1.TextParser.LicenseManager.Key = License.Key;
-
             /**************************************************Amazon template*********************************************/
             Stream amazonTemplateStream = File.Open(@"amazonEmail1.html", FileMode.Open);
             HtmlExtractor amazonTemplate = new HtmlExtractor(amazonTemplateStream);

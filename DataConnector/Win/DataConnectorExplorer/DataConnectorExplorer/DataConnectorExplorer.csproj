@@ -91,25 +91,28 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.D365S">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.GoogleAnalytics">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
+    </PackageReference>
+    <PackageReference Include="C1.AdoNet.Json">
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Kintone">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.QuickBooksOnline">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Salesforce">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20212.58</Version>
+      <Version>1.0.20213.67</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1SplitContainer">
       <Version>4.5.20203.464</Version>
@@ -124,7 +127,7 @@
       <Version>19.12.3</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite.Core">
-      <Version>1.0.113.1</Version>
+      <Version>1.0.112</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -176,4 +179,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="DataConnectorExplorer.gclicx" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataEngineCollectionSample", "DataEngineCollectionSample.csproj", "{7701516E-01BA-4AE1-916B-CE42FE253FAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+		UTRelease|Any CPU = UTRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{7701516E-01BA-4AE1-916B-CE42FE253FAE}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0765B7A-E522-4220-879B-1577051ECF76}
+	EndGlobalSection
+EndGlobal

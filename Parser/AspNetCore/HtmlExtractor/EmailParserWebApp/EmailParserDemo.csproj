@@ -10,8 +10,14 @@
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove=".gclicx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.1" PrivateAssets="All" />

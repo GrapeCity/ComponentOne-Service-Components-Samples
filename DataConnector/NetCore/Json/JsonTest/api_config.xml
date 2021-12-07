@@ -1,0 +1,106 @@
+<Api_Config>
+	<Table name="Album">
+    <SelectOperation>
+      <Uri>http://45.125.239.138:8088/api/Album</Uri>
+      <Method>Get</Method>
+      <Response>
+        <TableName name="Album" type="string"></TableName>
+        <Column name="AlbumId" isKey="true" type="int">AlbumId</Column>
+        <Column name="Title" type="string">Title</Column>
+        <Column name="ArtistId" type="int">ArtistId</Column>
+      </Response>
+    </SelectOperation>
+		<InsertOperation>
+			<Uri>http://45.125.239.138:8088/api/Album</Uri>
+			<Method>Post</Method>
+			<Body>
+				<TableName name="Album" type="string"/>
+        <Column name="AlbumId" type="int">AlbumId</Column>
+        <Column name="Title" type="string">Title</Column>
+        <Column name="ArtistId" type="int">ArtistId</Column>
+			</Body>
+		</InsertOperation>
+		<UpdateOperation>
+			<Uri>http://45.125.239.138:8088/api/Album</Uri>
+			<Method>PUT</Method>
+			<Body>
+				<TableName name="Album" type="string"/>
+        <Column name="AlbumId" type="int">AlbumId</Column>
+        <Column name="Title" type="string">Title</Column>
+        <Column name="ArtistId" type="int">ArtistId</Column>
+			</Body>
+		</UpdateOperation>
+		<DeleteOperation>
+			<Uri>http://45.125.239.138:8088/api/Album/{Param1}</Uri>
+			<Method>DELETE</Method>
+      <Paramter name="Param1" type="int">AlbumId</Paramter>
+		</DeleteOperation>
+	</Table>
+  <Table name="Customer">
+    <SelectOperation>
+      <Uri>http://45.125.239.138:8088/api/Customer</Uri>
+      <Method>Get</Method>
+      <Response>
+        <TableName name="Customer" type="string"></TableName>
+        <Column name="CustomerId" isKey="true" type="int">CustomerId</Column>
+        <Column name="FirstName" type="string">FirstName</Column>
+        <Column name="LastName" type="int">LastName</Column>        
+        <Column name="Company" type="string">Company</Column>
+        <Column name="Address" type="int">Address</Column>
+        <Column name="City" type="string">City</Column>
+        <Column name="State" type="int">State</Column>
+        <Column name="Country" type="string">Country</Column>
+        <Column name="PostalCode" type="int">PostalCode</Column>
+        <Column name="Phone" type="string">Phone</Column>
+        <Column name="Fax" type="string">Fax</Column>
+        <Column name="Email" type="string">Email</Column>
+        <Column name="SupportRepId" type="int">SupportRepId</Column>
+      </Response>
+    </SelectOperation>
+    <InsertOperation>
+      <Uri>http://45.125.239.138:8088/api/Customer</Uri>
+      <Method>Post</Method>
+      <Body>
+        <TableName name="Customer" type="string"/>
+        <Column name="CustomerId" isKey="true" type="int">CustomerId</Column>
+        <Column name="FirstName" type="string">FirstName</Column>
+        <Column name="LastName" type="string">LastName</Column>
+        <Column name="Company" type="string">Company</Column>
+        <Column name="Address" type="string">Address</Column>
+        <Column name="City" type="string">City</Column>
+        <Column name="State" type="string">State</Column>
+        <Column name="Country" type="string">Country</Column>
+        <Column name="PostalCode" type="string">PostalCode</Column>
+        <Column name="Phone" type="string">Phone</Column>
+        <Column name="Fax" type="string">Fax</Column>
+        <Column name="Email" type="string">Email</Column>
+        <Column name="SupportRepId" type="int">SupportRepId</Column>
+      </Body>
+    </InsertOperation>
+    <UpdateOperation>
+      <Uri>http://45.125.239.138:8088/api/Customer</Uri>
+      <Method>PUT</Method>
+      <Body>
+        <TableName name="Customer" type="string"/>
+        <Column name="CustomerId" isKey="true" type="int">CustomerId</Column>
+        <Column name="FirstName" type="string">FirstName</Column>
+        <Column name="LastName" type="string">LastName</Column>
+        <Column name="Company" type="string">Company</Column>
+        <Column name="Address" type="string">Address</Column>
+        <Column name="City" type="string">City</Column>
+        <Column name="State" type="string">State</Column>
+        <Column name="Country" type="string">Country</Column>
+        <Column name="PostalCode" type="string">PostalCode</Column>
+        <Column name="Phone" type="string">Phone</Column>
+        <Column name="Fax" type="string">Fax</Column>
+        <Column name="Email" type="string">Email</Column>
+        <Column name="SupportRepId" type="int">SupportRepId</Column>
+      </Body>
+    </UpdateOperation>
+    <DeleteOperation>
+      <Uri>http://45.125.239.138:8088/api/Customer/{Param1}</Uri>
+      <Method>DELETE</Method>
+      <Paramter name="Param1" type="int">CustomerId</Paramter>
+    </DeleteOperation>
+  </Table>
+</Api_Config>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -35,14 +35,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
-    <PackageReference Include="C1.Win.C1Document" Version="4.5.20203.457">
+    <PackageReference Include="C1.Win.C1Document" Version="4.5.20212.529">
     </PackageReference>
-    <PackageReference Include="C1.Win.C1FlexGrid" Version="4.5.20203.457">
+    <PackageReference Include="C1.Win.C1FlexGrid" Version="4.5.20212.529">
     </PackageReference>
     <PackageReference Include="C1.Win.TextParser">
-      <Version>4.7.20212.83</Version>
+      <Version>4.7.20213.87</Version>
     </PackageReference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
@@ -100,4 +100,7 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <EmbeddedResource Include="ExtractorEditor.gclicx" />
+  </ItemGroup>
 </Project>
