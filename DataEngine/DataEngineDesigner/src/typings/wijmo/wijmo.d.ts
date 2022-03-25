@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -10,6 +10,37 @@
     * wijmo.com/products/wijmo-5/license/
     *
     */
+declare module wijmo {
+    function isMobile(): boolean;
+    function isiOS(): boolean;
+    function isFirefox(): boolean;
+    function isSafari(): boolean;
+    function isEdge(): boolean;
+    function isIE(): boolean;
+    function isIE9(): boolean;
+    function isIE10(): boolean;
+    function getEventOptions(capture: boolean, passive: boolean): any;
+    function supportsFocusOptions(): boolean;
+    function _startDrag(dataTransfer: any, effectAllowed: string): void;
+}
+declare module wijmo {
+    function _getCalculatedArray(arr: any[], calculatedFields: any, newItem?: any): any[];
+    function _getTargetObject(item: any): any;
+}
+declare module wijmo {
+    class _FocusService {
+        private readonly _hasDoc;
+        private _ae;
+        private static readonly _noAe;
+        constructor();
+        readonly activeElement: HTMLElement;
+        private _onBlur;
+        private _onFocus;
+        private _isSpecialRoot;
+        private _nativeAe;
+    }
+    var _focusSrv: _FocusService;
+}
 declare module wijmo {
     /**
      * Provides binding to complex properties (e.g. 'customer.address.city')
@@ -51,8 +82,9 @@ declare module wijmo {
          *
          * @param object The object that contains the data to be set.
          * @param value Data value to set.
+         * @returns True if the value was assigned correctly, false otherwise.
          */
-        setValue(object: any, value: any): void;
+        setValue(object: any, value: any): boolean;
     }
 }
 declare module wijmo {
@@ -67,11 +99,11 @@ declare module wijmo {
      *   <li><b>args</b> is an optional object that contains the event parameters.</li>
      * </ul>
      *
-     * Read more about <a href="https://www.grapecity.com/en/blogs/html-and-wijmo-events" target="_blank">Wijmo Events</a>.
+     * Read more about <a href="https://www.grapecity.com/blogs/html-and-wijmo-events" target="_blank">Wijmo Events</a>.
      *
      */
-    interface IEventHandler {
-        (sender: any, args: EventArgs): void;
+    interface IEventHandler<S = any, T = EventArgs> {
+        (sender: S, args: T): void;
     }
     /**
      * Represents an event.
@@ -106,7 +138,7 @@ declare module wijmo {
      *   console.log('valueChanged event just fired');
      * }</pre>
      */
-    class Event {
+    class Event<S = any, T = EventArgs> {
         private _handlers;
         private _handlersChanged;
         /**
@@ -123,14 +155,14 @@ declare module wijmo {
          * @param self Object that defines the event handler
          * (accessible as 'this' from the handler code).
          */
-        addHandler(handler: IEventHandler, self?: any): void;
+        addHandler(handler: IEventHandler<S, T>, self?: any): void;
         /**
          * Removes a handler from this event.
          *
          * @param handler Function invoked when the event is raised.
-         * @param self Object that defines the event handler (accessible as 'this' from the handler code).
+         * @param self Object that owns the event handler (accessible as 'this' from the handler code).
          */
-        removeHandler(handler: IEventHandler, self?: any): void;
+        removeHandler(handler: IEventHandler<S, T>, self?: any): void;
         /**
          * Removes all handlers associated with this event.
          */
@@ -198,7 +230,9 @@ declare module wijmo {
         readonly newValue: any;
     }
     /**
-     * Provides arguments for {@link XMLHttpRequest} error events.
+     * Provides arguments for
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a>
+     * error events.
      */
     class RequestErrorEventArgs extends CancelEventArgs {
         _xhr: XMLHttpRequest;
@@ -206,14 +240,15 @@ declare module wijmo {
         /**
          * Initializes a new instance of the {@link RequestErrorEventArgs} class.
          *
-         * @param xhr The {@link XMLHttpRequest} that detected the error.
-         * The status and statusText properties of the request object
-         * contain details about the error.
+         * @param xhr The <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a>
+         * that detected the error.
+         * The 'status' and 'statusText' properties of the request object contain details about the error.
          * @param msg Optional error message.
          */
         constructor(xhr: XMLHttpRequest, msg?: string);
         /**
-         * Gets a reference to the {@link XMLHttpRequest} that detected the error.
+         * Gets a reference to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest" target="_blank">XMLHttpRequest</a>
+         * that detected the error.
          *
          * The status and statusText properties of the request object contain
          * details about the error.
@@ -234,7 +269,7 @@ declare module wijmo.collections {
         /**
          * Occurs when the collection changes.
          */
-        collectionChanged: wijmo.Event;
+        collectionChanged: wijmo.Event<INotifyCollectionChanged, NotifyCollectionChangedEventArgs>;
     }
     /**
      * Describes the action that caused the {@link INotifyCollectionChanged.collectionChanged}
@@ -256,11 +291,11 @@ declare module wijmo.collections {
     /**
      * Provides data for the {@link INotifyCollectionChanged.collectionChanged} event.
      */
-    class NotifyCollectionChangedEventArgs extends wijmo.EventArgs {
+    class NotifyCollectionChangedEventArgs<T = any> extends wijmo.EventArgs {
         /**
          * Provides a reset notification.
          */
-        static reset: NotifyCollectionChangedEventArgs;
+        static reset: NotifyCollectionChangedEventArgs<any>;
         /**
          * Gets the action that caused the event to fire.
          */
@@ -268,7 +303,7 @@ declare module wijmo.collections {
         /**
          * Gets the item that was added, removed, or changed.
          */
-        item: any;
+        item: T;
         /**
          * Gets the index at which the change occurred.
          */
@@ -280,20 +315,41 @@ declare module wijmo.collections {
          * @param item Item that was added or changed.
          * @param index Index of the item.
          */
-        constructor(action?: NotifyCollectionChangedAction, item?: any, index?: number);
+        constructor(action?: NotifyCollectionChangedAction, item?: T, index?: number);
     }
     /**
      * Represents a method that takes an item of any type and returns a
      * boolean that indicates whether the object meets a set of criteria.
      */
-    interface IPredicate {
-        (item: any): boolean;
+    interface IPredicate<T = any> {
+        /**
+         * @param item Data item to test.
+         * @returns true if the item passes the test, false otherwise.
+         */
+        (item: T): boolean;
     }
     /**
-    * Represents the method that compares two objects.
-    */
-    interface IComparer {
-        (x: any, y: any): number;
+     * Represents a method that compares two objects.
+     */
+    interface IComparer<T = any> {
+        /**
+         * @param: item1 First object to compare.
+         * @param: item2 Second object to compare.
+         * @returns -1, 0, or +1 to indicate that the first item is smaller than, equal to, or created than the second.
+         */
+        (item1: T, item2: T): number;
+    }
+    /**
+     * Represents a method that takes an item and a property name
+     * and returns a group name.
+     */
+    interface IGroupConverter<T = any> {
+        /**
+         * @param item Data item being grouped.
+         * @param property Name of the property being grouped on.
+         * @return Name of the group to use for this data item.
+         */
+        (item: T, property: string): string;
     }
     /**
      * Describes a sorting criterion.
@@ -329,7 +385,7 @@ declare module wijmo.collections {
      * common is {@link CollectionView}, which works based on regular JavsScript
      * arrays.
      */
-    interface ICollectionView extends INotifyCollectionChanged, wijmo.IQueryInterface {
+    interface ICollectionView<T = any> extends INotifyCollectionChanged, wijmo.IQueryInterface {
         /**
          * Gets a value that indicates whether this view supports filtering via the
          * {@link filter} property.
@@ -348,7 +404,7 @@ declare module wijmo.collections {
         /**
          * Gets the current item in the view.
          */
-        currentItem: any;
+        currentItem: T;
         /**
          * Gets the ordinal position of the current item in the view.
          */
@@ -364,12 +420,12 @@ declare module wijmo.collections {
          *   collectionView.filter = this._filter.bind(this);
          * </pre>
          */
-        filter: IPredicate;
+        filter: IPredicate<T> | null;
         /**
          * Gets a collection of {@link GroupDescription} objects that describe how the
          * items in the collection are grouped in the view.
          */
-        groupDescriptions: ObservableArray;
+        groupDescriptions: ObservableArray<GroupDescription>;
         /**
          * Gets the top-level groups.
          */
@@ -382,7 +438,7 @@ declare module wijmo.collections {
          * Gets a collection of {@link SortDescription} objects that describe how the items
          * in the collection are sorted in the view.
          */
-        sortDescriptions: ObservableArray;
+        sortDescriptions: ObservableArray<SortDescription>;
         /**
          * Gets or sets the collection object from which to create this view.
          */
@@ -392,13 +448,13 @@ declare module wijmo.collections {
          *
          * @param item The item to locate in the collection.
          */
-        contains(item: any): boolean;
+        contains(item: T): boolean;
         /**
          * Sets the specified item to be the current item in the view.
          *
          * @param item The item to set as the {@link currentItem}.
          */
-        moveCurrentTo(item: any): boolean;
+        moveCurrentTo(item: T): boolean;
         /**
          * Sets the first item in the view as the current item.
          */
@@ -420,27 +476,29 @@ declare module wijmo.collections {
         /**
          * Sets the item before the current item in the view as the current item.
          */
-        moveCurrentToPrevious(): any;
+        moveCurrentToPrevious(): boolean;
         /**
          * Re-creates the view using the current sort, filter, and group parameters.
          */
-        refresh(): any;
+        refresh(): void;
         /**
          * Occurs after the current item changes.
          */
-        currentChanged: wijmo.Event;
+        currentChanged: wijmo.Event<ICollectionView, wijmo.EventArgs>;
         /**
          * Occurs before the current item changes.
          */
-        currentChanging: wijmo.Event;
+        currentChanging: wijmo.Event<ICollectionView, wijmo.EventArgs>;
         /**
          * Suspends refreshes until the next call to {@link endUpdate}.
          */
-        beginUpdate(): any;
+        beginUpdate(): void;
         /**
          * Resumes refreshes suspended by a call to {@link beginUpdate}.
+         *
+         * @param force Whether to force a refresh when ending the update.
          */
-        endUpdate(): any;
+        endUpdate(force?: boolean): void;
         /**
          * Executes a function within a beginUpdate/endUpdate block.
          *
@@ -448,12 +506,13 @@ declare module wijmo.collections {
          * This method ensures endUpdate is called even if the function throws.
          *
          * @param fn Function to be executed within the beginUpdate/endUpdate block.
+         * @param force Whether to force a refresh when ending the update.
          */
-        deferUpdate(fn: Function): any;
+        deferUpdate(fn: Function, force?: boolean): void;
         /**
          * Gets the filtered, sorted, grouped items in the view.
          */
-        items: any[];
+        items: T[];
     }
     /**
      * Defines methods and properties that extend {@link ICollectionView} to provide
@@ -499,37 +558,37 @@ declare module wijmo.collections {
          * Ends the current edit transaction and, if possible,
          * restores the original value to the item.
          */
-        cancelEdit(): any;
+        cancelEdit(): void;
         /**
          * Ends the current add transaction and discards the pending new item.
          */
-        cancelNew(): any;
+        cancelNew(): void;
         /**
          * Ends the current edit transaction and saves the pending changes.
          */
-        commitEdit(): any;
+        commitEdit(): void;
         /**
          * Ends the current add transaction and saves the pending new item.
          */
-        commitNew(): any;
+        commitNew(): void;
         /**
          * Begins an edit transaction of the specified item.
          *
          * @param item Item to edit.
          */
-        editItem(item: any): any;
+        editItem(item: any): void;
         /**
          * Removes the specified item from the collection.
          *
          * @param item Item to remove from the collection.
          */
-        remove(item: any): any;
+        remove(item: any): void;
         /**
          * Removes the item at the specified index from the collection.
          *
          * @param index Index of the item to remove from the collection.
          */
-        removeAt(index: number): any;
+        removeAt(index: number): void;
     }
     /**
      * Defines methods and properties that extend {@link ICollectionView} to provide
@@ -565,7 +624,7 @@ declare module wijmo.collections {
         /**
          * Gets the total number of items in the view before paging is applied.
          *
-         * To get the number of items in the current view not taking paging into
+         * To get the number of items in the current view taking paging into
          * account, use the {@link itemCount} property.
          *
          * Notice that this is different from the .NET <b>IPagedCollectionView</b>,
@@ -598,11 +657,11 @@ declare module wijmo.collections {
         /**
         * Occurs after the page index changes.
         */
-        pageChanged: wijmo.Event;
+        pageChanged: wijmo.Event<IPagedCollectionView, wijmo.EventArgs>;
         /**
          * Occurs before the page index changes.
          */
-        pageChanging: wijmo.Event;
+        pageChanging: wijmo.Event<IPagedCollectionView, PageChangingEventArgs>;
     }
     /**
      * Provides data for the {@link IPagedCollectionView.pageChanging} event
@@ -669,7 +728,7 @@ declare module wijmo.collections {
      */
     class PropertyGroupDescription extends GroupDescription {
         _bnd: wijmo.Binding;
-        _converter: Function;
+        _converter: IGroupConverter;
         /**
          * Initializes a new instance of the {@link PropertyGroupDescription} class.
          *
@@ -679,7 +738,7 @@ declare module wijmo.collections {
          * a property name and returns the group name. If not specified,
          * the group name is the property value for the item.
          */
-        constructor(property: string, converter?: Function);
+        constructor(property: string, converter?: IGroupConverter);
         /**
          * Gets the name of the property that is used to determine which
          * group an item belongs to.
@@ -716,7 +775,7 @@ declare module wijmo {
      * adding a watermark element to the page.
      *
      * Licensed users may obtain keys at the
-     * <a href="https://www.grapecity.com/en/my-account" target="_blank">My Account</a>
+     * <a href="https://www.grapecity.com/my-account" target="_blank">My Account</a>
      * section of the Wijmo site.
      *
      * Note that Wijmo does not send keys or any licensing information to any servers.
@@ -827,13 +886,13 @@ declare module wijmo {
      *
      * @param value Value to test.
      */
-    function isPrimitive(value: any): boolean;
+    function isPrimitive(value: any): value is string | number | Boolean | Date;
     /**
      * Determines whether an object is a string.
      *
      * @param value Value to test.
      */
-    function isString(value: any): boolean;
+    function isString(value: any): value is string;
     /**
      * Determines whether a string is null, empty, or whitespace only.
      *
@@ -845,43 +904,43 @@ declare module wijmo {
      *
      * @param value Value to test.
      */
-    function isNumber(value: any): boolean;
+    function isNumber(value: any): value is number;
     /**
      * Determines whether an object is an integer.
      *
      * @param value Value to test.
      */
-    function isInt(value: any): boolean;
+    function isInt(value: any): value is number;
     /**
      * Determines whether an object is a Boolean.
      *
      * @param value Value to test.
      */
-    function isBoolean(value: any): boolean;
+    function isBoolean(value: any): value is boolean;
     /**
      * Determines whether an object is a function.
      *
      * @param value Value to test.
      */
-    function isFunction(value: any): boolean;
+    function isFunction(value: any): value is Function;
     /**
      * Determines whether an object is undefined.
      *
      * @param value Value to test.
      */
-    function isUndefined(value: any): boolean;
+    function isUndefined(value: any): value is undefined;
     /**
      * Determines whether an object is a Date.
      *
      * @param value Value to test.
      */
-    function isDate(value: any): boolean;
+    function isDate(value: any): value is Date;
     /**
      * Determines whether an object is an Array.
      *
      * @param value Value to test.
      */
-    function isArray(value: any): boolean;
+    function isArray(value: any): value is Array<any>;
     /**
      * Determines whether a value is an object
      * (as opposed to a value type, an array, or a Date).
@@ -915,13 +974,23 @@ declare module wijmo {
      */
     function getType(value: any): DataType;
     /**
+     * Provides binding information for object properties.
+     */
+    interface IBindingInfo {
+        binding: string;
+        dataType: DataType;
+        isReadOnly?: boolean;
+    }
+    /**
      * Gets an array containing the names and types of items in an array.
      *
      * @param arr Array containing data items.
+     * @param limit Number of the array items to scan (1000 by default). Zero or negative value causes
+     *  the function to scan all items.
      * @return An array containing objects with the binding and type of each
      * primitive property in the items found in the input array.
      */
-    function getTypes(arr: any[]): any[];
+    function getTypes(arr: any[], limit?: number): IBindingInfo[];
     /**
      * Changes the type of a value.
      *
@@ -931,9 +1000,10 @@ declare module wijmo {
      * @param value Value to convert.
      * @param type {@link DataType} to convert the value to.
      * @param format Format to use when converting to or from strings.
+     * @param refDate Reference date to use when parsing strings with missing information.
      * @return The converted value, or the original value if a conversion was not possible.
      */
-    function changeType(value: any, type: DataType, format?: string): any;
+    function changeType(value: any, type: DataType, format?: string, refDate?: Date): any;
     /**
      * Rounds or truncates a number to a specified precision.
      *
@@ -949,18 +1019,20 @@ declare module wijmo {
      * The function works by replacing parts of the <b>formatString</b> with the pattern
      * '{name:format}' with properties of the <b>data</b> parameter. For example:
      *
-     * <pre>
-     * var data = { name: 'Joe', amount: 123456 };
-     * var msg = wijmo.format('Hello {name}, you won {amount:n2}!', data);
-     * </pre>
+     * ```typescript
+     * import { format } from '@grapecity/wijmo';
+     * let data = { name: 'Joe', amount: 123456 },
+     *     msg = format('Hello {name}, you won {amount:n2}!', data);
+     * ```
      *
      * The {@link format} function supports pluralization. If the format string is a
      * JSON-encoded object with 'count' and 'when' properties, the method uses
      * the 'count' parameter of the data object to select the appropriate format
      * from the 'when' property. For example:
      *
-     * <pre>
-     * var fmt = {
+     * ```typescript
+     * import { format } from '@grapecity/wijmo';
+     * fmtObj fmt = {
      *     count: 'count',
      *     when: {
      *         0: 'No items selected.',
@@ -968,13 +1040,13 @@ declare module wijmo {
      *         2: 'A pair is selected.',
      *         'other': '{count:n0} items are selected.'
      *     }
-     * }
-     * fmt = JSON.stringify(fmt);
-     * console.log(wijmo.format(fmt, { count: 0 })); // No items selected.
-     * console.log(wijmo.format(fmt, { count: 1 })); // One item is selected.
-     * console.log(wijmo.format(fmt, { count: 2 })); // A pair is selected.
-     * console.log(wijmo.format(fmt, { count: 12 })); 12 items are selected.
-     * </pre>
+     * };
+     * let fmt = JSON.stringify(fmtObj);
+     * console.log(format(fmt, { count: 0 }));  // No items selected.
+     * console.log(format(fmt, { count: 1 }));  // One item is selected.
+     * console.log(format(fmt, { count: 2 }));  // A pair is selected.
+     * console.log(format(fmt, { count: 12 })); // 12 items are selected.
+     * ```
      *
      * The optional <b>formatFunction</b> allows you to customize the content by
      * providing context-sensitive formatting. If provided, the format function
@@ -982,17 +1054,18 @@ declare module wijmo {
      * parameter name, the format, and the value; it should return an output string.
      * For example:
      *
-     * <pre>
-     * var data = { name: 'Joe', amount: 123456 };
-     * var msg = wijmo.format('Hello {name}, you won {amount:n2}!', data,
-     *     function (data, name, fmt, val) {
-     *         if (wijmo.isString(data[name])) {
-     *             val = wijmo.escapeHtml(data[name]);
+     * ```typescript
+     * import { format, isString, escapeHtml } from '@grapecity/wijmo';
+     * let data = { name: 'Joe', amount: 123456 },
+     *     msg = format('Hello {name}, you won {amount:n2}!', data,
+     *     (data, name, fmt, val) => {
+     *         if (isString(data[name])) {
+     *             val = escapeHtml(data[name]);
      *         }
      *         return val;
      *     }
      * );
-     * </pre>
+     * ```
      *
      * @param format A composite format string.
      * @param data The data object used to build the string.
@@ -1000,6 +1073,55 @@ declare module wijmo {
      * @return The formatted string.
      */
     function format(format: string, data: any, formatFunction?: Function): string;
+    /**
+     * Tag function for use with template literals.
+     *
+     * The {@link glbz} tag function allows you to specify formatting for
+     * variables in template literal expressions.
+     *
+     * To format a variable in a template literal using {@link glbz}, add a
+     * colon and the format string after the name of the variable you want
+     * to format.
+     *
+     * For example:
+     *
+     * ```typescript
+     * import { glbz } from '@grapecity/wijmo';
+     * let num = 42,
+     *     dt = new Date(),
+     *     msg = glbz`the number is ${num}:n2, and the date is ${dt}:'MMM d, yyyy'!`;
+     * ```
+     */
+    function glbz(...args: any[]): string;
+    /**
+     * Evaluates a string in template literal notation.
+     *
+     * This function allows you to evaluate template literals on-demand,
+     * rather than when they are declared.
+     *
+     * The template string uses the standard template literal syntax,
+     * except it is a regular string (enclosed in single or double
+     * quotes) rather than a template literal (enclosed in back-quotes).
+     *
+     * The template string may contain references to variables provided
+     * in a context object passed as a parameter.
+     *
+     * The template string may contain formatting information as
+     * used with the {@link glbz} tag function.
+     *
+     * For example:
+     * ```typescript
+     * import { evalTemplate } from '@grapecity/wijmo';
+     * const msg = evalTemplate('hello ${user}, want some ${Math.PI}:n2?', { user: 'Chris' }));
+     * console.log(msg);
+     * > hello Chris, want some 3.14?
+     * ```
+     *
+     * @param template String in template literal notation.
+     * @param ctx Object with properties acessible to the template.
+     * @returns A string containing the result.
+     */
+    function evalTemplate(template: string, ctx?: any): string;
     /**
      * Clamps a value between a minimum and a maximum.
      *
@@ -1019,8 +1141,9 @@ declare module wijmo {
      *
      * @param dst The destination object.
      * @param src The source object.
+     * @returns The destination object.
      */
-    function copy(dst: any, src: any): void;
+    function copy(dst: any, src: any): any;
     /**
      * Throws an exception if a condition is false.
      *
@@ -1147,6 +1270,14 @@ declare module wijmo {
      */
     function escapeHtml(text: string): string;
     /**
+     * Escapes a string by prefixing special regular expression characters
+     * with backslashes.
+     *
+     * @param text Text to escape.
+     * @return A RegExp-escaped version of the original string.
+     */
+    function escapeRegExp(text: string): string;
+    /**
      * Converts an HTML string into plain text.
      *
      * @param html HTML string to convert to plain text.
@@ -1193,6 +1324,14 @@ declare module wijmo {
      */
     function setAttribute(e: Element, name: string, value?: any, keep?: boolean): void;
     /**
+     * Sets the checked and indeterminate properties of a checkbox input
+     * element.
+     *
+     * @param cb Checkbox element.
+     * @param checked True, false, or null for checked, unchecked, or indeterminate.
+     */
+    function setChecked(cb: HTMLInputElement, checked: boolean): void;
+    /**
      * Sets or clears an element's <b>aria-label</b> attribute.
      *
      * @param e Element that will be updated.
@@ -1230,6 +1369,7 @@ declare module wijmo {
      * accounting for shadow document fragments.
      */
     function getActiveElement(): HTMLElement;
+    function _getActiveElement(): HTMLElement;
     /**
      * Moves the focus to the next/previous/first focusable child within
      * a given parent element.
@@ -1239,6 +1379,35 @@ declare module wijmo {
      * @return True if the focus was set, false if a focusable element was not found.
      */
     function moveFocus(parent: HTMLElement, offset: number): boolean;
+    /**
+     * Saves content to a file.
+     *
+     * @param content A string or a Blob object to be saved to a file.
+     * @param fileName Name of the file to save, including extension.
+     * @param type Optional file MIME type, used if the **content** argument is a string.
+     *
+     * The {@link saveFile} method can be used to create text files
+     * (txt, csv, html) as well as image files.
+     *
+     * For example, this code saves the current selection of a FlexGrid to a CSV file:
+     *
+     * ```typescript
+     * import { saveFile } from '@grapecity/wijmo';
+     * const clipString = theGrid.getClipString(null, true, true, false);
+     * saveFile(clipString, 'grid.csv', 'text/csv');
+     * ```
+     *
+     * And this code saves the content of a canvas element to a JPG file:
+     *
+     * ```typescript
+     * import { saveFile } from '@grapecity/wijmo';
+     *
+     * canvas.toBlob(blob => {
+     *    saveFile(blob, 'image.jpg');
+     * }, 'image/jpeg');
+     * ```
+     */
+    function saveFile(content: string | Blob, fileName: string, type?: string): void;
     /**
      * Gets an element from a query selector.
      *
@@ -1250,9 +1419,10 @@ declare module wijmo {
      *
      * @param html HTML fragment to convert into an HTMLElement.
      * @param appendTo Optional HTMLElement to append the new element to.
+     * @param css Optional CSS attributes to apply to the root of the new element.
      * @return The new element.
      */
-    function createElement(html: string, appendTo?: HTMLElement): HTMLElement;
+    function createElement(html: string, appendTo?: HTMLElement, css?: any): HTMLElement;
     /**
      * Sets the text content of an element.
      *
@@ -1308,6 +1478,17 @@ declare module wijmo {
      */
     function setCss(e: any, css: any): void;
     /**
+     * Represents a method called periodically while handling calls to
+     * the {@link animate} method.
+     */
+    interface IAnimateCallback {
+        /**
+         * @param percentage Value ranging from zero to one that indicates how
+         * far along the animation is.
+         */
+        (percentage: number): void;
+    }
+    /**
      * Calls a function on a timer with a parameter varying between zero and one.
      *
      * Use this function to create animations by modifying document properties
@@ -1315,27 +1496,34 @@ declare module wijmo {
      *
      * For example, the code below changes the opacity of an element from zero
      * to one in one second:
-     * <pre>var element = document.getElementById('someElement');
-     * animate(function(pct) {
-     *   element.style.opacity = pct;
-     * }, 1000);</pre>
+     *
+     * ```typescript
+     * import { animate } from '@grapecity/wijmo';
+     * const element = document.getElementById('someElement');
+     * animate(pct => {
+     *     element.style.opacity = pct;
+     * }, 1000);
+     * ```
      *
      * The function returns an interval ID that you can use to stop the
      * animation. This is typically done when you are starting a new animation
      * and wish to suspend other on-going animations on the same element.
      * For example, the code below keeps track of the interval ID and clears
      * if before starting a new animation:
-     * <pre>var element = document.getElementById('someElement');
+     *
+     * ```typescript
+     * import { animate } from '@grapecity/wijmo';
+     * const element = document.getElementById('someElement');
      * if (this._animInterval) {
-     *   clearInterval(this._animInterval);
+     *     clearInterval(this._animInterval);
      * }
-     * var self = this;
-     * self._animInterval = animate(function(pct) {
-     *   element.style.opacity = pct;
-     *   if (pct == 1) {
-     *     self._animInterval = null;
-     *   }
-     * }, 1000);</pre>
+     * this._animInterval = animate(pct => {
+     *     element.style.opacity = pct;
+     *     if (pct == 1) {
+     *         self._animInterval = null;
+     *     }
+     * }, 1000);
+     * ```
      *
      * @param apply Callback function that modifies the document.
      * The function takes a single parameter that represents a percentage.
@@ -1343,7 +1531,7 @@ declare module wijmo {
      * @param step The interval between animation frames, in milliseconds.
      * @return An interval id that you can use to suspend the animation.
      */
-    function animate(apply: Function, duration?: number, step?: number): any;
+    function animate(apply: IAnimateCallback, duration?: number, step?: number): any;
     /**
      * Class that represents a point (with x and y coordinates).
      */
@@ -1534,6 +1722,46 @@ declare module wijmo {
          */
         static addSeconds(value: Date, seconds: number): Date;
         /**
+         * Gets the first day of the week for a given Date.
+         *
+         * @param value Original date.
+         * @param firstDayOfWeek First day of week (0 for Sunday, 1 for Monday, etc).
+         * Defaults to first day of week for the current culture.
+         */
+        static weekFirst(value: Date, firstDayOfWeek?: number): Date;
+        /**
+         * Gets the last day of the week for a given Date.
+         *
+         * @param value Original date.
+         * @param firstDayOfWeek First day of week (0 for Sunday, 1 for Monday, etc).
+         * Defaults to first day of week for the current culture.
+         */
+        static weekLast(value: Date, firstDayOfWeek?: number): Date;
+        /**
+         * Gets the first day of the month for a given Date.
+         *
+         * @param value Original date.
+         */
+        static monthFirst(value: Date): Date;
+        /**
+         * Gets the last day of the month for a given Date.
+         *
+         * @param value Original date.
+         */
+        static monthLast(value: Date): Date;
+        /**
+         * Gets the first day of the year for a given Date.
+         *
+         * @param value Original date.
+         */
+        static yearFirst(value: Date): Date;
+        /**
+         * Gets the last day of the year for a given Date.
+         *
+         * @param value Original date.
+         */
+        static yearLast(value: Date): Date;
+        /**
          * Returns true if two Date objects refer to the same date (ignoring time).
          *
          * @param d1 First date.
@@ -1548,17 +1776,18 @@ declare module wijmo {
          */
         static sameTime(d1: Date, d2: Date): boolean;
         /**
-         * Returns true if two Date objects refer to the same date and time.
+         * Returns true if two Date objects refer to the same date and time
+         * (or if both are null).
          *
          * @param d1 First date.
          * @param d2 Second date.
          */
-        static equals(d1: Date, d2: Date): boolean;
+        static equals(d1: Date | null, d2: Date | null): boolean;
         /**
          * Gets a Date object with the date and time set on two Date objects.
          *
          * @param date Date object that contains the date (day/month/year).
-         * @param time Date object that contains the time (hour:minute:second).
+         * @param time Date object that contains the time (hour:minute:second.millisecond).
          */
         static fromDateTime(date: Date, time: Date): Date;
         /**
@@ -1595,72 +1824,76 @@ declare module wijmo {
         static clone(date: Date): Date;
     }
     /**
+     * Represents a set of options to be used with the {@link httpRequest} method.
+     */
+    interface IHttpRequestOptions {
+        /**
+         * The HTTP method to use for the request (e.g. "POST", "GET", "PUT").
+         * The default is "GET".
+         */
+        method?: string;
+        /**
+         * Data to be sent to the server. It is appended to the url for GET requests,
+         * and converted to a JSON string for other requests.
+         */
+        data?: any;
+        /**
+         * A JavaScript object containing key/value pairs to be added to the request headers.
+         */
+        requestHeaders?: any;
+        /**
+         * By default, all requests are sent asynchronously (i.e. this is set to true by default).
+         * If you need to make synchronous requests, set this option to false.
+         */
+        async?: boolean;
+        /**
+         * The number of milliseconds the request can take before automatically being terminated.
+         * The default value is 0, which means there is no timeout.
+         */
+        timeout?: number;
+        /**
+         * Function to be called if the request succeeds.
+         * The function has a single parameter of type <b>XMLHttpRequest</b> that represents the request.
+         */
+        success?: (x: XMLHttpRequest) => void;
+        /**
+         * Function to be called if the request fails.
+         * The function has a single parameter of type <b>XMLHttpRequest</b> that represents the request.
+         */
+        error?: (x: XMLHttpRequest) => void;
+        /**
+         * Function to be called when the request finishes (after success and error callbacks are executed).
+         * The function has a single parameter of type <b>XMLHttpRequest</b> that represents the request.
+         */
+        complete?: (x: XMLHttpRequest) => void;
+        /**
+         * Function to be called immediately before the request is sent.
+         * The function has a single parameter of type <b>XMLHttpRequest</b> that represents the request.
+         */
+        beforeSend?: (x: XMLHttpRequest) => void;
+        /**
+         * A username to be used with <b>XMLHttpRequest</b> in response to an HTTP access
+         * authentication request.
+         */
+        user?: string;
+        /**
+         * A password to be used with <b>XMLHttpRequest</b> in response to an HTTP access
+         * authentication request.
+         */
+        password?: string;
+    }
+    /**
      * Performs HTTP requests.
      *
-     * The <b>settings</b> parameter may contain the following:
-     *
-     * <table>
-     * <tr>
-     *   <td><b>method</b></td>
-     *   <td>The HTTP method to use for the request (e.g. "POST", "GET", "PUT").
-     *       The default is "GET".</td>
-     * </tr>
-     * <tr>
-     *   <td><b>data</b></td>
-     *   <td>Data to be sent to the server. It is appended to the url for GET requests,
-     *       and converted to a JSON string for other requests.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>async</b></td>
-     *   <td>By default, all requests are sent asynchronously (i.e. this is set to true by default).
-     *       If you need synchronous requests, set this option to false.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>success</b></td>
-     *   <td>A function to be called if the request succeeds.
-     *       The function gets passed a single parameter of type <b>XMLHttpRequest</b>.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>error</b></td>
-     *   <td>A function to be called if the request fails.
-     *       The function gets passed a single parameter of type <b>XMLHttpRequest</b>.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>complete</b></td>
-     *   <td>A function to be called when the request finishes (after success and error callbacks are executed).
-     *       The function gets passed a single parameter of type <b>XMLHttpRequest</b>.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>beforeSend</b></td>
-     *   <td>A function to be called immediately before the request us sent.
-     *       The function gets passed a single parameter of type <b>XMLHttpRequest</b>.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>requestHeaders</b></td>
-     *   <td>A JavaScript object containing key/value pairs to be added to the request
-     *       headers.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>user</b></td>
-     *   <td>A username to be used with <b>XMLHttpRequest</b> in response to an HTTP access
-     *       authentication request.</td>
-     * </tr>
-     * <tr>
-     *   <td><b>password</b></td>
-     *   <td>A password to be used with <b>XMLHttpRequest</b> in response to an HTTP access
-     *       authentication request.</td>
-     * </tr>
-     * </table>
-     *
-     * Use the <b>success</b> to obtain the result of the request which is provided in
+     * Use the <b>success</b> method to obtain the result of the request which is provided in
      * the callback's <b>XMLHttpRequest</b> parameter. For example, the code below uses
      * the {@link httpRequest} method to retrieve a list of customers from an OData service:
      *
      * ```typescript
      * import { httpRequest } from '@grapecity/wijmo';
-     * httpRequest('http://services.odata.org/Northwind/Northwind.svc/Customers?$format=json', {
-     *   success: function (xhr) {
-     *     var response = JSON.parse(xhr.responseText),
+     * httpRequest('https://services.odata.org/Northwind/Northwind.svc/Customers?$format=json', {
+     *   success: xhr => {
+     *     let response = JSON.parse(xhr.responseText),
      *         customers = response.value;
      *     // do something with the customers...
      *   }
@@ -1668,12 +1901,38 @@ declare module wijmo {
      * ```
      *
      * @param url String containing the URL to which the request is sent.
-     * @param settings An optional object used to configure the request.
+     * @param options An optional {@link IHttpRequestOptions} object used to configure the request.
      * @return The <b>XMLHttpRequest</b> object used to perform the request.
      */
-    function httpRequest(url: string, settings?: any): XMLHttpRequest;
+    function httpRequest(url: string, options?: IHttpRequestOptions): XMLHttpRequest;
     function _registerModule(name: string, ref: any): void;
     function _getModule(name: string): any;
+}
+declare module wijmo {
+    interface _IMap<K, V> {
+        clear(): void;
+        delete(key: K): any;
+        get(key: K): V | undefined;
+        has(key: K): boolean;
+        set(key: K, value: V): this;
+        readonly size: number;
+    }
+    class _Map<K = any, V = any> {
+        readonly _m: _IMap<K, V>;
+        _h: any;
+        /**
+         * Creates an instance of the Map class wrapper.
+         * @param pojoHash If true (default), then POJO hash object is used; otherwise, the Map is used.
+         */
+        constructor(pojoHash?: boolean);
+        readonly isPojoHash: boolean;
+        readonly size: number;
+        clear(): void;
+        delete(key: K): void;
+        get(key: K): V | undefined;
+        has(key: K): boolean;
+        set(key: K, value: V): this;
+    }
 }
 declare module wijmo {
     /**
@@ -1857,17 +2116,36 @@ declare module wijmo {
 }
 declare module wijmo {
     /**
+     * Contains information used to format numbers
+     */
+    interface _INumFormatInfo {
+        /** String to display before the formatted value */
+        prefix: string;
+        /** Format specifier (N, n, D, d, C, c, P, p, X, x, etc) */
+        specRaw: string;
+        /** Format specifier as lower-case (n, d, c, p, x, etc) */
+        spec: string;
+        /** Precision (number of decimal places to display) */
+        prec: number;
+        /** Scale (3 for thousands, 6 for millions, etc) */
+        scale: number;
+        /** String to display after the formatted value */
+        suffix: string;
+        /** Currency sign */
+        curr: string;
+    }
+    /**
      * Gets or sets an object that contains all localizable strings in the Wijmo library.
      *
      * The culture selector is a two-letter string that represents an
-     * <a href='http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'>ISO 639 culture</a>.
+     * <a href='https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'>ISO 639 culture</a>.
      */
     var culture: any;
     /**
      * Class that implements formatting and parsing of numbers and Dates.
      *
      * By default, {@link Globalize} uses the American English culture.
-     * To switch cultures, include the appropriate <b>wijmo.culture.*.js</b>
+     * To switch cultures, include the appropriate **wijmo.culture**
      * file after the wijmo files.
      *
      * The example below shows how you can use the {@link Globalize} class
@@ -1880,16 +2158,15 @@ declare module wijmo {
          * Formats a number or a date.
          *
          * The format strings used with the {@link format} function are similar to
-         * the ones used by <b>Globalize.js</b> and by the .NET Globalization
-         * library. The tables below contains links that describe the formats
-         * available:
+         * the ones used by the .NET Globalization library.
+         * The tables below contains links that describe the formats available:
          *
          * <ul>
-         * <li><a href="http://msdn.microsoft.com/en-us/library/dwhawy9k(v=vs.110).aspx">
+         * <li><a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">
          *      Standard Numeric Format Strings</a></li>
-         * <li><a href="http://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx">
+         * <li><a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings">
          *      Standard Date and Time Format Strings</a></li>
-         * <li><a href="http://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx">
+         * <li><a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings">
          *      Custom Date and Time Format Strings</a></li>
          * </ul>
          *
@@ -1897,22 +2174,23 @@ declare module wijmo {
          * @param format Format string to use when formatting numbers or dates.
          * @param trim Whether to remove trailing zeros from numeric results.
          * @param truncate Whether to truncate the numeric values rather than round them.
+         * @param defaultPrec Precision to use if not specified in the format string.
          * @return A string representation of the given value.
          */
-        static format(value: any, format: string, trim?: boolean, truncate?: boolean): string;
+        static format(value: any, format: string, trim?: boolean, truncate?: boolean, defaultPrec?: number): string;
         /**
          * Formats a number using the current culture.
          *
-         * The {@link formatNumber} method accepts most .NET-style
-         * <a href="http://msdn.microsoft.com/en-us/library/dwhawy9k(v=vs.110).aspx">
-         * Standard Numeric Format Strings</a>, except for the 'e' and 'x' formats
-         * (scientific notation and hexadecimal) which are not supported.
+         * The {@link formatNumber} method accepts all .NET-style
+         * <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-numeric-format-strings">
+         * Standard Numeric Format Strings</a> and provides support
+         * for scaling, prefixes, suffixes, and custom currency symbols.
          *
          * Numeric format strings take the form <i>Axxsscc</i>, where:
          * <ul>
          * <li>
-         *  <i>A</i> is a single case-insensitive alphabetic character called the
-         *  format specifier.</li>
+         *  <i>A</i> is a single alphabetic character called the format
+         *  specifier (described below).</li>
          * <li>
          *  <i>xx</i> is an optional integer called the precision specifier.
          *  The precision specifier affects the number of digits in the result.</li>
@@ -1932,13 +2210,19 @@ declare module wijmo {
          * displays sample output produced by each format specifier for the default
          * culture.
          *
-         * <b>n</b> Number: <code>formatNumber(1234.5, 'n2') => '1,234.50'</code><br/>
-         * <b>f</b> Fixed-point: <code>formatNumber(1234.5, 'f2') => '1234.50'</code><br/>
-         * <b>g</b> General (no trailing zeros): <code>formatNumber(1234.5, 'g2') => '1234.5'</code><br/>
+         * <b>c</b> Currency: <code>formatNumber(1234, 'c') => '$1,234.00'</code><br/>
          * <b>d</b> Decimal (integers): <code>formatNumber(-1234, 'd6') => '-001234'</code><br/>
+         * <b>e</b> Scientific Notation (lower-case 'e'): <code>formatNumber(123.456, 'e6') => '1.234560e+2'</code>
+         * <b>E</b> Scientific Notation (upper-case 'e'): <code>formatNumber(123.456, 'E6') => '1.234560E+2'</code>
+         * <b>f</b> Fixed-point: <code>formatNumber(1234.5, 'f2') => '1234.50'</code><br/>
+         * <b>F</b> Fixed-point (with thousand separators): <code>formatNumber(1234.5, 'F2') => '1,234.50'</code><br/>
+         * <b>g</b> General (no trailing zeros): <code>formatNumber(1234.50, 'g2') => '1234.5'</code><br/>
+         * <b>G</b> General (no trailing zeros, thousand separators): <code>formatNumber(1234.5, 'G2') => '1,234.5'</code><br/>
+         * <b>n</b> Number: <code>formatNumber(1234.5, 'n2') => '1,234.50'</code><br/>
+         * <b>p</b> Percent: <code>formatNumber(0.1234, 'p2') => '12.34%'</code>
+         * <b>P</b> Percent (no thousand separators): <code>formatNumber(12.34, 'P2') => '1234%'</code>
+         * <b>r</b> Round-trip (same as g15): <code>formatNumber(0.1234, 'r') => '0.1234'</code>
          * <b>x</b> Hexadecimal (integers): <code>formatNumber(1234, 'x6') => '0004d2'</code><br/>
-         * <b>c</b> Currency: <code>formatNumber(1234, 'c') => '$ 1,234.00'</code><br/>
-         * <b>p</b> Percent: <code>formatNumber(0.1234, 'p2') => '12.34 %'</code>
          *
          * The scaling specifier is especially useful when charting large values. For
          * example, the markup below creates a chart that plots population versus GDP.
@@ -1946,32 +2230,50 @@ declare module wijmo {
          * The scaling specified in the axes formats causes the chart to show population
          * in millions and GDP in trillions:
          *
-         * <pre>&lt;wj-flex-chart
-         *   items-source="countriesGDP" binding-x="pop" chart-type="Scatter"&gt;
-         *   &lt;wj-flex-chart-series
-         *     name="GDP" binding="gdp"&gt;&lt;/wj-flex-chart-series&gt;
-         *   &lt;wj-flex-chart-axis
-         *     wj-property="axisX" title="Population (millions)"
-         *     format="n0,,"&gt;
-         *   &lt;/wj-flex-chart-axis&gt;
-         *   &lt;wj-flex-chart-axis
-         *     wj-property="axisY" title="GDP (US$ trillions)"
-         *     format="c0,,"&gt;
-         *   &lt;/wj-flex-chart-axis&gt;
-         * &lt;/wj-flex-chart&gt;</pre>
+         * ```typescript
+         * import { FlexChart} from '@grapecity/wijmo.chart';
+         * new FlexChart('#theChart', {
+         *     itemsSource: countriesGDP,
+         *     bindingX: 'pop',
+         *     chartType: 'Scatter',
+         *     series: [
+         *         { name: 'GDP', binding: 'gdp' }
+         *     ],
+         *     axisX: {
+         *         title: 'Population (millions)'
+         *         format: 'n0,,'
+         *     },
+         *     axisY: {
+         *         title: 'GDP (US$ trillions)'
+         *         format: 'c0,,'
+         *     }
+         * });
+         * ```
+         *
+         * The format string may also include constant prefix and suffix
+         * strings to be added to the output.
+         * If present, the prefix and suffix are specified as *double-quoted*
+         * strings at the start and end of the format string:
+         *
+         * ```typescript
+         * import { Globalize } from '@grapecity/wijmo';
+         * console.log(Globalize.formatNumber(value, '"thousands: "c3," k"'));
+         * console.log(Globalize.formatNumber(value, '"millions: "c1,," M"'));
+         * ```
          *
          * @param value Number to format.
          * @param format .NET-style standard numeric format string (e.g. 'n2', 'c4', 'p0', 'g2', 'd2').
          * @param trim Whether to remove trailing zeros from the result.
          * @param truncate Whether to truncate the value rather than round it.
+         * @param defaultPrec Precision to use if not specified in the format string.
          * @return A string representation of the given number.
          */
-        static formatNumber(value: number, format: string, trim?: boolean, truncate?: boolean): string;
+        static formatNumber(value: number, format: string, trim?: boolean, truncate?: boolean, defaultPrec?: number): string;
         /**
          * Formats a date using the current culture.
          *
          * The {@link format} parameter contains a .NET-style
-         * <a href="http://msdn.microsoft.com/en-us/library/8kb3ddd4(v=vs.110).aspx">Date format string</a>
+         * <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings">Date format string</a>
          * with the following additions:
          * <ul>
          *  <li><i>Q, q</i> Calendar quarter.</li>
@@ -1983,11 +2285,12 @@ declare module wijmo {
          *
          * For example:
          *
-         * <pre>
-         * var d = new Date(2015, 9, 1); // Oct 1, 2015
-         * console.log(wijmo.Globalize.format(d, '"FY"EEEE"Q"U') + ' (US culture)');
-         * &gt; FY2016Q1 (US culture)
-         * </pre>
+         * ```typescript
+         * import { Globalize } from '@grapecity/wijmo';
+         * let dt = new Date(2015, 9, 1); // Oct 1, 2015
+         * console.log('result', Globalize.format(dt, '"FY"EEEE"Q"U') + ' (US culture)');
+         * **result** FY2016Q1 (US culture)
+         * ```
          *
          * Another addition is available for dealing with complex eras such
          * as those defined in the Japanese culture:
@@ -2011,7 +2314,7 @@ declare module wijmo {
          * @param value String to convert to an integer.
          * @param format Format to use when parsing the number.
          * @return The integer represented by the given string,
-         * or <b>NaN</b> if the string cannot be parsed into an integer.
+         * or **NaN** if the string cannot be parsed into an integer.
          */
         static parseInt(value: string, format?: string): number;
         /**
@@ -2020,16 +2323,16 @@ declare module wijmo {
          * @param value String to convert to a number.
          * @param format Format to use when parsing the number.
          * @return The floating point number represented by the given string,
-         * or <b>NaN</b> if the string cannot be parsed into a floating point number.
+         * or **NaN** if the string cannot be parsed into a floating point number.
          */
         static parseFloat(value: string, format?: string): number;
         /**
          * Parses a string into a Date.
          *
          * Two-digit years are converted to full years based on the value of the
-         * calendar's <b>twoDigitYearMax</b> property. By default, this is set to
-         * 2029, meaning two-digit values of 30 to 99 are parsed as 19**, and values
-         * from zero to 29 are parsed as 20**.
+         * calendar's **twoDigitYearMax** property. By default, this is set to
+         * 2029, meaning two-digit values of 30 to 99 are parsed as 19xx, and values
+         * from zero to 29 are parsed as 20xx.
          *
          * You can change this threshold by assigning a new value to the calendar.
          * For example:
@@ -2047,12 +2350,12 @@ declare module wijmo {
          *
          * @param value String to convert to a Date.
          * @param format Format string used to parse the date.
-         * @param defaultDate Date to use as a reference in case date parts are
-         * missing form the input (e.g. when format = 'MM/dd').
-         * @return The date represented by the given string, or null if the string
-         * cannot be parsed into a Date.
+         * @param refDate Date to use as a reference in case date or time
+         * parts are not specified in the format string (e.g. format = 'MM/dd').
+         * @return The Date object represented by the given string, or null
+         * if the string cannot be parsed into a Date.
          */
-        static parseDate(value: string, format: string, defaultDate?: Date): Date;
+        static parseDate(value: string, format: string, refDate?: Date): Date;
         static _CJK: string;
         /**
          * Gets the first day of the week according to the current culture.
@@ -2066,14 +2369,16 @@ declare module wijmo {
         static getNumberDecimalSeparator(): string;
         private static _toFixedStr;
         private static _unquote;
+        private static _numFormatInfo;
+        static _parseNumericFormat(format: string): _INumFormatInfo;
         private static _dateFormatParts;
-        private static _parseDateFormat;
+        static _parseDateFormat(format: string): string[];
         private static _formatDatePart;
         private static _getEra;
         private static _expandFormat;
         private static _zeroPad;
         private static _h12;
-        private static _shiftDecimal;
+        static _shiftDecimal(val: any, shift: any, calcPrec?: number): any;
     }
     function _updateCulture(c: any): void;
     function _addCultureInfo(member: string, info: any): void;
@@ -2091,15 +2396,16 @@ declare module wijmo {
         _lastPos: number;
         _backSpace: boolean;
         _composing: boolean;
+        _overWrite: boolean;
         _full: boolean;
         _matchEnd: number;
         _autoComplete: string;
         _spellCheck: boolean;
-        _hbInput: any;
-        _hbKeyDown: any;
-        _hbKeyPress: any;
-        _hbCompositionStart: any;
-        _hbCompositionEnd: any;
+        _inputBnd: any;
+        _keydownBnd: any;
+        _keypressBnd: any;
+        _cmpstartBnd: any;
+        _cmpendBnd: any;
         _evtInput: any;
         static _X_DBCS_BIG_HIRA: string;
         static _X_DBCS_BIG_KATA: string;
@@ -2111,7 +2417,7 @@ declare module wijmo {
          * @param mask Input mask.
          * @param promptChar Character used to indicate input positions.
          */
-        constructor(input: HTMLInputElement, mask?: any, promptChar?: string);
+        constructor(input: HTMLInputElement, mask?: string, promptChar?: string);
         /**
          * Gets or sets the Input element to be masked.
          */
@@ -2124,6 +2430,18 @@ declare module wijmo {
          * Gets or sets the input mask used to validate input.
          */
         promptChar: string;
+        /**
+         * Gets or sets a value that determines whether the input element handles input in
+         * overwrite mode.
+         *
+         * In **overwrite mode**, every character you type is displayed at the cursor position.
+         * If a character is already at that position, it is replaced.
+         *
+         * In **insert mode**, each character you type is inserted at the cursor position.
+         *
+         * The default value for this property is **false**.
+         */
+        overwriteMode: boolean;
         /**
          * Gets a value that indicates whether the mask has been completely filled.
          */
@@ -2140,17 +2458,19 @@ declare module wijmo {
          * Updates the control mask and content.
          */
         refresh(): void;
-        _input(e: any): void;
+        _input(e: KeyboardEvent): void;
         _keydown(e: KeyboardEvent): void;
         _keypress(e: KeyboardEvent): void;
-        _compositionstart(e: KeyboardEvent): void;
-        _compositionend(e: KeyboardEvent): void;
+        _cmpstart(e: CompositionEvent): void;
+        _cmpend(e: CompositionEvent): void;
         _preventKey(charCode: number): boolean;
         _connect(connect: boolean): void;
         _valueChanged(): boolean;
         _applyMask(): string;
         _handleVagueLiterals(text: string): string;
         _isCharValid(mask: string, c: string): boolean;
+        _isDigit(c: string): boolean;
+        _isLetter(c: string): boolean;
         _validatePosition(start: number): void;
         _parseMask(): void;
     }
@@ -2169,98 +2489,6 @@ declare module wijmo {
          * @param charCase Whether to convert wildcard matches to upper or lowercase.
          */
         constructor(wildcardOrLiteral: string, charCase?: string);
-    }
-}
-declare module wijmo {
-    function isMobile(): boolean;
-    function isFirefox(): boolean;
-    function isSafari(): boolean;
-    function isEdge(): boolean;
-    function isIE(): boolean;
-    function isIE9(): boolean;
-    function isIE10(): boolean;
-    function getEventOptions(capture: boolean, passive: boolean): any;
-    function supportsFocusOptions(): boolean;
-    function _startDrag(dataTransfer: any, effectAllowed: string): void;
-}
-declare module wijmo {
-    /**
-     * Class that enables the creation of custom documents for printing.
-     *
-     * The {@link PrintDocument} class makes it easy to create documents for printing or
-     * exporting to PDF. Most browsers allow you to select the paper size, orientation,
-     * margins, and whether to include page headers and footers.
-     *
-     * To use, instantiate a {@link PrintDocument}, add content using the {@link append}
-     * method, and finish by calling the {@link print} method.
-     *
-     * For example:
-     * <pre>// create the document
-     * var doc = new wijmo.PrintDocument({
-     *   title: 'PrintDocument Test'
-     * });
-     * // add some simple text
-     * doc.append('&lt;h1&gt;Printing Example&lt;/h1&gt;');
-     * doc.append('&lt;p&gt;This document was created using the &lt;b&gt;PrintDocument&lt;/b&gt; class.&lt;/p&gt;');
-     * // add some existing elements
-     * doc.append(document.getElementById('gaugeControl'));
-     * // print the document (or export it to PDF)
-     * doc.print();</pre>
-     *
-     * The example below shows how you can create a printer-friendly version of
-     * a document which can be printed or exported to PDF and other formats
-     * directly from the browser:
-     *
-     * {@sample Core/PrintDocument Example}
-     */
-    class PrintDocument {
-        _iframe: HTMLIFrameElement;
-        _title: string;
-        _css: string[];
-        _copyCss: boolean;
-        /**
-         * Initializes a new instance of the {@link PrintDocument} class.
-         *
-         * @param options JavaScript object containing initialization data for the {@link PrintDocument}.
-         */
-        constructor(options?: any);
-        /**
-         * Gets or sets the document title.
-         *
-         * Setting this property to null causes the {@link PrintDocument}
-         * to use the title from the current document.
-         */
-        title: string;
-        /**
-         * Gets or sets a value that determines whether the {@link PrintDocument}
-         * should include the CSS style sheets defined in the main document.
-         *
-         * The default value for the property is <b>true</b>.
-         */
-        copyCss: boolean;
-        /**
-         * Adds a CSS style sheet to the document.
-         *
-         * @param href URL of the CSS file that should be added to the document.
-         */
-        addCSS(href: string): void;
-        /**
-         * Appends an HTML element or string to the document.
-         *
-         * @param child HTML element or string to append to the document.
-         */
-        append(child: any): void;
-        /**
-         * Prints the document.
-         *
-         * @param callback Optional callback invoked after the document
-         * finishes printing.
-         */
-        print(callback?: Function): void;
-        _afterPrint(callback?: Function): void;
-        _getDocument(): Document;
-        _close(): void;
-        _addStyle(style: string): void;
     }
 }
 declare module wijmo {
@@ -2342,7 +2570,7 @@ declare module wijmo.collections {
     /**
      * Base class for Array classes with notifications.
      */
-    class ArrayBase extends Array<any> {
+    class ArrayBase<T = any> extends Array<T> {
         /**
          * Initializes a new instance of the {@link ArrayBase} class.
          */
@@ -2352,36 +2580,50 @@ declare module wijmo.collections {
      * Array that sends notifications on changes.
      *
      * The class raises the {@link collectionChanged} event when changes are made with
-     * the push, pop, splice, insert, or remove methods.
+     * the push, pop, splice, shift, unshift, insert, or remove methods.
      *
      * Warning: Changes made by assigning values directly to array members or to the
      * length of the array do not raise the {@link collectionChanged} event.
      */
-    class ObservableArray extends ArrayBase implements INotifyCollectionChanged {
+    class ObservableArray<T = any> extends ArrayBase<T> implements INotifyCollectionChanged {
         private _updating;
         /**
          * Initializes a new instance of the {@link ObservableArray} class.
          *
          * @param data Array containing items used to populate the {@link ObservableArray}.
          */
-        constructor(data?: any[]);
+        constructor(data?: T[]);
         /**
          * Adds one or more items to the end of the array.
          *
-         * @param ...item One or more items to add to the array.
+         * @param ...items One or more items to add to the array.
          * @return The new length of the array.
          */
-        push(...item: any[]): number;
+        push(...items: T[]): number;
+        /**
+         * Removes the first element from the array and returns that element.
+         *
+         * This method changes the length of the array.
+         */
+        shift(): T;
+        /**
+         * Adds one or more elements to the beginning of the array and returns
+         * the new length of the array.
+         *
+         * @param ...items One or more items to add to the array.
+         * @return The new length of the array.
+         */
+        unshift(...items: T[]): number;
         pop(): any;
         /**
          * Removes and/or adds items to the array.
          *
          * @param index Position where items will be added or removed.
          * @param count Number of items to remove from the array.
-         * @param item Item to add to the array.
+         * @param  ...item One or more items to add to the array.
          * @return An array containing the removed elements.
          */
-        splice(index: number, count: number, item?: any): any[];
+        splice(index: number, count: number, ...item: T[]): T[];
         /**
          * Creates a shallow copy of a portion of an array.
          *
@@ -2389,7 +2631,7 @@ declare module wijmo.collections {
          * @param end Position where the copy ends.
          * @return A shallow copy of a portion of an array.
          */
-        slice(begin?: number, end?: number): any[];
+        slice(begin?: number, end?: number): T[];
         /**
          * Searches for an item in the array.
          *
@@ -2397,7 +2639,7 @@ declare module wijmo.collections {
          * @param fromIndex The index where the search should start.
          * @return The index of the item in the array, or -1 if the item was not found.
          */
-        indexOf(searchElement: any, fromIndex?: number): number;
+        indexOf(searchElement: T, fromIndex?: number): number;
         /**
          * Sorts the elements of the array in place.
          *
@@ -2416,14 +2658,14 @@ declare module wijmo.collections {
          * @param index Position where the item will be added.
          * @param item Item to add to the array.
          */
-        insert(index: number, item: any): void;
+        insert(index: number, item: T): void;
         /**
          * Removes an item from the array.
          *
          * @param item Item to remove.
          * @return True if the item was removed, false if it wasn't found in the array.
          */
-        remove(item: any): boolean;
+        remove(item: T): boolean;
         /**
          * Removes an item at a specific position in the array.
          *
@@ -2436,7 +2678,7 @@ declare module wijmo.collections {
          * @param index Position where the item will be assigned.
          * @param item Item to assign to the array.
          */
-        setAt(index: number, item: any): void;
+        setAt(index: number, item: T): void;
         /**
          * Removes all items from the array.
          */
@@ -2474,17 +2716,60 @@ declare module wijmo.collections {
         /**
          * Occurs when the collection changes.
          */
-        readonly collectionChanged: Event;
+        readonly collectionChanged: Event<ObservableArray<T>, NotifyCollectionChangedEventArgs<T>>;
         /**
          * Raises the {@link collectionChanged} event.
          *
          * @param e Contains a description of the change.
          */
-        onCollectionChanged(e?: NotifyCollectionChangedEventArgs): void;
+        onCollectionChanged(e?: NotifyCollectionChangedEventArgs<any>): void;
         private _raiseCollectionChanged;
     }
 }
 declare module wijmo.collections {
+    /**
+     * Represents a method that takes no arguments and returns a new data object.
+     */
+    interface IItemCreator<T = any> {
+        (): T;
+    }
+    /**
+     * Represents a method that provides an alternate data item
+     * to be used when sorting collections.
+     */
+    interface ISortConverter<T = any> {
+        /**
+         * @param sd {@link SortDescription} that describes the property being sorted and the sort direction.
+         * @param item Data item being sorted.
+         * @param value Value of the item property.
+         * @param extra Optional parameter with custom information.
+         * @returns The data item to use when sorting.
+         */
+        (sd: SortDescription, item: T, value: any, custom?: any): any;
+    }
+    /**
+     * Represents a method that identifies errors in data items.
+     */
+    interface IGetError<T = any> {
+        /**
+         * @param item Item to be inspected.
+         * @param property Property to be inspected, or null to inspect all properties.
+         * @param parsing Whether the value is being edited and could not be parsed into the right data type.
+         * @returns A string describing the error, if any, or null to indicate there are no errors.
+         */
+        (item: T, property: string | null, parsing?: boolean): string | null;
+    }
+    /**
+     * Specifies constants that define how null values are sorted.
+     */
+    enum SortNulls {
+        /** Null values are sorted in natural order (first in ascending, last in descending order). */
+        Natural = 0,
+        /** Null values appear first (regardless of sort order). */
+        First = 1,
+        /** Null values appear last (regardless of sort order). */
+        Last = 2
+    }
     /**
      * Class that implements the {@link ICollectionView} interface to expose data in
      * regular JavaScript arrays.
@@ -2504,51 +2789,57 @@ declare module wijmo.collections {
      * {@link pageSize} properties. Finally, access the view using the {@link items}
      * property. For example:
      *
-     * <pre>// create a new CollectionView
-     * var cv = new wijmo.collections.CollectionView(myArray);
+     * ```typescript
+     * import { CollectionView, SortDescription} from '@grapecity/wijmo';
+     *
+     * // create a CollectionView based on a data array
+     * let view = new CollectionView(dataArray);
      *
      * // sort items by amount in descending order
-     * var sd = new wijmo.collections.SortDescription('amount', false);
-     * cv.sortDescriptions.push(sd);
+     * let sortDesc = new SortDescription('amount', false);
+     * view.sortDescriptions.push(sortDesc);
      *
      * // show only items with amounts greater than 100
-     * cv.filter = function(item) { return item.amount &gt; 100 };
+     * view.filter = (item) => { return item.amount > 100 };
      *
      * // show the sorted, filtered result on the console
-     * for (var i = 0; i &lt; cv.items.length; i++) {
-     *   var item = cv.items[i];
-     *   console.log(i + ': ' + item.name + ' ' + item.amount);
-     * }</pre>
+     * view.items.forEach((item, index) => {
+     *     console.log(index + ': ' + item.name + ' ' + item.amount);
+     * });
+     * ```
      *
      * The example below shows how you can use a {@link CollectionView}
      * to provide sorted views of some raw data:
      *
      * {@sample Core/CollectionView/CreatingViews/Sorting/Overview Example}
      */
-    class CollectionView implements IEditableCollectionView, IPagedCollectionView {
-        _src: any[];
+    class CollectionView<T = any> implements IEditableCollectionView, IPagedCollectionView {
+        _srcRaw: T[];
+        _src: T[];
         _ncc: INotifyCollectionChanged;
-        _view: any[];
-        _pgView: any[];
-        _groups: CollectionViewGroup[];
-        _fullGroups: CollectionViewGroup[];
+        _view: T[];
+        _pgView: T[];
+        _groups: CollectionViewGroup[] | null;
+        _fullGroups: CollectionViewGroup[] | null;
         _digest: string;
         _idx: number;
         _filter: IPredicate;
-        _srtDsc: ObservableArray;
-        _grpDesc: ObservableArray;
-        _newItem: any;
-        _edtItem: any;
+        _filters: ObservableArray<IPredicate<any>>;
+        _srtDsc: ObservableArray<SortDescription>;
+        _grpDesc: ObservableArray<GroupDescription>;
+        _newItem: T | null;
+        _edtItem: T | null;
         _edtClone: any;
         _committing: boolean;
         _canceling: boolean;
         _pendingRefresh: boolean;
+        _pendingRemove: boolean;
         _pgSz: number;
         _pgIdx: number;
         _updating: number;
-        _itemCreator: Function;
+        _itemCreator: IItemCreator<T>;
         _stableSort: boolean;
-        _nullsFirst: boolean;
+        _srtNulls: SortNulls;
         _canFilter: boolean;
         _canGroup: boolean;
         _canSort: boolean;
@@ -2556,14 +2847,18 @@ declare module wijmo.collections {
         _canCancelEdit: boolean;
         _canRemove: boolean;
         _canChangePage: boolean;
+        _refreshOnEdit: boolean;
         _trackChanges: boolean;
-        _chgAdded: ObservableArray;
-        _chgRemoved: ObservableArray;
-        _chgEdited: ObservableArray;
-        _srtCvt: Function;
-        _srtCmp: Function;
-        _getError: Function;
-        _keepCurrentItem: boolean;
+        _chgAdded: ObservableArray<T>;
+        _chgRemoved: ObservableArray<T>;
+        _chgEdited: ObservableArray<T>;
+        _orgVals: Map<any, any>;
+        _srtCvt: ISortConverter<T> | null;
+        _srtCmp: IComparer<T> | null;
+        _getError: IGetError<T> | null;
+        _keepCurrentItem: boolean | null;
+        _initializing: boolean;
+        _calcFields: any;
         static _collator: Intl.Collator;
         /**
          * Initializes a new instance of the {@link CollectionView} class.
@@ -2575,6 +2870,104 @@ declare module wijmo.collections {
         constructor(sourceCollection?: any, options?: any);
         _copy(key: string, value: any): boolean;
         /**
+         * Gets or sets an object where the keys represent calculated fields
+         * and the values are expressions (functions or strings).
+         *
+         * Calculated fields require proxies. To use them in IE11, you will
+         * need a polyfill such as this one:
+         * https://www.npmjs.com/package/proxy-polyfill.
+         *
+         * Calculated fields can be useful when dealing with external data.
+         * For example, you could add a per-capita income field (gnp/pop) or a
+         * profit field (revenue-expenses).
+         *
+         * Calculated fields are dynamic. If you change the fields used in the
+         * calculation, their values are updated automatically. They are also
+         * read-only. You may change the value of the properties used to calculate
+         * them, but you cannot directly edit the result.
+         *
+         * Unlike {@link FlexGrid} cellTemplates, calculated fields can be used
+         * for sorting, filtering, and grouping. They can also be used with charts
+         * and any other Wijmo controls.
+         *
+         * Calculated fields can be defined as functions that take a data item
+         * as an argument or as strings.
+         *
+         * For example, if your data looked like this:
+         *
+         * ```typescript
+         * // regular data item
+         * interface IDataItem {
+         *       product: string,
+         *       brand: string,
+         *       unitPrice: number,
+         *       qty: number,
+         *       shipped: boolean
+         * }
+         * function getData(): IDataItem[] {
+         *     return [
+         *         {
+         *             product: 'Banana',
+         *             brand: 'Chiquita',
+         *             unitPrice: 45.95,
+         *             qty: 12,
+         *             discount: .08,
+         *             shipped: true
+         *         }, ...
+         *     ]
+         * }
+         * ```
+         *
+         * You could add function-based calculated fields this way:
+         *
+         * ```typescript
+         * // add calculated properties to IDataItem
+         * interface ICalcDataItem extends IDataItem {
+         *     fullName: string;
+         *     allCaps: string;
+         *     totalPrice: number,
+         *     tax: number;
+         * }
+         *
+         * let cv = new CollectionView<ICalcDataItem>(getData(), {
+         *     calculatedFields: {
+         *         fullName: ($: ICalcDataItem) => [$.brand, $.product].join(' '),
+         *         allCaps: ($: ICalcDataItem) => $.fullName.toUpperCase(),
+         *         totalPrice: ($: ICalcDataItem) => ($.unitPrice * $.qty) * (1 - $.discount),
+         *         tax: ($: ICalcDataItem) => $.totalPrice * 0.12
+         *     }
+         * });
+         * ```
+         * **Function-based calculated fields** are usually a better choice than
+         * string-based calculated fields because:
+         *
+         * 1) They provide design-time error checking and command completion,
+         * 2) They run faster, and
+         * 3) They do not have any issues with content-security policy (CSP).
+         *
+         * Alternatively, you could add string-based calculated fields:
+         *
+         * ```typescript
+         * let cv = new CollectionView<IDataItem>(getData(), {
+         *   calculatedFields: {
+         *     fullName: '[$.brand, $.product].join(" ")',
+         *     allCaps: '$.fullNameStr.toUpperCase()',
+         *     totalPrice: '($.unitPrice * $.qty) * (1 - $.discount)',
+         *     tax: '$.totalPrice * 0.12'
+         * });
+         * ```
+         * String expressions may refer to the current item via the context
+         * variable '$', which contains the item's original and calculated
+         * values.
+         *
+         * **String-based calculated fields** have advantages over function-based
+         * calculated fields that may be important in some scenarios:
+         *
+         * 1) They are slightly more concise, and
+         * 2) They can be stored as data and easily changed at run-time.
+         */
+        calculatedFields: any;
+        /**
          * Gets or sets a function that creates new items for the collection.
          *
          * If the creator function is not supplied, the {@link CollectionView}
@@ -2584,7 +2977,7 @@ declare module wijmo.collections {
          * takes no parameters and returns an initialized object of the proper
          * type for the collection.
          */
-        newItemCreator: Function;
+        newItemCreator: IItemCreator<T>;
         /**
          * Gets or sets a function used to convert values when sorting.
          *
@@ -2600,15 +2993,28 @@ declare module wijmo.collections {
          * sort the 'country' property, which contains country code integers,
          * using the corresponding country names:
          *
-         * <pre>var countries = 'US,Germany,UK,Japan,Italy,Greece'.split(',');
-         * collectionView.sortConverter = function (sd, item, value) {
-         *   if (sd.property == 'countryMapped') {
-         *     value = countries[value]; // convert country id into name
-         *   }
-         *   return value;
-         * }</pre>
+         * ```typescript
+         * const countries = 'US,Germany,UK,Japan,Italy,Greece'.split(',');
+         * view.sortConverter = (sd: SortDescription, item: any, value: any) => {
+         *     return sd.property === 'countryMapped'
+         *         ? countries[value]; // convert country id into name
+         *         : value;
+         * }
+         * ```
+         *
+         * The next example combines two values so when sorting by country,
+         * the view will break ties by city:
+         *
+         * ```typescript
+         * view.sortConverter: (sd: SortDescription, item: any, value: any) => {
+         *     if (sd.property == 'country') {
+         *         value = item.country + '\t' + item.city;
+         *     }
+         *     return value;
+         * }
+         * ```
          */
-        sortConverter: Function;
+        sortConverter: ISortConverter;
         /**
          * Gets or sets a function used to compare values when sorting.
          *
@@ -2629,29 +3035,39 @@ declare module wijmo.collections {
          * Dave calls the result a "natural sorting order".
          *
          * The example below shows a typical use for the {@link sortComparer} property:
-         * <pre>// create a CollectionView with a custom sort comparer
-         * var dataCustomSort = new wijmo.collections.CollectionView(data, {
-         *   sortComparer: function (a, b) {
-         *     return wijmo.isString(a) && wijmo.isString(b)
-         *       ? alphanum(a, b) // use custom comparer for strings
-         *       : null; // use default comparer for everything else
-         *   }
-         * });</pre>
+         *
+         * ```typescript
+         * import { CollectionView, isString } from '@grapecity/wijmo';
+         *
+         * // create a CollectionView with a custom sort comparer
+         * const view = new CollectionView(data, {
+         *     sortComparer: (a: any, b: any) => {
+         *         return isString(a) && isString(b)
+         *             ? alphanum(a, b) // use custom comparer for strings
+         *             : null; // use default comparer for everything else
+         *     }
+         * });
+         * ```
          *
          * The example below shows how you can use an
-         * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator">Intl.Collator</a>
+         * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Collator">Intl.Collator</a>
          * to control the sort order:
-         * <pre>// create a CollectionView that uses an Intl.Collator to sort
-         * var collator = window.Intl ? new Intl.Collator() : null;
-         * var dataCollator = new wijmo.collections.CollectionView(data, {
-         *   sortComparer: function (a, b) {
-         *     return wijmo.isString(a) && wijmo.isString(b) && collator
-         *       ? collator.compare(a, b) // use collator for strings
-         *       : null; // use default comparer for everything else
-         *   }
-         * });</pre>
+         *
+         * ```typescript
+         * import { CollectionView, isString } from '@grapecity/wijmo';
+         *
+         * // create a CollectionView that uses an Intl.Collator to sort
+         * const collator = window.Intl ? new Intl.Collator() : null;
+         * let view = new CollectionView(data, {
+         *     sortComparer: (a, b) => {
+         *         return isString(a) && isString(b) && collator
+         *             ? collator.compare(a, b) // use collator for strings
+         *             : null; // use default comparer for everything else
+         *     }
+         * });
+         * ```
          */
-        sortComparer: Function;
+        sortComparer: IComparer<T>;
         /**
          * Gets or sets whether to use a stable sort algorithm.
          *
@@ -2660,19 +3076,26 @@ declare module wijmo.collections {
          * If you sort the collection by "Amount", a stable sort will keep the original
          * order of records with the same Amount value.
          *
-         * This property is set to false by default, which causes the {@link CollectionView}
-         * to use JavaScript's built-in sort method, which is very fast but not stable.
-         * Setting the {@link useStableSort} property to true increases sort times by 30% to
-         * 50%, which can be significant for large collections.
+         * The default value for this property is **false**, which causes the
+         * {@link CollectionView} to use JavaScript's built-in sort method, which is fast
+         * and usually stable.
+         *
+         * Chrome provides stable sorting since version 70, and Firefox since version 3.
+         * As of ES2019, sort is **required** to be stable. In ECMAScript 1st edition through
+         * ES2018, it was allowed to be unstable.
+         *
+         * Setting the {@link useStableSort} property to true ensures stable sorts on all
+         * browsers (even IE 11), but increases sort times by 30% to 50%.
          */
         useStableSort: boolean;
         /**
-         * Gets or sets a value that determines whether null values should appear
-         * first or last when the collection is sorted (regardless of sort direction).
+         * Gets or sets a value that determines how null values should be sorted.
          *
-         * This property is set to false by default, which causes null values to appear
-         * last on the sorted collection. This is also the default behavior in Excel.
+         * This property is set to **SortNulls.Last** by default, which causes null values
+         * to appear last on the sorted collection, regardless of sort direction.
+         * This is also the default behavior in Excel.
          */
+        sortNulls: SortNulls;
         sortNullsFirst: boolean;
         /**
          * Calculates an aggregate value for the items in this collection.
@@ -2687,9 +3110,12 @@ declare module wijmo.collections {
          * Gets or sets a value that determines whether the control should
          * track changes to the data.
          *
-         * If {@link trackChanges} is set to true, the {@link CollectionView} keeps
-         * track of changes to the data and exposes them through the
-         * {@link itemsAdded}, {@link itemsRemoved}, and {@link itemsEdited} collections.
+         * The default value for this property is **false**, so the {@link CollectionView}
+         * does not keep track of which data items have changed.
+         *
+         * If you set this property to **true**, the {@link CollectionView} will keep
+         * track of changes to the data and will expose them through the {@link itemsAdded},
+         * {@link itemsRemoved}, and {@link itemsEdited} collections.
          *
          * Tracking changes is useful in situations where you need to update
          * the server after the user has confirmed that the modifications are
@@ -2705,6 +3131,21 @@ declare module wijmo.collections {
          * Changes made directly to the data are not tracked.
          */
         trackChanges: boolean;
+        /**
+         * Gets or sets a value that determines whether the {@link CollectionView}
+         * should automatically refresh its results (by applying the sort, filter,
+         * and grouping operations) after items are edited.
+         *
+         * The default value for this property is **true**, which ensures the
+         * collection is always sorted, filtered, and grouped correctly after any
+         * edit operations.
+         *
+         * Set it to **false** if you want updates to be deferred when items
+         * are edited. In this case, the collection will not be refreshed until
+         * the sorting, filtering, and grouping criteria change or until the
+         * {@link refresh} method is called (Excel behavior).
+         */
+        refreshOnEdit: boolean;
         /**
          * Gets an {@link ObservableArray} containing the records that were added to
          * the collection since {@link trackChanges} was enabled.
@@ -2729,7 +3170,7 @@ declare module wijmo.collections {
          */
         clearChanges(): void;
         /**
-         * Returns true if the caller queries for a supported interface.
+         * Returns true if this object supports a given interface.
          *
          * @param interfaceName Name of the interface to look for.
          */
@@ -2738,54 +3179,56 @@ declare module wijmo.collections {
          * Gets or sets a callback that determines whether a specific property
          * of an item contains validation errors.
          *
-         * If provided, the callback should take two parameters containing the
-         * item and the property to validate, and should return a string describing
-         * the error (or null if there are no errors).
+         * The method takes as parameters a data item, the property being validated,
+         * and a parsing parameter that describes whether the data has already been
+         * parsed and applied to the data item (parsing == false), or whether the user
+         * was trying to edit the value and entered a value that could not be parsed
+         * into the data type expected (parsing == true).
          *
-         * For example:
+         * The method returns a string containing an error message, or null if no
+         * errors were detected.
+         *
+         * For example,
          *
          * ```typescript
-         * import { CollectionView } from '@grapecity/wijmo';
-         * var view = new CollectionView(data, {
-         *     getError: function (item, property) {
-         *         switch (property) {
-         *             case 'country':
-         *                 return countries.indexOf(item.country) &lt; 0
-         *                     ? 'Invalid Country'
-         *                     : null;
-         *             case 'downloads':
-         *             case 'sales':
-         *             case 'expenses':
-         *                 return item[property] &lt; 0
-         *                     ? 'Cannot be negative!'
-         *                     : null;
-         *             case 'active':
-         *                 return item.active && item.country.match(/US|UK/)
-         *                     ? 'No active items allowed in the US or UK!'
-         *                     : null;
+         * view = new CollectionView(data, {
+         *     getError: (item: any, prop: string, parsing: boolean) => {
+         *
+         *         // parsing failed, show message
+         *         if (parsing) {
+         *             if (prop == 'date') {
+         *                 return 'Please enter a valid date in the format "MM/dd/yyyy"';
+         *             } else if (prop == 'id') {
+         *                 return 'Please enter a positive number';
+         *             }
          *         }
-         *         return null;
+         *
+         *         // check that stored (parsed) data is valid
+         *         if (prop == 'date' && item.date < minDate) {
+         *             return 'Please enter a date after ' + Globalize.formatDate(minDate, 'd');
+         *         } else if (prop == 'id' && item.id < 0) {
+         *             return 'Please enter a positive number';
+         *         }
          *     }
          * });
          * ```
          */
-        getError: Function;
+        getError: IGetError | null;
         /**
          * Occurs when the collection changes.
          */
-        readonly collectionChanged: Event;
+        readonly collectionChanged: Event<ICollectionView<T>, NotifyCollectionChangedEventArgs<T>>;
         /**
          * Raises the {@link collectionChanged} event.
          *
          * @param e Contains a description of the change.
          */
-        onCollectionChanged(e?: NotifyCollectionChangedEventArgs): void;
-        protected _raiseCollectionChanged(action?: NotifyCollectionChangedAction, item?: any, index?: number): void;
-        protected _notifyItemChanged(item: any): void;
+        onCollectionChanged(e?: NotifyCollectionChangedEventArgs<any>): void;
+        protected _raiseCollectionChanged(action?: NotifyCollectionChangedAction, item?: T, index?: number): void;
         /**
          * Occurs before the value of the {@link sourceCollection} property changes.
          */
-        readonly sourceCollectionChanging: Event;
+        readonly sourceCollectionChanging: Event<ICollectionView<T>, CancelEventArgs>;
         /**
          * Raises the {@link sourceCollectionChanging} event.
          *
@@ -2795,7 +3238,7 @@ declare module wijmo.collections {
         /**
          * Occurs after the value of the {@link sourceCollection} property changes.
          */
-        readonly sourceCollectionChanged: Event;
+        readonly sourceCollectionChanged: Event<ICollectionView<T>, EventArgs>;
         /**
          * Raises the {@link sourceCollectionChanged} event.
          */
@@ -2803,6 +3246,9 @@ declare module wijmo.collections {
         /**
          * Gets a value that indicates whether this view supports filtering via the
          * {@link filter} property.
+         *
+         * This property does not affect the {@link filters} property, which are
+         * always applied.
          */
         canFilter: boolean;
         /**
@@ -2818,7 +3264,7 @@ declare module wijmo.collections {
         /**
          * Gets or sets the current item in the view.
          */
-        currentItem: any;
+        currentItem: T;
         /**
          * Gets the ordinal position of the current item in the view.
          */
@@ -2827,22 +3273,27 @@ declare module wijmo.collections {
          * Gets or sets a callback used to determine if an item is suitable for
          * inclusion in the view.
          *
-         * The callback function should return true if the item passed in as a
-         * parameter should be included in the view.
+         * The callback should return true if the item passed in as a parameter
+         * should be included in the view.
          *
-         * NOTE: If the filter function needs a scope (i.e. a meaningful 'this'
-         * value) remember to set the filter using the 'bind' function to specify
-         * the 'this' object. For example:
-         * <pre>
-         *   collectionView.filter = this._filter.bind(this);
-         * </pre>
+         * The default value for this property is **null**, which means the
+         * data is not filtered.
          */
-        filter: IPredicate;
+        filter: IPredicate | null;
+        /**
+         * Gets an array of {@link IPredicate} functions used as filters
+         * on this {@link CollectionView}.
+         *
+         * To be included in the view, an item has to pass the predicate
+         * in the {@link filter} property as well as all predicates in
+         * the {@link filters} collection.
+         */
+        readonly filters: ObservableArray<IPredicate>;
         /**
          * Gets a collection of {@link GroupDescription} objects that describe how the
          * items in the collection are grouped in the view.
          */
-        readonly groupDescriptions: ObservableArray;
+        readonly groupDescriptions: ObservableArray<GroupDescription>;
         /**
          * Gets an array of {@link CollectionViewGroup} objects that represents the
          * top-level groups.
@@ -2856,7 +3307,7 @@ declare module wijmo.collections {
          * Gets an array of {@link SortDescription} objects that describe how the items
          * in the collection are sorted in the view.
          */
-        readonly sortDescriptions: ObservableArray;
+        readonly sortDescriptions: ObservableArray<SortDescription>;
         /**
          * Gets or sets the underlying (unfiltered and unsorted) collection.
          */
@@ -2867,13 +3318,13 @@ declare module wijmo.collections {
          *
          * @param item Item to seek.
          */
-        contains(item: any): boolean;
+        contains(item: T): boolean;
         /**
          * Sets the specified item to be the current item in the view.
          *
          * @param item Item that will become current.
          */
-        moveCurrentTo(item: any): boolean;
+        moveCurrentTo(item: T): boolean;
         /**
          * Sets the first item in the view as the current item.
          */
@@ -2900,22 +3351,24 @@ declare module wijmo.collections {
          * Re-creates the view using the current sort, filter, and group parameters.
          */
         refresh(): void;
+        _commitAndRefresh(): void;
         _performRefresh(): void;
         _performSort(items: any[]): void;
         _compareItems(): (a: any, b: any) => number;
         _performFilter(items: any[]): any[];
+        _filterItem(item: any): boolean;
         /**
          * Occurs after the current item changes.
          */
-        readonly currentChanged: Event;
+        readonly currentChanged: Event<ICollectionView<T>, EventArgs>;
         /**
          * Raises the {@link currentChanged} event.
          */
-        onCurrentChanged(e?: EventArgs): void;
+        onCurrentChanged(e?: wijmo.EventArgs): void;
         /**
          * Occurs before the current item changes.
          */
-        readonly currentChanging: Event;
+        readonly currentChanging: Event<ICollectionView<T>, CancelEventArgs>;
         /**
          * Raises the {@link currentChanging} event.
          *
@@ -2925,15 +3378,17 @@ declare module wijmo.collections {
         /**
          * Gets items in the view.
          */
-        readonly items: any[];
+        readonly items: T[];
         /**
          * Suspend refreshes until the next call to {@link endUpdate}.
          */
         beginUpdate(): void;
         /**
          * Resume refreshes suspended by a call to {@link beginUpdate}.
+         *
+         * @param force Whether to force a refresh when ending the update.
          */
-        endUpdate(): void;
+        endUpdate(force?: boolean): void;
         /**
          * Gets a value that indicates whether notifications are currently suspended
          * (see {@link beginUpdate} and {@link endUpdate}).
@@ -2943,12 +3398,14 @@ declare module wijmo.collections {
          * Executes a function within a {@link beginUpdate}/{@link endUpdate} block.
          *
          * The collection will not be refreshed until the function finishes.
-         * This method ensures {@link endUpdate} is called even if the function throws
-         * an exception.
+         *
+         * The {@link deferUpdate} method ensures {@link endUpdate} is called even
+         * if the update function throws an exception.
          *
          * @param fn Function to be executed without updates.
+         * @param force Whether to force a refresh when ending the update.
          */
-        deferUpdate(fn: Function): void;
+        deferUpdate(fn: Function, force?: boolean): void;
         /**
          * Gets a value that indicates whether a new item can be added to the collection.
          */
@@ -2965,11 +3422,11 @@ declare module wijmo.collections {
         /**
          * Gets the item that is being added during the current add transaction.
          */
-        readonly currentAddItem: any;
+        readonly currentAddItem: T;
         /**
          * Gets the item that is being edited during the current edit transaction.
          */
-        readonly currentEditItem: any;
+        readonly currentEditItem: T;
         /**
          * Gets a value that indicates whether an add transaction is in progress.
          */
@@ -2983,7 +3440,7 @@ declare module wijmo.collections {
          *
          * @param item Item to be edited.
          */
-        editItem(item: any): void;
+        editItem(item: T): void;
         /**
          * Ends the current edit transaction and saves the pending changes.
          */
@@ -2994,35 +3451,50 @@ declare module wijmo.collections {
          */
         cancelEdit(): void;
         /**
-         * Creates a new item and adds it to the collection.
+         * Adds a new item to the collection.
          *
-         * This method takes no parameters. It creates a new item, adds it to the
-         * collection, and defers refresh operations until the new item is
-         * committed using the {@link commitNew} method or canceled using the
-         * {@link cancelNew} method.
+         * Calling this methods without any parameters creates a new item, adds it to the
+         * collection, and defers refresh operations until the new item is committed using
+         * the {@link commitNew} method or canceled using the {@link cancelNew} method.
          *
          * The code below shows how the {@link addNew} method is typically used:
          *
-         * <pre>
+         * ```typescript
          * // create the new item, add it to the collection
          * var newItem = view.addNew();
+         *
          * // initialize the new item
          * newItem.id = getFreshId();
          * newItem.name = 'New Customer';
+         *
          * // commit the new item so the view can be refreshed
          * view.commitNew();
-         * </pre>
+         * ```
          *
          * You can also add new items by pushing them into the {@link sourceCollection}
          * and then calling the {@link refresh} method. The main advantage of {@link addNew}
          * is in user-interactive scenarios (like adding new items in a data grid),
          * because it gives users the ability to cancel the add operation. It also
          * prevents the new item from being sorted or filtered out of view until the
-         * add operation is committed.
+         * transaction is committed.
          *
-         * @return The item that was added to the collection.
+         * New items are empty objects by default, unless the colletion has
+         * {@link calculatedFields}, in which case the new items will have properties
+         * set to values that depend on their data types (empty strings for string
+         * properties, zero for numeric properties, and null for other data types).
+         *
+         * This behavior is convenient since in many cases the calculated fields
+         * depend on expressions that rely on strings not being null. But you can
+         * customize this behavior by setting the {@link newItemCreator} property
+         * to a function that creates the new items and initializes them in any
+         * way you want.
+         *
+         * @param item Item to be added to the collection (optional).
+         * @param commit Whether to commit the new item immediately.
+         * @return The item that was added to the collection, or null if the transaction
+         * failed.
          */
-        addNew(): any;
+        addNew(item?: T, commit?: boolean): T;
         /**
          * Ends the current add transaction and saves the pending new item.
          */
@@ -3036,7 +3508,7 @@ declare module wijmo.collections {
          *
          * @param item Item to be removed from the collection.
          */
-        remove(item: any): void;
+        remove(item: T): void;
         /**
          * Removes the item at the specified index from the collection.
          *
@@ -3044,12 +3516,13 @@ declare module wijmo.collections {
          * The index is relative to the view, not to the source collection.
          */
         removeAt(index: number): void;
-        _trackItemChanged(item: any): void;
-        _extend(dst: any, src: any): void;
-        _needRefresh(changedFields: string[]): boolean;
+        _trackItemChanged(item: T, clone?: any): void;
+        _extend(dst: any, src: any, level?: number): any;
+        _getChangedFields(dst: any, src: any, level?: number): string[] | null;
+        _sameValue(v1: any, v2: any, level?: number): boolean;
         _sameContent(dst: any, src: any): boolean;
-        _getChangedFields(dst: any, src: any): string[];
-        _sameValue(v1: any, v2: any): boolean;
+        _needRefresh(changedFields: string[]): boolean;
+        _getBindingRoot(name: string): string;
         /**
          * Gets a value that indicates whether the {@link pageIndex} value can change.
          */
@@ -3068,6 +3541,9 @@ declare module wijmo.collections {
         readonly pageIndex: number;
         /**
          * Gets or sets the number of items to display on each page.
+         *
+         * The default value for this property is **zero**, which
+         * disables paging.
          */
         pageSize: number;
         /**
@@ -3110,17 +3586,17 @@ declare module wijmo.collections {
          */
         moveToPage(index: number): boolean;
         /**
-        * Occurs after the page index changes.
-        */
-        readonly pageChanged: Event;
+         * Occurs after the page index changes.
+         */
+        readonly pageChanged: Event<IPagedCollectionView, EventArgs>;
         /**
          * Raises the {@link pageChanged} event.
          */
-        onPageChanged(e?: EventArgs): void;
+        onPageChanged(e?: wijmo.EventArgs): void;
         /**
          * Occurs before the page index changes.
          */
-        readonly pageChanging: Event;
+        readonly pageChanging: Event<IPagedCollectionView, PageChangingEventArgs>;
         /**
          * Raises the {@link pageChanging} event.
          *
@@ -3129,8 +3605,8 @@ declare module wijmo.collections {
         onPageChanging(e: PageChangingEventArgs): boolean;
         _getFullGroup(g: CollectionViewGroup): CollectionViewGroup;
         _getGroupByPath(groups: CollectionViewGroup[], level: number, path: string): CollectionViewGroup;
-        _getPageView(): any[];
-        _createGroups(items: any[]): CollectionViewGroup[];
+        _getPageView(): T[];
+        _createGroups(items: any[]): CollectionViewGroup[] | null;
         private _getGroupsDigest;
         private _mergeGroupItems;
         private _getGroup;
@@ -3211,8 +3687,12 @@ declare module wijmo {
     class Control extends ControlBase {
         static _licKey: string;
         static _wme: HTMLElement;
+        static _toWme: any;
+        static _ctlCnt: number;
         static _touching: boolean;
         static _toTouch: any;
+        static _tsInvalidInput: number;
+        static _toInvalidInput: any;
         static _REFRESH_INTERVAL: number;
         static _FOCUS_INTERVAL: number;
         static _ANIM_DEF_DURATION: number;
@@ -3223,16 +3703,19 @@ declare module wijmo {
         static _POPUP_ZINDEX: number;
         static _SEARCH_DELAY: number;
         static _HOVER_DELAY: number;
+        static _LEAVE_DELAY: number;
         static _DRAG_SCROLL_EDGE: number;
         static _DRAG_SCROLL_STEP: number;
         static _CTRL_KEY: string;
         static _OWNR_KEY: string;
         static _SCRL_KEY: string;
-        static _szObserver: any;
+        static _TTIP_KEY: string;
+        static _DSBL_KEY: string;
         static _rxInputAtts: RegExp;
+        protected _szObserver: any;
         protected _e: HTMLElement;
         protected _orgTabIndex: number;
-        protected _orgOuter: string;
+        _orgOuter: string;
         protected _orgTag: string;
         protected _orgAtts: NamedNodeMap;
         protected _listeners: any[];
@@ -3267,20 +3750,22 @@ declare module wijmo {
          * Applies the template to a new instance of a control, and returns the root element.
          *
          * This method should be called by constructors of templated controls.
-         * It is responsible for binding the template parts to the
-         * corresponding control members.
+         * It is responsible for binding the template parts to the corresponding control
+         * members.
          *
-         * For example, the code below applies a template to an instance
-         * of an {@link InputNumber} control. The template must contain elements
-         * with the 'wj-part' attribute set to 'input', 'btn-inc', and 'btn-dec'.
+         * For example, the code below applies a template to an instance of an
+         * {@link InputNumber} control. The template must contain elements with the
+         * 'wj-part' attribute set to 'input', 'btn-inc', and 'btn-dec'.
          * The control members '_tbx', '_btnUp', and '_btnDn' will be assigned
          * references to these elements.
          *
-         * <pre>this.applyTemplate('wj-control wj-inputnumber', template, {
+         * ```typescript
+         * this.applyTemplate('wj-control wj-inputnumber', templateString, {
          *   _tbx: 'input',
          *   _btnUp: 'btn-inc',
          *   _btnDn: 'btn-dec'
-         * }, 'input');</pre>
+         * }, 'input');
+         * ``````
          *
          * @param classNames Names of classes to add to the control's host element.
          * @param template An HTML string that defines the control template.
@@ -3323,6 +3808,8 @@ declare module wijmo {
          * Checks whether this control contains the focused element.
          */
         containsFocus(): boolean;
+        _containsFocus(): boolean;
+        _containsFocusImpl(activeElement: HTMLElement): boolean;
         /**
          * Invalidates the control causing an asynchronous refresh.
          *
@@ -3396,11 +3883,25 @@ declare module wijmo {
          */
         readonly isTouching: boolean;
         /**
+         * Gets or sets a value of the **tabindex** attribute associated with the control.
+         *
+         * **tabindex** attribute value can be defined statically for a Wijmo control by specifying it
+         * on the control's host HTML element. But this value can't be changed later during application
+         * lifecycle, because Wijmo controls have complex structure, and the control may need to propagate
+         * this attribute value to its internal element to work properly.
+         *
+         * Because of this, to read or change control's **tabindex** dynamically, you should do it using
+         * this property.
+         */
+        tabOrder: number;
+        protected _setTabOrder(value: number): void;
+        /**
          * Gets or sets a value that determines whether the control is disabled.
          *
          * Disabled controls cannot get mouse or keyboard events.
          */
         isDisabled: boolean;
+        protected _setIsDisabled(value: boolean): void;
         /**
          * Initializes the control by copying the properties from a given object.
          *
@@ -3408,7 +3909,8 @@ declare module wijmo {
          * instead of setting the value of each property in code.
          *
          * For example:
-         * <pre>
+         *
+         * ```typescript
          * grid.initialize({
          *   itemsSource: myList,
          *   autoGenerateColumns: false,
@@ -3417,11 +3919,12 @@ declare module wijmo {
          *     { binding: 'name', header: 'Name', width: 60 }
          *   ]
          * });
+         *
          * // is equivalent to
          * grid.itemsSource = myList;
          * grid.autoGenerateColumns = false;
          * // etc.
-         * </pre>
+         * ```
          *
          * The initialization data is type-checked as it is applied. If the
          * initialization object contains unknown property names or invalid
@@ -3467,7 +3970,7 @@ declare module wijmo {
         /**
          * Occurs when the control gets the focus.
          */
-        readonly gotFocus: Event;
+        readonly gotFocus: Event<Control, EventArgs>;
         /**
          * Raises the {@link gotFocus} event.
          */
@@ -3475,15 +3978,36 @@ declare module wijmo {
         /**
          * Occurs when the control loses the focus.
          */
-        readonly lostFocus: Event;
+        readonly lostFocus: Event<Control, EventArgs>;
         /**
          * Raises the {@link lostFocus} event.
          */
         onLostFocus(e?: EventArgs): void;
         /**
+         * Occurs when invalid input is detected.
+         *
+         * Invalid input may occur when the user types or pastes a value that
+         * cannot be converted to the proper type, or a value that is outside
+         * the valid range.
+         *
+         * If the event handler cancels the event, the control will retain
+         * the invalid content and the focus, so users can correct the error.
+         *
+         * If the event is not canceled, the control will ignore the invalid
+         * input and will retain the original content.
+         */
+        readonly invalidInput: Event<Control, CancelEventArgs>;
+        /**
+         * Raises the {@link invalidInput} event.
+         *
+         * If the event handler cancels the event, the control will keep
+         * the invalid input and the focus.
+         */
+        onInvalidInput(e: CancelEventArgs): boolean;
+        /**
          * Occurs when the control is about to refresh its contents.
          */
-        readonly refreshing: Event;
+        readonly refreshing: Event<Control, EventArgs>;
         /**
          * Raises the {@link refreshing} event.
          */
@@ -3491,7 +4015,7 @@ declare module wijmo {
         /**
          * Occurs after the control has refreshed its contents.
          */
-        readonly refreshed: Event;
+        readonly refreshed: Event<Control, EventArgs>;
         /**
          * Raises the {@link refreshed} event.
          */
@@ -3500,15 +4024,104 @@ declare module wijmo {
         private _updateWme;
         _hasPendingUpdates(): boolean;
         protected _handleResize(): void;
+        _resizeObserverCallback(entries: any[]): void;
         _handleFocusBlur(): void;
         protected _updateFocusState(): void;
         protected _updateState(): void;
-        protected _handleTouchStart(e: any): void;
-        protected _handleTouchEnd(e: any): void;
         private _handleDisabled;
         private _replaceWithDiv;
         private _copyAttributes;
         _getKeyCode(e: KeyboardEvent): number;
+    }
+}
+declare module wijmo {
+    /**
+     * Class that enables the creation of custom documents for printing.
+     *
+     * The {@link PrintDocument} class makes it easy to create documents
+     * for printing or exporting to PDF. Most browsers allow you to select
+     * the paper size, orientation, margins, and whether to include page
+     * headers and footers.
+     *
+     * To use, instantiate a {@link PrintDocument}, add content using the
+     * {@link append} method, and finish by calling the {@link print}
+     * method.
+     *
+     * For example:
+     * ```typescript
+     * import { PrintDocument } from '@grapecity/wijmo';
+     *
+     * // create the document
+     * var doc = new PrintDocument({
+     *   title: 'PrintDocument Test'
+     * });
+     *
+     * // add some simple text
+     * doc.append('&lt;h1&gt;Printing Example&lt;/h1&gt;');
+     * doc.append('&lt;p&gt;This document was created using the &lt;b&gt;PrintDocument&lt;/b&gt; class.&lt;/p&gt;');
+     *
+     * // add some existing elements
+     * doc.append(document.getElementById('gaugeControl'));
+     *
+     * // print the document (or export it to PDF)
+     * doc.print();
+     * ```
+     *
+     * The example below shows how you can create a printer-friendly version of
+     * a document which can be printed or exported to PDF and other formats
+     * directly from the browser:
+     *
+     * {@sample Core/PrintDocument Example}
+     */
+    class PrintDocument {
+        _iframe: HTMLIFrameElement;
+        _title: string;
+        _css: string[];
+        _copyCss: boolean;
+        /**
+         * Initializes a new instance of the {@link PrintDocument} class.
+         *
+         * @param options JavaScript object containing initialization data for the {@link PrintDocument}.
+         */
+        constructor(options?: any);
+        /**
+         * Gets or sets the document title.
+         *
+         * The default value for this property is **null**, which causes the
+         * {@link PrintDocument} to use the title from the current document's
+         * **title** tag.
+         */
+        title: string;
+        /**
+         * Gets or sets a value that determines whether the {@link PrintDocument}
+         * should include the CSS style sheets defined in the main document.
+         *
+         * The default value for the property is **true**.
+         */
+        copyCss: boolean;
+        /**
+         * Adds a CSS style sheet to the document.
+         *
+         * @param href URL of the CSS file that should be added to the document.
+         */
+        addCSS(href: string): void;
+        /**
+         * Appends an HTML string or an element to the document.
+         *
+         * @param content HTML string or Element to append to the document.
+         */
+        append(content: string | Element): void;
+        /**
+         * Prints the document.
+         *
+         * @param callback Optional callback invoked after the document
+         * finishes printing.
+         */
+        print(callback?: Function): void;
+        _afterPrint(callback?: Function): void;
+        _getDocument(): Document;
+        _close(): void;
+        _addStyle(style: string): void;
     }
 }
 declare module wijmo {
@@ -3522,22 +4135,25 @@ declare module wijmo {
      * For example, the code below shows how a control could intercept the
      * clipboard shortcut keys and provide custom clipboard handling:
      *
-     * <pre>
-     * rootElement.addEventListener('keydown', function(e) {
-     *   // copy: ctrl+c or ctrl+Insert
-     *   if (e.ctrlKey && (e.keyCode == 67 || e.keyCode == 45)) {
-     *     var text = this.getClipString();
-     *     Clipboard.copy(text);
-     *     return;
-     *   }
-     *   // paste: ctrl+v or shift+Insert
-     *   if ((e.ctrlKey && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45)) {
-     *     Clipboard.paste(function (text) {
-     *       this.setClipString(text);
-     *     });
-     *     return;
-     *   }
-     * });</pre>
+     * ```typescript
+     * rootElement.addEventListener('keydown', (e: KeyboardEvent) {
+     *
+     *     // copy: ctrl+c or ctrl+Insert
+     *     if (e.ctrlKey && (e.keyCode == 67 || e.keyCode == 45)) {
+     *         let text = this.getClipString();
+     *         Clipboard.copy(text);
+     *         return;
+     *     }
+     *
+     *     // paste: ctrl+v or shift+Insert
+     *     if ((e.ctrlKey && e.keyCode == 86) || (e.shiftKey && e.keyCode == 45)) {
+     *         Clipboard.paste(text => {
+     *             this.setClipString(text);
+     *         });
+     *         return;
+     *      }
+     * });
+     * ```
      *
      * The example below shows how you can customize the behavior of the clipboard
      * paste command when the target is a {@link FlexGrid} control:
@@ -3574,10 +4190,12 @@ declare module wijmo {
      * (typically a button).
      */
     class _ClickRepeater {
+        private static _startEvents;
         private static _stopEvents;
         private _e;
         private _disabled;
         private _isDown;
+        private _clicked;
         private _toDelay;
         private _toRepeat;
         private _mousedownBnd;
@@ -3606,11 +4224,40 @@ declare module wijmo {
 }
 declare module wijmo {
     /**
+     * Represents the position of a popup element with respect to a
+     * reference element.
+     */
+    enum PopupPosition {
+        /** Above the reference element. */
+        Above = 0,
+        /** Above and aligned to the right of the reference element. */
+        AboveRight = 1,
+        /** To the right and aligned to the top of the reference element. */
+        RightTop = 2,
+        /** To the right of the reference element. */
+        Right = 3,
+        /** To the right and aligned to the bottom of the reference element. */
+        RightBottom = 4,
+        /** Below and aligned to the right of the reference element. */
+        BelowRight = 5,
+        /** Below the reference element. */
+        Below = 6,
+        /** Below and aligned to the left of the reference element. */
+        BelowLeft = 7,
+        /** To the left and aligned to the bottom of the reference element. */
+        LeftBottom = 8,
+        /** To the left of the reference element. */
+        Left = 9,
+        /** To the left and aligned to the top of the reference element. */
+        LeftTop = 10,
+        /** Above and aligned to the left of the reference element. */
+        AboveLeft = 11
+    }
+    /**
      * Shows an element as a popup.
      *
-     * The popup element becomes a child of the body element,
-     * and is positioned above or below a reference rectangle,
-     * depending on how much room is available.
+     * The popup element becomes a child of the body element, and is positioned
+     * with respect to reference rectangle according to the given {@link PopupPosition}.
      *
      * The reference rectangle may be specified as one of the following:
      *
@@ -3629,12 +4276,13 @@ declare module wijmo {
      *
      * @param popup Element to show as a popup.
      * @param ref Reference element or rectangle used to position the popup.
-     * @param above Position popup above the reference rectangle if possible.
+     * @param position Position of the popup with respect to the reference element.
      * @param fadeIn Use a fade-in animation to make the popup appear gradually.
      * @param copyStyles Whether to copy font and color styles from the reference element, or an element to use as the style source.
-     * @return An interval id that you can use to suspend the fade-in animation.
+     * @param hideOnScroll An optional function called when the popup is hidden as a result of a parent element scrolling.
+     * @return An interval ID that can be used to suspend the fade-in animation.
      */
-    function showPopup(popup: HTMLElement, ref?: any, above?: boolean, fadeIn?: boolean, copyStyles?: any): any;
+    function showPopup(popup: HTMLElement, ref?: any, position?: PopupPosition | Boolean, fadeIn?: boolean, copyStyles?: any, hideOnScroll?: Function): any;
     /**
      * Hides a popup element previously displayed with the {@link showPopup}
      * method.
@@ -3649,13 +4297,18 @@ declare module wijmo {
     function hidePopup(popup: HTMLElement, remove?: any, fadeOut?: boolean): any;
 }
 declare module wijmo {
+    interface _ITooltipInfo {
+        element: HTMLElement;
+        content: string;
+        position: PopupPosition;
+    }
     /**
      * Provides a pop-up window that displays additional information about
      * elements on the page.
      *
      * The {@link Tooltip} class can be used in two modes:
      *
-     * <b>Automatic Mode:</b> Use the {@link setTooltip} method to connect
+     * **Automatic Mode:** Use the {@link setTooltip} method to connect
      * the {@link Tooltip} to one or more elements on the page. The {@link Tooltip}
      * will automatically monitor events and display the tooltips when the
      * user performs actions that trigger the tooltip.
@@ -3663,24 +4316,24 @@ declare module wijmo {
      *
      * ```typescript
      * import { Tooltip } from '@grapecity/wijmo';
-     * var tt = new Tooltip();
+     * let tt = new Tooltip();
      * tt.setTooltip('#menu', 'Select commands.');
      * tt.setTooltip('#tree', 'Explore the hierarchy.');
      * tt.setTooltip('#chart', '#idChartTooltip');
      * ```
      *
-     * <b>Manual Mode:</b> The caller is responsible for showing and hiding
+     * **Manual Mode:** The caller is responsible for showing and hiding
      * the tooltip using the {@link show} and {@link hide} methods. For example:
      *
      * ```typescript
      * import { Tooltip } from '@grapecity/wijmo';
-     * var tt = new Tooltip();
-     * element.addEventListener('click', function () {
-     *   if (tt.isVisible) {
-     *     tt.hide();
-     *   } else {
-     *     tt.show(element, 'This is an important element!');
-     *   }
+     * let tt = new Tooltip();
+     * element.addEventListener('click', () => {
+     *     if (tt.isVisible) {
+     *         tt.hide();
+     *     } else {
+     *         tt.show(element, 'This is an important element!');
+     *     }
      * });
      * ```
      *
@@ -3695,19 +4348,37 @@ declare module wijmo {
         private _toHide;
         private _showAutoTipBnd;
         private _hideAutoTipBnd;
+        private _mousemoveBnd;
+        private _eMouse;
         private _html;
         private _cssClass;
         private _gap;
+        private _isAnimated;
+        private _position;
         private _showAtMouse;
         private _showDelay;
         private _hideDelay;
-        _tips: any[];
+        _tips: _ITooltipInfo[];
         /**
          * Initializes a new instance of the {@link Tooltip} class.
          *
          * @param options JavaScript object containing initialization data for the {@link Tooltip}.
          */
         constructor(options?: any);
+        /**
+         * Gets or sets the {@link PopupPosition} where the tooltip should be
+         * displayed with respect to the owner element.
+         *
+         * The default value for this property is **PopupPosition.Above**.
+         */
+        position: PopupPosition;
+        /**
+         * Gets or sets a value that determines whether tooltips should use a
+         * fade-in animation when shown.
+         *
+         * The default value for this property is **false**.
+         */
+        isAnimated: boolean;
         /**
          * Assigns tooltip content to a given element on the page.
          *
@@ -3717,27 +4388,30 @@ declare module wijmo {
          *
          * To remove the tooltips for all elements, call the {@link dispose} method.
          *
-         * @param element Element, element ID, or control that the tooltip explains.
+         * @param element Element, single element CSS selector, or control that the tooltip explains.
          * @param content Tooltip content or ID of the element that contains the tooltip content.
+         * @param position Position where the tooltip should be displayed with respect to the owner element.
          */
-        setTooltip(element: any, content: string): void;
+        setTooltip(element: any, content: string | null, position?: PopupPosition): void;
         /**
          * Gets the tooltip content associated with a given element.
          *
          * @param element Element, element ID, or control that the tooltip explains.
          * @return Tooltip content associated with the given element.
          */
-        getTooltip(element: any): string;
+        getTooltip(element: any): string | null;
         /**
-         * Shows the tooltip with the specified content, next to the specified element.
+         * Shows a tooltip with the specified content next to the specified element.
          *
          * @param element Element, element ID, or control that the tooltip explains.
          * @param content Tooltip content or ID of the element that contains the tooltip content.
-         * @param bounds Optional element that defines the bounds of the area that the tooltip
-         * targets. If not provided, the bounds of the element are used (as reported by the
-         * <b>getBoundingClientRect</b> method).
+         * @param bounds Optional parameter that defines the bounds of the area that the tooltip
+         * targets. If not provided, the element bounds are used.
+         * @param position Optional parameter that specifies the position of the tooltip
+         * with respect to the reference bounds. If provided, this value overrides the setting
+         * of the {@link position} property.
          */
-        show(element: any, content: string, bounds?: Rect): void;
+        show(element: any, content: string, bounds?: Rect, position?: PopupPosition): void;
         /**
          * Hides the tooltip if it is currently visible.
          */
@@ -3754,39 +4428,45 @@ declare module wijmo {
          * Gets or sets a value that determines whether the tooltip contents
          * should be displayed as plain text or as HTML.
          *
-         * The default value for the property is <b>true</b>.
+         * The default value for the property is **true**.
          */
         isContentHtml: boolean;
         /**
-         * Gets or sets a CSS class name to use when showing the tooltip.
+         * Gets or sets a CSS class name to add to the tooltip.
+         *
+         * The default value for this property is an empty string.
          */
         cssClass: string;
         /**
          * Gets or sets the distance between the tooltip and the target element.
          *
-         * The default value for the property is <b>6</b> pixels.
+         * The default value for the property is **6** pixels.
          */
         gap: number;
         /**
          * Gets or sets a value that determines whether the tooltip should be
-         * positioned with respect to the mouse position rather than the
-         * target element.
+         * calculated based on the mouse position rather than the target element.
          *
-         * The default value for the property is <b>false</b>.
+         * The default value for the property is **false**, which means
+         * the tooltip position is calculated based on the target element.
+         *
+         * The {@link position} property is used to determine the tooltip
+         * position in respect to the target element or to the mouse
+         * position.
          */
         showAtMouse: boolean;
         /**
          * Gets or sets the delay, in milliseconds, before showing the tooltip
          * after the mouse enters the target element.
          *
-         * The default value for the property is <b>500</b> milliseconds.
+         * The default value for the property is **500** milliseconds.
          */
         showDelay: number;
         /**
          * Gets or sets the delay, in milliseconds, before hiding the tooltip
          * if the mouse remains over the element.
          *
-         * The default value for the property is <b>zero</b> milliseconds,
+         * The default value for the property is **zero** milliseconds,
          * which causes the tip to remain visible until the mouse moves
          * away from the element.
          */
@@ -3797,7 +4477,7 @@ declare module wijmo {
          * The event handler may customize the tooltip content or suppress
          * the tooltip display by changing the event parameters.
          */
-        readonly popup: Event;
+        readonly popup: Event<Tooltip, TooltipEventArgs>;
         /**
          * Raises the {@link popup} event.
          *
@@ -3808,6 +4488,7 @@ declare module wijmo {
         private _attach;
         private _detach;
         private _showAutoTip;
+        _mousemove(e: MouseEvent): void;
         private _hideAutoTip;
         private _clearTimeouts;
         private _getContent;

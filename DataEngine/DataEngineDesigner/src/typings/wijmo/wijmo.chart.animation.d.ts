@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -129,6 +129,10 @@ declare module wijmo.chart.animation {
         private _initOptions;
         private _setCV;
         /**
+         * Occurs after the animation ends.
+         */
+        readonly ended: Event<ChartAnimation, EventArgs>;
+        /**
          * Gets or sets whether the plot points animate one at a time, series by series,
          * or all at once.
          * The whole animation is still completed within the duration.
@@ -146,6 +150,10 @@ declare module wijmo.chart.animation {
          * Gets or sets a value indicating whether animation is applied to the axis.
          */
         axisAnimation: boolean;
+        /**
+         * Gets the animated chart instance.
+         */
+        readonly chart: wijmo.chart.FlexChartBase;
         private _playAnimation;
         /**
          * Performs the animation.

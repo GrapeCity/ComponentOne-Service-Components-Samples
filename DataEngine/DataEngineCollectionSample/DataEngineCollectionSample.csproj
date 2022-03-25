@@ -6,12 +6,12 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20212.57" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20213.62" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20213.235</Version>
+      <Version>5.0.20221.247</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>5.0.20213.235</Version>
+      <Version>5.0.20221.247</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

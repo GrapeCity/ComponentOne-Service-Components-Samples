@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -125,6 +125,10 @@ declare module wijmo.chart.analytics {
         drawLegendItem(engine: wijmo.chart.IRenderEngine, rect: wijmo.Rect, index: number): void;
         _clearValues(): void;
         _invalidate(): void;
+        _getXOffset(): number;
+        _getYOffset(pointIndex: number): number;
+        _getValue(pointIndex: number): number;
+        _getItem(pi: number): any;
         private _rendering;
         private _getStyles;
         private _getStyleByKey;
@@ -531,6 +535,82 @@ declare module wijmo.chart.analytics {
          * @param pointIndex The index of the data point.
          */
         getPlotElement(pointIndex: number): any;
+    }
+}
+declare module wijmo.chart.analytics {
+    /** Defines styles for the {@link BreakEven} series. */
+    interface IBreakEvenStyles {
+        /** Specifies the style of the fixed cost line. */
+        fixedCost?: any;
+        /** Specifies the style of the variable cost line. */
+        variableCost?: any;
+        /** Specifies the style of the total cost line. */
+        totalCost?: any;
+        /** Specifies the style of the sales revenue line. */
+        salesRevenue?: any;
+        /** Specifies the style of the safety margin area. */
+        safetyMargin?: any;
+        /** Specifies the style of the marginal profit line. */
+        marginalProfit?: any;
+        /** Specifies the style of the break even markers. */
+        breakEven?: any;
+    }
+    /**
+     * Represents a Break Even chart series.
+     *
+     * A break even chart is a chart that shows the sales volume level at which total costs equal sales.
+     * Use the styles property to customize appearance of different parts of Break Even chart.
+     * The name property contains comma-separated names that are shown as legend entries.
+     */
+    class BreakEven extends wijmo.chart.SeriesBase {
+        private _fixedCost;
+        private _variableCost;
+        private _salesPrice;
+        private _styles;
+        /**
+         * Initializes a new instance of the {@link BreakEven} class.
+         *
+         * @param options JavaScript object containing initialization data for the object.
+         */
+        constructor(options?: any);
+        /**
+         * Gets or sets a value of fixed cost.
+         */
+        fixedCost: number;
+        /**
+         * Gets or sets a value of variable cost.
+         */
+        variableCost: number;
+        /**
+         * Gets or sets a value of sales price.
+         */
+        salesPrice: number;
+        /**
+         * Gets or sets the styles of Break Even chart.
+         *
+         * The following styles are supported:
+         *
+         * <ol>
+         *   <li><b>fixedCost</b>: Specifies the style of the fixed cost.</li>
+         *   <li><b>variableCost</b>: Specifies the style of the variable cost.</li>
+         *   <li><b>totalCost</b>: Specifies the style of the total cost.</li>
+         *   <li><b>salesRevenue</b>: Specifies the style of the sales revenue.</li>
+         *   <li><b>safetyMargin</b>: Specifies the style of the safety margin.</li>
+         *   <li><b>marginalProfit</b>: Specifies the style of the marginal profit.</li>
+         *   <li><b>breakEven</b>: Specifies the style of the break even.</li>
+         * </ol>
+         *
+         * The style of profit and loss areas is specified by the style and altStyle properties.
+         */
+        styles: IBreakEvenStyles;
+        getValues(dim: number): number[];
+        private _rendering;
+        _setStyle(eng: wijmo.chart.IRenderEngine, style: any): void;
+        _getName(dim: number): string;
+        legendItemLength(): number;
+        _getStyle(index: number): any;
+        measureLegendItem(engine: wijmo.chart.IRenderEngine, index: number): wijmo.Size;
+        drawLegendItem(engine: wijmo.chart.IRenderEngine, rect: wijmo.Rect, index: number): void;
     }
 }
 declare module wijmo.chart.analytics {

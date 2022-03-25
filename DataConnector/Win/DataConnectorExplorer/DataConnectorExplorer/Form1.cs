@@ -14,6 +14,7 @@ using C1.AdoNet.Kintone;
 using C1.AdoNet.Salesforce;
 using C1.AdoNet.GoogleAnalytics;
 using C1.AdoNet.QuickBooksOnline;
+using C1.AdoNet.ServiceNow;
 using C1.AdoNet.Json;
 
 namespace DataConnectorExplorer
@@ -65,6 +66,7 @@ namespace DataConnectorExplorer
             cboSource.Items.Add("QuickBooks Online");
             cboSource.Items.Add("Google Analytics");
             cboSource.Items.Add("Json");
+            cboSource.Items.Add("ServiceNow");
 
             cboSource.SelectedIndex = 0; //Select OData initially
         }
@@ -96,6 +98,9 @@ namespace DataConnectorExplorer
                     break;
                 case 6: //Json
                     _connStringBuilder = new C1JsonConnectionStringBuilder();
+                    break;
+                case 7: //ServiceNow
+                    _connStringBuilder = new C1ServiceNowConnectionStringBuilder();
                     break;
             }
 
@@ -136,6 +141,9 @@ namespace DataConnectorExplorer
                         break;
                     case 6:
                         _connectionBase = new C1JsonConnection(_connStringBuilder as C1JsonConnectionStringBuilder);
+                        break;
+                    case 7:
+                        _connectionBase = new C1ServiceNowConnection(_connStringBuilder as C1ServiceNowConnectionStringBuilder);
                         break;
                 }
 
@@ -275,6 +283,15 @@ namespace DataConnectorExplorer
                     case 6:
                         C1JsonConnection c1JsonConn = _connectionBase as C1JsonConnection;
                         using (C1JsonDataAdapter a = new C1JsonDataAdapter(c1JsonConn, sql))
+                        {
+                            DataTable t = new DataTable();
+                            a.Fill(t);
+                            pivotPage.DataSource = t;
+                        }
+                        break;
+                    case 7:
+                        C1ServiceNowConnection c1ServiceNowConn = _connectionBase as C1ServiceNowConnection;
+                        using (C1ServiceNowDataAdapter a = new C1ServiceNowDataAdapter(c1ServiceNowConn, sql))
                         {
                             DataTable t = new DataTable();
                             a.Fill(t);

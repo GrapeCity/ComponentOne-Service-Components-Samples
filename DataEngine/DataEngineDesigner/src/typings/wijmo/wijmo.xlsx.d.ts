@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -78,7 +78,7 @@ declare module wijmo.xlsx {
         /**
          * Saves the book to a file and returns a base-64 string representation of
          * the book.
-         * This method works with JSZip 2.5.
+         * This method works with JSZip version 2.* only.
          *
          * For example, this sample creates an xlsx file with a single cell:
          *
@@ -102,9 +102,10 @@ declare module wijmo.xlsx {
          * @return A base-64 string that represents the content of the file.
          */
         save(fileName?: string): string;
+        private _cs;
         /**
          * Saves the book to a file asynchronously.
-         * This method works with JSZip 3.0.
+         * This method works with JSZip version 3.* only.
          *
          * @param fileName Name of the xlsx file to save.
          * @param onSaved This callback provides an approach to get the base-64 string
@@ -116,6 +117,8 @@ declare module wijmo.xlsx {
          * @param onError This callback catches error information when saving.
          * This has a single parameter, the failure reason.
          * Return value will be passed to user, if he wants to catch the save failure reason.
+         * @param onProgress Callback function that gives feedback about the progress of a task.
+         * The function accepts a single argument, the current progress as a number between 0 and 100.
          *
          * For example:
          * <pre>
@@ -128,10 +131,16 @@ declare module wijmo.xlsx {
          * });
          * </pre>
          */
-        saveAsync(fileName?: string, onSaved?: (base64?: string) => any, onError?: (reason?: any) => any): void;
+        saveAsync(fileName?: string, onSaved?: (base64?: string) => any, onError?: (reason?: any) => any, onProgress?: (value: number) => void): void;
+        _externalCancellation: () => _ICancellationSource;
         /**
-         * Loads from base-64 string or data url.
-         * This method works with JSZip 2.5.
+         * Cancels the export started by the {@link saveAsync} method.
+         * @param done Callback invoked when the method finishes executing.
+         */
+        cancelAsync(done?: () => void): void;
+        /**
+         * Loads from ArrayBuffer, base-64 string or data url.
+         * This method works with JSZip version 2.* only.
          *
          * For example:
          * <pre>// This sample opens an xlsx file chosen from Open File
@@ -165,14 +174,14 @@ declare module wijmo.xlsx {
          *     }
          * }</pre>
          *
-         * @param base64 The base-64 string that contains the xlsx file content.
+         * @param data ArrayBuffer or base-64 string that contains the xlsx file content.
          */
-        load(base64: string): void;
+        load(data: string | ArrayBuffer): void;
         /**
-         * Loads from base-64 string or data url asynchronously.
-         * This method works with JSZip 3.0.
+         * Loads from ArrayBuffer or base-64 string or data url asynchronously.
+         * This method works with JSZip version 3.* only.
          *
-         * @param base64 base64 string that contains the xlsx file content.
+         * @param data ArrayBuffer or base-64 string that contains the xlsx file content.
          * @param onLoaded This callback provides an approach to get an instance of the loaded workbook.
          * Since this method is an asynchronous method, user is not able to get instance of
          * the loaded workbook immediately. User has to get the instance through this callback.
@@ -193,7 +202,7 @@ declare module wijmo.xlsx {
          * });
          * </pre>
          */
-        loadAsync(base64: string, onLoaded: (workbook: Workbook) => void, onError?: (reason?: any) => any): void;
+        loadAsync(data: string | ArrayBuffer, onLoaded: (workbook: Workbook) => void, onError?: (reason?: any) => any): void;
         _serialize(): IWorkbook;
         _deserialize(workbookOM: IWorkbook): void;
         _addWorkSheet(workSheet: WorkSheet, sheetIndex?: number): void;
@@ -224,8 +233,9 @@ declare module wijmo.xlsx {
          * in case the passed Excel format is empty.
          */
         static fromXlsxFormat(xlsxFormat: string): string[];
+        static _fromXlsxDateFormat(format: string): string;
         static _parseCellFormat(format: string, isDate: boolean): string;
-        static _parseExcelFormat(item: any): string;
+        static _parseExcelFormat(item: IWorkbookCell): string;
         /**
          * Converts zero-based cell, row or column index to Excel alphanumeric representation.
          *
@@ -267,10 +277,6 @@ declare module wijmo.xlsx {
         static _unescapeXML(val: any): string;
         private static _numAlpha;
         private static _alphaNum;
-        private static _b64ToUint6;
-        static _base64DecToArr(sBase64: string, nBlocksSize?: number): Uint8Array;
-        private static _uint6ToB64;
-        static _base64EncArr(aBytes: Uint8Array): string;
         private _serializeWorkSheets;
         private _serializeWorkbookStyles;
         private _serializeDefinedNames;
@@ -315,6 +321,7 @@ declare module wijmo.xlsx {
         private _columns;
         private _rows;
         private _tables;
+        _extraColumn: _WorkbookExtraColumn;
         /**
          * Initializes a new instance of the {@link WorkSheet} class.
          */
@@ -351,7 +358,7 @@ declare module wijmo.xlsx {
          */
         readonly tables: WorkbookTable[];
         _serialize(): IWorkSheet;
-        _deserialize(workSheetOM: IWorkSheet): void;
+        _deserialize(workSheetOM: _IWorkSheet): void;
         _addWorkbookColumn(column: WorkbookColumn, columnIndex?: number): void;
         _addWorkbookRow(row: WorkbookRow, rowIndex?: number): void;
         private _serializeWorkbookColumns;
@@ -394,8 +401,9 @@ declare module wijmo.xlsx {
          */
         style: WorkbookStyle;
         /**
-         * Gets or sets a value indicating whether the column width is
-         * automatically adjusted to fit the content of its cells.
+         * Gets or sets a value that determines whether the column width
+         * will be automatically increased to fit numeric/date contents
+         * after the user edits a cell.
          */
         autoWidth: boolean;
         /**
@@ -405,6 +413,13 @@ declare module wijmo.xlsx {
         _serialize(): IWorkbookColumn;
         _deserialize(workbookColumnOM: IWorkbookColumn): void;
         private _checkEmptyWorkbookColumn;
+    }
+    class _WorkbookExtraColumn extends WorkbookColumn implements _IWorkbookExtraColumn {
+        min: number;
+        max: number;
+        constructor();
+        _serialize(): _IWorkbookExtraColumn;
+        _deserialize(workbookColumnOM: _IWorkbookExtraColumn): void;
     }
     /**
      * Represents the Workbook Object Model row definition.
@@ -474,6 +489,10 @@ declare module wijmo.xlsx {
          */
         isDate: boolean;
         /**
+         * Indicates whether the cell value is number or not.
+         */
+        isNumber: boolean;
+        /**
          * Gets or sets the formula of cell.
          */
         formula: string;
@@ -498,14 +517,73 @@ declare module wijmo.xlsx {
          */
         textRuns: WorkbookTextRun[];
         /**
+         * Gets or sets the note of the cell.
+         */
+        note: WorkbookNote;
+        /**
          * Initializes a new instance of the {@link WorkbookCell} class.
          */
         constructor();
         _serialize(): IWorkbookCell;
         _deserialize(workbookCellOM: IWorkbookCell): void;
-        private _serializeTextRuns;
-        private _deserializeTextRuns;
         private _checkEmptyWorkbookCell;
+    }
+    /**
+     * Represents the Workbook Object Model note definition.
+     */
+    class WorkbookNote implements IWorkbookNote {
+        /**
+         * Gets or sets the author of the note.
+         * The default value is **undefined**.
+         */
+        author: string;
+        /**
+         * Gets or sets the text of the note.
+         * The default value is **undefined**.
+         *
+         * Note that on import both this and {@link textRuns} properties are filled and this property contains a plain text version of the {@link textRuns} content.
+         * On export {@link textRuns} takes precedence over this property if both are set.
+         */
+        text: string;
+        /**
+         * Gets or sets the text runs represent the rich text of the note.
+         * The default value is **undefined**.
+         *
+         * Note that on import both this and {@link text} properties are filled and {@link text} contains a plain text version of the content of this property.
+         * On export this property takes precedence over {@link text} if both are set.
+         */
+        textRuns: WorkbookTextRun[];
+        /**
+         * Indicates whether the note will be displayed when you open an .xlsx file or whether it will be displayed when your hover over the owner's cell.
+         * The default value is **undefined**, which means **true**.
+         */
+        visible: boolean;
+        /**
+         * Gets or sets the offset in the X coordinate relative to bottom-right corner of the cell, in pixels.
+         * The default value is **undefined**, which causes to use the default offset, 15 pixels.
+         */
+        offsetX: number;
+        /**
+         * Gets or sets the offset in the Y coordinate relative to bottom-right corner of the cell, in pixels.
+         * The default value is **undefined**, which causes to use the default offset, 2 pixels if the cell is in the first row, 15 pixels otherwise.
+         */
+        offsetY: number;
+        /**
+         * Gets or sets the width of the note, in pixels.
+         * The default value is **undefined**, which causes to use the default width, 144 pixels.
+         */
+        width: number;
+        /**
+         * Gets or sets the height of the note, in pixels.
+         * The default value is **undefined**, which causes to use the default height, 79 pixels.
+         */
+        height: number;
+        /**
+         * Initializes a new instance of the {@link WorkbookNote} class.
+         */
+        constructor();
+        _serialize(): IWorkbookNote;
+        _deserialize(om: IWorkbookNote): void;
     }
     /**
      * Workbook frozen pane definition
@@ -535,7 +613,7 @@ declare module wijmo.xlsx {
          * Cell value format, defined using Excel format syntax.
          *
          * The description of Excel format syntax can be found
-         * <a href="https://support.office.com/en-us/article/Create-or-delete-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4" target="_blank">here</a>.
+         * <a href="https://docs.microsoft.com/en-us/office/troubleshoot/excel/format-cells-settings" target="_blank">here</a>.
          *
          * You may use the <b>toXlsxNumberFormat</b> and <b>toXlsxDateFormat</b> static
          * functions of the {@link Workbook} class to convert from .Net ({@link Globalize})
@@ -1022,6 +1100,13 @@ declare module wijmo.xlsx {
          */
         tables?: IWorkbookTable[];
     }
+    interface _IWorkSheet extends IWorkSheet {
+        maxCol?: number;
+        maxRow?: number;
+        tableRIds?: string[];
+        externalLinks?: string[];
+        _extraColumn?: _IWorkbookExtraColumn;
+    }
     /**
      * Represents the Workbook Object Model column definition.
      */
@@ -1057,6 +1142,10 @@ declare module wijmo.xlsx {
          * automatically adjusted to fit the content of its cells.
          */
         autoWidth?: boolean;
+    }
+    interface _IWorkbookExtraColumn extends IWorkbookColumn {
+        min?: number;
+        max?: number;
     }
     /**
      * Represents the Workbook Object Model row definition.
@@ -1114,6 +1203,10 @@ declare module wijmo.xlsx {
          */
         isDate?: boolean;
         /**
+         * Indicates whether the cell value is number or not.
+         */
+        isNumber?: boolean;
+        /**
          * Cell formula
          */
         formula?: string;
@@ -1137,6 +1230,63 @@ declare module wijmo.xlsx {
          * The text runs represent the rich text of cell.
          */
         textRuns?: IWorkbookTextRun[];
+        /**
+         * Represents the note of the cell.
+         */
+        note?: IWorkbookNote;
+    }
+    /**
+     * Represents the Workbook Object Model note definition.
+     */
+    interface IWorkbookNote {
+        /**
+         * Gets or sets the author of the note.
+         * The default value is **undefined**.
+         */
+        author?: string;
+        /**
+         * Gets or sets the text of the note.
+         * The default value is **undefined**.
+         *
+         * Note that on import both this and {@link textRuns} properties are filled and this property contains a plain text version of the {@link textRuns} content.
+         * On export {@link textRuns} takes precedence over this property if both are set.
+         */
+        text?: string;
+        /**
+         * Gets or sets the text runs represent the rich text of the note.
+         * The default value is **undefined**.
+         *
+         * Note that on import both this and {@link text} properties are filled and {@link text} contains a plain text version of the content of this property.
+         * On export this property takes precedence over {@link text} if both are set.
+         */
+        textRuns?: IWorkbookTextRun[];
+        /**
+         * Indicates whether the note will be displayed when you open an .xlsx file or whether it will be displayed when your hover over the owner's cell.
+         * The default value is **undefined**, which means **true**.
+         */
+        visible?: boolean;
+        /**
+         * Gets or sets the offset in the X coordinate relative to bottom-right corner of the cell, in pixels.
+         * The default value is **undefined**, which causes to use the default offset, 15 pixels.
+         */
+        offsetX?: number;
+        /**
+         * Gets or sets the offset in the Y coordinate relative to bottom-right corner of the cell, in pixels.
+         * The default value is **undefined**, which causes to use the default offset, 2 pixels if the cell is in the first row, 15 pixels otherwise.
+         */
+        offsetY?: number;
+        /**
+         * Gets or sets the width of the note, in pixels.
+         * The default value is **undefined**, which causes to use the default width, 144 pixels.
+         */
+        width?: number;
+        /**
+         * Gets or sets the height of the note, in pixels.
+         * The default value is **undefined**, which causes to use the default height, 79 pixels.
+         */
+        height?: number;
+        _col?: number;
+        _row?: number;
     }
     /**
      * Workbook frozen pane definition
@@ -1225,7 +1375,7 @@ declare module wijmo.xlsx {
          * Cell value format, defined using Excel format syntax.
          *
          * The description of Excel format syntax can be found
-         * <a href="https://support.office.com/en-us/article/Create-or-delete-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4" target="_blank">here</a>.
+         * <a href="https://support.office.com/en-us/article/create-a-custom-number-format-78f2a361-936b-4c03-8772-09fab54be7f4" target="_blank">here</a>.
          *
          * You may use the <b>toXlsxNumberFormat</b> and <b>toXlsxDateFormat</b>
          * static functions of the {@link Workbook} class to convert from .Net
@@ -1470,6 +1620,9 @@ declare module wijmo.xlsx {
          */
         columns: IWorkbookTableColumn[];
     }
+    interface _IWorkbookTable extends IWorkbookTable {
+        fileName?: string;
+    }
     /**
      * Represents the Table Column definition.
      */
@@ -1627,6 +1780,44 @@ declare module wijmo.xlsx {
         Justify = 3
     }
     /**
+    * Defines text direction.
+    */
+    enum TextDirection {
+        /**
+        * Text direction is context dependent.
+        */
+        Context = 0,
+        /**
+        * Text direction is from left to right.
+        */
+        LeftToRight = 1,
+        /**
+        * Text direction is from right to left.
+        */
+        RightToLeft = 2
+    }
+    /**
+    * Defines text orientation.
+    */
+    enum TextOrientation {
+        /**
+        * Orientates text horizontally.
+        */
+        Horizontal = 0,
+        /**
+        * Orientates text vertically.
+        */
+        Vertical = 1,
+        /**
+        * Rotates text 90 degrees counterclockwise.
+        */
+        RotateUp = 2,
+        /**
+        * Rotates text 90 degrees clockwise.
+        */
+        RotateDown = 3
+    }
+    /**
      * Border line style
      */
     enum BorderStyle {
@@ -1705,16 +1896,20 @@ declare module wijmo.xlsx {
         private static _tableStyles;
         private static _dxfs;
         private static _tables;
-        static load(base64: string): any;
-        static loadAsync(base64: string): any;
-        static save(workbook: any): any;
-        static saveAsync(workbook: any, onError?: (reason?: any) => any): any;
+        private static _notes;
+        static load(data: string | ArrayBuffer): IWorkbook;
+        static loadAsync(data: string | ArrayBuffer): any;
+        static save(workbook: IWorkbook): any;
+        static saveAsync(workbook: IWorkbook, cs: _ICancellationSource, onError?: (reason?: any) => any, onProgress?: (value: number) => void): _SyncPromise;
         private static _loadImpl;
-        private static _getZipStyle;
-        private static _getZipSharedString;
+        private static _readNotes;
         private static _saveWorkbookToZip;
+        private static _writeNotes;
+        private static _generateWorksheets;
         private static _getSharedString;
+        private static _extractTextRuns;
         private static _getInlineString;
+        private static _convertDecimalEntities;
         private static _getCoreSetting;
         private static _getWorkbook;
         private static _getTheme;
@@ -1754,8 +1949,11 @@ declare module wijmo.xlsx {
         private static _generateAppDoc;
         private static _generateWorkbookRels;
         private static _generateWorkbook;
+        private static _generateWorksheetRows;
         private static _generateWorkSheet;
+        private static _generateWorksheetColumn;
         private static _generateSharedStringsDoc;
+        private static _generateTextRuns;
         private static _generatePlainText;
         private static _generateTable;
         private static _generateTableFilterSetting;
@@ -1767,6 +1965,7 @@ declare module wijmo.xlsx {
         private static _getTableFileName;
         private static _getColor;
         private static _getThemeColor;
+        private static _parsedColors;
         private static _parseColor;
         private static _getsBaseSharedFormulas;
         private static _parseSharedFormulaInfo;
@@ -1775,7 +1974,7 @@ declare module wijmo.xlsx {
         private static _parseBorder;
         private static _applyDefaultBorder;
         private static _resolveStyleInheritance;
-        private static _parsePixelToCharWidth;
+        static _parsePixelToCharWidth(pixels: any): number;
         private static _parseCharWidthToPixel;
         private static _parseCharCountToCharWidth;
         private static _numAlpha;
@@ -1789,8 +1988,38 @@ declare module wijmo.xlsx {
         private static _checkValidMergeCell;
         private static _getAttr;
         private static _getChildNodeValue;
+        private static _getElementValue;
+        private static _getSubElement;
         private static _getSheetIndexBySheetName;
+        private static _sheetHasNotes;
+        private static _collectNotes;
     }
+    interface _ISyncPromiseCallback {
+        onFulfilled?: (value?: any) => any;
+        onRejected?: (reason?: any) => any;
+    }
+    interface _ICancellationSource {
+        cancelled: boolean;
+        cancel(): void;
+    }
+    class _SyncPromise implements _ISyncPromiseCallback, _ICancellationSource {
+        static serial(cs: _ICancellationSource, promises: (() => _SyncPromise)[]): _SyncPromise;
+        private _callbacks;
+        private _resolved;
+        private _cs;
+        private _onCancel;
+        private _cancelled;
+        constructor(cs?: _ICancellationSource, onCancel?: Function);
+        cancel(raiseEvent?: boolean): void;
+        readonly cancelled: boolean;
+        then(onFulfilled?: (value?: any) => any, onRejected?: (reason?: any) => any): this;
+        catch(onRejected: (reason?: any) => any): _SyncPromise;
+        resolve(value?: any): this;
+        reject(reason?: any): this;
+        onFulfilled(value: any): void;
+        onRejected(reason: any): void;
+    }
+    function _map(value: number, minIn: number, maxIn: number, minOut: number, maxOut: number): number;
 }
 declare module wijmo.xlsx {
 }

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -64,7 +64,7 @@ declare module wijmo.gauge {
         /**
          * Occurs when the value of a property in this {@link Range} changes.
          */
-        readonly propertyChanged: Event;
+        readonly propertyChanged: Event<Range, PropertyChangedEventArgs>;
         /**
          * Raises the {@link propertyChanged} event.
          *
@@ -90,6 +90,19 @@ declare module wijmo.gauge {
         All = 3
     }
     /**
+     * Represents a method that gets customized text to display
+     * in a {@link Gauge} control. */
+    interface IGetGaugeText {
+        /**
+         * @param gauge Gauge that contains the text.
+         * @param part Name of the gauge part (e.g. 'min', 'max', 'value').
+         * @param value Value being formatted.
+         * @param text Default text to show.
+         * @returns Text to be shown for the given part.
+         */
+        (gauge: Gauge, part: string, value: number, text: string): string;
+    }
+    /**
      * Base class for the Wijmo Gauge controls (abstract).
      */
     class Gauge extends wijmo.Control {
@@ -105,9 +118,11 @@ declare module wijmo.gauge {
         private _animated;
         private _animInterval;
         private _readOnly;
+        private _handleWheel;
         private _step;
         private _showText;
         private _showTicks;
+        private _showTickText;
         private _tickSpacing;
         private _thumbSize;
         private _filterID;
@@ -128,6 +143,8 @@ declare module wijmo.gauge {
         protected _pFace: SVGPathElement;
         protected _pPointer: SVGPathElement;
         protected _pTicks: SVGPathElement;
+        protected _gTicks: SVGGElement;
+        protected _gNeedle: SVGGElement;
         protected _filter: SVGFilterElement;
         protected _cValue: SVGCircleElement;
         protected _tValue: SVGTextElement;
@@ -171,12 +188,19 @@ declare module wijmo.gauge {
          */
         origin: number;
         /**
-         * Gets or sets a value that indicates whether the user can edit the value
-         * using the mouse and keyboard.
+         * Gets or sets a value that indicates whether the user can edit the gauge
+         * value using the mouse and keyboard.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         isReadOnly: boolean;
+        /**
+         * Gets or sets a value that determines whether the user can edit the
+         * gauge value using the mouse wheel.
+         *
+         * The default value for this property is **true**.
+         */
+        handleWheel: boolean;
         /**
          * Gets or sets the amount to add to or subtract from the {@link value} property
          * when the user presses the arrow keys or moves the mouse wheel.
@@ -200,23 +224,25 @@ declare module wijmo.gauge {
          *
          * For example:
          *
-         * <pre>// callback to convert values into strings
-         * gauge.getText = function (gauge, part, value, text) {
-         *   switch (part) {
-         *     case 'value':
-         *       if (value &lt;= 10) return 'Empty!';
-         *       if (value &lt;= 25) return 'Low...';
-         *       if (value &lt;= 95) return 'Good';
-         *       return 'Full';
-         *     case 'min':
-         *       return 'EMPTY';
-         *     case 'max':
-         *       return 'FULL';
-         *   }
-         *   return text;
-         * }</pre>
+         * ```typescript
+         * // callback to convert values into strings
+         * gauge.getText = (gauge, part, value, text) => {
+         *     switch (part) {
+         *         case 'value':
+         *             if (value &lt;= 10) return 'Empty!';
+         *             if (value &lt;= 25) return 'Low...';
+         *             if (value &lt;= 95) return 'Good';
+         *             return 'Full';
+         *         case 'min':
+         *             return 'EMPTY';
+         *         case 'max':
+         *            return 'FULL';
+         *     }
+         *     return text;
+         * }
+         * ```
          */
-        getText: Function;
+        getText: IGetGaugeText;
         /**
          * Gets or sets the thickness of the gauge, on a scale between zero and one.
          *
@@ -236,25 +262,48 @@ declare module wijmo.gauge {
         /**
          * Gets or sets the {@link ShowText} values to display as text in the gauge.
          *
-         * The default value for this property is <b>ShowText.All</b> for {@link RadialGauge}
-         * controls, and to <b>ShowText.None</b> for {@link LinearGauge} controls.
+         * The default value for this property is **ShowText.All** for {@link RadialGauge}
+         * controls, and to **ShowText.None** for {@link LinearGauge} controls.
          */
         showText: ShowText;
         /**
          * Gets or sets a property that determines whether the gauge should
-         * display tickmarks at each {@link step} value.
+         * display tickmarks at each {@link step} (or {@link tickSpacing})
+         * value.
          *
-         * The tickmarks can be formatted in CSS using the <b>wj-gauge</b> and
-         * <b>wj-ticks</b> class names. For example:
+         * The tickmarks can be formatted in CSS using the **wj-gauge** and
+         * **wj-ticks** class names. For example:
          *
-         * <pre>.wj-gauge .wj-ticks {
+         * ```css
+         * .wj-gauge .wj-ticks {
          *     stroke-width: 2px;
          *     stroke: white;
-         * }</pre>
+         * }
+         * ```
          *
-         * The default value for this property is <b>false</b>.
+         * The default value for this property is **false.
          */
         showTicks: boolean;
+        /**
+         * Gets or sets a property that determines whether the gauge should
+         * display the text value of each tick mark.
+         *
+         * You can use CSS to style the tickmark text:
+         *
+         * ```css
+         * .wj-gauge .wj-tick-text text {
+         *     opacity: 1;
+         *     font-family: Courier;
+         *     font-size: 8pt;
+         *     fill: purple;
+         * }
+         * ```
+         *
+         * See also the {@link showTicks} and {@link tickSpacing} properties.
+         *
+         * The default value for this property is **false**.
+         */
+        showTickText: boolean;
         /**
          * Gets or sets the spacing between tickmarks.
          *
@@ -282,7 +331,7 @@ declare module wijmo.gauge {
          * property are not displayed in the gauge. Instead, they are used to
          * interpolate the color of the {@link pointer} range while animating value changes.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         showRanges: boolean;
         /**
@@ -301,14 +350,14 @@ declare module wijmo.gauge {
          * Gets or sets a value that indicates whether the gauge displays
          * a shadow effect.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         hasShadow: boolean;
         /**
          * Gets or sets a value that determines whether the {@link Gauge}
          * should use animation to show value changes.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         isAnimated: boolean;
         /**
@@ -318,7 +367,7 @@ declare module wijmo.gauge {
         /**
          * Occurs when the value of the {@link value} property changes.
          */
-        readonly valueChanged: Event;
+        readonly valueChanged: Event<Gauge, EventArgs>;
         /**
          * Raises the {@link valueChanged} event.
          */
@@ -334,15 +383,15 @@ declare module wijmo.gauge {
          *
          * For example:
          *
-         * <pre>
+         * ```typescript
          * // hit test a point when the user clicks on the gauge
-         * gauge.hostElement.addEventListener('click', function (e) {
-         *   var ht = gauge.hitTest(e.pageX, e.pageY);
-         *   if (ht != null) {
-         *     console.log('you clicked the gauge at value ' + ht.toString());
-         *   }
+         * gauge.hostElement.addEventListener('click', e => {
+         *     var ht = gauge.hitTest(e.pageX, e.pageY);
+         *     if (ht != null) {
+         *         console.log('you clicked the gauge at value ' + ht.toString());
+         *     }
          * });
-         * </pre>
+         * ```
          *
          * @param pt The point to investigate, in window coordinates, or a MouseEvent object,
          * or the x coordinate of the point.
@@ -359,7 +408,6 @@ declare module wijmo.gauge {
         protected _copy(key: string, value: any): boolean;
         protected _getPercent: (value: any) => number;
         protected _showElement(e: SVGElement, show: boolean): void;
-        protected _setAttribute(e: SVGElement, att: string, value: string): void;
         protected _updateRange(rng: Range, value?: number): void;
         protected _getPointerColor(value: number): string;
         protected _keydown(e: KeyboardEvent): void;
@@ -375,6 +423,42 @@ declare module wijmo.gauge {
 }
 declare module wijmo.gauge {
     /**
+     * Specifies a pre-defined shape for the gauge's needle element.
+     */
+    enum NeedleShape {
+        /** No pre-defined shape. */
+        None = 0,
+        /** The needle element has a triangular shape. */
+        Triangle = 1,
+        /** The needle element has a diamond shape. */
+        Diamond = 2,
+        /** The needle element has an hexagonal shape. */
+        Hexagon = 3,
+        /** The needle element has a rectangular shape. */
+        Rectangle = 4,
+        /** The needle element has an arrow shape. */
+        Arrow = 5,
+        /** The needle element has a wide arrow shape. */
+        WideArrow = 6,
+        /** The needle element has a pointer shape. */
+        Pointer = 7,
+        /** The needle element has a wide pointer shape. */
+        WidePointer = 8,
+        /** The needle element has a triangular shape with an offset. */
+        Outer = 9
+    }
+    /**
+     * Specifies the length of the needle element with respect to the pointer range.
+     */
+    enum NeedleLength {
+        /** The needle element extends to the outer radius of the pointer range. */
+        Outer = 0,
+        /** The needle element extends to the mid ponit between the inner and outer radii of the pointer range. */
+        Middle = 1,
+        /** The needle element extends to the inner radius of the pointer range. */
+        Inner = 2
+    }
+    /**
      * The {@link RadialGauge} displays a circular scale with an indicator
      * that represents a single value and optional ranges to represent
      * reference values.
@@ -389,6 +473,9 @@ declare module wijmo.gauge {
         private _startAngle;
         private _sweepAngle;
         private _autoScale;
+        private _ndlElement;
+        private _ndlShape;
+        private _ndlLength;
         private _rcSvg;
         private _ctmInv;
         private _ptSvg;
@@ -405,7 +492,7 @@ declare module wijmo.gauge {
          * Angles are measured in degrees, clockwise, starting from the
          * 9 o'clock position.
          *
-         * The default value for this property is <b>0</b>.
+         * The default value for this property is **0**.
          */
         startAngle: number;
         /**
@@ -414,14 +501,14 @@ declare module wijmo.gauge {
          * Angles are measured in degrees, clockwise,
          * starting from the 9 o'clock position.
          *
-         * The default value for this property is <b>180</b>.
+         * The default value for this property is **180** degrees.
          */
         sweepAngle: number;
         /**
          * Gets or sets a value that indicates whether the gauge automatically
          * scales to fill the host element.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         autoScale: boolean;
         /**
@@ -435,17 +522,119 @@ declare module wijmo.gauge {
         readonly faceBounds: wijmo.Rect;
         readonly clientSize: wijmo.Size;
         /**
+         * Gets or sets an SVGElement to be used as a needle for the Gauge.
+         *
+         * If provided, the needle element should extend from 0 to 100
+         * units in the X direction, and should typically be symmetrical
+         * about the Y axis.
+         *
+         * When this property is set, the needle element becomes part of
+         * the gauge DOM and is removed from its original container.
+         * To use the same element in several gauges, use the clone method
+         * to create copies of the needle element.
+         */
+        needleElement: SVGElement;
+        /**
+         * Gets or sets a value that determines the shape of the gauge's
+         * needle element.
+         *
+         * Use this property to select one of the pre-defined needle shapes.
+         * The pre-defined shapes are created using the
+         * {@link createNeedleElement} method.
+         *
+         * You can also create custom needle elements by setting the
+         * {@link needleElement} property to custom elements created using
+         * the {@link createNeedleElement} method with parameters of your
+         * choice, or to custom SVG group elements created using whatever
+         * method you prefer.
+         *
+         * You can style the needle using CSS. For example:
+         *
+         * ```css
+         * .wj-gauge .wj-needle {
+         *     fill: orangered;
+         *     stroke: orangered;
+         * }
+         * .wj-gauge .wj-needle .wj-inner-needle-cap {
+         *     fill: white;
+         * }
+         * ```
+         *
+         * The default value for this property is **NeedleShape.None**.
+         */
+        needleShape: NeedleShape;
+        /**
+         * Gets or sets a value that determines the length of the gauge's
+         * {@link needleElement} with respect to the pointer range.
+         *
+         * The default value for this property is **NeedleLength.Middle**.
+         */
+        needleLength: NeedleLength;
+        /**
+         * Creates an SVG element to be used as a gauge needle.
+         *
+         * @param points Array of objects with "x" and "y" values that define
+         * the needle shape. The "x" values should range from 0 (gauge center)
+         * to 100 (gauge radius). The "y" values define the needle width, and
+         * typically range from 0 to 20. Each "y" value is used twice: from
+         * left to right to define the extent of the needle above the needle
+         * axis, and from right to left, with sign reversed, to define the
+         * extent of the needle below the axis.
+         * @param capRadius Optional value that defines the radius of the
+         * cap element, a circle centered at the origin.
+         * @param innerCapRadius Optional value that defines the radius of
+         * a circle painted above the cap element.
+         *
+         * The {@link createNeedleElement} method provides an easy and concise
+         * way to create custom needle shapes for use with the
+         * {@link needleElement} property.
+         *
+         * For example, the code below shows how the {@link createNeedleElement}
+         * method is used internally by the {@link RadialGauge} to build some of
+         * the common needle shapes defined by the {@link NeedleShape} enumeration:
+         *
+         * ```typescript
+         * let needle = null;
+         * switch (value) {
+         *     case NeedleShape.Triangle:
+         *         needle = RadialGauge.createNeedleElement([
+         *             { x: -10, y: 10 }, { x: 100, y: 0 }
+         *         ]);
+         *         break;
+         *     case NeedleShape.Diamond:
+         *         needle = RadialGauge.createNeedleElement([
+         *             { x: -20, y: 0 }, { x: 0, y: 10 }, { x: 100, y: 0 }
+         *         ]);
+         *         break;
+         *     case NeedleShape.Drop:
+         *         needle = RadialGauge.createNeedleElement([
+         *             { x: 0, y: 20 }, { x: 100, y: 0 }
+         *         ], 20, 10);
+         *         break;
+         *     case NeedleShape.Outer:
+         *         needle = RadialGauge.createNeedleElement([
+         *           { x: 60, y: 20 }, { x: 100, y: 0 }
+         *         ]);
+         *         break;
+         * }
+         * ```
+         */
+        static createNeedleElement(points: any[], capRadius?: number, innerCapRadius?: number): Element;
+        /**
          * Refreshes the control.
          *
          * @param fullUpdate Indicates whether to update the control layout as well as the content.
          */
         refresh(fullUpdate?: boolean): void;
         _updateRangeElement(e: SVGPathElement, rng: Range, value: number): void;
+        _getStartAngle(): number;
+        _getSweepAngle(): number;
         _updateText(): void;
         _updateTicks(): void;
         _updateSegment(path: SVGPathElement, ctr: wijmo.Point, rOut: number, rIn: number, start: number, sweep: number): void;
         _getPoint(ctr: wijmo.Point, angle: number, radius: number): wijmo.Point;
         _getValueFromPoint(pt: wijmo.Point): number;
+        _getDist2(p1: wijmo.Point, p2: wijmo.Point): number;
     }
 }
 declare module wijmo.gauge {
@@ -486,7 +675,7 @@ declare module wijmo.gauge {
         /**
          * Gets or sets the direction in which the gauge is filled.
          *
-         * The default value for this property is <b>GaugeDirection.Right</b>.
+         * The default value for this property is **GaugeDirection.Right**.
          */
         direction: GaugeDirection;
         /**
@@ -519,7 +708,7 @@ declare module wijmo.gauge {
      *
      * Bullet Graphs were created and popularized by dashboard design expert
      * Stephen Few. You can find more details and examples on
-     * <a href="http://en.wikipedia.org/wiki/Bullet_graph">Wikipedia</a>.
+     * <a href="https://en.wikipedia.org/wiki/Bullet_graph">Wikipedia</a>.
      *
      * {@sample Gauge/BulletGraph Example}
      */

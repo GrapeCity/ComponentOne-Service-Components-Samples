@@ -1,0 +1,104 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="C1.WPF.ScheduleTableViews\**" />
+    <EmbeddedResource Remove="C1.WPF.ScheduleTableViews\**" />
+    <None Remove="C1.WPF.ScheduleTableViews\**" />
+    <Page Remove="C1.WPF.ScheduleTableViews\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="EditAppointmentControl.xaml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\activeButton.LargeImage.png" />
+    <None Remove="Resources\activeButton.SmallImage.png" />
+    <None Remove="Resources\C1-ball.ico" />
+    <None Remove="Resources\CompleteOK1.png" />
+    <None Remove="Resources\highImportanceButton.SmallImage.png" />
+    <None Remove="Resources\listButton.LargeImage.png" />
+    <None Remove="Resources\listButton.SmallImage.png" />
+    <None Remove="Resources\lowImportanceButton.SmallImage.png" />
+    <None Remove="Resources\newAppButton.LargeImage.png" />
+    <None Remove="Resources\newAppButton.SmallImage.png" />
+    <None Remove="Resources\Open.png" />
+    <None Remove="Resources\openAppButton.LargeImage.png" />
+    <None Remove="Resources\openAppButton.SmallImage.png" />
+    <None Remove="Resources\privateButton.SmallImage.png" />
+    <None Remove="Resources\recButton.LargeImage.png" />
+    <None Remove="Resources\recButton.SmallImage.png" />
+    <None Remove="Resources\SchNewAppointment.png" />
+    <None Remove="Resources\Table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Remove="EditAppointmentControl.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\activeButton.LargeImage.png" />
+    <Resource Include="Resources\activeButton.SmallImage.png" />
+    <Resource Include="Resources\C1-ball.ico" />
+    <Resource Include="Resources\CompleteOK1.png" />
+    <Resource Include="Resources\highImportanceButton.SmallImage.png" />
+    <Resource Include="Resources\listButton.LargeImage.png" />
+    <Resource Include="Resources\listButton.SmallImage.png" />
+    <Resource Include="Resources\lowImportanceButton.SmallImage.png" />
+    <Resource Include="Resources\newAppButton.LargeImage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\newAppButton.SmallImage.png" />
+    <Resource Include="Resources\Open.png" />
+    <Resource Include="Resources\openAppButton.LargeImage.png" />
+    <Resource Include="Resources\openAppButton.SmallImage.png" />
+    <Resource Include="Resources\privateButton.SmallImage.png" />
+    <Resource Include="Resources\recButton.LargeImage.png" />
+    <Resource Include="Resources\recButton.SmallImage.png" />
+    <Resource Include="Resources\SchNewAppointment.png" />
+    <Resource Include="Resources\Table.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.ScheduleCore">
+      <Version>1.0.20221.5</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.Calendar" Version="6.0.20213.167" />
+    <PackageReference Include="C1.WPF.Grid" Version="6.0.20213.167" />
+    <PackageReference Include="C1.WPF.Ribbon" Version="6.0.20213.167" />
+    <PackageReference Include="C1.WPF.ScheduleCore">
+      <Version>1.0.20221.5</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.ScheduleTableViews">
+      <Version>1.0.20221.5</Version>
+    </PackageReference>
+    <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="C1NwindDataSet.xsc">
+      <DependentUpon>C1NwindDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="C1NwindDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>C1NwindDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="C1NwindDataSet.xss">
+      <DependentUpon>C1NwindDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="C1NWind.mdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DB\C1NWind.mdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

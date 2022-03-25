@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -17,10 +17,10 @@ declare module wijmo.odata {
 declare module wijmo.odata {
     /**
      * Extends the {@link CollectionView} class to support loading and
-     * saving data to and from OData sources.
+     * saving data from OData sources.
      *
      * You can use the {@link ODataCollectionView} class to load data from
-     * OData services and use it as a data source for any Wijmo controls.
+     * OData services and use it as a data source for Wijmo controls.
      *
      * In addition to full CRUD support you get all the {@link CollectionView}
      * features including sorting, filtering, paging, and grouping.
@@ -33,11 +33,14 @@ declare module wijmo.odata {
      * Notice how the 'options' parameter is used to pass in initialization
      * data, which is the same approach used when initializing controls:
      *
-     * <pre>var url = 'http://services.odata.org/Northwind/Northwind.svc';
-     * var categories = new wijmo.odata.ODataCollectionView(url, 'Categories', {
+     * ```typescript
+     * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+     * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+     * const categories = new ODataCollectionView(url, 'Categories', {
      *   fields: ['CategoryID', 'CategoryName', 'Description'],
      *   sortOnServer: false
-     * });</pre>
+     * });
+     * ```
      *
      * The example below uses an {@link ODataCollectionView} to load data from
      * a NorthWind OData provider service, and shows the result in a
@@ -48,6 +51,7 @@ declare module wijmo.odata {
     class ODataCollectionView extends wijmo.collections.CollectionView {
         _url: string;
         _tbl: string;
+        _entityType: string;
         _count: number;
         _fields: string[];
         _keys: string[];
@@ -56,6 +60,8 @@ declare module wijmo.odata {
         _sortOnServer: boolean;
         _pageOnServer: boolean;
         _filterOnServer: boolean;
+        _deferCommits: boolean;
+        _hasPendingChanges: boolean;
         _showDatesAsGmt: boolean;
         _inferDataTypes: boolean;
         _dataTypesInferred: any;
@@ -72,7 +78,7 @@ declare module wijmo.odata {
          * Initializes a new instance of the {@link ODataCollectionView} class.
          *
          * @param url Url of the OData service (for example
-         * 'http://services.odata.org/Northwind/Northwind.svc').
+         * 'https://services.odata.org/Northwind/Northwind.svc/').
          * @param tableName Name of the table (entity) to retrieve from the service.
          * If not provided, a list of the tables (entities) available is retrieved.
          * @param options JavaScript object containing initialization data (property
@@ -83,6 +89,15 @@ declare module wijmo.odata {
          * Gets the name of the table (entity) that this collection is bound to.
          */
         readonly tableName: string;
+        /**
+         * Gets or sets a string that represents the entity's data type on the server.
+         *
+         * This may be required to update data in some OData services.
+         *
+         * For more details, please see
+         * http://docs.oasis-open.org/odata/odata-json-format/v4.0/cs01/odata-json-format-v4.0-cs01.html#_Toc365464687.
+         */
+        entityType: string;
         /**
          * Gets or sets an array containing the names of the fields to retrieve from
          * the data source.
@@ -95,7 +110,8 @@ declare module wijmo.odata {
          *
          * ```typescript
          * import { ODataCollectionView } from '@grapecity/wijmo.odata';
-         * var categories = new ODataCollectionView(url, 'Categories', {
+         * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+         * const categories = new ODataCollectionView(url, 'Categories', {
          *   fields: ['CategoryID', 'CategoryName', 'Description']
          * });
          * ```
@@ -110,7 +126,8 @@ declare module wijmo.odata {
          *
          * ```typescript
          * import { ODataCollectionView } from '@grapecity/wijmo.odata';
-         * var categories = new ODataCollectionView(serviceUrl, 'Categories', {
+         * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+         * const categories = new ODataCollectionView(serviceUrl, 'Categories', {
          *   fields: ['Category_ID', 'Category_Name'],
          *   requestHeaders: { Authorization: db.token }
          * });
@@ -133,10 +150,13 @@ declare module wijmo.odata {
          * orders from the database. Each customer entity has an "Orders"
          * field that contains an array of order objects:
          *
-         * <pre>var url = 'http://services.odata.org/Northwind/Northwind.svc';
-         * var customersOrders = new wijmo.odata.ODataCollectionView(url, 'Customers', {
+         * ```typescript
+         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+         * const customersOrders = new ODataCollectionView(url, 'Customers', {
          *   expand: 'Orders'
-         * });</pre>
+         * });
+         * ```
          */
         expand: string;
         /**
@@ -165,12 +185,14 @@ declare module wijmo.odata {
          *
          * ```typescript
          * import { ODataCollectionView } from '@grapecity/wijmo.odata';
-         * var orders = new ODataCollectionView(url, 'Orders', {
+         * import { DataType } from '@grapecity/wijmo';
+         * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+         * const orders = new ODataCollectionView(url, 'Orders', {
          *   dataTypes: {
-         *     Freight: wijmo.DataType.Number
-         *     OrderDate: wijmo.DataType.Date,
-         *     RequiredDate: wijmo.DataType.Date,
-         *     ShippedDate: wijmo.DataType.Date,
+         *     Freight: DataType.Number
+         *     OrderDate: DataType.Date,
+         *     RequiredDate: DataType.Date,
+         *     ShippedDate: DataType.Date,
          *   }
          * });
          * ```
@@ -212,7 +234,7 @@ declare module wijmo.odata {
          * Use the {@link sortDescriptions} property to specify how the
          * data should be sorted.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         sortOnServer: boolean;
         /**
@@ -221,7 +243,7 @@ declare module wijmo.odata {
          *
          * Use the {@link pageSize} property to enable paging.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         pageOnServer: boolean;
         /**
@@ -233,14 +255,14 @@ declare module wijmo.odata {
          * on the server.
          *
          * In some cases it may be desirable to apply independent filters
-         * on the client <b>and</b> on the server.
+         * on the client **and** on the server.
          *
          * You can achieve this by setting (1) the {@link filterOnServer} property
          * to false and the {@link filter} property to a filter function (to enable
          * client-side filtering) and (2) the {@link filterDefinition} property to
          * a filter string (to enable server-side filtering).
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         filterOnServer: boolean;
         /**
@@ -248,12 +270,14 @@ declare module wijmo.odata {
          * be used for filtering the data on the server.
          *
          * The filter definition syntax is described in the
-         * <a href="http://www.odata.org/documentation/odata-version-2-0/uri-conventions/">OData documentation</a>.
+         * <a href="https://www.odata.org/documentation/odata-version-2-0/uri-conventions/">OData documentation</a>.
          *
          * For example, the code below causes the server to return records
          * where the 'CompanyName' field starts with 'A' and ends with 'S':
          *
-         * <pre>view.filterDefinition = "startswith(CompanyName, 'A') and endswith(CompanyName, 'B')";</pre>
+         * ```typescript
+         * view.filterDefinition = "startswith(CompanyName, 'A') and endswith(CompanyName, 'B')";
+         * ```
          *
          * Filter definitions can be generated automatically. For example, the
          * {@link FlexGridFilter} component detects whether its data source is an
@@ -271,15 +295,18 @@ declare module wijmo.odata {
          * property to further filter on the client. The collection will show items with
          * names that start with 'C' and have unit prices greater than 20:
          *
-         * <pre>var url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
-         * var data = new wijmo.odata.ODataCollectionView(url, 'Products', {
+         * ```typescript
+         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * const url = 'http://services.odata.org/V4/Northwind/Northwind.svc/';
+         * const data = new ODataCollectionView(url, 'Products', {
          *   oDataVersion: 4,
          *   filterDefinition: 'startswith(ProductName, \'C\')', // server filter
          *   filterOnServer: false, // client filter
          *   filter: function(product) {
          *     return product.UnitPrice &gt; 20;
          *   },
-         * });</pre>
+         * });
+         * ```
          */
         filterDefinition: string;
         /**
@@ -301,12 +328,15 @@ declare module wijmo.odata {
          * {@link oDataVersion} property to the appropriate value (1 through 4) when
          * creating the {@link ODataCollectionView} (see example below).
          *
-         * <pre>var url = 'http://services.odata.org/Northwind/Northwind.svc';
-         * var categories = new wijmo.odata.ODataCollectionView(url, 'Categories', {
+         * ```typescript
+         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         * let url = 'https://services.odata.org/Northwind/Northwind.svc/';
+         * let categories = new ODataCollectionView(url, 'Categories', {
          *   oDataVersion: 1.0, // legacy OData source
          *   fields: ['CategoryID', 'CategoryName', 'Description'],
          *   sortOnServer: false
-         * });</pre>
+         * });
+         * ```
          *
          * If you do not know what version of OData your service implements (perhaps
          * you are writing an OData explorer application), then do not specify the
@@ -323,9 +353,47 @@ declare module wijmo.odata {
          */
         readonly isLoading: boolean;
         /**
+         * Gets or sets a value that causes the {@link ODataCollectionView} to
+         * defer commits back to the database.
+         *
+         * The default value for this property is **false**, which causes
+         * any changes to the data to be immediately committed to the database.
+         *
+         * If you set this property to **true**, it will automatically set the
+         * {@link trackChanges} property to true. After this, any changes to the
+         * data (including edits, additions, and removals) will be tracked but
+         * not committed to the database until you call the {@link commitChanges}
+         * method to commit the changes, or the {@link cancelChanges} method
+         * to discard all pending changes.
+         *
+         * For example:
+         * ```typescript
+         * import { ODataCollectionView } from '@grapecity/wijmo.odata';
+         *
+         * // create data source
+         * let url = 'https://services.odata.org/...';
+         * let view = new ODataCollectionView(url, 'Categories', {
+         *     keys: [ 'ID' ]
+         * });
+         *
+         * // defer commits
+         * view.deferCommits = true;
+         *
+         * // handle commit/cancel changes buttons
+         * let btnCommit = document.getElementById('btn-commit') as HTMLButtonElement,
+         *     btnCancel = document.getElementById('btn-cancel') as HTMLButtonElement;
+         * btnCommit.addEventListener('click', () => view.commitChanges());
+         * btnCancel.addEventListener('click', () => view.cancelChanges());
+         * view.hasPendingChangesChanged.addHandler((s, e) => {
+         *    btnCommit.disabled = btnCancel.disabled = !view.hasPendingChanges;
+         * });
+         * ```
+         */
+        deferCommits: boolean;
+        /**
          * Occurs when the {@link ODataCollectionView} starts loading data.
          */
-        readonly loading: Event;
+        readonly loading: Event<ODataCollectionView, EventArgs>;
         /**
          * Raises the {@link loading} event.
          */
@@ -333,7 +401,7 @@ declare module wijmo.odata {
         /**
          * Occurs when the {@link ODataCollectionView} finishes loading data.
          */
-        readonly loaded: Event;
+        readonly loaded: Event<ODataCollectionView, EventArgs>;
         /**
          * Raises the {@link loaded} event.
          */
@@ -345,7 +413,7 @@ declare module wijmo.odata {
         /**
          * Occurs when there is an error reading or writing data.
          */
-        readonly error: Event;
+        readonly error: Event<ODataCollectionView, RequestErrorEventArgs>;
         /**
          * Raises the {@link error} event.
          *
@@ -356,6 +424,22 @@ declare module wijmo.odata {
          * @param e {@link RequestErrorEventArgs} that contains information about the error.
          */
         onError(e: wijmo.RequestErrorEventArgs): boolean;
+        /**
+         * Occurs when the value of the {@link hasPendingChanges} property changes.
+         *
+         * See also the {@link deferCommits} property.
+         */
+        readonly hasPendingChangesChanged: Event<ODataCollectionView, EventArgs>;
+        /**
+         * Raises the {@link hasPendingChangesChanged} event.
+         */
+        onHasPendingChangesChanged(e?: wijmo.EventArgs): void;
+        /**
+         * Returns true if this object supports a given interface.
+         *
+         * @param interfaceName Name of the interface to look for.
+         */
+        implementsInterface(interfaceName: string): boolean;
         /**
          * Override {@link commitNew} to add the new item to the database.
          */
@@ -370,6 +454,36 @@ declare module wijmo.odata {
          * @param item Item to be removed from the database.
          */
         remove(item: any): void;
+        /**
+         * Commits all pending changes to the server.
+         *
+         * Changes are contained in the {@link itemsEdited}, {@link itemsAdded},
+         * and {@link itemsRemoved} collections, and are automatically cleared
+         * after they are committed.
+         *
+         * See also the {@link deferCommits} property.
+         *
+         * @param committed Optional callback invoked when the commit operation
+         * has been completed. The callback takes an **XMLHttpRequest**
+         * parameter contains information about the request results.
+         */
+        commitChanges(committed?: (xhr: XMLHttpRequest) => void): void;
+        /**
+         * Cancels all changes by removing all items in the {@link itemsAdded},
+         * {@link itemsRemoved}, and {@link itemsEdited} collections,
+         * without committing them to the server.
+         *
+         * This method is used with the {@link deferCommits} property.
+         */
+        cancelChanges(): void;
+        /**
+         * Gets a value that determines whether the {@link ODataCollectionView} has
+         * pending changes.
+         *
+         * See also the {@link deferCommits} property and the
+         * {@link commitChanges} and {@link cancelChanges} methods.
+         */
+        readonly hasPendingChanges: boolean;
         /**
          * Gets the total number of items in the view before paging is applied.
          */
@@ -390,6 +504,7 @@ declare module wijmo.odata {
         onPageChanging(e: wijmo.collections.PageChangingEventArgs): boolean;
         _getPageView(): any[];
         _performRefresh(): void;
+        _updateHasChanges(): void;
         _storeItems(items: any[], append: boolean): void;
         _getReadUrl(nextLink?: string): string;
         _getReadParams(nextLink?: string): any;
@@ -408,6 +523,7 @@ declare module wijmo.odata {
         private _asODataCondition;
         private _asODataValue;
         private _error;
+        private _encodeBatch;
     }
 }
 declare module wijmo.odata {
@@ -419,17 +535,21 @@ declare module wijmo.odata {
      * and synchronize it with a {@link wijmo.grid.FlexGrid} control to load the
      * data that is within the grid's viewport:
      *
-     * <pre>// declare virtual collection view
-     * var vcv = new wijmo.odata.ODataVirtualCollectionView(url, 'Order_Details_Extendeds', {
-     *   oDataVersion: 4
+     * ```typescript
+     * // declare virtual collection view
+     * let view = new wijmo.odata.ODataVirtualCollectionView(url, 'Order_Details_Extendeds', {
+     *     oDataVersion: 4
      * });
+     *
      * // use virtual collection as grid data source
-     * flex.itemsSource = vcv;
+     * flex.itemsSource = view;
+     *
      * // update data window when the grid scrolls
-     * flex.scrollPositionChanged.addHandler(function () {
-     *   var rng = flex.viewRange;
-     *   vcv.setWindow(rng.row, rng.row2);
-     * });</pre>
+     * flex.scrollPositionChanged.addHandler(() => {
+     *     let rng = flex.viewRange;
+     *     view.setWindow(rng.topRow, rng.bottomRow);
+     * });
+     * ```
      *
      * The {@link ODataVirtualCollectionView} class implements a 'data window' so only
      * data that is actually being displayed is loaded from the server. Items that are
@@ -449,18 +569,19 @@ declare module wijmo.odata {
      */
     class ODataVirtualCollectionView extends ODataCollectionView {
         _data: any[];
-        _skip: number;
         _start: number;
         _end: number;
         _refresh: boolean;
         _loadOffset: number;
         _toSetWindow: any;
         _pendingRequest: XMLHttpRequest;
+        _requestCanceled: wijmo.Event<ODataVirtualCollectionView, wijmo.EventArgs>;
+        _firstLoad: boolean;
         /**
          * Initializes a new instance of the {@link ODataVirtualCollectionView} class.
          *
          * @param url Url of the OData service (for example
-         * 'http://services.odata.org/Northwind/Northwind.svc').
+         * 'https://services.odata.org/Northwind/Northwind.svc/').
          * @param tableName Name of the table (entity) to retrieve from the service.
          * If not provided, a list of the tables (entities) available is retrieved.
          * @param options JavaScript object containing initialization data (property
@@ -474,6 +595,14 @@ declare module wijmo.odata {
          * @param end Index of the last item in the data window.
          */
         setWindow(start: number, end: number): void;
+        /**
+         * Occurs when the {@link ODataVirtualCollectionView} cancels a pending data request.
+         */
+        readonly requestCanceled: wijmo.Event<ODataVirtualCollectionView, wijmo.EventArgs>;
+        /**
+         * Raises the {@link requestCanceled} event.
+         */
+        onRequestCanceled(e?: wijmo.EventArgs): void;
         /**
          * {@link ODataVirtualCollectionView} requires {@link pageOnServer} to be set to true.
          */

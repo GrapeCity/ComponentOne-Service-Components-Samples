@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -42,7 +42,7 @@ declare module wijmo.chart {
         private _d;
         private _len;
         private m;
-        constructor(x: number[], y: number[]);
+        constructor(x: number[], y: number[], num?: number);
         private calculatePoint;
         calculate(): {
             xs: any;
@@ -98,6 +98,154 @@ declare module wijmo.chart {
         static flatly: string[];
         static darkly: string[];
         static cerulan: string[];
+        /**
+         * This product includes color specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/).
+         * Please see license at http://colorbrewer.org/export/LICENSE.txt
+         *
+         * Qualitative palettes from ColorBrewer https://colorbrewer2.org .
+         *
+         * Qualitative (or categorical) palettes are usually used for plotting independent data categories
+         * which don't have any specific order. For example, the series that represents shipping methods or
+         * product types. The colors in these palettes are selected to be distinctive and clearly indicate
+         * difference between data series.
+         *
+         * You can specify palettes for charting controls, like {@link FlexChart} and {@link FlexPie}.
+         * For example:
+         *
+         * <pre>chart.palette = Palettes.Qualitative.Accent;</pre>
+         *
+         * The Qualitative palettes include the following color schemes:
+         * <ul>
+         *   <li>Accent</li>
+         *   <li>Dark2</li>
+         *   <li>Paired</li>
+         *   <li>Pastel1</li>
+         *   <li>Pastel2</li>
+         *   <li>Set1</li>
+         *   <li>Set2</li>
+         *   <li>Set2</li>
+         * </ul>
+        */
+        static Qualitative: {
+            Accent: string[];
+            Dark2: string[];
+            Paired: string[];
+            Pastel1: string[];
+            Pastel2: string[];
+            Set1: string[];
+            Set2: string[];
+            Set3: string[];
+        };
+        /** Diverging palettes from ColorBrewer https://colorbrewer2.org.
+         *
+         * Diverging palettes are used to indicate distance from a critical point. These color schemes work
+         * well when your data has some mid-point. For example, temperature data could be a shade of blue below zero,
+         * a red color is for the values above zero and temperature around zero would have a neutral color.
+         *
+         * You can specify palettes for charting controls, like {@link FlexChart} and {@link FlexPie}, or
+         * use palette for {@link ColorScale.colors} property.
+         * For example:
+         *
+         * <pre>chart.palette = Palettes.Diverging.BrBG;</pre>
+         *
+         * The Diverging palettes include the following color schemes:
+         * <ul>
+         *   <li>BrBG</li>
+         *   <li>PiYG</li>
+         *   <li>PRGn</li>
+         *   <li>PuOr</li>
+         *   <li>RdBu</li>
+         *   <li>RdGy</li>
+         *   <li>RdYlBu</li>
+         *   <li>RdYlGn</li>
+         *   <li>Spectral</li>
+         * </ul>
+         */
+        static Diverging: {
+            BrBG: string[];
+            PiYG: string[];
+            PRGn: string[];
+            PuOr: string[];
+            RdBu: string[];
+            RdGy: string[];
+            RdYlBu: string[];
+            RdYlGn: string[];
+            Spectral: string[];
+        };
+        /** Sequential single-hue palettes from ColorBrewer https://colorbrewer2.org.
+         *
+         * Sequential palettes are used for data that have ordered, quantitative nature, for example precipitation amount
+         * or number of road incidents for some region. These color schemes are shade variations of a single base color,
+         * usually from light to dark.
+         *
+         * You can specify palettes for charting controls, like {@link FlexChart} and {@link FlexPie}, or
+         * use palette for {@link ColorScale.colors} property.
+         * For example:
+         *
+         * <pre>chart.palette = Palettes.SequentialSingle.Blues;</pre>
+         *
+         * The Sequential single-hue palettes include the following color schemes:
+         * <ul>
+         *   <li>Blues</li>
+         *   <li>Greens</li>
+         *   <li>Greys</li>
+         *   <li>Oranges</li>
+         *   <li>Purples</li>
+         *   <li>Reds</li>
+         * </ul>
+        */
+        static SequentialSingle: {
+            Blues: string[];
+            Greens: string[];
+            Greys: string[];
+            Oranges: string[];
+            Purples: string[];
+            Reds: string[];
+        };
+        /** Sequential multi-hue palettes from ColorBrewer https://colorbrewer2.org.
+         *
+         * Sequential palettes are used for data that have ordered, quantitative nature, for example precipitation amount
+         * or number of road incidents for some region. In addition to lightness variation, these color schemes also
+         * use several hues to improve perception.
+         *
+         * You can specify palettes for charting controls, like {@link FlexChart} and {@link FlexPie}, or
+         * use palette for {@link ColorScale.colors} property.
+         * For example:
+         *
+         * <pre>chart.palette = Palettes.SequentialMulti.BuGn;</pre>
+         *
+         * The Sequential multi-hue palettes include the following color schemes:
+         * <ul>
+         *   <li>BuGn</li>
+         *   <li>BuPu</li>
+         *   <li>GnBu</li>
+         *   <li>OrRd</li>
+         *   <li>PuBu</li>
+         *   <li>PuBuGn</li>
+         *   <li>PuRd</li>
+         *   <li>RdPu</li>
+         *   <li>YlGn</li>
+         *   <li>YlGnBu</li>
+         *   <li>YlOrBr</li>
+         *   <li>YlOrRd</li>
+         * </ul>
+        */
+        static SequentialMulti: {
+            BuGn: string[];
+            BuPu: string[];
+            GnBu: string[];
+            OrRd: string[];
+            PuBu: string[];
+            PuBuGn: string[];
+            PuRd: string[];
+            RdPu: string[];
+            YlGn: string[];
+            YlGnBu: string[];
+            YlOrBr: string[];
+            YlOrRd: string[];
+        };
+        static _isExtended(clrs: string[]): boolean;
+        private static _values;
     }
 }
 declare module wijmo.chart {
@@ -149,6 +297,13 @@ declare module wijmo.chart {
          */
         fontFamily: string;
         /**
+         * Gets or sets the value that indicates css priority.
+         * By default, it's true and the specified css class has a priority
+         * over current engine's properties like fill or stroke.
+         */
+        cssPriority: boolean;
+        readOnly: boolean;
+        /**
          * Draws an ellipse.
          *
          * @param cx X coordinate of the ellipse's center.
@@ -191,7 +346,7 @@ declare module wijmo.chart {
          * @param style Style object to be applied to the element.
          * @param clipPath Id of the path to use as a clipping path.
          */
-        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): any;
+        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): any;
         /**
          * Draws a series of splines (smooth path).
          *
@@ -201,7 +356,7 @@ declare module wijmo.chart {
          * @param style Style object to be applied to the element.
          * @param clipPath Id of the path to use as a clipping path.
          */
-        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): any;
+        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): any;
         /**
          * Draws a polygon.
          *
@@ -297,71 +452,6 @@ declare module wijmo.chart {
          * @param id The ID of the clipping rectangle.
          */
         addClipRect(clipRect: wijmo.Rect, id: string): any;
-    }
-}
-declare module wijmo.chart {
-    /**
-     * Render to svg.
-     */
-    class _SvgRenderEngine implements IRenderEngine {
-        private static svgNS;
-        private static xlinkNS;
-        private _element;
-        private _svg;
-        private _text;
-        private _textGroup;
-        private _defs;
-        private _fill;
-        private _stroke;
-        private _textFill;
-        private _strokeWidth;
-        private _fontSize;
-        private _fontFamily;
-        private _group;
-        private _groupCls;
-        private _clipRect;
-        private static _isff;
-        private static _isSafari;
-        private _savedGradient;
-        private _bbCache;
-        private _baseUrl;
-        constructor(element: HTMLElement);
-        beginRender(): void;
-        endRender(): void;
-        setViewportSize(w: number, h: number): void;
-        readonly element: Element;
-        fill: string;
-        fontSize: string;
-        fontFamily: string;
-        stroke: string;
-        strokeWidth: number;
-        textFill: string;
-        addClipRect(clipRect: wijmo.Rect, id: string): void;
-        drawEllipse(cx: number, cy: number, rx: number, ry: number, className?: string, style?: any): SVGElement;
-        drawRect(x: number, y: number, w: number, h: number, className?: string, style?: any, clipPath?: string): SVGElement;
-        drawLine(x1: number, y1: number, x2: number, y2: number, className?: string, style?: any): SVGElement;
-        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): SVGElement;
-        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): SVGElement;
-        drawPolygon(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): SVGElement;
-        drawPieSegment(cx: number, cy: number, r: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): SVGElement;
-        drawDonutSegment(cx: number, cy: number, radius: number, innerRadius: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): SVGElement;
-        drawString(s: string, pt: wijmo.Point, className?: string, style?: any): SVGElement;
-        drawStringRotated(s: string, pt: wijmo.Point, center: wijmo.Point, angle: number, className?: string, style?: any): SVGElement;
-        measureString(s: string, className?: string, groupName?: string, style?: any): wijmo.Size;
-        startGroup(className?: string, clipPath?: string, createTransform?: boolean): SVGElement;
-        endGroup(): void;
-        drawImage(imageHref: string, x: number, y: number, w: number, h: number): SVGElement;
-        private _setClipPath;
-        private _appendChild;
-        private _create;
-        private _setText;
-        private _getKey;
-        private _createText;
-        private _applyStyle;
-        private _deCase;
-        private _getClass;
-        private _getBBox;
-        private _applyColor;
     }
 }
 declare module wijmo.chart {
@@ -470,6 +560,88 @@ declare module wijmo.chart {
 }
 declare module wijmo.chart {
     /**
+     * Render to svg.
+     */
+    class _SvgRenderEngine implements IRenderEngine {
+        private static svgNS;
+        private static xlinkNS;
+        private _element;
+        private _svg;
+        private _text;
+        private _textGroup;
+        private _defs;
+        private _fill;
+        private _stroke;
+        private _textFill;
+        private _strokeWidth;
+        private _fontSize;
+        private _fontFamily;
+        private _group;
+        private _groupCls;
+        private _clipRect;
+        private static _isff;
+        private static _isSafari;
+        private _savedGradient;
+        private _bbCache;
+        private _baseUrl;
+        private _cssPriority;
+        private _readOnly;
+        private _isRtl;
+        private _precision;
+        constructor(element?: HTMLElement);
+        attach(el: HTMLElement): void;
+        detach(): void;
+        beginRender(): void;
+        endRender(): void;
+        setViewportSize(w: number, h: number): void;
+        readonly element: Element;
+        fill: string;
+        fontSize: string;
+        fontFamily: string;
+        stroke: string;
+        strokeWidth: number;
+        textFill: string;
+        cssPriority: boolean;
+        readOnly: boolean;
+        precision: number;
+        addClipRect(clipRect: wijmo.Rect, id: string): void;
+        drawEllipse(cx: number, cy: number, rx: number, ry: number, className?: string, style?: any): SVGElement;
+        drawRect(x: number, y: number, w: number, h: number, className?: string, style?: any, clipPath?: string): SVGElement;
+        drawLine(x1: number, y1: number, x2: number, y2: number, className?: string, style?: any): SVGElement;
+        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): SVGElement;
+        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): SVGElement;
+        drawPolygon(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): SVGElement;
+        drawPieSegment(cx: number, cy: number, r: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): SVGElement;
+        drawDonutSegment(cx: number, cy: number, radius: number, innerRadius: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): SVGElement;
+        drawString(s: string, pt: wijmo.Point, className?: string, style?: any): SVGElement;
+        drawStringRotated(s: string, pt: wijmo.Point, center: wijmo.Point, angle: number, className?: string, style?: any): SVGElement;
+        measureString(s: string, className?: string, groupName?: string, style?: any): wijmo.Size;
+        startGroup(className?: string, clipPath?: string, createTransform?: boolean): SVGElement;
+        endGroup(): void;
+        drawImage(imageHref: string, x: number, y: number, w: number, h: number): SVGElement;
+        private _setClipPath;
+        private _appendChild;
+        private _create;
+        private _setText;
+        private _getKey;
+        private _createText;
+        private _applyStyle;
+        private _deCase;
+        private _getClass;
+        private _getBBox;
+        private _applyColor;
+        private _addInlineStyle;
+        private _setAttribute;
+        private _checkRtl;
+    }
+    /**
+     * SVG render engine for FlexChart.
+     */
+    class SvgRenderEngine extends _SvgRenderEngine {
+    }
+}
+declare module wijmo.chart {
+    /**
      * Represents the chart legend.
      */
     class Legend {
@@ -481,6 +653,8 @@ declare module wijmo.chart {
         private _areas;
         private _sz;
         private _colRowLens;
+        private _orient;
+        private _maxSz;
         /**
          * Initializes a new instance of the {@link Legend} class.
          *
@@ -501,10 +675,21 @@ declare module wijmo.chart {
          * The value should be 'left', 'center' or 'right'.
          */
         titleAlign: string;
+        /**
+         * Gets or sets a value that determines the orientation of the legend.
+         */
+        orientation: Orientation;
+        /**
+         * Gets or sets the maximum legend size (width for left or right position and height for top or bottom position).
+         * The size can be specified in pixels: maxSize = '100px' or percents: maxSize = '50%'.
+         */
+        maxSize: number | string;
         _getDesiredSize(engine: IRenderEngine, pos: Position, w: number, h: number): wijmo.Size;
         _getPosition(w: number, h: number): Position;
         _render(engine: IRenderEngine, pt: wijmo.Point, pos: Position, w: number, h: number): void;
         _hitTest(pt: wijmo.Point): number;
+        private _invalidate;
+        _getMaxSize(sz: number): number;
     }
 }
 declare module wijmo.chart {
@@ -618,6 +803,17 @@ declare module wijmo.chart {
         Auto = 5
     }
     /**
+     * Specifies the element orientation.
+     */
+    enum Orientation {
+        /** Orientation is selected automatically based on element position. */
+        Auto = 0,
+        /** Vertical orientation. */
+        Vertical = 1,
+        /** Horizontal orientation. */
+        Horizontal = 2
+    }
+    /**
      * The {@link FlexChartBase} control from which the FlexChart and FlexPie derive.
      */
     class FlexChartBase extends wijmo.Control implements _IPalette {
@@ -658,6 +854,7 @@ declare module wijmo.chart {
         private _toHide;
         _tooltip: ChartTooltip;
         _chartRectId: string;
+        private _skipLightClr;
         /**
          * Gets or sets the array or {@link ICollectionView} object that contains the data used to create the chart.
          */
@@ -785,7 +982,7 @@ declare module wijmo.chart {
         /**
          * Occurs before the chart starts rendering data.
          */
-        readonly rendering: Event;
+        readonly rendering: Event<FlexChartBase, RenderEventArgs>;
         /**
          * Raises the {@link rendering} event.
          *
@@ -795,7 +992,7 @@ declare module wijmo.chart {
         /**
          * Occurs after the chart finishes rendering.
          */
-        readonly rendered: Event;
+        readonly rendered: Event<FlexChartBase, RenderEventArgs>;
         /**
          * Raises the {@link rendered} event.
          *
@@ -805,7 +1002,7 @@ declare module wijmo.chart {
         /**
          * Occurs before the chart is bound to a new items source.
          */
-        readonly itemsSourceChanging: Event;
+        readonly itemsSourceChanging: Event<FlexChartBase, CancelEventArgs>;
         /**
          * Raises the {@link itemsSourceChanging} event.
          *
@@ -816,7 +1013,7 @@ declare module wijmo.chart {
         /**
          * Occurs after the chart has been bound to a new items source.
          */
-        readonly itemsSourceChanged: Event;
+        readonly itemsSourceChanged: Event<FlexChartBase, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -825,7 +1022,7 @@ declare module wijmo.chart {
          * Saves the chart to an image file.
          *
          * NOTE: This method does not work in IE browsers. If you require IE support,
-         * add the <code>flex-chart.render</code> module to the page.
+         * add the *wijmo.chart.render* module to the page.
          *
          * @param filename The filename for the exported image file including extension.
          * Supported types are PNG, JPEG and SVG.
@@ -854,7 +1051,7 @@ declare module wijmo.chart {
          * when you want to update details in a textbox showing the current
          * selection.
          */
-        selectionChanged: Event;
+        readonly selectionChanged: Event<FlexChartBase, EventArgs>;
         /**
          * Raises the {@link selectionChanged} event.
          */
@@ -862,6 +1059,8 @@ declare module wijmo.chart {
         onLostFocus(e?: wijmo.EventArgs): void;
         private _cvCollectionChanged;
         private _cvCurrentChanged;
+        _bgColor(el: Element): string;
+        _isTransparent(c: string): boolean;
         /**
         * Gets a color from the palette by index.
         *
@@ -882,7 +1081,11 @@ declare module wijmo.chart {
         _getLightColor(color: string): string;
         _bindChart(): void;
         _clearCachedValues(): void;
-        _render(engine: IRenderEngine, applyElement?: boolean): void;
+        _renderEls(engine: IRenderEngine, sz: wijmo.Size, applyElement?: boolean, bg?: string, hidden?: boolean): void;
+        private _h;
+        _render(engine: IRenderEngine, applyElement?: boolean, bg?: string): void;
+        _isPCUnit(prop: string): boolean;
+        _renderHidden(sz?: wijmo.Size, bg?: string): any;
         _renderHeader(engine: IRenderEngine, rect: wijmo.Rect): void;
         _renderFooter(engine: IRenderEngine, rect: wijmo.Rect): void;
         _renderLegends(engine: IRenderEngine, rect: wijmo.Rect): void;
@@ -914,8 +1117,10 @@ declare module wijmo.chart {
         private _clearTimeouts;
         _getHostOffset(): wijmo.Point;
         _getHostSize(): wijmo.Size;
+        _parsePx(s: string): number;
         _getHostComputedStyle(): CSSStyleDeclaration;
         _find(elem: SVGElement, names: string[]): any[];
+        _getLegendSize(sz: number, lsz: number): number;
         static _contains(rect: wijmo.Rect, pt: wijmo.Point): boolean;
         static _intersects(rect1: wijmo.Rect, rect2: wijmo.Rect): boolean;
         static _epoch: number;
@@ -924,6 +1129,7 @@ declare module wijmo.chart {
         static _fromOADate(val: number): Date;
         static _renderText(engine: IRenderEngine, text: string, pos: wijmo.Point, halign: any, valign: any, className?: string, groupName?: string, style?: any, test?: any): wijmo.Rect;
         static _renderRotatedText(engine: IRenderEngine, text: string, pos: wijmo.Point, halign: any, valign: any, center: wijmo.Point, angle: number, className: string, groupClassName?: string, style?: any): any;
+        static _endsWith(str: string, suffix: string): boolean;
     }
     interface _IHitArea {
         contains(pt: wijmo.Point): boolean;
@@ -987,6 +1193,16 @@ declare module wijmo.chart {
          * Gets or sets the maximum distance from the element to display the tooltip.
          */
         threshold: number;
+        /**
+         * Shows the tooltip with the specified content, next to the specified element.
+         *
+         * @param element Element, element ID, or control that the tooltip explains.
+         * @param content Tooltip content or ID of the element that contains the tooltip content.
+         * @param bounds Optional element that defines the bounds of the area that the tooltip
+         * targets. If not provided, the bounds of the element are used (as reported by the
+         * <b>getBoundingClientRect</b> method).
+         */
+        show(element: any, content: string, bounds?: wijmo.Rect): void;
     }
 }
 declare module wijmo.chart {
@@ -1131,7 +1347,7 @@ declare module wijmo.chart {
         /**
          * Occurs before the data label is rendered.
          */
-        rendering: Event;
+        readonly rendering: Event<DataLabel, DataLabelRenderEventArgs>;
         /**
          * Raises the {@link rendering} event.
          *
@@ -1231,8 +1447,8 @@ declare module wijmo.chart {
         private _labelStyle;
         private _reversed;
         private _format;
-        private _actualMin;
-        private _actualMax;
+        _actualMin: number;
+        _actualMax: number;
         _axisType: AxisType;
         private _majorTickMarks;
         private _minorTickMarks;
@@ -1259,6 +1475,7 @@ declare module wijmo.chart {
         private __uniqueId;
         private _parea;
         private _labelPadding;
+        private _actualLabels;
         _axrect: wijmo.Rect;
         _desiredSize: wijmo.Size;
         _annoSize: wijmo.Size;
@@ -1458,6 +1675,10 @@ declare module wijmo.chart {
          * data sets.
          */
         logBase: number;
+        /**
+         * Gets the array with actual axis labels.
+         */
+        readonly axisLabels: string[];
         _getLogBase(): number;
         _isLogAxis(): boolean;
         /**
@@ -1474,7 +1695,7 @@ declare module wijmo.chart {
         /**
          * Occurs when the axis range changes.
          */
-        rangeChanged: Event;
+        readonly rangeChanged: Event<Axis, EventArgs>;
         /**
          * Raises the {@link rangeChanged} event.
          */
@@ -1522,7 +1743,7 @@ declare module wijmo.chart {
         _renderLineAndTitle(engine: any): void;
         _renderMinor(engine: any, vals: any, isCategory: any): void;
         _renderRotatedText(engine: IRenderEngine, val: any, text: string, pos: wijmo.Point, halign: any, valign: any, center: wijmo.Point, angle: number, className: string, groupClassName?: string, style?: any): void;
-        _getFormattedItem(engine: IRenderEngine, val: any, text: string, pos: wijmo.Point, className: string): {
+        _getFormattedItem(engine: IRenderEngine, val: any, text: string, pos: wijmo.Point, className: string, readOnly?: boolean): {
             val: any;
             text: string;
             pos: Point;
@@ -1563,6 +1784,8 @@ declare module wijmo.chart {
         private _createLogarithmicLabels;
         _createTimeLabels(start: number, len: number, vals: number[], lbls: string[]): void;
         _formatValue(val: number): string;
+        private _formatAxisValue;
+        private _findFormat;
         private _calcMajorUnit;
         private _getAnnoNumber;
         private _nicePrecision;
@@ -1756,6 +1979,7 @@ declare module wijmo.chart {
         _setData(series: SeriesBase, pi?: number): void;
         _setDataGroup(gi: number, pi: number): void;
         _setDataPoint(dataPoint: _DataPoint): void;
+        _getValueFmt(): any;
         private _getValue;
         private readonly ax;
         private readonly ay;
@@ -2014,7 +2238,7 @@ declare module wijmo.chart {
         /**
          * Occurs when series is rendering.
          */
-        rendering: Event;
+        readonly rendering: Event<SeriesBase, SeriesRenderingEventArgs>;
         /**
          * Raises the {@link rendering} event.
          *
@@ -2026,7 +2250,7 @@ declare module wijmo.chart {
         /**
          * Occurs when series is rendered.
          */
-        rendered: Event;
+        readonly rendered: Event<SeriesBase, RenderEventArgs>;
         /**
          * Raises the {@link rendered} event.
          *
@@ -2154,6 +2378,9 @@ declare module wijmo.chart {
         private _colRowLens;
         private _lbl;
         private _titles;
+        private _innerText;
+        private _innerTextStyle;
+        private _chartsPerLine;
         _values: number[][];
         _labels: string[];
         _pels: any[];
@@ -2199,11 +2426,19 @@ declare module wijmo.chart {
          * The default value for this property is zero, which creates
          * a pie. Setting this property to values greater than zero
          * creates pies with a hole in the middle, also known as
-         * doughnut charts.
+         * doughnut charts. The valid range for inner radius is from 0 to 1.
          *
          * The default value for this property is <b>0</b>.
          */
         innerRadius: number;
+        /**
+         * Gets or sets the style of text inside the pie.
+         */
+        innerTextStyle: any;
+        /**
+         * Gets or sets the text inside the pie (at the pie center).
+         */
+        innerText: any;
         /**
          * Gets or sets a value that determines whether angles are reversed
          * (counter-clockwise).
@@ -2262,6 +2497,13 @@ declare module wijmo.chart {
          * If the property is not set (undefined) the property names are used as pie titles.
          */
         titles: string[];
+        /**
+         * Gets or sets the maximal number of charts per line.
+         *
+         * The property is used when there are multiple pies. By default,
+         * it's undefined and the control perform layout automatically.
+         */
+        chartsPerLine: number;
         _getLabelsForLegend(): string[];
         /**
          * Gets a {@link HitTestInfo} object with information about the specified point.
@@ -2275,10 +2517,10 @@ declare module wijmo.chart {
         _getBindings(): string[];
         _initData(): void;
         _getBindData(item: any, values: number[], labels: any, binding: string, bindingName: string): number;
-        _render(engine: IRenderEngine, applyElement?: boolean): void;
+        _render(engine: IRenderEngine, applyElement?: boolean, bg?: string): void;
         _prepareRender(): void;
         _renderChart(engine: IRenderEngine, rect: wijmo.Rect, applyElement: boolean): void;
-        _layout(r: wijmo.Rect, n: number): wijmo.Rect[];
+        _layout(eng: IRenderEngine, r: wijmo.Rect, titles: string[], n: number): wijmo.Rect[];
         _getDesiredLegendSize(engine: IRenderEngine, isVertical: boolean, width: number, height: number): wijmo.Size;
         _renderLegend(engine: IRenderEngine, pos: wijmo.Point, areas: any[], isVertical: boolean, width: number, height: number): void;
         _renderData(engine: IRenderEngine, rect: wijmo.Rect, i: number, g: any): void;
@@ -2290,6 +2532,7 @@ declare module wijmo.chart {
             x: number;
             y: number;
         };
+        _renderInnerText(engine: IRenderEngine): void;
         _renderLabels(engine: IRenderEngine): void;
         _drawSlice(engine: IRenderEngine, gi: number, i: number, reversed: boolean, cx: number, cy: number, r: number, irad: number, angle: number, sweep: number): void;
         _measureLegendItem(engine: IRenderEngine, name: string): wijmo.Size;
@@ -2404,6 +2647,10 @@ declare module wijmo.chart {
         isValid(datax: number, datay: number, ax: _IAxis, ay: _IAxis): boolean;
         load(): void;
         unload(): void;
+        _createSteps(x: number[], y: number[], num?: number): {
+            x: number[];
+            y: number[];
+        };
     }
 }
 declare module wijmo.chart {
@@ -2451,7 +2698,13 @@ declare module wijmo.chart {
         /** Displays a spline chart with the area below the line filled with color. */
         SplineArea = 11,
         /** Displays a funnel chart, usually representing stages in a process such as a sales pipeline. */
-        Funnel = 12
+        Funnel = 12,
+        /** Displays a step chart */
+        Step = 13,
+        /** Displays a step chart with symbols on each data point. */
+        StepSymbols = 14,
+        /** Displays a step area chart */
+        StepArea = 15
     }
     /**
      * Specifies whether and how to stack the chart's data values.
@@ -2467,7 +2720,6 @@ declare module wijmo.chart {
     }
     /**
      * The core charting control for {@link FlexChart}.
-     *
      */
     class FlexChartCore extends FlexChartBase {
         static _CSS_AXIS_X: string;
@@ -2487,7 +2739,7 @@ declare module wijmo.chart {
         private _interpolateNulls;
         private _legendToggle;
         private _symbolSize;
-        private _dataInfo;
+        _dataInfo: _DataInfo;
         _plotRect: wijmo.Rect;
         private __barPlotter;
         private __linePlotter;
@@ -2509,6 +2761,8 @@ declare module wijmo.chart {
         private _keywords;
         private _curPlotter;
         private _colRowLens;
+        private _selectedEls;
+        _markers: LineMarker[];
         _bindingSeparator: string;
         /**
          * Initializes a new instance of the {@link FlexChart} class.
@@ -2517,6 +2771,7 @@ declare module wijmo.chart {
          * @param options A JavaScript object containing initialization data for the control.
          */
         constructor(element: any, options?: any);
+        initialize(options: any): void;
         _initAxes(): void;
         /**
          * Gets the collection of {@link Series} objects.
@@ -2619,10 +2874,14 @@ declare module wijmo.chart {
          */
         selection: SeriesBase;
         /**
+         * Gets or sets the chart render engine.
+         */
+        renderEngine: IRenderEngine;
+        /**
          * Occurs when the series visibility changes, for example when the legendToggle
          * property is set to true and the user clicks the legend.
         */
-        seriesVisibilityChanged: Event;
+        readonly seriesVisibilityChanged: Event<FlexChartCore, SeriesEventArgs>;
         /**
          * Raises the {@link seriesVisibilityChanged} event.
          *
@@ -2653,6 +2912,10 @@ declare module wijmo.chart {
          * @return The {@link Point} in control coordinates.
          */
         dataToPoint(pt: any, y?: number): wijmo.Point;
+        /**
+         * Disposes of the control by removing its association with the host element.
+         */
+        dispose(): void;
         _copy(key: string, value: any): boolean;
         _createSeries(): SeriesBase;
         _clearCachedValues(): void;
@@ -2670,6 +2933,7 @@ declare module wijmo.chart {
         _renderChart(engine: IRenderEngine, rect: wijmo.Rect, applyElement: boolean): void;
         _getDesiredLegendSize(engine: IRenderEngine, isVertical: boolean, width: number, height: number): wijmo.Size;
         _renderLegend(engine: IRenderEngine, pos: wijmo.Point, areas: any[], isVertical: boolean, width: number, height: number): void;
+        private _legendReversed;
         private _renderLegendElements;
         private _renderLabels;
         private _getAxes;
@@ -2724,6 +2988,204 @@ declare module wijmo.chart {
         getStackedAbsSum(key: number): number;
         getXVals(): Array<number>;
         static isValid(...vals: number[]): boolean;
+    }
+}
+declare module wijmo.chart {
+    /**
+     * The {@link FlexChart} control provides a powerful and flexible way to visualize
+     * data.
+     *
+     * You can use the {@link FlexChart} control to create charts that display data in
+     * several formats, including bar, line, symbol, bubble, and others.
+     *
+     * To use the {@link FlexChart} control, set the {@link FlexChart.itemsSource} property
+     * to an array containing the data objects, then add one or more {@link Series} objects
+     * to the {@link FlexChart.series} property.
+     *
+     * Use the {@link FlexChart.chartType} property to define the {@link ChartType} used as
+     * a default for all series. You may override the chart type for each series by
+     * setting the {@link Series.chartType} property on the members of the
+     * {@link FlexChart.series} array.
+     *
+     * {@sample Chart/Overview/purejs Example}
+     */
+    class FlexChart extends FlexChartCore {
+        private _chartType;
+        /**
+         * Initializes a new instance of the {@link FlexChart} class.
+         *
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
+         * @param options A JavaScript object containing initialization data
+         * for the control.
+         */
+        constructor(element: any, options?: any);
+        _getChartType(): ChartType;
+        /**
+         * Gets or sets the type of chart to create.
+         *
+         * The default value for this property is <b>ChartType.Column</b>.
+         */
+        chartType: ChartType;
+        /**
+         * Gets or sets a value indicating whether to flip the axes so that
+         * X becomes vertical and Y becomes horizontal.
+         *
+         * The default value for this property is <b>false</b>.
+         */
+        rotated: boolean;
+        /**
+         * Gets or sets a value that determines whether and how the series objects are stacked.
+         *
+         * The default value for this property is <b>Stacking.None</b>.
+         */
+        stacking: Stacking;
+        /**
+         * Gets or sets various chart options.
+         *
+         * The following options are supported:
+         *
+         * <b>bubble.maxSize</b>: Specifies the maximum size
+         * of symbols in the Bubble chart. The default value is 30 pixels.
+         *
+         * <b>bubble.minSize</b>: Specifies the minimum size
+         * of symbols in the Bubble chart. The default value is 5 pixels.
+         *
+         * <pre>chart.options = {
+         *   bubble: { minSize: 5, maxSize: 30 }
+         * }</pre>
+         *
+         *
+         * <b>funnel.neckWidth</b>: Specifies the neck width as a percentage for the Funnel chart.
+         * The default value is 0.2.
+         *
+         * <b>funnel.neckHeight</b>: Specifies the neck height as a percentage for the Funnel chart.
+         * The default value is 0.
+         *
+         * <b>funnel.type</b>: Specifies the type of Funnel chart. It should be 'rectangle' or 'default'.
+         * neckWidth and neckHeight don't work if type is set to rectangle.
+         *
+         * <pre>chart.options = {
+         *   funnel: { neckWidth: 0.3, neckHeight: 0.3, type: 'rectangle' }
+         * }</pre>
+    
+            * <b>groupWidth</b>: Specifies the group width for the Column charts,
+            * or the group height for the Bar charts. The group width can be specified
+            * in pixels or as percentage of the available space. The default value is '70%'.
+            *
+            * <pre>chart.options = {
+            *   groupWidth : 50; // 50 pixels
+            * }
+            * chart.options = {
+            *   groupWidth : '100%'; // 100% pixels
+            * }</pre>
+            */
+        options: any;
+    }
+}
+declare module wijmo.chart {
+    /**
+     * Area chart plotter.
+     */
+    class _AreaPlotter extends _BasePlotter implements _IPlotter {
+        stacking: Stacking;
+        isSpline: boolean;
+        isStep: boolean;
+        rotated: boolean;
+        private stackPos;
+        private stackNeg;
+        constructor();
+        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
+        clear(): void;
+        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
+        private _isRange;
+        private _modifyPoints;
+        plotSeriesRanged(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
+        _drawRangedArea(engine: IRenderEngine, xvals1: number[], yvals1: number[], xvals2: number[], yvals2: number[], fill: string, stroke: string, swidth: number, pstyle: any, lstyle: any): void;
+        _convertToSpline(x: number[], y: number[]): {
+            xs: any;
+            ys: any;
+        };
+        _drawSymbols(engine: IRenderEngine, series: _ISeries, seriesIndex: number): void;
+    }
+}
+declare module wijmo.chart {
+    /**
+     * Bar/column chart plotter.
+     */
+    class _BarPlotter extends _BasePlotter implements _IPlotter {
+        origin: number;
+        width: number;
+        isVolume: boolean;
+        private _volHelper;
+        private _itemsSource;
+        stackPosMap: {};
+        stackNegMap: {};
+        stacking: Stacking;
+        rotated: boolean;
+        _getSymbolOrigin: Function;
+        _getSymbolStyles: Function;
+        clear(): void;
+        load(): void;
+        unload(): void;
+        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
+        private _isRange;
+        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
+        private drawSymbol;
+        private drawDefaultSymbol;
+    }
+}
+declare module wijmo.chart {
+    /**
+     * Funnel chart plotter.
+     */
+    class _FunnelPlotter extends _BasePlotter implements _IPlotter {
+        _getSymbolOrigin: Function;
+        _getSymbolStyles: Function;
+        stacking: Stacking;
+        rotated: boolean;
+        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
+        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
+        private _getTrapezoidArea;
+        private _getTrapezoidOffsetY;
+        private drawDefaultSymbol;
+        _getPointAndPosition(pt: wijmo.Point, pos: LabelPosition, map: _IHitArea, chart: FlexChartCore): void;
+    }
+    class _FunnelSegment implements _IHitArea {
+        private _center;
+        private _startPoint;
+        private _width;
+        private _height;
+        private _neckWidth;
+        private _neckHeight;
+        private _offsetX;
+        private _offsetY;
+        private _rotated;
+        constructor(startPoint: wijmo.Point, width: number, height: number, neckWidth: number, neckHeight: number, rotated?: boolean);
+        contains(pt: wijmo.Point): boolean;
+        distance(pt: wijmo.Point): number;
+        readonly center: wijmo.Point;
+        tag: any;
+        ignoreLabel: boolean;
+    }
+}
+declare module wijmo.chart {
+    class _FinancePlotter extends _BasePlotter {
+        isCandle: boolean;
+        isArms: boolean;
+        isEqui: boolean;
+        isVolume: boolean;
+        symbolWidth: any;
+        private _volHelper;
+        private _itemsSource;
+        private _symWidth;
+        private _isPixel;
+        clear(): void;
+        load(): void;
+        unload(): void;
+        parseSymbolWidth(val: any): void;
+        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
+        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
+        _drawSymbol(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, si: number, pi: number, fill: any, w: number, x: number, hi: number, lo: number, open: number, close: number): void;
     }
 }
 declare module wijmo.chart {
@@ -2920,7 +3382,7 @@ declare module wijmo.chart {
         /**
          * Occurs after the {@link LineMarker}'s position changes.
          */
-        positionChanged: Event;
+        readonly positionChanged: Event<LineMarker, Point>;
         /**
          * Raises the {@link positionChanged} event.
          *
@@ -2939,6 +3401,8 @@ declare module wijmo.chart {
         private _onMousedown;
         private _onMouseup;
         _moveMarker(e: any): void;
+        private _calcStackedValue;
+        private _sign;
         private _getElementPaddingValuee;
         private _show;
         private _hide;
@@ -2964,208 +3428,13 @@ declare module wijmo.chart {
 }
 declare module wijmo.chart {
     /**
-     * The {@link FlexChart} control provides a powerful and flexible way to visualize
-     * data.
-     *
-     * You can use the {@link FlexChart} control to create charts that display data in
-     * several formats, including bar, line, symbol, bubble, and others.
-     *
-     * To use the {@link FlexChart} control, set the {@link FlexChart.itemsSource} property
-     * to an array containing the data objects, then add one or more {@link Series} objects
-     * to the {@link FlexChart.series} property.
-     *
-     * Use the {@link FlexChart.chartType} property to define the {@link ChartType} used as
-     * a default for all series. You may override the chart type for each series by
-     * setting the {@link Series.chartType} property on the members of the
-     * {@link FlexChart.series} array.
-     *
-     * {@sample Chart/Overview/purejs Example}
-     */
-    class FlexChart extends FlexChartCore {
-        private _chartType;
-        /**
-         * Initializes a new instance of the {@link FlexChart} class.
-         *
-         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
-         * @param options A JavaScript object containing initialization data
-         * for the control.
-         */
-        constructor(element: any, options?: any);
-        _getChartType(): ChartType;
-        /**
-         * Gets or sets the type of chart to create.
-         *
-         * The default value for this property is <b>ChartType.Column</b>.
-         */
-        chartType: ChartType;
-        /**
-         * Gets or sets a value indicating whether to flip the axes so that
-         * X becomes vertical and Y becomes horizontal.
-         *
-         * The default value for this property is <b>false</b>.
-         */
-        rotated: boolean;
-        /**
-         * Gets or sets a value that determines whether and how the series objects are stacked.
-         *
-         * The default value for this property is <b>Stacking.None</b>.
-         */
-        stacking: Stacking;
-        /**
-         * Gets or sets various chart options.
-         *
-         * The following options are supported:
-         *
-         * <b>bubble.maxSize</b>: Specifies the maximum size
-         * of symbols in the Bubble chart. The default value is 30 pixels.
-         *
-         * <b>bubble.minSize</b>: Specifies the minimum size
-         * of symbols in the Bubble chart. The default value is 5 pixels.
-         *
-         * <pre>chart.options = {
-         *   bubble: { minSize: 5, maxSize: 30 }
-         * }</pre>
-         *
-         *
-         * <b>funnel.neckWidth</b>: Specifies the neck width as a percentage for the Funnel chart.
-         * The default value is 0.2.
-         *
-         * <b>funnel.neckHeight</b>: Specifies the neck height as a percentage for the Funnel chart.
-         * The default value is 0.
-         *
-         * <b>funnel.type</b>: Specifies the type of Funnel chart. It should be 'rectangle' or 'default'.
-         * neckWidth and neckHeight don't work if type is set to rectangle.
-         *
-         * <pre>chart.options = {
-         *   funnel: { neckWidth: 0.3, neckHeight: 0.3, type: 'rectangle' }
-         * }</pre>
-    
-            * <b>groupWidth</b>: Specifies the group width for the Column charts,
-            * or the group height for the Bar charts. The group width can be specified
-            * in pixels or as percentage of the available space. The default value is '70%'.
-            *
-            * <pre>chart.options = {
-            *   groupWidth : 50; // 50 pixels
-            * }
-            * chart.options = {
-            *   groupWidth : '100%'; // 100% pixels
-            * }</pre>
-            */
-        options: any;
-    }
-}
-declare module wijmo.chart {
-    /**
-     * Area chart plotter.
-     */
-    class _AreaPlotter extends _BasePlotter implements _IPlotter {
-        stacking: Stacking;
-        isSpline: boolean;
-        rotated: boolean;
-        private stackPos;
-        private stackNeg;
-        constructor();
-        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
-        clear(): void;
-        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        private _isRange;
-        plotSeriesRanged(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        _drawRangedArea(engine: IRenderEngine, xvals1: number[], yvals1: number[], xvals2: number[], yvals2: number[], fill: string, stroke: string, swidth: number, pstyle: any, lstyle: any): void;
-        _convertToSpline(x: number[], y: number[]): {
-            xs: any;
-            ys: any;
-        };
-        _drawSymbols(engine: IRenderEngine, series: _ISeries, seriesIndex: number): void;
-    }
-}
-declare module wijmo.chart {
-    /**
-     * Bar/column chart plotter.
-     */
-    class _BarPlotter extends _BasePlotter implements _IPlotter {
-        origin: number;
-        width: number;
-        isVolume: boolean;
-        private _volHelper;
-        private _itemsSource;
-        stackPosMap: {};
-        stackNegMap: {};
-        stacking: Stacking;
-        rotated: boolean;
-        _getSymbolOrigin: Function;
-        _getSymbolStyles: Function;
-        clear(): void;
-        load(): void;
-        unload(): void;
-        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
-        private _isRange;
-        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        private drawSymbol;
-        private drawDefaultSymbol;
-    }
-}
-declare module wijmo.chart {
-    /**
-     * Funnel chart plotter.
-     */
-    class _FunnelPlotter extends _BasePlotter implements _IPlotter {
-        _getSymbolOrigin: Function;
-        _getSymbolStyles: Function;
-        stacking: Stacking;
-        rotated: boolean;
-        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
-        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        private _getTrapezoidArea;
-        private _getTrapezoidOffsetY;
-        private drawDefaultSymbol;
-        _getPointAndPosition(pt: wijmo.Point, pos: LabelPosition, map: _IHitArea, chart: FlexChartCore): void;
-    }
-    class _FunnelSegment implements _IHitArea {
-        private _center;
-        private _startPoint;
-        private _width;
-        private _height;
-        private _neckWidth;
-        private _neckHeight;
-        private _offsetX;
-        private _offsetY;
-        private _rotated;
-        constructor(startPoint: wijmo.Point, width: number, height: number, neckWidth: number, neckHeight: number, rotated?: boolean);
-        contains(pt: wijmo.Point): boolean;
-        distance(pt: wijmo.Point): number;
-        readonly center: wijmo.Point;
-        tag: any;
-        ignoreLabel: boolean;
-    }
-}
-declare module wijmo.chart {
-    class _FinancePlotter extends _BasePlotter {
-        isCandle: boolean;
-        isArms: boolean;
-        isEqui: boolean;
-        isVolume: boolean;
-        symbolWidth: any;
-        private _volHelper;
-        private _itemsSource;
-        private _symWidth;
-        private _isPixel;
-        clear(): void;
-        load(): void;
-        unload(): void;
-        parseSymbolWidth(val: any): void;
-        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
-        plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        _drawSymbol(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, si: number, pi: number, fill: any, w: number, x: number, hi: number, lo: number, open: number, close: number): void;
-    }
-}
-declare module wijmo.chart {
-    /**
      * Line/scatter chart plotter.
      */
     class _LinePlotter extends _BasePlotter implements _IPlotter {
         hasSymbols: boolean;
         hasLines: boolean;
         isSpline: boolean;
+        isStep: boolean;
         rotated: boolean;
         stacking: Stacking;
         stackPos: {
@@ -3178,7 +3447,7 @@ declare module wijmo.chart {
         clear(): void;
         adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
         plotSeries(engine: IRenderEngine, ax: _IAxis, ay: _IAxis, series: _ISeries, palette: _IPalette, iser: number, nser: number, customRender?: Function): void;
-        _drawLines(engine: IRenderEngine, xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): void;
+        _drawLines(engine: IRenderEngine, xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): void;
         _drawSymbol(engine: IRenderEngine, x: number, y: number, sz: number, series: SeriesBase, pointIndex: number, ifmt: Function): void;
         _drawDefaultSymbol(engine: IRenderEngine, x: number, y: number, sz: number, marker: Marker, style?: any): void;
     }
@@ -3192,7 +3461,7 @@ declare module wijmo.chart {
         private _minValue;
         private _maxValue;
         constructor();
-        adjustLimits(dataInfo: _DataInfo, plotRect: wijmo.Rect): wijmo.Rect;
+        adjustLimits(dataInfo: _DataInfo, pr: wijmo.Rect): wijmo.Rect;
         _drawSymbol(engine: IRenderEngine, x: number, y: number, sz: number, series: Series, pointIndex: number, ifmt: Function): void;
     }
 }

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -31,6 +31,7 @@ declare module wijmo.nav {
         private _tabs;
         private _selectedIndex;
         private _toAnim;
+        private _eAnim;
         private _animated;
         private _autoSwitch;
         private _dRoot;
@@ -54,7 +55,7 @@ declare module wijmo.nav {
          * {@link Tab.pane} properties determine the content of the
          * {@link TabPanel} control.
          */
-        readonly tabs: wijmo.collections.ObservableArray;
+        readonly tabs: wijmo.collections.ObservableArray<Tab>;
         /**
          * Gets or sets the index of the currently selected (active) tab.
          */
@@ -67,22 +68,22 @@ declare module wijmo.nav {
          * Gets or sets a value that determines whether tab changes should be animated
          * with a fade-in effect.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         isAnimated: boolean;
         /**
          * Gets or sets a value that determines whether the control should switch
          * tabs automatically when the user selects a tab using the arrow keys.
          *
-         * When {@link autoSwitch} is set to true (the default value), pressing the
-         * arrow keys automatically switches tabs. Pressing the tab key selects
-         * the next element in the tab sequence, which excludes non-selected
-         * tab headers.
+         * The default value for this property is **true**, which causes the
+         * control to switch tabs when the user presses the arrow keys.
+         * In this mode, the Tab key selects the next element in the tab sequence,
+         * which excludes non-selected tab headers.
          *
-         * When {@link autoSwitch} is set to false, pressing the arrow keys or the
-         * tab key moves the focus to the next or previous tab header, but does
-         * not switch tabs. Pressing the Enter or Space keys is required to
-         * activate the tab that has the focus.
+         * When {@link autoSwitch} is set to **false**, pressing the arrow keys
+         * or the Tab key moves the focus to the next or previous tab header,
+         * but does not switch tabs. Pressing the **Enter** or **Space** keys
+         * is required to activate the tab that has the focus.
          *
          * In most cases, the default value provides adequate (accessible)
          * behavior, but some users may prefer to set {@link autoSwitch} to false.
@@ -101,7 +102,7 @@ declare module wijmo.nav {
         /**
          * Occurs when the value of the {@link selectedIndex} property changes.
          */
-        readonly selectedIndexChanged: Event;
+        readonly selectedIndexChanged: Event<TabPanel, EventArgs>;
         /**
          * Raises the {@link selectedIndexChanged} event.
          */
@@ -114,6 +115,9 @@ declare module wijmo.nav {
         private _keydown;
         private _getTabIndex;
         private _getNextIndex;
+        _setIsDisabled(value: boolean): void;
+        _setTabOrder(value: number): void;
+        _updateTabIndex(): void;
     }
     /**
      * Represents a tab within a {@link TabPanel} control.
@@ -154,6 +158,167 @@ declare module wijmo.nav {
         isVisible: boolean;
         _setParts(header: HTMLElement, pane: HTMLElement): void;
         _setPanel(panel: TabPanel): void;
+    }
+}
+declare module wijmo.nav {
+    /**
+     * The {@link Accordion} control is a vertically stacked set of
+     * interactive headings that each contain a title.
+     *
+     * The headings function as controls that enable users to reveal
+     * or hide their associated sections of content.
+     *
+     * Accordions are commonly used to reduce the need to scroll when
+     * presenting multiple sections of content on a single page.
+     */
+    class Accordion extends wijmo.Control {
+        private _panes;
+        private _selectedIndex;
+        private _animated;
+        private _autoSwitch;
+        private _alCollapseAll;
+        private _alExpandMany;
+        private _autoSwitching;
+        private _hidePane;
+        /**
+         * Initializes a new instance of the {@link Accordion} class.
+         *
+         * @param element The DOM element that hosts the control, or a CSS selector for the host element (e.g. '#theCtrl').
+         * @param options The JavaScript object containing initialization data for the control.
+         * @param keepChildren Whether to keep child elements. If set to true, the caller becomes responsible for
+         * populating the {@link tabs} array based on the DOM).
+         */
+        constructor(element: any, options?: any, keepChildren?: boolean);
+        /**
+         * Gets an array of {@link AccordionPane} objects whose {@link AccordionPane.header} and
+         * {@link AccordionPane.content} properties determine the content of the
+         * {@link Accordion} control.
+         */
+        readonly panes: wijmo.collections.ObservableArray<AccordionPane>;
+        /**
+         * Gets or sets the index of the currently selected (active) pane.
+         */
+        selectedIndex: number;
+        /**
+         * Gets or sets the {@link AccordionPane} object that is currently selected.
+         */
+        selectedPane: AccordionPane;
+        /**
+         * Gets or sets a value that determines whether collapsing or
+         * expanding panes should be animated.
+         *
+         * The default value for this property is **true**.
+         */
+        isAnimated: boolean;
+        /**
+         * Gets or sets a value that determines whether the {@link Accordion}
+         * shows collapsed/expanded icons in the pane headers.
+         *
+         * The default value for this property is **true**.
+         */
+        showIcons: boolean;
+        /**
+         * Gets or sets a value that determines whether the control should switch
+         * panes automatically when the user selects a tab using the arrow keys.
+         *
+         * When {@link autoSwitch} is set to true (the default value), pressing the
+         * arrow keys automatically switches panes. Pressing the tab key selects
+         * the next element in the tab sequence, which excludes non-selected
+         * pane headers.
+         *
+         * When {@link autoSwitch} is set to false, pressing the arrow keys or the
+         * tab key moves the focus to the next or previous pane header, but does
+         * not switch panes. Pressing the Enter or Space keys is required to
+         * activate the pane that has the focus.
+         *
+         * In most cases, the default value provides adequate (accessible)
+         * behavior, but some users may prefer to set {@link autoSwitch} to false.
+         * For a more detailed discussion of this topic, please see the
+         * <a href="https://www.w3.org/TR/wai-aria-practices/#kbd_selection_follows_focus" target="_blank">W3C ARIA practices</a>
+         * and
+         * <a href="http://simplyaccessible.com/article/danger-aria-tabs/" target="_blank">SimplyAccessible</a> articles.
+         */
+        autoSwitch: boolean;
+        /**
+         * Gets or sets a value that determines whether users should be allowed
+         * to collapse all the items.
+         *
+         * The default value for this property is **false**, which ensures
+         * one item is always expanded.
+         */
+        allowCollapseAll: boolean;
+        /**
+         * Gets or sets a value that determines whether users should be allowed
+         * to expand multiple panes at a time.
+         *
+         * The default value for this property is **false**, which ensures
+         * only one pane is expanded at a time.
+         */
+        allowExpandMany: boolean;
+        /**
+         * Gets an {@link AccordionPane} by id or by header content.
+         *
+         * @param id Id of the {@link AccordionPane} to retrieve.
+         */
+        getPane(id: string): AccordionPane;
+        /**
+         * Occurs when the value of the {@link selectedIndex} property changes.
+         */
+        readonly selectedIndexChanged: Event<Accordion, EventArgs>;
+        /**
+         * Raises the {@link selectedIndexChanged} event.
+         */
+        onSelectedIndexChanged(e?: wijmo.EventArgs): void;
+        _populateControl(): void;
+        _validateSelection(): void;
+        private _updateContent;
+        private _updatePanesTabIndex;
+        protected _setTabOrder(value: number): void;
+        private _click;
+        private _keydown;
+        private _getPaneIndex;
+        private _getNextIndex;
+    }
+    /**
+     * Represents a pane in an {@link Accordion} control.
+     *
+     * Panes have two elements: header and content.
+     * The header displays the pane title and the content is a
+     * collapsible element that shows the pane content.
+     */
+    class AccordionPane {
+        private _hdr;
+        private _content;
+        private _acc;
+        /**
+         * Initializes a new instance of the {@link AccordionPane} class.
+         *
+         * @param header Element or CSS selector for the element that contains the pane header.
+         * @param content Element or CSS selector for the element that contains the pane content.
+         */
+        constructor(header: any, content: any);
+        /**
+         * Gets a reference to the {@link Accordion} that contains this Tab.
+         */
+        readonly accordion: Accordion;
+        /**
+         * Gets the pane's header element.
+         */
+        readonly header: HTMLElement;
+        /**
+         * Gets the panes's content element.
+         */
+        readonly content: HTMLElement;
+        /**
+         * Gets or sets a value that determines whether this {@link AccordionPane} is disabled.
+         */
+        isDisabled: boolean;
+        /**
+         * Gets or sets a value that determines whether this {@link AccordionPane} is visible.
+         */
+        isVisible: boolean;
+        _setParts(header: HTMLElement, content: HTMLElement): void;
+        _setAccordion(accordion: Accordion): void;
     }
 }
 declare module wijmo.nav {
@@ -336,6 +501,9 @@ declare module wijmo.nav {
          * Gets or sets a value that determines whether this node is disabled.
          *
          * Disabled nodes cannot get mouse or keyboard events.
+         *
+         * If the {@link collapseWhenDisabled} proprety is set to true, disabling
+         * a node also collapses it.
          */
         isDisabled: boolean;
         /**
@@ -466,6 +634,25 @@ declare module wijmo.nav {
 }
 declare module wijmo.nav {
     /**
+     * Represents a function used to load child nodes asynchronously (lazy-load).
+     */
+    interface ILazyLoad {
+        /**
+         * @param node {@link TreeNode} being opened and populated.
+         * @param callback {@link ILazyLoadCallback} to be invoked when the node data becomes available.
+         */
+        (node: TreeNode, callback: ILazyLoadCallback): void;
+    }
+    /**
+     * Represents a callback method used to add lazy-loaded nodes to a {@link TreeNode}.
+     */
+    interface ILazyLoadCallback {
+        /**
+         * @param items Array containing child items for the node being lazy-loaded.
+         */
+        (items: any[]): void;
+    }
+    /**
      * The {@link TreeView} control displays a hierarchical list of {@link TreeNode}
      * objects which may contain text, checkboxes, images, or arbitrary HTML
      * content.
@@ -535,17 +722,19 @@ declare module wijmo.nav {
         private _html;
         private _animated;
         private _chkOnClick;
+        private _collOnClick;
         private _xpndOnClick;
-        private _xpdnOnLoad;
+        private _xpndOnLoad;
         private _autoColl;
         private _showChk;
+        private _collapseWhenDisabled;
         private _chkItems;
         private _ldLvl;
         private _srch;
         private _toSrch;
-        private _dnIndet;
         private _lazyLoad;
         private _isDirty;
+        private _srcChanged;
         private _isReadOnly;
         private _edtNode;
         private _toItemsChanged;
@@ -597,7 +786,7 @@ declare module wijmo.nav {
          * Gets or sets the name of the property (or properties) that contains
          * the child items for each node.
          *
-         * The default value for this property is the string <b>'items'</b>.
+         * The default value for this property is the string **"items"**.
          *
          * In most cases, the property that contains the child items is the
          * same for all data items on the tree. In these cases, set the
@@ -611,12 +800,12 @@ declare module wijmo.nav {
          * <pre>// categories have products, products have orders:
          * tree.childItemsPath = [ 'Products', 'Orders' ];</pre>
          */
-        childItemsPath: any;
+        childItemsPath: string | string[];
         /**
          * Gets or sets the name of the property (or properties) to use as
          * the visual representation of the nodes.
          *
-         * The default value for this property is the string <b>'header'</b>.
+         * The default value for this property is the string **"header"**.
          *
          * In most cases, the property that contains the node text is the
          * same for all data items on the tree. In these cases, set the
@@ -630,7 +819,7 @@ declare module wijmo.nav {
          * <pre>// categories, products, and orders have different headers:
          * tree.displayMemberPath = [ 'CategoryName', 'ProductName', 'OrderID' ];</pre>
          */
-        displayMemberPath: any;
+        displayMemberPath: string | string[];
         /**
          * Gets or sets the name of the property (or properties) to use as a
          * source of images for the nodes.
@@ -638,7 +827,7 @@ declare module wijmo.nav {
          * The default value for this property is an empty string, which
          * means no images are added to the nodes.
          */
-        imageMemberPath: any;
+        imageMemberPath: string | string[];
         /**
          * Gets or sets the name of the property (or properties) to bind
          * to the node's checked state.
@@ -646,12 +835,12 @@ declare module wijmo.nav {
          * See also the {@link showCheckboxes} property and the
          * {@link checkedItemsChanged} event.
          */
-        checkedMemberPath: any;
+        checkedMemberPath: string | string[];
         /**
          * Gets or sets a value indicating whether items are bound to
          * plain text or HTML.
          *
-         * The default value for this property is <b>false</b>.
+         * The default value for this property is **false**.
          */
         isContentHtml: boolean;
         /**
@@ -664,23 +853,30 @@ declare module wijmo.nav {
          * See also the {@link checkedItems} property and {@link checkedItemsChanged}
          * event.
          *
-         * The default value for this property is <b>false</b>.
+         * The default value for this property is **false**.
          */
         showCheckboxes: boolean;
         /**
          * Gets or sets a value that determines if sibling nodes should be
          * collapsed when a node is expanded.
          *
-         * The default value for this property is <b>true</b>, because in
+         * The default value for this property is **true**, because in
          * most cases  collapsing nodes that are not in use helps keep the
          * UI clean.
          */
         autoCollapse: boolean;
         /**
+         * Gets or sets a value that determines whether nodes should be
+         * collapsed when they are disabled.
+         *
+         * The default value for this property is **true**.
+         */
+        collapseWhenDisabled: boolean;
+        /**
          * Gets or sets a value that indicates whether to use animations when
          * expanding or collapsing nodes.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         isAnimated: boolean;
         /**
@@ -695,12 +891,12 @@ declare module wijmo.nav {
          * You may customize the editing behavior using the following methods
          * and events:
          *
-         * <b>Methods</b>: {@link startEditing}, {@link finishEditing}.
+         * **Methods**: {@link startEditing}, {@link finishEditing}.
          *
-         * <b>Events</b>: {@link nodeEditStarting}, {@link nodeEditStarted},
+         * **Events**: {@link nodeEditStarting}, {@link nodeEditStarted},
          * {@link nodeEditEnding}, {@link nodeEditEnded}.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
          */
         isReadOnly: boolean;
         /**
@@ -722,30 +918,56 @@ declare module wijmo.nav {
         /**
          * Gets or sets a value that determines whether users can drag and drop nodes
          * within the {@link TreeView}.
+         *
+         * The default value for this property is **false**.
          */
         allowDragging: boolean;
         /**
-         * Gets or sets a value that determines whether to toggle checkboxes when the
-         * user clicks the node header.
+         * Gets or sets a value that determines whether to toggle checkboxes
+         * when the user clicks the node header.
          *
-         * The default value for this property is <b>false</b>, which causes checkboxes
-         * to be toggled only when the user clicks the checkbox itself (not the node header).
+         * The default value for this property is **false**, which causes
+         * checkboxes to be toggled only when the user clicks the checkbox
+         * itself (not the node header).
          *
          * See also the {@link showCheckboxes} property and the {@link checkedItemsChanged} event.
          */
         checkOnClick: boolean;
         /**
-         * Gets or sets a value that determines whether to expand collapsed nodes when
-         * the user clicks the node header.
+         * Gets or sets a value that determines whether to expand collapsed
+         * nodes when the user clicks the node header.
          *
-         * The default value for this property is <b>true</b>.
+         * The default value for this property is **true**.
+         *
+         * When this property is set to **false**, users have to click the
+         * expand/collapse icons to collapse the node.
+         * Clicking the node header will select the node if it is not selected,
+         * and will start editing the node if it is selected (and if the
+         * {@link isReadOnly} property is set to false).
+         *
+         * See also the {@link collapseOnClick} property.
          */
         expandOnClick: boolean;
+        /**
+         * Gets or sets a value that determines whether to collapse expanded
+         * nodes when the user clicks the node header.
+         *
+         * The default value for this property is **false**.
+         *
+         * When this property is set to **false**, users have to click the
+         * expand/collapse icons to collapse the node.
+         * Clicking the node header will select the node if it is not selected,
+         * and will start editing the node if it is selected (and if the
+         * {@link isReadOnly} property is set to false).
+         *
+         * See also the {@link expandOnClick} property.
+         */
+        collapseOnClick: boolean;
         /**
          * Gets or sets a value that determines whether to automatically expand the
          * first node when the tree is loaded.
          *
-         * The default value for this property is <b>true</b>. If you set it to false,
+         * The default value for this property is **true**. If you set it to false,
          * all nodes will be initially collapsed.
          */
         expandOnLoad: boolean;
@@ -851,7 +1073,7 @@ declare module wijmo.nav {
          * the {@link collapseToLevel} method will not expand collapsed nodes
          * that have not been loaded yet.
          */
-        lazyLoadFunction: Function;
+        lazyLoadFunction: ILazyLoad;
         /**
          * Gets a reference to the first {@link TreeNode} in the {@link TreeView}.
          *
@@ -906,7 +1128,7 @@ declare module wijmo.nav {
         /**
          * Occurs when the value of the {@link itemsSource} property changes.
          */
-        readonly itemsSourceChanged: Event;
+        readonly itemsSourceChanged: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link itemsSourceChanged} event.
          */
@@ -914,7 +1136,7 @@ declare module wijmo.nav {
         /**
          * Occurs before the tree items are generated.
          */
-        readonly loadingItems: Event;
+        readonly loadingItems: Event<TreeView, CancelEventArgs>;
         /**
          * Raises the {@link loadingItems} event.
          * @return True if the event was not canceled.
@@ -923,7 +1145,7 @@ declare module wijmo.nav {
         /**
          * Occurs after the tree items have been generated.
          */
-        readonly loadedItems: Event;
+        readonly loadedItems: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link loadedItems} event.
          */
@@ -934,7 +1156,7 @@ declare module wijmo.nav {
          * This event is typically used in navigation trees. Use the {@link selectedItem} property
          * to get the item that was clicked.
          */
-        readonly itemClicked: Event;
+        readonly itemClicked: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link itemClicked} event.
          */
@@ -942,7 +1164,7 @@ declare module wijmo.nav {
         /**
          * Occurs when the value of the {@link selectedItem} property changes.
          */
-        readonly selectedItemChanged: Event;
+        readonly selectedItemChanged: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link selectedItemChanged} event.
          */
@@ -953,7 +1175,7 @@ declare module wijmo.nav {
          * See also the {@link showCheckboxes} and {@link checkOnClick}
          * properties.
          */
-        readonly checkedItemsChanged: Event;
+        readonly checkedItemsChanged: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link checkedItemsChanged} event.
          */
@@ -961,7 +1183,7 @@ declare module wijmo.nav {
         /**
          * Occurs before the value of the {@link TreeNode.isCollapsed} property changes.
          */
-        readonly isCollapsedChanging: Event;
+        readonly isCollapsedChanging: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link isCollapsedChanging} event.
          *
@@ -972,7 +1194,7 @@ declare module wijmo.nav {
         /**
          * Occurs after the value of the {@link TreeNode.isCollapsed} property changes.
          */
-        readonly isCollapsedChanged: Event;
+        readonly isCollapsedChanged: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link isCollapsedChanged} event.
          *
@@ -982,7 +1204,7 @@ declare module wijmo.nav {
         /**
          * Occurs before the value of the {@link TreeNode.isChecked} property changes.
          */
-        readonly isCheckedChanging: Event;
+        readonly isCheckedChanging: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link isCheckedChanging} event.
          *
@@ -993,7 +1215,7 @@ declare module wijmo.nav {
         /**
          * Occurs after the value of the {@link TreeNode.isChecked} property changes.
          */
-        readonly isCheckedChanged: Event;
+        readonly isCheckedChanged: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link isCheckedChanged} event.
          *
@@ -1005,8 +1227,8 @@ declare module wijmo.nav {
          *
          * This event can be used to format nodes for display.
          *
-         * The example below uses the <b>formatItem</b> event to add a "new" badge to the
-         * right of new items on the tree.
+         * The example below uses the **formatItem** event to add a "new"
+         * badge to the right of new items on the tree.
          *
          * ```typescript
          * import { TreeView } from '@grapecity/wijmo.nav';
@@ -1023,7 +1245,7 @@ declare module wijmo.nav {
          * });
          * ```
          */
-        readonly formatItem: Event;
+        readonly formatItem: Event<TreeView, FormatNodeEventArgs>;
         /**
          * Raises the {@link formatItem} event.
          *
@@ -1036,9 +1258,9 @@ declare module wijmo.nav {
          * This event only occurs if the {@link allowDragging} property is set to true.
          *
          * You may prevent nodes from being dragged by setting the event's
-         * <b>cancel</b> parameter to true.
+         * **cancel** parameter to true.
          */
-        readonly dragStart: Event;
+        readonly dragStart: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link dragStart} event.
          *
@@ -1052,9 +1274,9 @@ declare module wijmo.nav {
          * This event only occurs if the {@link allowDragging} property is set to true.
          *
          * You may prevent drop operations over certain nodes and/or positions by
-         * setting the event's <b>cancel</b> parameter to true.
+         * setting the event's **cancel** parameter to true.
          */
-        readonly dragOver: Event;
+        readonly dragOver: Event<TreeView, TreeNodeDragDropEventArgs>;
         /**
          * Raises the {@link dragOver} event.
          *
@@ -1066,7 +1288,7 @@ declare module wijmo.nav {
          * Occurs when the user drops a on the {@link TreeView}.
          * @return True if the event was not canceled.
          */
-        readonly drop: Event;
+        readonly drop: Event<TreeView, TreeNodeDragDropEventArgs>;
         /**
          * Raises the {@link drop} event.
          *
@@ -1078,7 +1300,7 @@ declare module wijmo.nav {
          * a node into a new location or by canceling the operation with the mouse
          * or keyboard.
          */
-        readonly dragEnd: Event;
+        readonly dragEnd: Event<TreeView, EventArgs>;
         /**
          * Raises the {@link dragEnd} event.
          */
@@ -1086,7 +1308,7 @@ declare module wijmo.nav {
         /**
          * Occurs before a {@link TreeNode} enters edit mode.
          */
-        readonly nodeEditStarting: Event;
+        readonly nodeEditStarting: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link nodeEditStarting} event.
          *
@@ -1097,7 +1319,7 @@ declare module wijmo.nav {
         /**
          * Occurs after a {@link TreeNode} has entered edit mode.
          */
-        readonly nodeEditStarted: Event;
+        readonly nodeEditStarted: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link nodeEditStarted} event.
          *
@@ -1107,7 +1329,7 @@ declare module wijmo.nav {
         /**
          * Occurs before a {@link TreeNode} exits edit mode.
          */
-        readonly nodeEditEnding: Event;
+        readonly nodeEditEnding: Event<TreeView, TreeNodeEventArgs>;
         /**
          * Raises the {@link nodeEditEnding} event.
          *
@@ -1118,7 +1340,7 @@ declare module wijmo.nav {
         /**
          * Occurs after a {@link TreeNode} has exited edit mode.
          */
-        readonly nodeEditEnded: Event;
+        readonly nodeEditEnded: Event<TreeView, TreeNodeEventArgs>;
         /**
         * Raises the {@link nodeEditEnded} event.
         *
@@ -1132,6 +1354,8 @@ declare module wijmo.nav {
          */
         refresh(fullUpdate?: boolean): void;
         _updateFocus(oldNode: TreeNode): void;
+        private _updateTabIndex;
+        protected _setTabOrder(value: number): void;
         _raiseCheckedItemsChanged(): void;
         _reload(): void;
         _createNode(dataItem: any): TreeNode;

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -379,7 +379,6 @@ declare module wijmo.chart.annotation {
     class AnnotationLayer {
         static _CSS_Layer: string;
         private _items;
-        private _engine;
         _layerEle: SVGGElement;
         private _plotrectId;
         private _tooltip;
@@ -418,7 +417,7 @@ declare module wijmo.chart.annotation {
         private _itemsChanged;
         private _renderAnnotations;
         _renderGroup(): void;
-        _renderAnnotation(item: AnnotationBase): void;
+        _renderAnnotation(engine: wijmo.chart.IRenderEngine, item: AnnotationBase): void;
         private _destroyAnnotations;
         private _destroyAnnotation;
     }

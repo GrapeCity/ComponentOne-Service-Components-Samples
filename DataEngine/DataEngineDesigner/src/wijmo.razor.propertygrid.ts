@@ -47,7 +47,7 @@ module wijmo.razor {
             });
 
             // built-in merge manager whiffs on column headers
-            this.mergeManager = new PropertyGridMergeManager(this);
+            this.mergeManager = new PropertyGridMergeManager();
 
             // increase row height to accommodate Wijmo input controls
             this.rows.defaultSize = PropertyGrid._ROW_HEIGHT;

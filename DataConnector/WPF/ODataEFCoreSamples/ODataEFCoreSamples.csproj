@@ -10,13 +10,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20213.67</Version>
+      <Version>1.0.20221.74</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20213.67</Version>
+      <Version>1.0.20221.74</Version>
     </PackageReference>
     <PackageReference Include="C1.EntityFrameworkCore.OData">
-      <Version>1.0.20213.67</Version>
+      <Version>1.0.20221.74</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.1" />
     <PackageReference Include="Serilog" Version="2.9.0" />

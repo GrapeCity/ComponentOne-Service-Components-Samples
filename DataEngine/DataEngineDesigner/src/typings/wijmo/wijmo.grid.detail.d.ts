@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -36,10 +36,11 @@ declare module wijmo.grid.detail {
      * into a single detail cell that spans all grid columns.
      */
     class DetailMergeManager extends wijmo.grid.MergeManager {
+        _originalMergeManager: wijmo.grid.MergeManager;
         /**
-         * Initializes a new instance of the {@link DetailMergeManager} class.
+         * Initializes a new instance of a {@link DetailMergeManager} class.
          *
-         * @param grid The {@link FlexGrid} object that owns this {@link DetailMergeManager}.
+         * @param grid Grid that owns this merge manager.
          */
         constructor(grid: wijmo.grid.FlexGrid);
         /**
@@ -92,6 +93,42 @@ declare module wijmo.grid.detail {
         ExpandMulti = 3
     }
     /**
+     * Represents a method that takes a {@link Row} and returns an HTMLElement
+     * containing details about the row.
+     */
+    interface ICreateDetailCell {
+        /**
+         * @param row {@link Row} that contains the details.
+         * @param col {@link Column} that contains the details.
+         * @returns Element with details about the row.
+         */
+        (row: wijmo.grid.Row, col?: wijmo.grid.Column): HTMLElement;
+    }
+    /**
+     * Represents a method that takes a {@link Row} and disposes of detail
+     * elements associated with the row.
+     */
+    interface IDisposeDetailCell {
+        /**
+         * @param row {@link Row} that contains details that were just removed from view.
+         * @returns Returning true will prevent {@link FlexGridDetailProvider} from
+         * disposing controls in details. Can be used if all the disposing logic is
+         * fulfilled by the method.
+         */
+        (row: wijmo.grid.Row): boolean | void;
+    }
+    /**
+     * Represents a method that takes a {@link Row} and returns true if
+     * the row has details that can be displayed.
+     */
+    interface IRowHasDetail {
+        /**
+         * @param row {@link Row} on the main grid.
+         * @returns true if the row has details that can be shown.
+         */
+        (row: wijmo.grid.Row): boolean;
+    }
+    /**
      * Implements detail rows for {@link FlexGrid} controls.
      *
      * To add detail rows to a {@link FlexGrid} control, create an instance of a
@@ -100,38 +137,48 @@ declare module wijmo.grid.detail {
      *
      * For example:
      *
-     * <pre>// create FlexGrid to show categories
-     * var gridCat = new wijmo.grid.FlexGrid('#gridCat');
-     * gridCat.itemsSource = getCategories();
+     * ```typescript
+     * import { FlexGrid } from '@grapecity/wijmo.grid';
+     * import { FlexGridDetailProvider } from '@grapecity/wijmo.grid.detail';
+     *
+     * // create FlexGrid to show categories
+     * let gridCat = new FlexGrid('#gridCat', {
+     *     itemsSource: getCategories();
+     * });
+     *
      * // add detail rows showing products in each category
-     * var detailProvider = new wijmo.grid.detail.FlexGridDetailProvider(gridCat);
-     * detailProvider.createDetailCell = function (row) {
-     *   var cell = document.createElement('div');
-     *   var gridProducts = new wijmo.grid.FlexGrid(cell);
-     *   gridProducts.itemsSource = getProducts(row.dataItem.CategoryID);
-     *   return cell;
-     * }</pre>
+     * let detailProvider = new FlexGridDetailProvider(gridCat, {
+     *     createDetailCell: (row) => {
+     *         let cell = document.createElement('div');
+     *         new FlexGrid(cell, {
+     *             itemsSource: getProducts(row.dataItem.CategoryID)
+     *         });
+     *         return cell;
+     *     }
+     * });
+     * ```
      *
      * The {@link FlexGridDetailProvider} provides a {@link detailVisibilityMode} property
-     * that determines when the detail rows should be displayed. The default value for
-     * this property is <b>ExpandSingle</b>, which adds collapse/expand icons to the
-     * row headers.
+     * that determines when the detail rows should be displayed.
+     *
+     * The default value for this property is **ExpandSingle**, which adds collapse/expand
+     * icons to the row headers.
      *
      * The example below shows how you can use a {@link FlexGridDetailProvider} to add
      * different types of detail to the rows in a {@link FlexGrid}:
      *
-     * {@sample Grid/Rows/RowDetail/purejs Example}
+     * {@sample Grid/Rows/RowDetail/Overview/purejs Example}
      */
     class FlexGridDetailProvider {
         static _WJC_DETAIL: string;
         _g: wijmo.grid.FlexGrid;
-        _maxHeight: number;
+        _maxHeight: number | null;
         _mode: DetailVisibilityMode;
         _animated: boolean;
         _toSel: any;
-        _createDetailCellFn: Function;
-        _disposeDetailCellFn: Function;
-        _rowHasDetailFn: Function;
+        _createDetailCellFn: ICreateDetailCell;
+        _disposeDetailCellFn: IDisposeDetailCell;
+        _rowHasDetailFn: IRowHasDetail;
         _keyActionEnter: KeyAction;
         /**
          * Initializes a new instance of the {@link FlexGridDetailProvider} class.
@@ -147,21 +194,21 @@ declare module wijmo.grid.detail {
         /**
          * Gets or sets a value that determines when row details are displayed.
          *
-         * The default value for this property is <b>DetailVisibilityMode.ExpandSingle</b>.
+         * The default value for this property is **DetailVisibilityMode.ExpandSingle**.
          */
         detailVisibilityMode: DetailVisibilityMode;
         /**
          * Gets or sets the maximum height of the detail rows, in pixels.
          *
-         * The default value for this property is <b>null</b>, which means
+         * The default value for this property is **null**, which means
          * there's no upper limit to the detail row height.
          */
-        maxHeight: number;
+        maxHeight: number | null;
         /**
          * Gets or sets a value that indicates whether to use animation when
          * showing row details.
          *
-         * The default value for this property is <b>false</b>.
+         * The default value for this property is **false**.
          */
         isAnimated: boolean;
         /**
@@ -180,17 +227,19 @@ declare module wijmo.grid.detail {
          * returns an HTML element representing the row details.
          * For example:
          *
-         * <pre>// create detail cells for a given row
-         * dp.createDetailCell = function (row) {
-         *   var cell = document.createElement('div');
-         *   var detailGrid = new wijmo.grid.FlexGrid(cell, {
-         *     itemsSource: getProducts(row.dataItem.CategoryID),
-         *     headersVisibility: wijmo.grid.HeadersVisibility.Column
-         *   });
-         *   return cell;
-         * };</pre>
+         * ```typescript
+         * // create detail cells for a given row
+         * dp.createDetailCell = (row) => {
+         *     let cell = document.createElement('div');
+         *     new FlexGrid(cell, {
+         *         itemsSource: getProducts(row.dataItem.CategoryID),
+         *         headersVisibility: 'Column'
+         *     });
+         *     return cell;
+         * };
+         * ```
          */
-        createDetailCell: Function;
+        createDetailCell: ICreateDetailCell;
         /**
          * Gets or sets the callback function that disposes of detail cells.
          *
@@ -201,7 +250,7 @@ declare module wijmo.grid.detail {
          * {@link createDetailCell} function allocates resources that are not
          * automatically garbage-collected.
          */
-        disposeDetailCell: Function;
+        disposeDetailCell: IDisposeDetailCell;
         /**
          * Gets or sets the callback function that determines whether a row
          * has details.
@@ -210,21 +259,23 @@ declare module wijmo.grid.detail {
          * returns a boolean value that indicates whether the row has
          * details. For example:
          *
-         * <pre>// remove details from items with odd CategoryID
-         * dp.rowHasDetail = function (row) {
-         *   return row.dataItem.CategoryID % 2 == 0;
-         * };</pre>
+         * ```typescript
+         * // remove details from items with odd CategoryID
+         * dp.rowHasDetail = (row) => {
+         *     return row.dataItem.CategoryID % 2 == 0;
+         * };
+         * ```
          *
          * Setting this property to null means all regular data
          * rows (not group rows or new item templates) have details.
          */
-        rowHasDetail: Function;
+        rowHasDetail: IRowHasDetail;
         /**
          * Gets the detail row associated with a given grid row.
          *
          * @param row Row or index of the row to investigate.
          */
-        getDetailRow(row: any): DetailRow;
+        getDetailRow(row: any): DetailRow | null;
         /**
          * Gets a value that determines if a row's details are visible.
          *
@@ -240,19 +291,19 @@ declare module wijmo.grid.detail {
         /**
          * Hides the detail row for a given row.
          *
-         * @param row Row or index of the row that will have its details hidden.
+         * @param row {@link Row} or index of the row that will have its details hidden.
          * This parameter is optional. If not provided, all detail rows are hidden.
          */
-        hideDetail(row?: any): void;
+        hideDetail(row?: wijmo.grid.Row | number): void;
         /**
          * Shows the detail row for a given row.
          *
-         * @param row Row or index of the row that will have its details shown.
+         * @param row {@link Row} or index of the row that will have its details shown.
          * @param hideOthers Whether to hide details for all other rows.
          */
-        showDetail(row: any, hideOthers?: boolean): void;
+        showDetail(row: wijmo.grid.Row | number, hideOthers?: boolean): void;
         _sizeDetailRow(row: DetailRow): void;
-        _handleFixedCells(): void;
+        _handleFrozenCells(): void;
         _toIndex(row: any): number;
         _hdrClick(e: MouseEvent): void;
         _toggleRowDetail(row: number): boolean;
@@ -261,7 +312,7 @@ declare module wijmo.grid.detail {
         _resizedRow(s: any, e: wijmo.grid.CellRangeEventArgs): void;
         _hasDetail(row: number): boolean;
         _isRegularRow(row: wijmo.grid.Row): boolean;
-        _createDetailCell(row: wijmo.grid.Row, col?: wijmo.grid.Column): HTMLElement;
+        _createDetailCell(row: wijmo.grid.Row): HTMLElement;
     }
 }
 declare module wijmo.grid.detail {

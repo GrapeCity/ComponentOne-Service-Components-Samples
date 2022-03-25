@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -24,6 +24,8 @@ declare module wijmo.chart.render {
         private _canvasRect;
         private _canvasDefaultFont;
         private _applyCSSStyles;
+        private _cssPriority;
+        private _readOnly;
         constructor(element: HTMLElement, applyCSSStyles?: boolean);
         beginRender(): void;
         endRender(): void;
@@ -35,12 +37,14 @@ declare module wijmo.chart.render {
         stroke: string;
         strokeWidth: number;
         textFill: string;
+        cssPriority: boolean;
+        readOnly: boolean;
         addClipRect(clipRect: wijmo.Rect, id: string): void;
         drawEllipse(cx: number, cy: number, rx: number, ry: number, className?: string, style?: any): any;
         drawRect(x: number, y: number, w: number, h: number, className?: string, style?: any, clipPath?: string): any;
         drawLine(x1: number, y1: number, x2: number, y2: number, className?: string, style?: any): any;
-        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): any;
-        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): any;
+        drawLines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): any;
+        drawSplines(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string, num?: number): any;
         drawPolygon(xs: number[], ys: number[], className?: string, style?: any, clipPath?: string): any;
         drawPieSegment(cx: number, cy: number, r: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): any;
         drawDonutSegment(cx: number, cy: number, radius: number, innerRadius: number, startAngle: number, sweepAngle: number, className?: string, style?: any, clipPath?: string): any;

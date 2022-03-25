@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="C1.WPF.Schedule.EditAppointmentDialog" 
+        Loaded="EditAppointmentDialog_Loaded" x:Name="root" 
+        MinHeight="320" MinWidth="400" Height="480" Width="600"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:c1datetime="clr-namespace:C1.WPF.DateTimeEditors;assembly=C1.WPF.DateTimeEditors" >
+    <Grid x:Name="LayoutRoot" >
+        <Grid.Resources>
+            <DataTemplate x:Key="BaseObjectItemPictTextTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Name="imageBorder" BorderBrush="Black" BorderThickness="1" CornerRadius="2" Height="15" Width="15" Background="{Binding Brush.Brush}" HorizontalAlignment="Center"
+                            VerticalAlignment="Center" Margin="3"/>
+
+                    <TextBlock Grid.Column="1" Text="{Binding Text}" VerticalAlignment="Center" />
+                </Grid>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ToolBarTray Grid.Row="0" >
+            <ToolBar Band="1" BandIndex="1" Grid.Row="0" IsTabStop="False">
+                <Button x:Name="PART_DialogSaveButton" Click="PART_DialogSaveButton_Click" ToolTip="Save and Close"
+                        VerticalAlignment="Center" IsTabStop="False" BorderThickness="0">
+                    <TextBlock Margin="4,0">
+                        <Run FontFamily="Segoe UI Symbol" FontSize="16" Text="&#xE105;" BaselineAlignment="Bottom" />
+ 				    	<AccessText Text="_Save and Close"/>
+                    </TextBlock>
+                </Button>
+                <Button x:Name="saveAsButton" Click="saveAsButton_Click" ToolTip="Save As" 
+                        VerticalAlignment="Center" IsTabStop="False" BorderThickness="0">
+                    <TextBlock Margin="4,0">
+                        <Run FontFamily="Segoe UI Symbol" FontSize="16" Text="&#xE105;" BaselineAlignment="Bottom" />
+                        <AccessText Text="Save _As..."/>
+                    </TextBlock>
+                </Button>
+                <!--       <Separator />
+                <Button x:Name="reccButton" Click="reccButton_Click" ToolTip="Recurrence"
+                        VerticalAlignment="Stretch" VerticalContentAlignment="Center" IsTabStop="False" BorderThickness="0">
+                    <TextBlock Margin="4,0">
+                        <Run FontFamily="Segoe UI Symbol" FontSize="12" Text="&#xE117;" BaselineAlignment="Center" />
+						<AccessText Text="_Recurrence..." />
+                    </TextBlock>
+                </Button>
+                <Separator />-->
+                <Button Name="deleteButton" ToolTip="Delete" Click="deleteButton_Click"
+                        VerticalAlignment="Stretch" VerticalContentAlignment="Center" IsTabStop="False" BorderThickness="0">
+                    <TextBlock FontFamily="Segoe UI Symbol" FontSize="16" Text="&#xE106;" Margin="4,0"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <Border Grid.Row="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Margin="5,5,5,0" Padding="5" BorderThickness="0,0,0,0.5">
+            <Grid Margin="5, 0, 5, 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <!-- Subject -->
+                <Label Target="{Binding ElementName=subject}" VerticalAlignment="Center" Margin="10,2,0,2" HorizontalAlignment="Left" Content="Sub_ject:" />
+                <TextBox Height="27" x:Name="subject" TabIndex="0" Padding="2" Text="{Binding Subject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="subject_TextChanged"
+                         Grid.Column="1" Grid.ColumnSpan="3" MaxLength="255" VerticalAlignment="Center" Margin="10,2,0,2" />
+                <!-- Location -->
+                <Label VerticalAlignment="Center" Margin="10,2,0,2" Grid.Row="1" Target="{Binding ElementName=location}" HorizontalAlignment="Left" Content="_Location:" />
+                <TextBox Height="27" TabIndex="1" x:Name="location" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" MaxLength="255"
+                         VerticalAlignment="Center" Margin="10,2,0,2" />
+                <!-- Label -->
+                <Label VerticalAlignment="Center" Margin="10,2,0,2" Grid.Row="1" Target="{Binding ElementName=label}" Grid.Column="2" HorizontalAlignment="Left" Content="La_bel:" />
+                <ComboBox Grid.Row="1" Grid.Column="3" TabIndex="2" x:Name="label" ItemTemplate="{StaticResource BaseObjectItemPictTextTemplate}"
+                          ItemsSource="{Binding Storage.LabelStorage.Labels, ElementName=root}" SelectedItem="{Binding Path=Label, Mode=TwoWay}"
+                          MinWidth="140" Padding="0" VerticalAlignment="Center" Margin="10,2,0,2" Height="27" />
+           </Grid>
+        </Border>
+        <!-- Start/End time -->
+        <Border Grid.Row="2" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Margin="5" Padding="5" BorderThickness="0,0,0,0.5">
+            <Grid Margin="0,0,0,5">
+                <Grid Name="startEndPanel">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Start -->
+                    <Label VerticalAlignment="Center" Margin="10,2,0,2" Grid.Row="0" HorizontalAlignment="Left" Target="{Binding ElementName=startCalendar}">
+                        Start time:
+                    </Label>
+                    <c1datetime:C1DateTimePicker Height="27" x:Name="startCalendar" VerticalAlignment="Center" Margin="10,2,0,2" Padding="1" Grid.Column="1" FirstDayOfWeek="{Binding Path=ParentCollection.ParentStorage.ScheduleStorage.Scheduler.CalendarHelper.WeekStart}" TimeFormat="ShortTime" DateFormat="Long" TimeIncrement="0:15" DateTime="{Binding Start, Mode=TwoWay}" />
+                    <!-- End -->
+                    <Label VerticalAlignment="Center" Margin="10,2,0,2" Grid.Row="1" HorizontalAlignment="Left" Target="{Binding ElementName=endCalendar}">
+                        End time:
+                    </Label>
+                    <c1datetime:C1DateTimePicker Height="27" x:Name="endCalendar" VerticalAlignment="Center" Margin="10,2,0,2" Padding="1" DateTimeChanged="endCalendar_DateTimeChanged" FirstDayOfWeek="{Binding Path=ParentCollection.ParentStorage.ScheduleStorage.Scheduler.CalendarHelper.WeekStart}" TimeFormat="ShortTime" DateFormat="Long" TimeIncrement="0:15" Grid.Column="1" Grid.Row="1" />
+                    <!-- All Day -->
+                    <CheckBox Grid.Column="2" HorizontalAlignment="Left" x:Name="chkAllDay" Checked="chkAllDay_Checked" Unchecked="chkAllDay_Unchecked" VerticalAlignment="Center" Margin="10,2,0,2" IsChecked="{Binding AllDayEvent, Mode=TwoWay}">
+                        All da_y event
+                    </CheckBox>
+               </Grid>
+                <!-- recurrence info -->
+                <Grid Name="recurrenceInfoPanel">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" VerticalAlignment="Center">
+						Recurrence: 
+                    </Label>
+                    <Label Name="recDescription" Grid.Column="1">
+                        <TextBlock Text="{Binding PatternDescription, ElementName=root}" TextWrapping="Wrap" />
+                    </Label>
+                </Grid>
+            </Grid>
+        </Border>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" >
+            <Label Margin="5, 2, 0, 2" Target="{Binding ElementName=status}" VerticalAlignment="Stretch">
+                Sho_w time as:
+            </Label>
+            <ComboBox x:Name="status" ItemTemplate="{StaticResource BaseObjectItemPictTextTemplate}" Height="27"
+                      ItemsSource="{Binding Storage.StatusStorage.Statuses, ElementName=root}" SelectedItem="{Binding Path=BusyStatus, Mode=TwoWay}"
+                      MinWidth="140" Padding="0" VerticalAlignment="Center" Margin="5,2,0,2" />
+        </StackPanel>
+        <Border Grid.Row="4">
+            <TextBox MinHeight="55" Margin="4" Padding="2" x:Name="body" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" Text="{Binding Body, Mode=TwoWay}" AcceptsReturn="true" />
+        </Border>
+    </Grid>
+</Window>

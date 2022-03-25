@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -17,10 +17,12 @@ declare var PDFDocument: {
 interface _IPdfKitDocument {
     x: number;
     y: number;
-    info: _IPdfKitDocumentInfo;
+    _ctm: number[];
     compress: boolean;
+    info: _IPdfKitDocumentInfo;
     options: _IPdfKitDocumentOptions;
     page: _IPdfKitPage;
+    version: 1.3 | 1.4 | 1.5 | 1.6 | 1.7;
     addPage(options?: _IPdfKitPageOptions): _IPdfKitDocument;
     bufferedPageRange(): {
         start: number;
@@ -34,8 +36,8 @@ interface _IPdfKitDocument {
     currentLineHeight(includeGap?: boolean): number;
     widthOfString(value: string, options?: _IPdfKitWidthOfStringOptions): number;
     heightOfString(value: string, options?: _IPdfKitMeasurementTextOptions): number;
-    moveDown(lines: number): _IPdfKitDocument;
-    moveUp(lines: number): _IPdfKitDocument;
+    moveDown(lines?: number): _IPdfKitDocument;
+    moveUp(lines?: number): _IPdfKitDocument;
     text(text: string, options?: _IPdfKitTextOptions): _IPdfKitDocument;
     text(text: string, x?: number, y?: number, options?: _IPdfKitTextOptions): _IPdfKitDocument;
     textAndMeasure(text: string, x: number, y: number, options: _IPdfKitMeasurementTextOptions, measureOnly?: boolean): _IPdfKitTextSize;
@@ -43,11 +45,11 @@ interface _IPdfKitDocument {
     currentFontBBox(): _IPdfKitFontBBox;
     currentFontSize(): number;
     font(name: string, size?: number): _IPdfKitDocument;
-    font(src: ArrayBuffer, size?: number): _IPdfKitDocument;
-    font(src: ArrayBuffer, fontFamily: string, size?: number): _IPdfKitDocument;
+    font(src: ArrayBuffer | Uint8Array, size?: number): _IPdfKitDocument;
+    font(src: ArrayBuffer | Uint8Array, fontFamily: string, size?: number): _IPdfKitDocument;
     fontSize(size: number): _IPdfKitDocument;
     registerFont(name: string, standardFontName: string): _IPdfKitDocument;
-    registerFont(name: string, src: ArrayBuffer, fontFamily?: string): _IPdfKitDocument;
+    registerFont(name: string, src: ArrayBuffer | Uint8Array, fontFamily?: string): _IPdfKitDocument;
     image(URI: string | _IPdfKitImage, options?: _IPdfKitImageOptions): _IPdfKitDocument;
     image(URI: string | _IPdfKitImage, x?: number, y?: number, options?: _IPdfKitImageOptions): _IPdfKitDocument;
     openImage(URI: string): _IPdfKitImage;
@@ -55,27 +57,20 @@ interface _IPdfKitDocument {
     on(eventName: 'data', handler: (chunk: any) => {}): _IPdfKitDocument;
     removeAllListeners(type: string): _IPdfKitDocument;
     removeListener(type: string, listener: Function): _IPdfKitDocument;
-    fill(colorOrRule: string): _IPdfKitDocument;
-    fill(color: string, rule?: string): _IPdfKitDocument;
-    fill(color: number[], rule?: string): _IPdfKitDocument;
-    fill(color: _IPdfKitGradient, rule?: string): _IPdfKitDocument;
-    fillAndStroke(rule?: string): _IPdfKitDocument;
-    fillAndStroke(fillColor: string, strokeColor: string, rule?: string): _IPdfKitDocument;
-    fillAndStroke(fillColor: number[], strokeColor: number[], rule?: string): _IPdfKitDocument;
-    fillAndStroke(fillColor: _IPdfKitGradient, strokeColor: _IPdfKitGradient, rule?: string): _IPdfKitDocument;
-    fillColor(color: string, opacity?: number): _IPdfKitDocument;
-    fillColor(color: number[], opacity?: number): _IPdfKitDocument;
-    fillColor(color: _IPdfKitGradient, opacity?: number): _IPdfKitDocument;
-    strokeColor(color: string, opacity?: number): _IPdfKitDocument;
-    strokeColor(color: number[], opacity?: number): _IPdfKitDocument;
-    strokeColor(color: _IPdfKitGradient, opacity?: number): _IPdfKitDocument;
+    fill(colorOrRule: string | _PdfKitRule): _IPdfKitDocument;
+    fill(color: _IPdfKitGradient, rule?: _PdfKitRule): _IPdfKitDocument;
+    stroke(color?: _PdfKitColor): _IPdfKitDocument;
+    fillAndStroke(rule?: _PdfKitRule): _IPdfKitDocument;
+    fillAndStroke(fillColor: _PdfKitColor, strokeColor: _PdfKitColor, rule?: _PdfKitRule): _IPdfKitDocument;
+    fillColor(color: _PdfKitColor, opacity?: number): _IPdfKitDocument;
+    strokeColor(color: _PdfKitColor, opacity?: number): _IPdfKitDocument;
     fillOpacity(opacity: number): _IPdfKitDocument;
     strokeOpacity(opacity: number): _IPdfKitDocument;
     opacity(opacity: number): _IPdfKitDocument;
     linearGradient(x1: number, y1: number, x2: number, y2: number): _IPdfKitGradient;
     radialGradient(x1: number, y1: number, r1: number, x2: number, y2: number, r2: number): _IPdfKitGradient;
     closePath(): _IPdfKitDocument;
-    clip(rule?: string): _IPdfKitDocument;
+    clip(rule?: _PdfKitRule): _IPdfKitDocument;
     bezierCurveTo(cp1x: number, cp1y: number, cp2x: number, cp2y: number, x: number, y: number): _IPdfKitDocument;
     quadraticCurveTo(cpx: number, cpy: number, x: number, y: number): _IPdfKitDocument;
     circle(x: number, y: number, radius: number): _IPdfKitDocument;
@@ -87,14 +82,11 @@ interface _IPdfKitDocument {
     rect(x: number, y: number, w: number, h: number): _IPdfKitDocument;
     roundedRect(x: number, y: number, w: number, h: number, r?: number): _IPdfKitDocument;
     polygon(...points: number[][]): _IPdfKitDocument;
-    lineCap(value: any): _IPdfKitDocument;
-    lineJoin(value: any): _IPdfKitDocument;
+    lineCap(value: string | number): _IPdfKitDocument;
+    lineJoin(value: string | number): _IPdfKitDocument;
     miterLimit(value: number): _IPdfKitDocument;
     dash(length: number, options?: _IPdfKitDashOptions): _IPdfKitDocument;
     undash(): _IPdfKitDocument;
-    stroke(color?: string): _IPdfKitDocument;
-    stroke(color?: number[]): _IPdfKitDocument;
-    stroke(color?: _IPdfKitGradient): _IPdfKitDocument;
     scale(xFactor: number, yFactor: number, options?: _IPdfKitOrigin): _IPdfKitDocument;
     scale(factor: number): _IPdfKitDocument;
     translate(x: number, y: number): _IPdfKitDocument;
@@ -102,26 +94,87 @@ interface _IPdfKitDocument {
     rotate(angle: number, options?: _IPdfKitOrigin): _IPdfKitDocument;
     restore(): _IPdfKitDocument;
     save(): _IPdfKitDocument;
+    outline: _IPdfKitOutline;
+    addNamedDestination(name: string, dest: 'XYZ', left: number, top: number, zoom: number): any;
+    addNamedDestination(name: string, dest: 'Fit'): any;
+    addNamedDestination(name: string, dest: 'FitH', top: number): any;
+    addNamedDestination(name: string, dest: 'FitV', left: number): any;
+    addNamedDestination(name: string, dest: 'FitR', left: number, bottom: number, right: number, top: number): any;
+    addNamedDestination(name: string, dest: 'FitB'): any;
+    addNamedDestination(name: string, dest: 'FitBH', top: number): any;
+    addNamedDestination(name: string, dest: 'FitBV', left: number): any;
+    addNamedDestination(name: string, ...args: any[]): any;
+    annotate(x: number, y: number, w: number, h: number, options?: _IPdfKitBaseAnnotationOptions): _IPdfKitDocument;
+    note(x: number, y: number, w: number, h: number, contents: string, options?: _IPdfKitTextAnnotationOptions): _IPdfKitDocument;
+    goTo(x: number, y: number, w: number, h: number, name: string, options?: _IPdfKitLinkAnnotationOptions): _IPdfKitDocument;
+    link(x: number, y: number, w: number, h: number, url: string | number, options?: _IPdfKitLinkAnnotationOptions): _IPdfKitDocument;
+    highlight(x: number, y: number, w: number, h: number, options?: _IPdfKitTextMarkupAnnotationOptions): _IPdfKitDocument;
+    underline(x: number, y: number, w: number, h: number, options?: _IPdfKitTextMarkupAnnotationOptions): _IPdfKitDocument;
+    strike(x: number, y: number, w: number, h: number, options?: _IPdfKitTextMarkupAnnotationOptions): _IPdfKitDocument;
+    lineAnnotation(x1: number, y1: number, x2: number, y2: number, options?: _IPdfKitLineAnnotationOptions): _IPdfKitDocument;
+    rectAnnotation(x: number, y: number, w: number, h: number, options?: _IPdfKitSquareOrCircleAnnotationOptions): _IPdfKitDocument;
+    ellipseAnnotation(x: number, y: number, w: number, h: number, options?: _IPdfKitSquareOrCircleAnnotationOptions): _IPdfKitDocument;
+    textAnnotation(x: number, y: number, w: number, h: number, text: string, options?: _IPdfKitFreeTextAnnotationOptions): _IPdfKitDocument;
+    markContent(tag: _PdfKitStructureType | _PdfKitNonStructureType, options?: _IPdfKitMarkedContentOptions): _IPdfKitDocument;
+    markStructureContent(tag: _PdfKitStructureType, options?: _IPdfKitMarkedContentOptions): _IPdfKitStructureContent;
+    endMarkedContent(): _IPdfKitDocument;
+    struct(type: _PdfKitStructureType, children?: _PdfKitValidStructChild | _PdfKitValidStructChild[]): _IPdfKitStructureElement;
+    struct(type: _PdfKitStructureType, options?: _IPdfKitStructureElementOptions, children?: _PdfKitValidStructChild | _PdfKitValidStructChild[]): _IPdfKitStructureElement;
+    addStructure(structElem: _IPdfKitStructureElement): _IPdfKitDocument;
 }
 interface _IPdfKitPageOptions {
-    layout?: string;
+    layout?: _PdfKitPageLayout;
     margin?: number;
     margins?: _IPdfKitPageMargins;
-    size?: any;
+    size?: string | [number, number];
+}
+interface _IPdfKitReference {
+    document: _IPdfKitDocument;
+    id: number;
+    data: any;
+    gen: number;
+    compress: boolean;
+    uncompressedLength: number;
+    buffer: any[];
+    write(chunk: any): void;
+    end(chunk: any): void;
+    finalize(): void;
+    toString(): string;
 }
 interface _IPdfKitPage {
     document: _IPdfKitDocument;
     width: number;
     height: number;
     margins: _IPdfKitPageMargins;
-    size: any;
-    layout: string;
+    size: string | [number, number];
+    layout: _PdfKitPageLayout;
     originalMargins: _IPdfKitPageMargins;
 }
 interface _IPdfKitDocumentOptions extends _IPdfKitPageOptions {
+    autoFirstPage?: boolean;
     bufferPages?: boolean;
     compress?: boolean;
     info?: _IPdfKitDocumentInfo;
+    pdfVersion?: _PdfKitVersion;
+    fontLayoutCache?: boolean;
+    font?: string | ArrayBuffer | Uint8Array;
+    lang?: string;
+    displayTitle?: boolean;
+    tagged?: boolean;
+    security?: {
+        new (document: typeof PDFDocument, options: _IPdfKitDocumentOptions): any;
+    };
+    userPassword?: string;
+    ownerPassword?: string;
+    permissions?: {
+        printing?: _PdfKitPrintPermission;
+        modifying?: boolean;
+        copying?: boolean;
+        annotating?: boolean;
+        fillingForms?: boolean;
+        contentAccessibility?: boolean;
+        documentAssembly?: boolean;
+    };
     pageAdding?: (document: _IPdfKitDocument, options: _IPdfKitPageOptions) => void;
     pageAdded?: (document: _IPdfKitDocument, pageIndex: number) => void;
 }
@@ -140,11 +193,11 @@ interface _IPdfKitPageMargins {
     top: number;
 }
 interface _IPdfKitTextOptions {
-    align?: string;
+    align?: _PdfKitTextHorizontalAlign;
     lineBreak?: boolean;
     width?: number;
     height?: number;
-    ellipsis?: any;
+    ellipsis?: string | true;
     columns?: number;
     columnGap?: number;
     indent?: number;
@@ -154,10 +207,16 @@ interface _IPdfKitTextOptions {
     characterSpacing?: number;
     fill?: boolean;
     stroke?: boolean;
-    link?: string;
     underline?: boolean;
     strike?: boolean;
     continued?: boolean;
+    structParent?: _IPdfKitStructureElement;
+    destination?: string;
+    goTo?: string;
+    link?: string | number;
+    oblique?: number | true;
+    baseline?: number | _PdfKitTextBaseline;
+    features?: _PdfKitOpenTypeFeatures[];
 }
 interface _IPdfKitDashOptions {
     phase?: number;
@@ -177,9 +236,13 @@ interface _IPdfKitImageOptions {
     width?: number;
     height?: number;
     scale?: number;
-    fit?: number[];
-    align?: string;
-    valign?: string;
+    fit?: [number, number];
+    cover?: [number, number];
+    align?: 'left' | 'center' | 'right';
+    valign?: 'top' | 'center' | 'bottom';
+    link?: string;
+    goTo?: string;
+    destination?: string;
 }
 interface _IPdfKitGradient {
     stop(pos: number, color: any, opacity?: number): _IPdfKitGradient;
@@ -198,83 +261,117 @@ interface _IPdfKitFontBBox {
     urx: number;
     ury: number;
 }
+interface _IPdfKitOutline {
+    addItem(title: string, options: _IPdfKitOutineOptions): _IPdfKitOutline;
+    endOutline(): void;
+}
+interface _IPdfKitOutineOptions {
+    expaned?: boolean;
+}
+interface _IPdfKitStructureContent {
+    refs: [{
+        pageRef: _IPdfKitReference;
+        mcid: number;
+    }];
+    push(structContent: _IPdfKitStructureContent): void;
+}
+interface _IPdfKitStructureElement {
+    document: _IPdfKitDocument;
+    dictionary: _IPdfKitReference;
+    add(child: _PdfKitValidStructChild): _IPdfKitStructureElement;
+    setParent(parentRef: _IPdfKitReference): void;
+    setAttached(): void;
+    end(): void;
+}
+interface _IPdfKitMarkedContentOptions {
+    type?: _PdfKitArtifactType;
+    bbox?: [number, number, number, number];
+    attached?: _PdfKitPageEdge[];
+    lang?: string;
+    alt?: string;
+    expanded?: string;
+    actual?: string;
+}
+interface _IPdfKitStructureElementOptions {
+    title?: string;
+    lang?: string;
+    alt?: string;
+    expanded?: string;
+    actual?: string;
+}
+interface _IPdfKitBaseAnnotationOptions {
+    color?: _PdfKitColor;
+    Type?: 'Annot';
+    Subtype?: 'Text' | 'Link' | 'FreeText' | 'Line' | 'Square' | 'Circle' | 'Polygon' | 'Polyline' | 'Highlight' | 'Underline' | 'Squiggly' | 'StrikeOut' | 'Stamp' | 'Caret' | 'Ink' | 'Popup' | 'FileAttachment' | 'Sound' | 'Movie' | 'Widget' | 'Screen' | 'PrinterMark' | 'TrapNet';
+    Contents?: string;
+    P?: _IPdfKitReference;
+    Rect?: [number, number, number, number];
+    NM?: string;
+    M?: any;
+    F?: number;
+    BS?: _IPdfKitReference;
+    Border?: number[];
+    AP?: _IPdfKitReference;
+    AS?: string;
+    C?: [number, number, number];
+    A?: _IPdfKitReference;
+    AA?: _IPdfKitReference;
+    StructParent?: number;
+    OC?: _IPdfKitReference;
+}
+interface _IPdfKitTextAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    Open?: boolean;
+    Name?: string;
+    IRT?: _IPdfKitReference;
+    State?: string;
+    StateModel?: string;
+}
+interface _IPdfKitLinkAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    Dest?: string[] | string;
+    H?: string;
+    PA?: _IPdfKitReference;
+}
+interface _IPdfKitTextMarkupAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    QuadPoints?: number[];
+}
+interface _IPdfKitLineAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    L: [number, number, number, number];
+    BS?: _IPdfKitReference;
+    LE?: [string, string];
+    IC?: [number, number, number];
+}
+interface _IPdfKitSquareOrCircleAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    IC?: [number, number, number];
+    BE?: _IPdfKitReference;
+    RD?: [number, number, number, number];
+}
+interface _IPdfKitFreeTextAnnotationOptions extends _IPdfKitBaseAnnotationOptions {
+    DA: string;
+    Q?: number;
+    RC?: string;
+    DS?: string;
+}
+declare type _PdfKitColor = string | [number, number, number] | // RGB
+[number, number, number, number] | // CMYK
+_IPdfKitGradient;
+declare type _PdfKitRule = 'even-odd' | 'non-zero';
+declare type _PdfKitVersion = '1.3' | '1.4' | '1.5' | '1.6' | '1.7' | '1.7ext3';
+declare type _PdfKitPageLayout = 'portrait' | 'landscape';
+declare type _PdfKitTextHorizontalAlign = 'left' | 'center' | 'right' | 'justify';
+declare type _PdfKitTextBaseline = 'svg-middle' | 'middle' | 'svg-central' | 'bottom' | 'ideographic' | 'alphabetic' | 'mathematical' | 'hanging' | 'top';
+declare type _PdfKitPrintPermission = 'lowResolution' | 'highResolution';
+declare type _PdfKitArtifactType = 'Pagination' | 'Layout' | 'Page' | 'Background';
+declare type _PdfKitPageEdge = 'Top' | 'Bottom' | 'Left' | 'Right';
+declare type _PdfKitOpenTypeFeatures = 'aalt' | 'abvf' | 'abvm' | 'abvs' | 'afrc' | 'akhn' | 'blwf' | 'blwm' | 'blws' | 'calt' | 'case' | 'cfar' | 'cjct' | 'clig' | 'cpct' | 'cpsp' | 'cswh' | 'curs' | 'cv01' | 'cv02' | 'cv03' | 'cv04' | 'cv05' | 'cv06' | 'cv07' | 'cv08' | 'cv09' | 'cv10' | 'cv11' | 'cv12' | 'cv13' | 'cv14' | 'cv15' | 'cv16' | 'cv17' | 'cv18' | 'cv19' | 'cv20' | 'cv21' | 'cv22' | 'cv23' | 'cv24' | 'cv25' | 'cv26' | 'cv27' | 'cv28' | 'cv29' | 'cv30' | 'cv31' | 'cv32' | 'cv33' | 'cv34' | 'cv35' | 'cv36' | 'cv37' | 'cv38' | 'cv39' | 'cv40' | 'cv41' | 'cv42' | 'cv43' | 'cv44' | 'cv45' | 'cv46' | 'cv47' | 'cv48' | 'cv49' | 'cv50' | 'cv51' | 'cv52' | 'cv53' | 'cv54' | 'cv55' | 'cv56' | 'cv57' | 'cv58' | 'cv59' | 'cv60' | 'cv61' | 'cv62' | 'cv63' | 'cv64' | 'cv65' | 'cv66' | 'cv67' | 'cv68' | 'cv69' | 'cv70' | 'cv71' | 'cv72' | 'cv73' | 'cv74' | 'cv75' | 'cv76' | 'cv77' | 'cv78' | 'cv79' | 'cv80' | 'cv81' | 'cv82' | 'cv83' | 'cv84' | 'cv85' | 'cv86' | 'cv87' | 'cv88' | 'cv89' | 'cv90' | 'cv91' | 'cv92' | 'cv93' | 'cv94' | 'cv95' | 'cv96' | 'cv97' | 'cv98' | 'cv99' | 'c2pc' | 'c2sc' | 'dist' | 'ccmp' | 'dlig' | 'dnom' | 'dtls' | 'expt' | 'falt' | 'fin2' | 'fin3' | 'fina' | 'flac' | 'frac' | 'fwid' | 'half' | 'haln' | 'halt' | 'hist' | 'hkna' | 'hlig' | 'hngl' | 'hojo' | 'hwid' | 'init' | 'isol' | 'ital' | 'jalt' | 'jp78' | 'jp83' | 'jp90' | 'jp04' | 'kern' | 'lfbd' | 'liga' | 'ljmo' | 'lnum' | 'locl' | 'ltra' | 'ltrm' | 'mark' | 'med2' | 'medi' | 'mgrk' | 'mkmk' | 'mset' | 'nalt' | 'nlck' | 'nukt' | 'numr' | 'onum' | 'opbd' | 'ordn' | 'ornm' | 'palt' | 'pcap' | 'pkna' | 'pnum' | 'pref' | 'pres' | 'pstf' | 'psts' | 'pwid' | 'qwid' | 'rand' | 'rclt' | 'rkrf' | 'rlig' | 'rphf' | 'rtbd' | 'rtla' | 'rtlm' | 'ruby' | 'rvrn' | 'salt' | 'sinf' | 'size' | 'smcp' | 'smpl' | 'ss01' | 'ss02' | 'ss03' | 'ss04' | 'ss05' | 'ss06' | 'ss07' | 'ss08' | 'ss09' | 'ss10' | 'ss11' | 'ss12' | 'ss13' | 'ss14' | 'ss15' | 'ss16' | 'ss17' | 'ss18' | 'ss19' | 'ss20' | 'ssty' | 'stch' | 'subs' | 'sups' | 'swsh' | 'titl' | 'tjmo' | 'tnam' | 'tnum' | 'trad' | 'twid' | 'unic' | 'valt' | 'vatu' | 'vert' | 'vhal' | 'vjmo' | 'vkna' | 'vkrn' | 'vpal' | 'vrt2' | 'vrtr' | 'zero';
+declare type _PdfKitValidStructChild = _IPdfKitStructureContent | _IPdfKitStructureElement | (() => void);
+declare type _PdfKitNonStructureType = 'Artifact' | 'ReversedChars';
+declare type _PdfKitStructureType = // Section 10.7, "Standard structure types"
+'Document' | 'Part' | 'Art' | 'Sect' | 'Div' | 'BlockQuote' | 'Caption' | 'TOC' | 'TOCI' | 'Index' | 'NonStruct' | 'Private' | 'H' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'P' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'TR' | 'TH' | 'TD' | 'THead' | 'TBody' | 'TFoot' | 'Span' | 'Quote' | 'Note' | 'Reference' | 'BibEntry' | 'Code' | 'Link' | 'Annot' | 'Ruby' | 'RB' | 'RT' | 'RP' | 'Warichu' | 'WT' | 'WP' | 'Figure' | 'Formula' | 'Form';
 declare module wijmo.pdf {
     var __c1pdfkitIsModule: any;
 }
 declare module wijmo.pdf {
-    /**
-    * Represents an object which determines a transition point of a gradient.
-    */
-    class PdfGradientStop {
-        private _offset;
-        private _color;
-        private _opacity;
-        /**
-        * Initializes a new instance of the {@link PdfGradientStop} class.
-        *
-        * @param offset The location of the gradient stop on the gradient axis.
-        * @param color The color of the gradient stop. A {@link wijmo.Color} object or
-        * any string acceptable by the {@link wijmo.Color.fromString} method.
-        * @param opacity The opacity of the gradient stop.
-        */
-        constructor(offset?: number, color?: any, opacity?: number);
-        /**
-        * Gets or sets the location of the gradient stop on gradient axis of the brush.
-        * The value must be in range [0, 1], where 0 indicates that the gradient stop is
-        * placed at the beginning of the gradient axis, while 1 indicates that the
-        * gradient stop is placed at the end of the gradient axis.
-        * The default value is 0.
-        */
-        offset: number;
-        /**
-        * Gets or sets the color of the gradient stop.
-        * The default color is black.
-        */
-        color: wijmo.Color;
-        /**
-        * Gets or sets the opacity of the gradient stop.
-        * The value must be in range [0, 1], where 0 indicates that the gradient stop is
-        * completely transparent, while 1 indicates that the gradient stop is completely
-        * opaque. The default value is 1.
-        */
-        opacity: number;
-        /**
-        * Creates a copy of this {@link PdfGradientStop}.
-        * @return A copy of this gradient stop.
-        */
-        clone(): PdfGradientStop;
-        /**
-        * Determines whether the specified {@link PdfGradientStop} instance is equal to
-        * the current one.
-        *
-        * @param value {@link PdfGradientStop} to compare.
-        * @return true if the specified object is equal to the current one, otherwise false.
-        */
-        equals(value: PdfGradientStop): boolean;
-    }
-}
-declare module wijmo.pdf {
-    /**
-    * Provides arguments for the {@link PdfDocument.end} event.
-    */
-    class PdfDocumentEndedEventArgs extends wijmo.EventArgs {
-        private _blob;
-        private _chunks;
-        /**
-        * Initializes a new instance of the {@link PdfDocumentEndedEventArgs} class.
-        *
-        * @param chunks An array of chunks.
-        */
-        constructor(chunks: Uint8Array[]);
-        /**
-        * Gets a Blob object that contains the document data.
-        */
-        readonly blob: Blob;
-        /**
-        * Gets the underlying array of buffers that contains the document data.
-        */
-        readonly chunks: Uint8Array[];
-    }
+    function softPdfSecurity(): typeof wijmo.pdf.security;
 }
 declare module wijmo.pdf {
     class _PdfSvgPathHelper {
@@ -283,6 +380,13 @@ declare module wijmo.pdf {
         private static _processPath;
         private static _getTokenizer;
         private static _updateOffset;
+    }
+}
+declare module wijmo.pdf {
+    class _SafeColor extends wijmo.Color {
+        constructor(color: string);
+        _parse(c: string): boolean;
+        static fromString(value: string): wijmo.Color;
     }
 }
 declare module wijmo.pdf {
@@ -333,10 +437,26 @@ declare module wijmo.pdf {
     }
 }
 declare module wijmo.pdf {
-    class _SafeColor extends wijmo.Color {
-        constructor(color: string);
-        _parse(c: string): boolean;
-        static fromString(value: string): wijmo.Color;
+    /**
+    * Provides arguments for the {@link PdfDocument.end} event.
+    */
+    class PdfDocumentEndedEventArgs extends wijmo.EventArgs {
+        private _blob;
+        private _chunks;
+        /**
+        * Initializes a new instance of the {@link PdfDocumentEndedEventArgs} class.
+        *
+        * @param chunks An array of chunks.
+        */
+        constructor(chunks: Uint8Array[]);
+        /**
+        * Gets a Blob object that contains the document data.
+        */
+        readonly blob: Blob;
+        /**
+        * Gets the underlying array of buffers that contains the document data.
+        */
+        readonly chunks: Uint8Array[];
     }
 }
 declare module wijmo.pdf {
@@ -461,9 +581,34 @@ declare module wijmo.pdf {
         */
         Justify = 3
     }
-    enum _PdfTextBaseline {
-        Top = 0,
-        Alphabetic = 1
+    /**
+    * Specifies the current text baseline.
+    */
+    enum PdfTextBaseline {
+        /**
+        * The text baseline is the normal alphabetic baseline.
+        */
+        Alphabetic = 0,
+        /**
+        * The text baseline is the top of the em square.
+        */
+        Top = 1,
+        /**
+        * The text baseline is the hanging baseline.
+        */
+        Hanging = 2,
+        /**
+        * The text baseline is the middle of the em square.
+        */
+        Middle = 3,
+        /**
+        * The text baseline is the ideographic baseline.
+        */
+        Ideographic = 4,
+        /**
+        * The text baseline is the bottom of the bounding box.
+        */
+        Bottom = 5
     }
     /**
     * Specifies the page size, in points.
@@ -662,6 +807,205 @@ declare module wijmo.pdf {
         */
         Tabloid = 47
     }
+    /**
+    * Specifies PDF printing permisson.
+    */
+    enum PdfPrintPermission {
+        /**
+        * Printing is not allowed.
+        */
+        NotAllowed = 0,
+        /**
+        * Printing is limited to a low-level representation of the appearance, possibly of degraded quality.
+        */
+        AllowLowResolution = 1,
+        /**
+        * Print the document to a representation from which a faithful digital copy of the PDF content could be generated.
+        */
+        AllowHighResolution = 2
+    }
+    /**
+    * Specifies PDF file version.
+    */
+    enum PdfVersion {
+        /**
+        * PDF version 1.3.
+        */
+        v1_3 = 0,
+        /**
+        * PDF version 1.4.
+        */
+        v1_4 = 1,
+        /**
+        * PDF version 1.5.
+        */
+        v1_5 = 2,
+        /**
+        * PDF version 1.6.
+        */
+        v1_6 = 3,
+        /**
+        * PDF version 1.7.
+        */
+        v1_7 = 4,
+        /**
+        * PDF version 1.7 ExtensionLevel 3.
+        */
+        v1_7Ext3 = 5
+    }
+    /**
+    * Specifies the type of a tag element.
+    */
+    enum PdfTagType {
+        /**
+        * A large-scale division of a document.
+        * This type of element is appropriate for grouping articles or sections.
+        */
+        Part = 0,
+        /**
+        * (Article) A relatively self-contained body of text constituting a single narrative or exposition.
+        * Articles should be  disjoint; that is, they should not contain other articles as constituent elements.
+        */
+        Art = 1,
+        /**
+        * (Section) A container for grouping related content elements.
+        * For example, a section might contain a heading, several introductory paragraphs, and two or more
+        * other sections nested whithin it as subsections.
+        */
+        Sect = 2,
+        /** (Division) A generic block-level element or group of elements. */
+        Div = 3,
+        /**
+        * (Block quotation) A portion of text consisting of one or more paragrahs attributes to someone
+        * other than the author of the surrounding text.
+        */
+        BlockQuote = 4,
+        /** A brief portion of text describing a table or figure. */
+        Caption = 5,
+        /**
+        * (Nonstructural element) A grouping element having no inherent structural significance; it serves solely for
+        * grouping purposes.
+        */
+        NonStruct = 6,
+        /** (Private element) A grouping element containing private content belonging to the application producing it. */
+        Private = 7,
+        /**
+        * (Heading) A label for a subdivision of a document’s content.
+        * It should be the first child of the division that it heads.
+        */
+        H = 8,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H1 = 9,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H2 = 10,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H3 = 11,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H4 = 12,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H5 = 13,
+        /**
+        * Heading with specific level, for use in applications that cannot hierarchically nest their sections and thus
+        * cannot determine the level of a heading from its level of nesting.
+        */
+        H6 = 14,
+        /** (Paragraph) A low-level division of text.*/
+        P = 15,
+        /** (List) A sequence of items of like meaning and importance. */
+        L = 16,
+        /** (List item) An individual member of a list. */
+        LI = 17,
+        /**
+        * (Label) A name or number that distinguishes a given item from others in the same list or other
+        * group of like items. e.g. the number and punctuation in a numbered list.
+        */
+        Lbl = 18,
+        /** (List body) The descriptive content of a list item. */
+        LBody = 19,
+        /** A two-dimensional layout of rectangular data cells. */
+        Table = 20,
+        /** (Table row) A row of headings or data in a table. */
+        TR = 21,
+        /** (Table header cell) A table cell containing header text describing one or more rows of the table. */
+        TH = 22,
+        /** (Table data cell) A table cell containing data that is part of the table’s content. */
+        TD = 23,
+        /** (Table header row group; PDF 1.5) A group of rows that constitute the header of a table. */
+        THead = 24,
+        /** (Table body row group; PDF 1.5) A group of rows that constitute the main body portion of a table. */
+        TBody = 25,
+        /** (Table footer row group; PDF 1.5) A group of rows that constitute the footer of a table.*/
+        TFoot = 26,
+        /** A generic inline portion of text having no particular inherent characteristics. */
+        Span = 27,
+        /** (Quotation) An inline portion of text attributed to someone other than the author of the surrounding text. */
+        Quote = 28,
+        /** (Bibliography entry) A reference identifying the external source of some cited content. */
+        BibEntry = 29,
+        /** A fragment of computer program text. */
+        Code = 30,
+        /** (PDF 1.5) A side-note (annotation) written in a smaller text size and placed adjacent to the base text to which it refers. */
+        Ruby = 31,
+        /** (Ruby base text) The full-size text to which the ruby annotation is applied. */
+        RB = 32,
+        /** (Ruby annotation text) The smaller-size text that is placed adjacent to the ruby base text. */
+        RT = 33,
+        /** (Ruby punctuation) Punctuation surrounding the ruby annotation text. */
+        RP = 34,
+        /**
+         * (PDF 1.5) A comment or annotation in a smaller text size and formatted onto two smaller lines within
+         * the height of the containing text line and placed following (inline) the base text to which it refers.
+         */
+        Warichu = 35,
+        /**
+         * (Warichu text) The smaller-size text of a warichu comment that is formatted into two lines
+         * and placed between surrounding WP elements.
+         */
+        WT = 36,
+        /** (Warichu punctuation) The punctuation that surrounds the WT text. */
+        WP = 37,
+        /** An item of graphical content. */
+        Figure = 38,
+        /** A mathematical formula. */
+        Formula = 39
+    }
+    /**
+    * Specifies the type of an artifact.
+    */
+    enum PdfArtifactType {
+        /** Ancillary page features such as running heads and folios (page numbers). */
+        Pagination = 0,
+        /** Purely cosmetic typographical or design elements such as footnote rules or background screens. */
+        Layout = 1
+    }
+    /**
+    * Specifies the page's edge.
+    */
+    enum PdfPageEdge {
+        /** The top edge of the page. */
+        Top = 0,
+        /** The bottom edge of the page. */
+        Bottom = 1,
+        /** The left edge of the page. */
+        Left = 2,
+        /** The right edge of the page. */
+        Right = 3
+    }
 }
 declare module wijmo.pdf {
     var _Errors: {
@@ -679,6 +1023,8 @@ declare module wijmo.pdf {
         UndefinedMimeType: string;
         InvalidImageDataUri: string;
         InvalidImageFormat: string;
+        SecurityRequirements: string;
+        TaggedPdfRequirements: string;
     };
 }
 declare module wijmo.pdf {
@@ -702,176 +1048,6 @@ declare module wijmo.pdf {
         */
         equals(value: PdfBrush): boolean;
         _getBrushObject(area: PdfPageArea): any;
-    }
-}
-declare module wijmo.pdf {
-    /**
-     * Represents a font.
-     */
-    class PdfFont {
-        static _DEF_NATIVE_NAME: string;
-        static _DEF_FAMILY_NAME: string;
-        static _KNOWN_WEIGHTS: {
-            'normal': number;
-            'bold': number;
-            '100': number;
-            '200': number;
-            '300': number;
-            '400': number;
-            '500': number;
-            '600': number;
-            '700': number;
-            '800': number;
-            '900': number;
-        };
-        static _KNOWN_STYLES: {
-            'normal': number;
-            'italic': number;
-            'oblique': number;
-        };
-        static _DEF_PDFKIT_FONT: PdfFont;
-        static _DEF_FONT: PdfFont;
-        private _family;
-        private _size;
-        private _style;
-        private _weight;
-        /**
-        * Initializes a new instance of the {@link PdfFont} class.
-        *
-        * @param family The family name of the font.
-        * @param size The size of the font.
-        * @param style The style of the font.
-        * @param weight The weight of the font.
-        */
-        constructor(family?: string, size?: number, style?: string, weight?: string);
-        /**
-        * Gets or sets the family name of the font.
-        *
-        * The list of the font family names in the order of preferences,
-        * separated by commas. Each font family name can be the one that
-        * was registered using the {@link PdfDocument.registerFont} method or
-        * the name of one of the PDF standard font families: 'courier',
-        * 'helvetica', 'symbol', 'times', 'zapfdingbats' or the superfamily
-        * name: 'cursive', 'fantasy', 'monospace', 'serif', 'sans-serif'.
-        */
-        family: string;
-        /**
-        * Gets or sets the size of the font.
-        */
-        size: number;
-        /**
-         * Gets or sets the style of the font.
-         *
-         * The following values are supported: 'normal', 'italic', 'oblique'.
-         */
-        style: string;
-        /**
-         * Gets or sets the weight of the font.
-         *
-         * The following values are supported: 'normal', 'bold', '100', '200', '300',
-         * '400', '500', '600', '700', '800', '900'.
-         */
-        weight: string;
-        /**
-        * Creates a copy of this {@link PdfFont}.
-        * @return A copy of this font.
-        */
-        clone(): PdfFont;
-        /**
-        * Determines whether the specified {@link PdfFont} instance is equal to the current one.
-        *
-        * @param value {@link PdfFont} to compare.
-        * @return true if the specified object is equal to the current one, otherwise false.
-        */
-        equals(value: PdfFont): boolean;
-    }
-}
-declare module wijmo.pdf {
-    var _IE: boolean;
-    /**
-     * Saves the Blob object as a file.
-     * @param blob The Blob object to save.
-     * @param fileName The name with which the file is saved.
-    */
-    function saveBlob(blob: Blob, fileName: string): void;
-    /**
-    * Converts a point unit value to a pixel unit value.
-    *
-    * @param value The value to convert.
-    * @return The converted value.
-    */
-    function ptToPx(value: number): number;
-    /**
-    * Converts a pixel unit value to a point unit value.
-    *
-    * @param value The value to convert.
-    * @return The converted value.
-    */
-    function pxToPt(value: number): number;
-    function _asColor(colorOrString: any, clone?: boolean): wijmo.Color;
-    function _asPdfPen(penOrColor: any, nullOK?: boolean): PdfPen;
-    function _asPdfBrush(brushOrColor: any, nullOK?: boolean): PdfBrush;
-    function _asPdfFont(font: PdfFont, nullOK?: boolean): PdfFont;
-    function _asPt(value: any, emptyOK?: boolean, emptyValue?: number): number;
-    function _formatMacros(str: string, dict: any): string;
-    function _compare(a: any, b: any): boolean;
-    function _shallowCopy(src: any): any;
-    function _toTitleCase(value: string): string;
-}
-declare module wijmo.pdf {
-    /**
-    * Represents an abstract class that serves as a base class for the
-    * {@link PdfLinearGradientBrush} and {@link PdfRadialGradientBrush} classes.
-    *
-    * This class is not intended to be instantiated in your code.
-    */
-    class PdfGradientBrush extends PdfBrush {
-        private _opacity;
-        private _stops;
-        /**
-        * Initializes a new instance of the {@link PdfGradientBrush} class.
-        *
-        * @param stops The {@link PdfGradientStop} array to set on this brush.
-        * @param opacity The opacity of this brush.
-        */
-        constructor(stops?: PdfGradientStop[], opacity?: number);
-        /**
-        * Gets or sets the opacity of the brush.
-        * The value must be in range [0, 1], where 0 indicates that the brush is
-        * completely transparent and 1 indicates that the brush is completely opaque.
-        * The default value is 1.
-        */
-        opacity: number;
-        /**
-        * Gets or sets an array of {@link PdfGradientStop} objects representing a color,
-        * offset and opacity within the brush's gradient axis.
-        * The default value is an empty array.
-        */
-        stops: PdfGradientStop[];
-        /**
-        * Determines whether the specified {@link PdfGradientBrush} instance is equal
-        * to the current one.
-        *
-        * @param value {@link PdfGradientBrush} to compare.
-        * @return true if the specified object is equal to the current one, otherwise false.
-        */
-        equals(value: PdfGradientBrush): boolean;
-        private _cloneStopsArray;
-    }
-}
-declare module wijmo.pdf {
-    class _XhrHelper {
-        static arrayBufferAsync(url: string, success: (xhr: XMLHttpRequest, data: ArrayBuffer) => void, error?: (xhr: XMLHttpRequest) => void): void;
-        static arrayBuffer(url: string, error?: (xhr: XMLHttpRequest) => void): ArrayBuffer;
-        static text(url: string, error?: (xhr: XMLHttpRequest) => void): string;
-        private static _getData;
-    }
-}
-declare module wijmo.pdf {
-    class _PdfImageHelper {
-        private static DATAURI_CACHE;
-        static getDataUri(url: string): string;
-        private static _toBase64;
     }
 }
 declare module wijmo.pdf {
@@ -957,36 +1133,84 @@ declare module wijmo.pdf {
 }
 declare module wijmo.pdf {
     /**
-    * Represents a brush used to fill an area with a color.
-    */
-    class PdfSolidBrush extends PdfBrush {
-        private _color;
+     * Represents a font.
+     */
+    class PdfFont {
+        static _DEF_NATIVE_NAME: string;
+        static _DEF_FAMILY_NAME: string;
+        static _KNOWN_WEIGHTS: {
+            'normal': number;
+            'bold': number;
+            '100': number;
+            '200': number;
+            '300': number;
+            '400': number;
+            '500': number;
+            '600': number;
+            '700': number;
+            '800': number;
+            '900': number;
+        };
+        static _KNOWN_STYLES: {
+            'normal': number;
+            'italic': number;
+            'oblique': number;
+        };
+        static _DEF_PDFKIT_FONT: PdfFont;
+        static _DEF_FONT: PdfFont;
+        private _family;
+        private _size;
+        private _style;
+        private _weight;
         /**
-        * Initializes a new instance of the {@link PdfSolidBrush} class.
+        * Initializes a new instance of the {@link PdfFont} class.
         *
-        * @param color The color of this brush. A {@link wijmo.Color} object or any string
-        * acceptable by the {@link wijmo.Color.fromString} method.
+        * @param family The family name of the font.
+        * @param size The size of the font.
+        * @param style The style of the font.
+        * @param weight The weight of the font.
         */
-        constructor(color?: any);
+        constructor(family?: string, size?: number, style?: string, weight?: string);
         /**
-        * Gets or sets the color of the brush.
-        * The default color is black.
-        */
-        color: wijmo.Color;
-        /**
-        * Creates a copy of this {@link PdfSolidBrush}.
-        * @return A copy of this brush.
-        */
-        clone(): PdfSolidBrush;
-        /**
-        * Determines whether the specified {@link PdfSolidBrush} instance is equal
-        * to the current one.
+        * Gets or sets the family name of the font.
         *
-        * @param value {@link PdfSolidBrush} to compare.
+        * The list of the font family names in the order of preferences,
+        * separated by commas. Each font family name can be the one that
+        * was registered using the {@link PdfDocument.registerFont} method or
+        * the name of one of the PDF standard font families: 'courier',
+        * 'helvetica', 'symbol', 'times', 'zapfdingbats' or the superfamily
+        * name: 'cursive', 'fantasy', 'monospace', 'serif', 'sans-serif'.
+        */
+        family: string;
+        /**
+        * Gets or sets the size of the font.
+        */
+        size: number;
+        /**
+         * Gets or sets the style of the font.
+         *
+         * The following values are supported: 'normal', 'italic', 'oblique'.
+         */
+        style: string;
+        /**
+         * Gets or sets the weight of the font.
+         *
+         * The following values are supported: 'normal', 'bold', '100', '200', '300',
+         * '400', '500', '600', '700', '800', '900'.
+         */
+        weight: string;
+        /**
+        * Creates a copy of this {@link PdfFont}.
+        * @return A copy of this font.
+        */
+        clone(): PdfFont;
+        /**
+        * Determines whether the specified {@link PdfFont} instance is equal to the current one.
+        *
+        * @param value {@link PdfFont} to compare.
         * @return true if the specified object is equal to the current one, otherwise false.
         */
-        equals(value: PdfSolidBrush): boolean;
-        _getBrushObject(area: PdfPageArea): wijmo.Color;
+        equals(value: PdfFont): boolean;
     }
 }
 declare module wijmo.pdf {
@@ -1002,9 +1226,14 @@ declare module wijmo.pdf {
     interface IPdfTextSettings {
         /**
         * Determines how text is aligned within the drawing area.
-        * The default value is <b>Left</b>.
+        * The default value is {@link PdfTextHorizontalAlign.Left}.
         */
         align?: PdfTextHorizontalAlign;
+        /**
+        * Determines the current text baseline.
+        * The default value is {@link PdfTextBaseline.Top}.
+        */
+        baseline?: PdfTextBaseline;
         /**
         * Indicates whether line wrapping should be used or not.
         * The property is ignored if {@link IPdfTextSettings.width} is defined.
@@ -1115,13 +1344,12 @@ declare module wijmo.pdf {
         * Determines the pen to stroke the text. If not specified, the default document
         * pen will be used ({@link PdfDocument.setPen} method).
         */
-        pen?: any;
+        pen?: PdfPen | wijmo.Color | string;
         /**
         * Determines the brush to fill the text. If not specified, the default document
         * brush will be used ({@link PdfDocument.setBrush} method).
         */
-        brush?: any;
-        _baseline?: _PdfTextBaseline;
+        brush?: PdfBrush | wijmo.Color | string;
     }
     /**
     * Represents the settings used by {@link PdfPageArea.measureText} method.
@@ -1187,7 +1415,7 @@ declare module wijmo.pdf {
         * Determines a callback function used to convert a relative URL to a URL that is correct for the current request path.
         * The function gets passed the relative URL as its argument and should return the resolved URL.
         */
-        urlResolver?: Function;
+        urlResolver?: (url: string) => string;
     }
     /**
     * Represents a range of buffered pages returned by {@link PdfDocument.bufferedPageRange} method.
@@ -1240,7 +1468,7 @@ declare module wijmo.pdf {
         * Following font formats are supported: TrueType (.ttf), TrueType Collection (.ttc),
         * Datafork TrueType (.dfont).
         */
-        source: any;
+        source: ArrayBuffer | string;
         /**
         * The name of the font to use.
         */
@@ -1330,7 +1558,7 @@ declare module wijmo.pdf {
         *  <li><b>{@link Size}</b>: custom sizes.</li>
         * </ul>
         */
-        size?: any;
+        size?: PdfPageSize | wijmo.Size;
     }
     /**
     * Represents the text measurement information returned by {@link PdfPageArea.measureText} method.
@@ -1345,64 +1573,435 @@ declare module wijmo.pdf {
         */
         charCount: number;
     }
+    /**
+    * Represents the initialization settings of a running title of the page, like header and footer.
+    */
+    interface IPdfRunningTitleOptions {
+        /**
+        * Represents the height of a running title, in points. To hide the running title, set this property to 0.
+        *
+        * The default value is 24.
+        */
+        height?: number;
+        /**
+        * Represents the spacing between each line of text, in points.
+        *
+        * The default value is 0.
+        */
+        lineGap?: number;
+        /**
+        * Represents the declarative content of a running title.
+        */
+        declarative?: {
+            /**
+            * Represents the font of the {@link text}.
+            */
+            font?: PdfFont;
+            /**
+            * Represents the text of a running title.
+            * May contain up to 3 tabular characters ('\t') which are used for separating the text
+            * into the parts that will be aligned within the page area using left, center and right
+            * alignment.
+            * Two kinds of macros are supported, '&[Page]' and '&[Pages]'. The former one designates
+            * the current page index while the latter one designates the page count.
+            *
+            * For example, for the first page of a document having ten pages, the following string:
+            * <pre>
+            *    '&[Page]\\&[Pages]\theader\t&[Page]\\&[Pages]'
+            * </pre>
+            * will be translated to:
+            * <pre>
+            *    '1\10 header 1\10'
+            * </pre>
+            */
+            text?: string;
+            /**
+            * Represents the brush used to fill the {@link text}.
+            */
+            brush?: PdfBrush | wijmo.Color | string;
+        };
+    }
+    /**
+    * Represents the {@link PdfDocument} permission settings.
+    */
+    interface IPdfPermissions {
+        /**
+        * Determines whether annotating, form filling is allowed.
+        * The default value is false.
+        */
+        annotating?: boolean;
+        /**
+        * Determines copying text for accessibility is allowed.
+        *
+        * Not supported in PDF 1.3.
+        *
+        * The default value is false.
+        */
+        contentAccessibility?: boolean;
+        /**
+        * Determines whether copying text or graphics is allowed.
+        *
+        * The default value is false.
+        */
+        copying?: boolean;
+        /**
+        * Determines whether whether assembling document is allowed.
+        *
+        * Not supported in PDF 1.3.
+        *
+        * The default value is false.
+        */
+        documentAssembly?: boolean;
+        /**
+        * Determines whether form filling and signing is allowed.
+        *
+        * Not supported in PDF 1.3.
+        *
+        * The default value is false.
+        */
+        fillingForms?: boolean;
+        /**
+        * Determines whether modifying the file is allowed.
+        *
+        * The default value is false.
+        */
+        modifying?: boolean;
+        /**
+        * Determines whether printing is allowed.
+        *
+        * The {@link PdfPrintPermission.AllowLowResolution} value is equivalent to {@link PdfPrintPermission.AllowHighResolution} in PDF 1.3.
+        *
+        * The default value is {@link PdfPrintPermission.NotAllowed}.
+        */
+        printing?: PdfPrintPermission;
+    }
+    /**
+    * Represents the {@link PdfDocument} initialization settings.
+    */
+    interface IPdfDocumentOptions {
+        /**
+        * Indicates whether the pages buffering mode is enabled which means that the document's pages
+        * can be iterated over using {@link PdfDocument.pageIndex} and {@link PdfDocument.bufferedPageRange}.
+        *
+        * This property can be set to false only if both {@link header} and {@link footer} are invisible.
+        *
+        * The default value is true.
+        */
+        bufferPages?: boolean;
+        /**
+        * Indicates whether the document compression is enabled.
+        *
+        * The default value is true.
+        */
+        compress?: boolean;
+        /**
+        * Specifies whether the window's title bar should display the document title taken from {@link IPdfDocumentInfo.title}.
+        * If false, the name of the PDF file should be displayed.
+        *
+        * The default value is **false**.
+        */
+        displayTitle?: boolean;
+        /**
+        * Represents the initialization settings of a footer, the page area positioned right above
+        * the bottom margin.
+        */
+        footer?: IPdfRunningTitleOptions;
+        /**
+        * Represents the initialization settings of a header, the page area positioned right below
+        * the top margin.
+        */
+        header?: IPdfRunningTitleOptions;
+        /**
+        * Represents the document information, such as author name, document's creation date and so on.
+        */
+        info?: IPdfDocumentInfo;
+        /**
+        * Represents the default natural language of the document.
+        *
+        * The language code is a 2-character ISO 639 language code (e.g. "en" for English or "ja" for Japanese) followed
+        * by an optional 2-character ISO 3166 country code (e.g. "US" for the United States or "JP" for Japan).
+        * For example: "en", "en-US", "ja-JP".
+        *
+        * The default value is **undefined** which means that the document does not have the default natural language.
+        */
+        lang?: string;
+        /**
+        * Represents the spacing between each line of text, in points.
+        *
+        * The default value is 0.
+        */
+        lineGap?: number;
+        /**
+        * Represents the PDF owner password.
+        *
+        * When only owner password is provided, users are able to decrypt and open the document without providing any password,
+        * but the access is limited to those operations explicitly permitted according to {@link permissions} settings.
+        * Users with owner password have full access to the document.
+        *
+        * When both owner password and {@link userPassword} are provided, users with user password are able to decrypt the file
+        * but only have limited access to the file according to {@link permissions} settings.
+        * Users with owner password have full access to the document.
+        *
+        * The {@link wijmo.pdf.security} module must be added on page to use PDF encryption and permissions settings.
+        */
+        ownerPassword?: string;
+        /**
+        * Represents the default page settings for the pages added automatically and for the {@link PdfDocument.addPage} method.
+        */
+        pageSettings?: IPdfPageSettings;
+        /**
+        * Represents PDF file permissions.
+        *
+        * To set permissons for the PDF file, you need to provide an {@link ownerPassword} along with the permissions settings.
+        * By default, all operations are disallowed. You need to explicitly allow certain operations.
+        *
+        * The {@link wijmo.pdf.security} module must be added on page to use PDF encryption and permissions settings.
+        */
+        permissions?: IPdfPermissions;
+        /**
+        * Indicates that the document conforms to Tagged PDF conventions.
+        * For a document to be recognized as a Tagged PDF document this value must be **true**.
+        *
+        * The default value is **false**.
+        */
+        tagged?: boolean;
+        /**
+        * Represents the PDF user password.
+        *
+        * When only user password is provided, users with user password are able to decrypt the file and have full access to the document.
+        *
+        * When both user password and {@link ownerPassword} are provided, users with user password are able to decrypt the file
+        * but only have limited access to the file according to {@link permissions} settings.
+        * Users with owner password have full access to the document.
+        *
+        * The {@link wijmo.pdf.security} module must be added on page to use PDF encryption and permissions settings.
+        */
+        userPassword?: string;
+        /**
+        * Represents PDF file version.
+        *
+        * The PDF file version determines encryption algorithm and key length to use:
+        * <ul>
+        *  <li>{@link PdfVersion.v1_3}, 40-bit RC4.</li>
+        *  <li>{@link PdfVersion.v1_4}, 128-bit RC4.</li>
+        *  <li>{@link PdfVersion.v1_5}, 128-bit RC4.</li>
+        *  <li>{@link PdfVersion.v1_6}, 128-bit AES.</li>
+        *  <li>{@link PdfVersion.v1_7}, 128-bit AES.</li>
+        *  <li>{@link PdfVersion.v1_7Ext3}, 256-bit AES.</li>
+        * </ul>
+        *
+        * When using PDF version 1.7 ExtensionLevel 3, password is truncated to 127 bytes of its UTF-8 representation.
+        * In older versions, password is truncated to 32 bytes, and only Latin-1 characters are allowed.
+        *
+        * The default value is {@link PdfVersion.v1_3}.
+        */
+        version?: PdfVersion;
+        /**
+        * Occurs when the document has been rendered.
+        */
+        ended?: (sender: PdfDocument, args: PdfDocumentEndedEventArgs) => void;
+        /**
+        * Occurs when a new page is added to the document.
+        */
+        pageAdded?: (sender: PdfDocument, args: wijmo.EventArgs) => void;
+    }
+    /**
+     * Represents the options of an artifact.
+     */
+    interface IPdfArtifactOptions {
+        /**
+        * The type of the artifact.
+        *
+        * The default value is **undefined** which means a general artifact.
+        */
+        type?: PdfArtifactType;
+        /**
+        * The artifact's bounding box, in page area coordinates, in points.
+        *
+        * The default value is **undefined** which means that the artifact's bounding box is not set.
+        */
+        bbox?: wijmo.Rect;
+        /**
+        * Specifies the edges of the page, if any, to which the pagination artifact is logically attached.
+        *
+        * The default value is **undefined** which means that the artifact is not attached to any edge of the page.
+        */
+        attached?: PdfPageEdge[];
+    }
+    /**
+     * Represents the options to mark the content with.
+     */
+    interface IPdfTagContentOptions {
+        /**
+        * A language code specifying the natural language for all text in the marked content.
+        * Used only if the content is marked with {@link PdfTagType.Span}.
+        *
+        * The language code is a 2-character ISO 639 language code (e.g. "en" for English or "ja" for Japanese) followed
+        * by an optional 2-character ISO 3166 country code (e.g. "US" for the United States or "JP" for Japan).
+        * For example: "en", "en-US", "ja-JP".
+        *
+        * The default value is **undefined** which means that the marked content does not have the default natural language.
+        */
+        lang?: string;
+        /**
+        * An alternative description of the marked contentand its children in human-redable form.
+        * Used only if the content is marked with {@link PdfTagType.Span}.
+        *
+        * The default value is **undefined** which means that the marked content does not have an alternative description.
+        */
+        alt?: string;
+        /**
+        * The expanded form of an abbreviation (PDF 1.5)
+        * Used only if the content is marked with {@link PdfTagType.Span}.
+        *
+        * The default value is **undefined** which means that the marked content does not have the expanded form of an abbreviation.
+        */
+        expanded?: string;
+        /**
+        * Text that is an exact replacement for the marked content.
+        * Used only if the content is marked with {@link PdfTagType.Span}.
+        *
+        * The default value is **undefined** which means that the marked content has no replacement.
+        */
+        actual?: string;
+    }
+    /**
+    * Represents the {@link IPdfTag} settings used by {@link PdfDocument.tag} method.
+    */
+    interface IPdfTagOptions {
+        /**
+         * The title of the tag element, a text string representing it in human-redable form.
+         *
+         * The default value is **undefined** which means that the tag element has no title.
+         */
+        title?: string;
+        /**
+        *  A language code specifying the natural language for all text in the tag element.
+        *
+        * The language code is a 2-character ISO 639 language code (e.g. "en" for English or "ja" for Japanese) followed
+        * by an optional 2-character ISO 3166 country code (e.g. "US" for the United States or "JP" for Japan).
+        * For example: "en", "en-US", "ja-JP".
+        *
+        * The default value is **undefined** which means that the tag element does not have the default natural language.
+        */
+        lang?: string;
+        /**
+        * An alternative description of the tag element and its children in human-redable form.
+        *
+        * The default value is **undefined** which means that the tag element does not have an alternative description.
+        */
+        alt?: string;
+        /**
+        * The expanded form of an abbreviation (PDF 1.5)
+        *
+        * The default value is **undefined** which means that the tag element does not have the expanded form of an abbreviation.
+        */
+        expanded?: string;
+        /**
+        * Text that is an exact replacement for the tag element and its children.
+        *
+        * The default value is **undefined** which means that the tag element has no replacement.
+        */
+        actual?: string;
+    }
+    /**
+     * Represents an element in the document's logical structure tree.
+     */
+    interface IPdfTag {
+        /**
+         * Adds content to the element.
+         *
+         * @param child The child element or array of child elements.
+         * The following child types are supported:
+         * <ul>
+         *   <li>A {@link IPdfTag} object to nest within the element.</li>
+         *   <li>
+         *     A {@link IPdfTagContent} object, a reference to the marked content to associate with the element.
+         *   </li>
+         *   <li>
+         *     A callback function that will be automatically executed when the created element is attached to the document's structure tree.
+         *     The content created by this function will be marked with the tag specified by the **type** parameter and associated with the element.
+         *   </li>
+         * </ul>
+         *
+         * @return The {@link IPdfTag} object.
+         */
+        add(child: PdfTagOrContent | PdfTagOrContent[]): IPdfTag;
+        /**
+         * Ends the element and all of its children and flush it to the document.
+         */
+        end(): void;
+    }
+    /**
+     * Represents a reference to the marked content that can be added to a {@link IPdfTag}.
+     */
+    interface IPdfTagContent {
+    }
+    /**
+     * Specifies elements that can be passed to the {@link IPdfTag.add} and {@link PdfDocument.tag} methods via the **child** parameter.
+     */
+    type PdfTagOrContent = IPdfTag | IPdfTagContent | (() => void);
 }
 declare module wijmo.pdf {
+    class _PdfFontRegistrar {
+        private _fonts;
+        private _weightNameToNum;
+        private _doc;
+        private _findFontCache;
+        private _internalFontNames;
+        constructor(doc: any);
+        registerFont(font: IPdfFontFile): string;
+        findFont(name: string, style?: string, weight?: string): string;
+        private _normalizeFontSelector;
+        private _findFont;
+        private _findFontWeightFallback;
+        private _makeInternalName;
+    }
+}
+declare module wijmo.pdf {
+    var _IE: boolean;
     /**
-    * Represents the declarative content of the running title.
+     * Saves the Blob object as a file.
+     * @param blob The Blob object to save.
+     * @param fileName The name with which the file is saved.
     */
-    class PdfRunningTitleDeclarativeContent {
-        private _font;
-        private _text;
-        private _brush;
-        /**
-        * Initializes a new instance of the {@link PdfRunningTitleDeclarativeContent} class.
-        *
-        * @param text The text of the running title.
-        * @param font Font of the text.
-        * @param brushOrColor The {@link PdfBrush} or {@link wijmo.Color} or any string acceptable
-        * by the {@link wijmo.Color.fromString} method used to fill the text.
-        */
-        constructor(text?: string, font?: PdfFont, brushOrColor?: any);
-        /**
-        * Gets or sets the font of the {@link text}.
-        */
-        font: PdfFont;
-        /**
-        * Gets or sets the text of the running title.
-        *
-        * May contain up to 3 tabular characters ('\t') which are used for separating the text
-        * into the parts that will be aligned within the page area using left, center and right
-        * alignment.
-        * Two kinds of macros are supported, '&[Page]' and '&[Pages]'. The former one designates
-        * the current page index while the latter one designates the page count.
-        *
-        * For example, for the first page of a document having ten pages, the following string:
-        * <pre>
-        *    '&[Page]\\&[Pages]\theader\t&[Page]\\&[Pages]'
-        * </pre>
-        * will be translated to:
-        * <pre>
-        *    '1\10 header 1\10'
-        * </pre>
-        */
-        text: string;
-        /**
-        * Gets or sets the brush used to fill the {@link text}.
-        */
-        brush: PdfBrush;
-        /**
-        * Creates a copy of this {@link PdfRunningTitleDeclarativeContent}.
-        * @return A copy of this pen.
-        */
-        clone(): PdfRunningTitleDeclarativeContent;
-        /**
-        * Determines whether the specified {@link PdfRunningTitleDeclarativeContent} instance
-        * is equal to the current one.
-        *
-        * @param value {@link PdfRunningTitleDeclarativeContent} to compare.
-        * @return true if the specified object is equal to the current one, otherwise false.
-        */
-        equals(value: PdfRunningTitleDeclarativeContent): boolean;
+    function saveBlob(blob: Blob, fileName: string): void;
+    /**
+    * Converts a point unit value to a pixel unit value.
+    *
+    * @param value The value to convert.
+    * @return The converted value.
+    */
+    function ptToPx(value: number): number;
+    /**
+    * Converts a pixel unit value to a point unit value.
+    *
+    * @param value The value to convert.
+    * @return The converted value.
+    */
+    function pxToPt(value: number): number;
+    function _asColor(value: wijmo.Color | string, clone?: boolean): wijmo.Color;
+    function _asPdfPen(value: PdfPen | wijmo.Color | string, nullOK?: boolean): PdfPen;
+    function _asPdfBrush(value: PdfBrush | wijmo.Color | string, nullOK?: boolean): PdfBrush;
+    function _asPdfFont(value: PdfFont, nullOK?: boolean): PdfFont;
+    function _asPt(value: any, emptyOK?: boolean, emptyValue?: number): number;
+    function _formatMacros(str: string, dict: any): string;
+    function _compare(a: any, b: any): boolean;
+    function _toTitleCase(value: string): string;
+}
+declare module wijmo.pdf {
+    class _XhrHelper {
+        static arrayBufferAsync(url: string, success: (xhr: XMLHttpRequest, data: ArrayBuffer) => void, error?: (xhr: XMLHttpRequest) => void): void;
+        static arrayBuffer(url: string, error?: (xhr: XMLHttpRequest) => void): ArrayBuffer;
+        static text(url: string, error?: (xhr: XMLHttpRequest) => void): string;
+        private static _getData;
+    }
+}
+declare module wijmo.pdf {
+    class _PdfImageHelper {
+        private static DATAURI_CACHE;
+        static getDataUri(url: string): string;
+        private static _toBase64;
     }
 }
 declare module wijmo.pdf {
@@ -1415,6 +2014,7 @@ declare module wijmo.pdf {
     */
     class PdfPageArea {
         private _pdfdoc;
+        private _ndoc;
         _offset: wijmo.Point;
         private _graphics;
         private _drawingText;
@@ -1447,6 +2047,8 @@ declare module wijmo.pdf {
         * Gets the width of the area, in points.
         */
         readonly width: number;
+        readonly _heightCtm: number;
+        readonly _widthCtm: number;
         /**
         * Gets an object that provides ability to draw paths.
         */
@@ -1493,13 +2095,14 @@ declare module wijmo.pdf {
         * Finally, if the image was drawn in the text flow, the method updates {@link y}.
         * Hence, any subsequent text or image starts below this point.
         *
-        * @param src A string containing the URL to get the image from or the data URI containing a base64 encoded image or a {@link wijmo.pdf.IPdfImage} object.
+        * @param src A string containing the URL to get the image from, or the data URI containing a base64 encoded image,
+        * or a {@link wijmo.pdf.IPdfImage} object returned by the {@link openImage} method.
         * @param x The x-coordinate of the point to draw the image at, in points.
         * @param y The y-coordinate of the point to draw the image at, in points.
         * @param options Determines the image drawing options.
         * @return The {@link PdfPageArea} object.
         */
-        drawImage(src: any, x?: number, y?: number, options?: IPdfImageDrawSettings): PdfPageArea;
+        drawImage(src: string | IPdfImage, x?: number, y?: number, options?: IPdfImageDrawSettings): PdfPageArea;
         /**
         * Draws a SVG image with the given options.
         *
@@ -1624,12 +2227,332 @@ declare module wijmo.pdf {
         * then the top left corner is used.
         */
         rotate(angle: number, origin?: wijmo.Point): PdfPageArea;
+        /**
+         * Begins marking the content with the given tag and returns the tag content element, an object which represent a reference to the marked content.
+         * The tag content element can be incorporated into the document's structure tree by adding to a tag element.
+         * Each call of beginTagContent() should be enclosed with {@link endTagContent}.
+         *
+         * For example:
+         * <pre>
+         * let content = doc.beginTagContent(wijmo.pdf.PdfTagType.P);
+         * doc.drawText('Hello, world!');
+         * doc.endTagContent();
+         *
+         * let tag = doc.tag(wijmo.pdf.PdfTagType.P);
+         * tag.add(content);
+         * doc.addTag(tag);
+         * </pre>
+         *
+         * Note: Marking tag content will automatically end current marking of tag content (and any descendent marking).
+         *
+         * @param tag The marking tag.
+         * @param options Tag content options.
+         *
+         * @return The {@link IPdfTagContent} object that repesents a reference to the marked content.
+         */
+        beginTagContent(tag: PdfTagType, options?: IPdfTagContentOptions): IPdfTagContent;
+        /**
+         * Ends the tag content marking.
+         *
+         * For example:
+         * <pre>
+         * let content = doc.beginTagContent(wijmo.pdf.PdfTagType.P);
+         * doc.drawText('Hello, world!');
+         * doc.endTagContent();
+         * </pre>
+         *
+         * @return The {@link PdfPageArea} object.
+         */
+        endTagContent(): PdfPageArea;
+        /**
+         * Marks content with the given tag and returns the tag content element, an object which represent a reference to the marked content.
+         * The tag content element can be incorporated into the document's structure tree by adding to a tag element.
+         *
+         * For example:
+         * <pre>
+         * let content = doc.tagContent(wijmo.pdf.PdfTagType.P, () => doc.drawText('Hello, world!'));
+         *
+         * let tag = doc.tag(wijmo.pdf.PdfTagType.P);
+         * tag.add(content);
+         * doc.addTag(tag);
+         * </pre>
+         *
+         * @param tag The marking tag.
+         * @param callback A callback function that will be automatically executed within a {@link beginTagContent}/{@link endTagContent} block.
+         * @param options Tag content options.
+         *
+         * @return The {@link IPdfTagContent} object that repesents a reference to the marked content.
+         */
+        tagContent(tag: PdfTagType, callback: (() => void), options?: IPdfTagContentOptions): IPdfTagContent;
+        /**
+         * Begins marking content as an PDF artifact.
+         * Each call of beginArtifact() should be enclosed with {@link endArtifact}.
+         *
+         * For example:
+         * <pre>
+         * doc.beginArtifact();
+         * doc.drawText('Artifact');
+         * doc.endArtifact();
+         * </pre>
+         *
+         * @param options Artifact options.
+         *
+         * @return The {@link PdfPageArea} object.
+         */
+        beginArtifact(options?: IPdfArtifactOptions): PdfPageArea;
+        /**
+         * Ends marking content as an PDF artifact.
+         *
+         * For example:
+         * <pre>
+         * doc.beginArtifact();
+         * doc.drawText('Artifact');
+         * doc.endArtifact();
+         * </pre>
+         *
+         * @return The {@link PdfPageArea} object.
+         */
+        endArtifact(): PdfPageArea;
+        /**
+         * Marks content as an artifact.
+         *
+         * For example:
+         * <pre>
+         * doc.artifact(() => doc.drawText('Artifact'));
+         * </pre>
+         *
+         * @param callback A callback function that will be automatically executed within a {@link beginArtifact}/{@link endArtifact} block.
+         * @param options Artifact options.
+         *
+         * @return The {@link IPdfTagContent} object that repesents a reference to the marked content.
+         */
+        artifact(callback: (() => void), options?: IPdfArtifactOptions): PdfPageArea;
         _assertPathStarted(): void;
         _initialize(doc: PdfDocument, xo: number, yo: number): void;
         _isDrawingText(): boolean;
         private _switchCtx;
         private _saveCtx;
+        private _markedContentOptionsToNative;
         private _textOptionsToNative;
+    }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents a brush used to fill an area with a color.
+    */
+    class PdfSolidBrush extends PdfBrush {
+        private _color;
+        /**
+        * Initializes a new instance of the {@link PdfSolidBrush} class.
+        *
+        * @param color The color of this brush. A {@link wijmo.Color} object or any string
+        * acceptable by the {@link wijmo.Color.fromString} method.
+        */
+        constructor(color?: any);
+        /**
+        * Gets or sets the color of the brush.
+        * The default color is black.
+        */
+        color: wijmo.Color;
+        /**
+        * Creates a copy of this {@link PdfSolidBrush}.
+        * @return A copy of this brush.
+        */
+        clone(): PdfSolidBrush;
+        /**
+        * Determines whether the specified {@link PdfSolidBrush} instance is equal
+        * to the current one.
+        *
+        * @param value {@link PdfSolidBrush} to compare.
+        * @return true if the specified object is equal to the current one, otherwise false.
+        */
+        equals(value: PdfSolidBrush): boolean;
+        _getBrushObject(area: PdfPageArea): wijmo.Color;
+    }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents the declarative content of the running title.
+    */
+    class PdfRunningTitleDeclarativeContent {
+        private _font;
+        private _text;
+        private _brush;
+        /**
+        * Initializes a new instance of the {@link PdfRunningTitleDeclarativeContent} class.
+        *
+        * @param text The text of the running title.
+        * @param font Font of the text.
+        * @param brush The {@link PdfBrush} or {@link wijmo.Color} or any string acceptable
+        * by the {@link wijmo.Color.fromString} method used to fill the text.
+        */
+        constructor(text?: string, font?: PdfFont, brush?: PdfBrush | wijmo.Color | string);
+        /**
+        * Gets or sets the font of the {@link text}.
+        */
+        font: PdfFont;
+        /**
+        * Gets or sets the text of the running title.
+        *
+        * May contain up to 3 tabular characters ('\t') which are used for separating the text
+        * into the parts that will be aligned within the page area using left, center and right
+        * alignment.
+        * Two kinds of macros are supported, '&[Page]' and '&[Pages]'. The former one designates
+        * the current page index while the latter one designates the page count.
+        *
+        * For example, for the first page of a document having ten pages, the following string:
+        * <pre>
+        * '&[Page]\\&[Pages]\theader\t&[Page]\\&[Pages]'
+        * </pre>
+        * will be translated to:
+        * <pre>
+        * '1\10 header 1\10'
+        * </pre>
+        */
+        text: string;
+        /**
+        * Gets or sets the brush used to fill the {@link text}.
+        */
+        brush: PdfBrush;
+        /**
+        * Creates a copy of this {@link PdfRunningTitleDeclarativeContent}.
+        * @return A copy of this pen.
+        */
+        clone(): PdfRunningTitleDeclarativeContent;
+        /**
+        * Determines whether the specified {@link PdfRunningTitleDeclarativeContent} instance
+        * is equal to the current one.
+        *
+        * @param value {@link PdfRunningTitleDeclarativeContent} to compare.
+        * @return true if the specified object is equal to the current one, otherwise false.
+        */
+        equals(value: PdfRunningTitleDeclarativeContent): boolean;
+    }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents a running title of the page, like header and footer.
+    *
+    * This class is not intended to be instantiated in your code.
+    */
+    class PdfRunningTitle extends PdfPageArea {
+        private _height;
+        private _declarative;
+        _heightChanged: Event<PdfRunningTitle, EventArgs>;
+        /**
+        * Initializes a new instance of the {@link PdfRunningTitle} class.
+        *
+        * @param options An optional object containing initialization settings.
+        */
+        constructor(options?: any);
+        /**
+        * Gets or sets an object that provides the ability to setup the running title
+        * content declaratively.
+        */
+        declarative: PdfRunningTitleDeclarativeContent;
+        /**
+        * Gets or sets the height of the running title, in points.
+        * To hide the running title, set this property to 0.
+        * Changing this property has no effect on previous drawings; they will not be resized
+        * or clipped.
+        *
+        * The default value is 24.
+        */
+        height: number;
+        drawText(text: any, x?: any, y?: any, options?: IPdfTextDrawSettings): IPdfTextMeasurementInfo;
+    }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents an object which determines a transition point of a gradient.
+    */
+    class PdfGradientStop {
+        private _offset;
+        private _color;
+        private _opacity;
+        /**
+        * Initializes a new instance of the {@link PdfGradientStop} class.
+        *
+        * @param offset The location of the gradient stop on the gradient axis.
+        * @param color The color of the gradient stop. A {@link wijmo.Color} object or
+        * any string acceptable by the {@link wijmo.Color.fromString} method.
+        * @param opacity The opacity of the gradient stop.
+        */
+        constructor(offset?: number, color?: any, opacity?: number);
+        /**
+        * Gets or sets the location of the gradient stop on gradient axis of the brush.
+        * The value must be in range [0, 1], where 0 indicates that the gradient stop is
+        * placed at the beginning of the gradient axis, while 1 indicates that the
+        * gradient stop is placed at the end of the gradient axis.
+        * The default value is 0.
+        */
+        offset: number;
+        /**
+        * Gets or sets the color of the gradient stop.
+        * The default color is black.
+        */
+        color: wijmo.Color;
+        /**
+        * Gets or sets the opacity of the gradient stop.
+        * The value must be in range [0, 1], where 0 indicates that the gradient stop is
+        * completely transparent, while 1 indicates that the gradient stop is completely
+        * opaque. The default value is 1.
+        */
+        opacity: number;
+        /**
+        * Creates a copy of this {@link PdfGradientStop}.
+        * @return A copy of this gradient stop.
+        */
+        clone(): PdfGradientStop;
+        /**
+        * Determines whether the specified {@link PdfGradientStop} instance is equal to
+        * the current one.
+        *
+        * @param value {@link PdfGradientStop} to compare.
+        * @return true if the specified object is equal to the current one, otherwise false.
+        */
+        equals(value: PdfGradientStop): boolean;
+    }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents an abstract class that serves as a base class for the
+    * {@link PdfLinearGradientBrush} and {@link PdfRadialGradientBrush} classes.
+    *
+    * This class is not intended to be instantiated in your code.
+    */
+    class PdfGradientBrush extends PdfBrush {
+        private _opacity;
+        private _stops;
+        /**
+        * Initializes a new instance of the {@link PdfGradientBrush} class.
+        *
+        * @param stops The {@link PdfGradientStop} array to set on this brush.
+        * @param opacity The opacity of this brush.
+        */
+        constructor(stops?: PdfGradientStop[], opacity?: number);
+        /**
+        * Gets or sets the opacity of the brush.
+        * The value must be in range [0, 1], where 0 indicates that the brush is
+        * completely transparent and 1 indicates that the brush is completely opaque.
+        * The default value is 1.
+        */
+        opacity: number;
+        /**
+        * Gets or sets an array of {@link PdfGradientStop} objects representing a color,
+        * offset and opacity within the brush's gradient axis.
+        * The default value is an empty array.
+        */
+        stops: PdfGradientStop[];
+        /**
+        * Determines whether the specified {@link PdfGradientBrush} instance is equal
+        * to the current one.
+        *
+        * @param value {@link PdfGradientBrush} to compare.
+        * @return true if the specified object is equal to the current one, otherwise false.
+        */
+        equals(value: PdfGradientBrush): boolean;
+        private _cloneStopsArray;
     }
 }
 declare module wijmo.pdf {
@@ -1703,112 +2626,7 @@ declare module wijmo.pdf {
 }
 declare module wijmo.pdf {
     /**
-    * Represents a brush used to fill an area with a linear gradient.
-    */
-    class PdfLinearGradientBrush extends PdfGradientBrush {
-        private _x1;
-        private _y1;
-        private _x2;
-        private _y2;
-        /**
-        * Initializes a new instance of the {@link PdfLinearGradientBrush} class.
-        *
-        * @param x1 The X-coordinate of the starting point of the linear gradient.
-        * @param y1 The Y-coordinate of the starting point of the linear gradient.
-        * @param x2 The X-coordinate of the ending point of the linear gradient.
-        * @param y2 The Y-coordinate of the ending point of the linear gradient.
-        * @param stops The {@link PdfGradientStop} array to set on this brush.
-        * @param opacity The opacity of this brush.
-        */
-        constructor(x1: number, y1: number, x2: number, y2: number, stops: PdfGradientStop[], opacity?: number);
-        /**
-        * Gets or sets the X-coordinate of the starting point of the linear gradient,
-        * in page area coordinates, in points.
-        */
-        x1: number;
-        /**
-        * Gets or sets the Y-coordinate of the starting point of the linear gradient,
-        * in page area coordinates, in points.
-        */
-        y1: number;
-        /**
-        * Gets or sets the X-coordinate of the ending point of the linear gradient,
-        * in page area coordinates, in points.
-        */
-        x2: number;
-        /**
-        * Gets or sets the Y-coordinate of the ending point of the linear gradient,
-        * in page area coordinates, in points.
-        */
-        y2: number;
-        /**
-        * Creates a copy of this {@link PdfLinearGradientBrush}.
-        * @return A copy of this brush.
-        */
-        clone(): PdfLinearGradientBrush;
-        /**
-        * Determines whether the specified {@link PdfLinearGradientBrush} instance is equal to
-        * the current one.
-        *
-        * @param value {@link PdfLinearGradientBrush} to compare.
-        * @return true if the specified object is equal to the current one, otherwise false.
-        */
-        equals(value: PdfLinearGradientBrush): boolean;
-        _getBrushObject(area: PdfPageArea): any;
-    }
-}
-declare module wijmo.pdf {
-    /**
-    * Represents a running title of the page, like header and footer.
-    *
-    * This class is not intended to be instantiated in your code.
-    */
-    class PdfRunningTitle extends PdfPageArea {
-        private _height;
-        private _declarative;
-        _heightChanged: Event;
-        /**
-        * Initializes a new instance of the {@link PdfRunningTitle} class.
-        *
-        * @param options An optional object containing initialization settings.
-        */
-        constructor(options?: any);
-        /**
-        * Gets or sets an object that provides the ability to setup the running title
-        * content declaratively.
-        */
-        declarative: PdfRunningTitleDeclarativeContent;
-        /**
-        * Gets or sets the height of the running title, in points.
-        * To hide the running title, set this property to 0.
-        * Changing this property has no effect on previous drawings; they will not be resized
-        * or clipped.
-        *
-        * The default value is 24.
-        */
-        height: number;
-        drawText(text: any, x?: any, y?: any, options?: IPdfTextDrawSettings): IPdfTextMeasurementInfo;
-    }
-}
-declare module wijmo.pdf {
-    class _PdfFontRegistrar {
-        private _fonts;
-        private _weightNameToNum;
-        private _doc;
-        private _findFontCache;
-        private _internalFontNames;
-        constructor(doc: any);
-        registerFont(font: IPdfFontFile): string;
-        findFont(name: string, style?: string, weight?: string): string;
-        private _normalizeFontSelector;
-        private _findFont;
-        private _findFontWeightFallback;
-        private _makeInternalName;
-    }
-}
-declare module wijmo.pdf {
-    /**
-    * Represents a PDF document object, based on <a href="https://github.com/devongovett/pdfkit">PDFKit</a> JavaScript library.
+    * Represents a PDF document object, based on <a href="https://github.com/foliojs/pdfkit">PDFKit</a> JavaScript library.
     */
     class PdfDocument extends PdfPageArea {
         private _doc;
@@ -1818,6 +2636,13 @@ declare module wijmo.pdf {
         private _chunks;
         private _fontReg;
         private _pageIndex;
+        private _version;
+        private _userPassword;
+        private _ownerPassword;
+        private _permissions;
+        private _tagged;
+        private _displayTitle;
+        private _lang;
         private _ehOnPageAdded;
         private _ehOnPageAdding;
         private _ehOnDocData;
@@ -1836,10 +2661,11 @@ declare module wijmo.pdf {
         *
         * @param options An optional object containing initialization settings.
         */
-        constructor(options?: any);
+        constructor(options?: IPdfDocumentOptions);
         /**
         * Gets a value that indicates whether the document compression is enabled.
-        * This property can be assigned using the {@link PdfDocument} constructor only.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
         *
         * The default value is true.
         */
@@ -1848,27 +2674,54 @@ declare module wijmo.pdf {
         * Gets a value that indicates whether the pages buffering mode is enabled which means
         * that the document's pages can be iterated over using {@link pageIndex} and {@link bufferedPageRange}.
         *
-        * This property can be assigned using the {@link PdfDocument} constructor only.
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
         * This property can be set to false only if both {@link header} and {@link footer} are invisible.
         *
         * The default value is true.
         */
         readonly bufferPages: boolean;
         /**
-        * Gets or sets the document information, such as author name, document's creation
-        * date and so on.
+        * Gets a value that specifies whether the window's title bar should display the document title taken from {@link IPdfDocumentInfo.title}.
+        * If false, the name of the PDF file should be displayed.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        *
+        * The default value is **false**.
         */
-        info: IPdfDocumentInfo;
+        readonly displayTitle: boolean;
+        /**
+        * Gets an object that represents a footer, the page area positioned right above
+        * the bottom margin.
+        */
+        readonly footer: PdfRunningTitle;
         /**
         * Gets an object that represents a header, the page area positioned right below
         * the top margin.
         */
         readonly header: PdfRunningTitle;
         /**
-        * Gets an object that represents a footer, the page area positioned right above
-        * the bottom margin.
+        * Gets or sets the document information, such as author name, document's creation
+        * date and so on.
         */
-        readonly footer: PdfRunningTitle;
+        info: IPdfDocumentInfo;
+        /**
+        * Gets a value that represents the default natural language of the document.
+        *
+        * The language code is a 2-character ISO 639 language code (e.g. "en" for English or "ja" for Japanese) followed
+        * by an optional 2-character ISO 3166 country code (e.g. "US" for the United States or "JP" for Japan).
+        * For example: "en", "en-US", "ja-JP".
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        *
+        * The default value is **undefined** which means that the document does not have the default natural language.
+        */
+        readonly lang: string;
+        /**
+        * Gets the PDF owner password.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        */
+        readonly ownerPassword: string;
         /**
         * Gets or sets the index of the current page within the buffered pages range.
         *
@@ -1881,13 +2734,45 @@ declare module wijmo.pdf {
         */
         pageSettings: IPdfPageSettings;
         /**
+        * Gets an object that represents PDF file permissions.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        * Changing the property after creating PdfDocument will not have any effect.
+        */
+        readonly permissions: IPdfPermissions;
+        /**
+        * Gets a value that indicates that the document conforms to Tagged PDF conventions.
+        * For a document to be recognized as a Tagged PDF document this value must be **true**.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        *
+            * Note: tagged PDF requires document version 1.4 or higher.
+            *
+        * The default value is **false**.
+        */
+        readonly tagged: boolean;
+        /**
+        * Gets the PDF user password.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        */
+        readonly userPassword: string;
+        /**
+        * Gets PDF file version.
+        *
+        * This property can be assigned using the {@link IPdfDocumentOptions} object passed to the {@link PdfDocument} constructor.
+        *
+        * The default version is {@link PdfVersion.v1_3}.
+        */
+        readonly version: PdfVersion;
+        /**
         * Occurs when the document has been rendered.
         */
-        ended: Event;
+        readonly ended: Event<PdfDocument, PdfDocumentEndedEventArgs>;
         /**
         * Occurs when a new page is added to the document.
         */
-        pageAdded: Event;
+        readonly pageAdded: Event<PdfDocument, EventArgs>;
         /**
         * Raises the {@link end} event.
         *
@@ -1933,7 +2818,7 @@ declare module wijmo.pdf {
         * This brush will be used by the {@link PdfPaths.fill}, {@link PdfPaths.fillAndStroke} and
         * {@link drawText} methods, if no specific brush is provided.
         *
-        * The brushOrColor argument can accept the following values:
+        * The brush argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfBrush} object.</li>
         *   <li>
@@ -1942,16 +2827,16 @@ declare module wijmo.pdf {
         *    </li>
         * </ul>
         *
-        * @param brushOrColor The brush or color to use.
+        * @param brush The brush or color to use.
         * @return The {@link PdfDocument} object.
         */
-        setBrush(brushOrColor: any): PdfDocument;
+        setBrush(brush: PdfBrush | wijmo.Color | string): PdfDocument;
         /**
         * Sets the default document pen.
         * This pen will be used by the {@link PdfPaths.stroke}, {@link PdfPaths.fillAndStroke}
         * and {@link drawText} methods, if no specific pen is provided.
         *
-        * The penOrColor argument can accept the following values:
+        * The pen argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfPen} object.</li>
         *   <li>
@@ -1960,10 +2845,10 @@ declare module wijmo.pdf {
         *   </li>
         * </ul>
         *
-        * @param penOrColor The pen or color to use.
+        * @param pen The pen or color to use.
         * @return The {@link PdfDocument} object.
         */
-        setPen(penOrColor: any): PdfDocument;
+        setPen(pen: PdfPen | wijmo.Color | string): PdfDocument;
         /**
         * Sets the document font.
         *
@@ -2008,7 +2893,7 @@ declare module wijmo.pdf {
         * @param callback A callback function which will be called, when the font has been
         * registered.
         */
-        registerFontAsync(font: IPdfFontFile, callback: Function): void;
+        registerFontAsync(font: IPdfFontFile, callback: (font: IPdfFontFile) => void): void;
         /**
         * Saves the state of the graphic context (including current pen, brush and
         * transformation state) and pushes it onto stack.
@@ -2022,6 +2907,56 @@ declare module wijmo.pdf {
         * @return The {@link PdfDocument} object.
         */
         restoreState(): PdfDocument;
+        /**
+         * Creates a tag element that represents an item in the document's structure tree.
+         *
+         * For example:
+         * <pre>
+         * // Mark some text as a paragraph.
+         *   let content = doc.beginTagContent(wijmo.pdf.PdfTagType.P);
+         * doc.drawText('Hello, world!');
+         *   doc.endTagContent();
+         *
+         *   // Create the tag element and add content to it.
+         *   let tag = doc.tag(wijmo.pdf.PdfTagType.P);
+         *   tag.add(content);
+         *
+         *   // Add the tag element to the document's structure tree.
+         *   doc.addTag(tag);
+         * </pre>
+         *
+         * The same, using a callback function:
+         * <pre>
+             * doc.addTag(doc.tag(wijmo.pdf.PdfTagType.P, () =>  doc.drawText('Hello, world! ')));
+         * </pre>
+         *
+         * @param type The type of a tag element.
+         * @param child An optional child element or array of child elements.
+         * @param options An optional {@link IPdfTagOptions} object used to configure the element.
+         *
+         * The following child types are supported:
+         * <ul>
+         *   <li>A {@link IPdfTag} object to nest within the element.</li>
+         *   <li>
+         *     A {@link IPdfTagContent} object, a reference to the marked content to associate with the element.
+         *   </li>
+         *   <li>
+         *     A callback function that will be automatically executed when the created element is attached to the document's structure tree.
+         *     The content created by this function will be marked with the tag specified by the **type** parameter and associated with the element.
+         *   </li>
+         * </ul>
+         *
+         * @return The {@link IPdfTag} tag element.
+         */
+        tag(type: PdfTagType, child?: PdfTagOrContent | PdfTagOrContent[], options?: IPdfTagOptions): IPdfTag;
+        /**
+         * Adds the tag element to the document’s structure tree.
+         *
+         * @param tag Theelement to add to the document’s structure tree.
+         *
+         * @return The {@link PdfDocument} object.
+         */
+        addTag(tag: IPdfTag): PdfDocument;
         private _runtimeProperties;
         _copy(key: string, value: any): boolean;
         readonly _document: any;
@@ -2032,6 +2967,7 @@ declare module wijmo.pdf {
         _toggleFont(font?: PdfFont): void;
         private _onDocData;
         private _onDocEnding;
+        private _setDocInfo;
         private _onDocEnded;
         private _onPageAdding;
         private _onPageAdded;
@@ -2068,6 +3004,7 @@ declare module wijmo.pdf {
     */
     class PdfPaths {
         private _doc;
+        private _ndoc;
         private _offset;
         private _pathBuffer;
         /**
@@ -2199,7 +3136,7 @@ declare module wijmo.pdf {
         * If brush is not specified, then the default document brush will be used
         * (see the {@link PdfDocument.setBrush} method).
         *
-        * The brushOrColor argument can accept the following values:
+        * The brush argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfBrush} object.</li>
         *   <li>
@@ -2208,17 +3145,17 @@ declare module wijmo.pdf {
         *    </li>
         * </ul>
         *
-        * @param brushOrColor The brush or color to use.
+        * @param brush The brush or color to use.
         * @param rule The fill rule to use.
         * @return The {@link PdfPaths} object.
         */
-        fill(brushOrColor?: any, rule?: PdfFillRule): PdfPaths;
+        fill(brush?: PdfBrush | wijmo.Color | string, rule?: PdfFillRule): PdfPaths;
         /**
         * Fills and strokes the path with the specified brush, pen and rule.
         * If brush and pen is not specified, then the default document brush and pen will
         * be used (See the {@link PdfDocument.setBrush}, {@link PdfDocument.setPen} methods).
         *
-        * The brushOrColor argument can accept the following values:
+        * The brush argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfBrush} object.</li>
         *   <li>
@@ -2227,7 +3164,7 @@ declare module wijmo.pdf {
         *    </li>
         * </ul>
         *
-        * The penOrColor argument can accept the following values:
+        * The pen argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfPen} object.</li>
         *   <li>
@@ -2236,18 +3173,18 @@ declare module wijmo.pdf {
         *   </li>
         * </ul>
         *
-        * @param brushOrColor The brush or color to use.
-        * @param penOrColor The pen or color to use.
+        * @param brush The brush or color to use.
+        * @param pen The pen or color to use.
         * @param rule The fill rule to use.
         * @return The {@link PdfPaths} object.
         */
-        fillAndStroke(brushOrColor?: any, penOrColor?: any, rule?: PdfFillRule): PdfPaths;
+        fillAndStroke(brush?: PdfBrush | wijmo.Color | string, pen?: PdfPen | wijmo.Color | string, rule?: PdfFillRule): PdfPaths;
         /**
         * Strokes the path with the specified pen.
         * If pen is not specified, then the default document pen will be used
         * (See the {@link PdfDocument.setPen} method).
         *
-        * The penOrColor argument can accept the following values:
+        * The pen argument can accept the following values:
         * <ul>
         *   <li>A {@link PdfPen} object.</li>
         *   <li>
@@ -2256,15 +3193,13 @@ declare module wijmo.pdf {
         *   </li>
         * </ul>
         *
-        * @param penOrColor The pen or color to use.
+        * @param pen The pen or color to use.
         * @return The {@link PdfPaths} object.
         */
-        stroke(penOrColor?: any): PdfPaths;
+        stroke(pen?: PdfPen | wijmo.Color | string): PdfPaths;
         _hasPathBuffer(): boolean;
         private _writePathBuffer;
     }
-}
-declare module wijmo.pdf {
 }
 declare module wijmo.pdf {
     type _TDictionary<T> = {
@@ -2301,7 +3236,7 @@ declare module wijmo.pdf {
         private _registeredCssRules;
         private _svg;
         private _doc;
-        constructor(svgString: string, area: PdfPageArea, urlResolver?: (url: string) => string);
+        constructor(svgString: string, area: PdfPageArea, vpWidth?: number, vpHeight?: number, urlResolver?: (url: string) => string);
         readonly root: _SvgSvgElementImpl;
         render(viewPort?: wijmo.Size): void;
         private _parse;
@@ -2311,6 +3246,64 @@ declare module wijmo.pdf {
         private _getElementById;
         private _registerCssRule;
     }
+}
+declare module wijmo.pdf {
+    /**
+    * Represents a brush used to fill an area with a linear gradient.
+    */
+    class PdfLinearGradientBrush extends PdfGradientBrush {
+        private _x1;
+        private _y1;
+        private _x2;
+        private _y2;
+        /**
+        * Initializes a new instance of the {@link PdfLinearGradientBrush} class.
+        *
+        * @param x1 The X-coordinate of the starting point of the linear gradient.
+        * @param y1 The Y-coordinate of the starting point of the linear gradient.
+        * @param x2 The X-coordinate of the ending point of the linear gradient.
+        * @param y2 The Y-coordinate of the ending point of the linear gradient.
+        * @param stops The {@link PdfGradientStop} array to set on this brush.
+        * @param opacity The opacity of this brush.
+        */
+        constructor(x1: number, y1: number, x2: number, y2: number, stops: PdfGradientStop[], opacity?: number);
+        /**
+        * Gets or sets the X-coordinate of the starting point of the linear gradient,
+        * in page area coordinates, in points.
+        */
+        x1: number;
+        /**
+        * Gets or sets the Y-coordinate of the starting point of the linear gradient,
+        * in page area coordinates, in points.
+        */
+        y1: number;
+        /**
+        * Gets or sets the X-coordinate of the ending point of the linear gradient,
+        * in page area coordinates, in points.
+        */
+        x2: number;
+        /**
+        * Gets or sets the Y-coordinate of the ending point of the linear gradient,
+        * in page area coordinates, in points.
+        */
+        y2: number;
+        /**
+        * Creates a copy of this {@link PdfLinearGradientBrush}.
+        * @return A copy of this brush.
+        */
+        clone(): PdfLinearGradientBrush;
+        /**
+        * Determines whether the specified {@link PdfLinearGradientBrush} instance is equal to
+        * the current one.
+        *
+        * @param value {@link PdfLinearGradientBrush} to compare.
+        * @return true if the specified object is equal to the current one, otherwise false.
+        */
+        equals(value: PdfLinearGradientBrush): boolean;
+        _getBrushObject(area: PdfPageArea): any;
+    }
+}
+declare module wijmo.pdf {
 }
 declare module wijmo.pdf {
     enum _SvgRenderMode {

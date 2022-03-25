@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -16,9 +16,8 @@ declare module wijmo.grid.pdf {
     function softMultiRow(): typeof wijmo.grid.multirow;
     function softSheet(): typeof wijmo.grid.sheet;
     function softOlap(): typeof wijmo.olap;
-}
-declare module wijmo.grid.pdf {
-    function _merge(dst: any, src: any, overwrite?: boolean): any;
+    function softTransposed(): typeof wijmo.grid.transposed;
+    function softTransposedMultiRow(): typeof wijmo.grid.transposedmultirow;
 }
 declare module wijmo.grid.pdf {
     /**
@@ -112,7 +111,7 @@ declare module wijmo.grid.pdf {
     interface IFlexGridDrawSettings {
         /**
          * Indicates whether custom cell content and style should be evaluated and exported.
-         * If set to true then export logic will retrieve cell content using cell.textContent property,
+         * If set to true then export logic will retrieve cell content using cell.innerText property,
          * and cell style using getComputedStyle(cell).
          * Default is 'undefined' (i.e. false).
          */
@@ -183,7 +182,7 @@ declare module wijmo.grid.pdf {
          *    }
          * });</pre>
          */
-        formatItem?: Function;
+        formatItem?: (args: PdfFormatItemEventArgs) => void;
         /**
          * Determines the maximum number of pages to export.
          */
@@ -214,7 +213,21 @@ declare module wijmo.grid.pdf {
          *    }
          * });</pre>
          */
-        progress?: Function;
+        progress?: (value: number) => void;
+        /**
+         * When turned on, decreases the drawing time by activating the cell styles caching if {@link IFlexGridDrawSettings.customCellContent} property is enabled.
+         *
+         * The combination of cell's inline style specific properties, own CSS classes and CSS classes of row containing the cell is used as
+         * the cache tag. Before the cell style is calculated, the cache is checked first, and if the style associated with the tag is found there,
+         * it's taken from there and doesn't get recalculated.
+         *
+         * Using this mode can make the drawing slower when considerable amount of cells have the unique set of CSS classes and inline styles.
+         * Also, when pseudo classes like :first-child and :nth-child are used to style the cells and rows, the cell styles can be determined
+         * incorrectly.
+         *
+         * The default value is <b>true</b>.
+         */
+        quickCellStyles?: boolean;
         _progressMax?: number;
     }
     /**
@@ -228,8 +241,109 @@ declare module wijmo.grid.pdf {
         /**
          * Represents the options of the underlying {@link PdfDocument}.
          */
-        documentOptions?: any;
+        documentOptions?: wijmo.pdf.IPdfDocumentOptions;
     }
+}
+declare module wijmo.grid.pdf {
+    interface _IFlexGridAdapter {
+        columns: _IColumnCollection;
+        rows: _IRowCollection;
+        bottomLeftCells: _IGridPanel;
+        cells: _IGridPanel;
+        columnFooters: _IGridPanel;
+        columnHeaders: _IGridPanel;
+        rowHeaders: _IGridPanel;
+        topLeftCells: _IGridPanel;
+        treeIndent: number;
+        getSelection(): _ICellRange[];
+        getComputedStyle(panel: _IGridPanel, cell: HTMLElement): CSSStyleDeclaration;
+        getComputedDefBorderColor(): string;
+        getMergedRange(p: _IGridPanel, r: number, c: number): _ICellRange;
+        showColumnHeader: boolean;
+        showRowHeader: boolean;
+        showColumnFooter: boolean;
+        alignMergedTextToTheTopRow(panel: _IGridPanel): boolean;
+        getCell(panel: _IGridPanel, row: number, column: number, updateContent: boolean): HTMLElement;
+        getCellContent(panel: _IGridPanel, row: _IRow, col: _IColumn, colIdx: number): string;
+        getCellStyle(panel: _IGridPanel, row: _IRow, col: _IColumn): ICellStyle;
+        getColumn(panel: _IGridPanel, row: number, col: number): _IColumn;
+        isAlternatingRow(row: _IRow): boolean;
+        isBooleanCell(panel: _IGridPanel, row: _IRow, col: _IColumn): boolean;
+        isGroupRow(row: _IRow): boolean;
+        isNewRow(row: _IRow): boolean;
+        isDetailRow(row: _IRow): boolean;
+        isExpandableGroupRow(row: _IRow): boolean;
+        isRenderableRow(row: _IRow): boolean;
+        isRenderableColumn(col: _IColumn): boolean;
+    }
+    interface _IGridPanel {
+        columns: _IColumnCollection;
+        cellType: number;
+        rows: _IRowCollection;
+        height: number;
+        width: number;
+    }
+    interface _IColumnCollection {
+        [index: number]: _IColumn;
+        firstVisibleIndex: number;
+        length: number;
+    }
+    interface _IRowCol {
+        dataType?: number;
+        binding?: string;
+        index: number;
+        isVisible: boolean;
+    }
+    interface _IColumn extends _IRowCol {
+        aggregate: number;
+        name?: string;
+        visibleIndex: number;
+        renderWidth: number;
+        wordWrap: boolean;
+        multiLine: boolean;
+        getAlignment(row?: _IRow): string;
+    }
+    interface _ICellRange {
+        row: number;
+        col: number;
+        row2: number;
+        col2: number;
+        bottomRow: number;
+        rightCol: number;
+        leftCol: number;
+        topRow: number;
+        isValid: boolean;
+        rowSpan: number;
+        columnSpan: number;
+        isSingleCell: boolean;
+        getRenderSize(flex: _IFlexGridAdapter, panel: _IGridPanel): wijmo.Size;
+        clone(): _ICellRange;
+    }
+    interface _IRowCollection {
+        [index: number]: _IRow;
+        length: number;
+        maxGroupLevel: number;
+    }
+    interface _IRow extends _IRowCol {
+        level?: number;
+        renderHeight: number;
+        wordWrap: boolean;
+        multiLine: boolean;
+    }
+    enum _CellType {
+        None = 0,
+        Cell = 1,
+        ColumnHeader = 2,
+        RowHeader = 3,
+        TopLeft = 4,
+        ColumnFooter = 5,
+        BottomLeft = 6
+    }
+}
+declare module wijmo.grid.pdf {
+    function _merge(dst: any, src: any, overwrite?: boolean): any;
+    function _combineColumns(regCol: _IColumn, bndCol: _IColumn): _IColumn;
+    function _cloneStyle(val: CSSStyleDeclaration): any;
 }
 declare module wijmo.grid.pdf {
     /**
@@ -239,13 +353,15 @@ declare module wijmo.grid.pdf {
         private _p;
         private _rng;
         private _data;
+        private _tagContent;
         private _canvas;
         private _cell;
         private _clientRect;
         private _contentRect;
-        private _textTop;
+        private _textRect;
         private _style;
         private _getFormattedCell;
+        private _getTextRect;
         /**
          * Initializes a new instance of the {@link PdfFormatItemEventArgs} class.
          *
@@ -255,11 +371,11 @@ declare module wijmo.grid.pdf {
          * @param canvas Canvas to perform the custom painting on.
          * @param clientRect    Object that represents the client rectangle of the grid cell to be rendered in canvas coordinates.
          * @param contentRect Object that represents the content rectangle of the grid cell to be rendered in canvas coordinates.
-         * @param textTop Object that represents the top position of the text in canvas coordinates.
          * @param style Object that represents the style of the grid cell to be rendered.
          * @param getFormattedCell Callback function that should return the grid cell when the getFormattedCell method is called.
+         * @param getTextRect Callback function that should return the text rectangle of the grid cell to be rendered in canvas coordinates.
          */
-        constructor(p: any, rng: any, cell: HTMLElement, canvas: wijmo.pdf.PdfPageArea, clientRect: wijmo.Rect, contentRect: wijmo.Rect, textTop: number, style: ICellStyle, getFormattedCell?: Function);
+        constructor(p: any, rng: any, cell: HTMLElement, canvas: wijmo.pdf.PdfPageArea, clientRect: wijmo.Rect, contentRect: wijmo.Rect, style: ICellStyle, getFormattedCell: () => HTMLElement, getTextRect: () => wijmo.Rect);
         /**
          * Gets the {@link GridPanel} affected by this event.
          */
@@ -281,12 +397,12 @@ declare module wijmo.grid.pdf {
          */
         data: any;
         /**
-        * Gets or sets a value that indicates that default cell borders drawing should be canceled.
-        */
+         * Gets or sets a value that indicates that default cell borders drawing should be canceled.
+         */
         cancelBorders: boolean;
         /**
-        * Gets the canvas to perform the custom painting on.
-        */
+         * Gets the canvas to perform the custom painting on.
+         */
         readonly canvas: wijmo.pdf.PdfPageArea;
         /**
          * Gets a reference to the element that represents the grid cell being rendered.
@@ -303,11 +419,30 @@ declare module wijmo.grid.pdf {
          */
         readonly contentRect: wijmo.Rect;
         /**
+         * Draws the background of the cell with the specified brush or color, or, if it is not specified, with the value of the {@link style.backgroundColor} property.
+         * @param brush The brush or color to use.
+         */
+        drawBackground(brush?: wijmo.pdf.PdfBrush | wijmo.Color | string): void;
+        /**
          * Returns a reference to the element that represents the grid cell being rendered.
          * This method is useful when export of custom formatting is disabled, but you need
          * to export custom content for certain cells.
          */
         getFormattedCell(): HTMLElement;
+        /**
+         * Gets or sets a reference to a marked structure content of the cell.
+         *
+         * If user produces Tagged PDF and draws the cell content manually, then he can mark the cell content and return a reference to the structure content via this property.
+         * The returned item will be incorporated into the document's structure tree.
+         *
+         * For example:
+         * <pre>
+         * args.tagContent = args.canvas.beginTagContent(wijmo.pdf.PdfTagType.P);
+         * args.canvas.drawText('Some text', x, y);
+         * args.canvas.endTagContent();
+         * </pre>
+         */
+        tagContent: wijmo.pdf.IPdfTagContent;
         /**
          * Gets an object that represents the style of the cell being rendered.
          * If IFlexGridDrawSettings.customCellContent is set to true then the style is inferred
@@ -319,91 +454,6 @@ declare module wijmo.grid.pdf {
          * Gets the value that represents the top position of the text of the cell being rendered in canvas coordinates.
          */
         readonly textTop: number;
-    }
-}
-declare module wijmo.grid.pdf {
-    interface _IFlexGridAdapter {
-        columns: _IColumnCollection;
-        rows: _IRowCollection;
-        bottomLeftCells: _IGridPanel;
-        cells: _IGridPanel;
-        columnFooters: _IGridPanel;
-        columnHeaders: _IGridPanel;
-        rowHeaders: _IGridPanel;
-        topLeftCells: _IGridPanel;
-        treeIndent: number;
-        getSelection(): _ICellRange[];
-        getComputedStyle(cell: HTMLElement): CSSStyleDeclaration;
-        getMergedRange(p: _IGridPanel, r: number, c: number): _ICellRange;
-        showColumnHeader: boolean;
-        showRowHeader: boolean;
-        showColumnFooter: boolean;
-        alignMergedTextToTheTopRow(panel: _IGridPanel): boolean;
-        getCell(panel: _IGridPanel, row: number, column: number): HTMLElement;
-        getCellContent(panel: _IGridPanel, row: _IRow, col: _IColumn, colIdx: number): string;
-        getCellStyle(panel: _IGridPanel, row: _IRow, col: _IColumn): ICellStyle;
-        getColumn(panel: _IGridPanel, row: number, col: number): _IColumn;
-        isAlternatingRow(row: _IRow): boolean;
-        isBooleanCell(panel: _IGridPanel, row: _IRow, col: _IColumn): boolean;
-        isGroupRow(row: _IRow): boolean;
-        isNewRow(row: _IRow): boolean;
-        isDetailRow(row: _IRow): boolean;
-        isExpandableGroupRow(row: _IRow): boolean;
-    }
-    interface _IGridPanel {
-        columns: _IColumnCollection;
-        cellType: number;
-        rows: _IRowCollection;
-        height: number;
-        width: number;
-    }
-    interface _IColumnCollection {
-        [index: number]: _IColumn;
-        firstVisibleIndex: number;
-        length: number;
-    }
-    interface _IColumn {
-        aggregate: number;
-        dataType: number;
-        index: number;
-        visibleIndex: number;
-        isVisible: boolean;
-        renderWidth: number;
-        wordWrap: boolean;
-        getAlignment(): string;
-    }
-    interface _ICellRange {
-        row: number;
-        col: number;
-        row2: number;
-        col2: number;
-        bottomRow: number;
-        rightCol: number;
-        leftCol: number;
-        topRow: number;
-        isValid: boolean;
-        getRenderSize(panel: _IGridPanel): wijmo.Size;
-        clone(): _ICellRange;
-    }
-    interface _IRowCollection {
-        [index: number]: _IRow;
-        length: number;
-        maxGroupLevel: number;
-    }
-    interface _IRow {
-        index: number;
-        isVisible: boolean;
-        level?: number;
-        renderHeight: number;
-    }
-    enum _CellType {
-        None = 0,
-        Cell = 1,
-        ColumnHeader = 2,
-        RowHeader = 3,
-        TopLeft = 4,
-        ColumnFooter = 5,
-        BottomLeft = 6
     }
 }
 declare module wijmo.grid.pdf {
@@ -459,17 +509,103 @@ declare module wijmo.grid.pdf {
         private static _getCellsCount;
         private static _getRowsToRender;
         private static _getScaleFactor;
+        private static _canBreakRows;
         private static _getPages;
+    }
+    class FlexGridRenderer {
+        private _flex;
+        private _borderWidth;
+        private _lastPage;
+        private _topLeft;
+        private _rowHeader;
+        private _columnHeader;
+        private _cells;
+        private _bottomLeft;
+        private _columnFooter;
+        private _settings;
+        constructor(flex: _IFlexGridAdapter, settings: IFlexGridExportSettings, range: RowRange, borderWidth: number, lastPage: boolean);
+        readonly settings: IFlexGridExportSettings;
+        isRenderableRow(row: _IRow): boolean;
+        isRenderableColumn(col: _IColumn): boolean;
+        getCellsCount(): number;
+        render(doc: wijmo.pdf.PdfDocument, cellRendered?: () => void): void;
+        readonly flex: _IFlexGridAdapter;
+        readonly renderSize: wijmo.Size;
+        readonly showColumnHeader: boolean;
+        readonly showRowHeader: boolean;
+        readonly showColumnFooter: boolean;
+        alignMergedTextToTheTopRow(panel: _IGridPanel): boolean;
+        getColumn(panel: _IGridPanel, row: number, col: number): _IColumn;
+        isAlternatingRow(row: _IRow): boolean;
+        isGroupRow(row: _IRow): boolean;
+        isNewRow(row: _IRow): boolean;
+        isExpandableGroupRow(row: _IRow): boolean;
+        isBooleanCell(panel: _IGridPanel, row: _IRow, col: _IColumn): boolean;
+        getCellStyle(panel: _IGridPanel, row: _IRow, col: _IColumn): ICellStyle;
+    }
+    class PanelSection {
+        private _range;
+        private _panel;
+        private _flex;
+        private _renderableRowsCnt;
+        private _renderableColumnsCnt;
+        private _size;
+        constructor(flex: _IFlexGridAdapter, panel: _IGridPanel, range: RowRange);
+        readonly renderableRowsCount: number;
+        readonly renderableColumnsCount: number;
+        readonly size: wijmo.Size;
+        readonly range: RowRange;
+        readonly panel: _IGridPanel;
+    }
+    class PanelSectionRenderer extends PanelSection {
+        private _borderWidth;
+        private _gr;
+        private _renderSize;
+        constructor(gr: FlexGridRenderer, panel: _IGridPanel, range: RowRange, borderWidth: number);
+        readonly gr: FlexGridRenderer;
+        readonly renderSize: wijmo.Size;
+        private _getRangeWidth;
+        private _getRangeHeight;
+        getCellsCount(): number;
+        render(doc: wijmo.pdf.PdfDocument, x: number, y: number, cellRendered: () => void, tableSection: TrStructCache): void;
+    }
+    class TrStructCache {
+        private doc;
+        private tableSection;
+        private _trh;
+        private _trb;
+        private _trf;
+        constructor(doc: wijmo.pdf.PdfDocument, tableSection: wijmo.pdf.IPdfTag);
+        readonly el: wijmo.pdf.IPdfTag;
+        getTR(row: number, cellType: _CellType): wijmo.pdf.IPdfTag;
+    }
+    class _CellRenderer {
+        private _pr;
+        private _area;
+        private _borderWidth;
+        private readonly InvisiblePen;
+        constructor(panelRenderer: PanelSectionRenderer, area: wijmo.pdf.PdfPageArea, borderWidth: number);
+        renderCell(value: string, row: _IRow, column: _IColumn, rng: _CellRangeExt, r: wijmo.Rect): wijmo.pdf.IPdfTagContent;
+        private _renderCell;
+        private _isBooleanCellAndValue;
+        private _isBoolean;
+        private _measureCell;
+        private _decompositeStyle;
+        private _parseBorder;
+        private _parsePadding;
+        private _renderEmptyCell;
+        private _renderBooleanCell;
+        private _renderTextCell;
+        private _calculateTextRect;
+        private _getTextLineHeight;
     }
     class _CellRange implements _ICellRange {
         private _row;
         private _col;
         private _row2;
         private _col2;
-        firstVisibleRow: number;
-        visibleRowsCount: number;
-        constructor(panel: _IGridPanel, cr: _ICellRange);
-        constructor(panel: _IGridPanel, row: number, col: number, row2: number, col2: number);
+        constructor(cr: _ICellRange);
+        constructor(row: number, col: number, row2: number, col2: number);
         row: number;
         col: number;
         row2: number;
@@ -478,12 +614,35 @@ declare module wijmo.grid.pdf {
         readonly bottomRow: number;
         readonly leftCol: number;
         readonly rightCol: number;
+        readonly columnSpan: number;
         readonly rowSpan: number;
         readonly isValid: boolean;
+        readonly isSingleCell: boolean;
         copyFrom(cr: _CellRange): void;
         clone(): _CellRange;
-        getRenderSize(p: _IGridPanel): wijmo.Size;
+        getRenderSize(flex: _IFlexGridAdapter, p: _IGridPanel): wijmo.Size;
         setRange(r?: number, c?: number, r2?: number, c2?: number): void;
+    }
+    class _CellRangeExt extends _CellRange {
+        firstVisibleRow: number;
+        visibleRowsCount: number;
+        constructor(panel: _IGridPanel, cr: _ICellRange);
+        constructor(panel: _IGridPanel, row: number, col: number, row2: number, col2: number);
+        copyFrom(cr: _CellRangeExt): void;
+        clone(): _CellRangeExt;
+    }
+    class RowRange {
+        private _ranges;
+        constructor(ranges: _ICellRange[]);
+        length(): number;
+        readonly isValid: boolean;
+        readonly leftCol: number;
+        readonly rightCol: number;
+        clone(leftCol?: number, rightCol?: number): RowRange;
+        getRenderSize(flex: _IFlexGridAdapter, panel: _IGridPanel): wijmo.Size;
+        find(panel: _IGridPanel, fn: (row: _IRow) => boolean): _IRow | null;
+        forEach(panel: _IGridPanel, fn: (row: _IRow, range?: _ICellRange, rowIdx?: number, seqIdx?: number) => void | boolean): void;
+        subrange(from: number, count: number, leftCol?: number, rightCol?: number): RowRange;
     }
 }
 declare module wijmo.grid.pdf {
@@ -502,11 +661,11 @@ declare module wijmo.grid.pdf {
         * Draws the {@link FlexGrid} to an existing {@link PdfDocument} at the
         * (0, @wijmo.pdf.PdfDocument.y) coordinates.
         *
-        * If width is not specified, then grid will be rendered in actual size,
-        * breaking into pages as needed. If height is not specified, then grid will be
-        * scaled to fit the width, breaking into pages vertically as needed.
-        * If both, width and height are determined, then grid will be scaled to fit
-        * the specified rectangle without any page breaks.
+        * If both, **width** and **height** are determined, then grid will be scaled to fit the
+        * specified rectangle without any page breaks.
+        * If only **width** is specifed, then grid will be scaled to fit the width, breaking
+        * into pages vertically as needed.
+        * Otherwise grid will be rendered in actual size, breaking into pages as needed.
         *
         * <pre>
         * var doc = new wijmo.pdf.PdfDocument({
@@ -540,12 +699,11 @@ declare module wijmo.grid.pdf {
         * Draws the {@link FlexGrid} to an existing {@link PdfDocument} instance at the
         * specified coordinates.
         *
-        * If width is not specified, then grid will be rendered in actual size
-        * without any page breaks.
-        * If height is not specified, then grid will be scaled to fit the width
-        * without any page breaks.
-        * If both, width and height are determined, then grid will be scaled to fit
+        * If both, **width** and **height** are determined, then grid will be scaled to fit
         * the specified rectangle without any page breaks.
+        * If only **width** is specified, then grid will be scaled to fit the width without
+        * any page breaks.
+        * Othwerwise grid will be rendered in actual size without any page breaks.
         *
         * <pre>
         * var doc = new wijmo.pdf.PdfDocument({
@@ -662,10 +820,11 @@ declare module wijmo.grid.pdf {
          * @param fileName The name of the file to export.
          * @param settings The export settings.
          * @param done An optional callback function to call when exporting is done. The function takes a single parameter, an instance of the {@link PdfWebWorkerExportDoneEventArgs} class.
+         * To prevent the creation of a file the function should return False.
          * @param progress An optional function that gives feedback about the progress of the export. The function takes a single parameter, a number changing from 0.0 to 1.0,
          * where the value of 0.0 indicates that the operation has just begun and the value of 1.0 indicates that the operation has completed.
          */
-        static exportGrid(worker: Worker, grid: wijmo.grid.FlexGrid, fileName: string, settings: IFlexGridExportSettings, done?: Function, progress?: Function): void;
+        static exportGrid(worker: Worker, grid: wijmo.grid.FlexGrid, fileName: string, settings?: IFlexGridExportSettings, done?: (args: PdfWebWorkerExportDoneEventArgs) => false | void, progress?: (value: number) => void): void;
         /**
          * Exports PDF in a background thread.
          *
@@ -675,7 +834,7 @@ declare module wijmo.grid.pdf {
          * @param progress An optional function that gives feedback about the progress of the export. The function takes a single parameter, a number changing from 0.0 to 1.0,
          * where the value of 0.0 indicates that the operation has just begun and the value of 1.0 indicates that the operation has completed.
          */
-        static export(worker: Worker, settings: any, done: Function, progress?: Function): void;
+        static export(worker: Worker, settings: any, done: (args: PdfWebWorkerExportDoneEventArgs) => void, progress?: (value: number) => void): void;
         /**
          * Adds named FlexGrid with settings, which will be used in a Web Worker to generate a PDF document.
          * This method should be used in conjunction with the {@link PdfWebWorkerClient.export} method.
@@ -685,7 +844,7 @@ declare module wijmo.grid.pdf {
          * @param name The name associated with the grid.
          * @param settings The draw settings.
          */
-        static addGrid(worker: Worker, grid: wijmo.grid.FlexGrid, name: string, settings: IFlexGridDrawSettings): void;
+        static addGrid(worker: Worker, grid: wijmo.grid.FlexGrid, name: string, settings?: IFlexGridDrawSettings): void;
         /**
          * Adds named image with settings, which will be used in a Web Worker to generate a PDF document.
          * This method should be used in conjunction with the {@link PdfWebWorkerClient.export} method.
@@ -695,7 +854,7 @@ declare module wijmo.grid.pdf {
          * @param name The name associated with the image.
          * @param settings The image drawing settings.
          */
-        static addImage(worker: Worker, image: string, name: string, settings: wijmo.pdf.IPdfImageDrawSettings): void;
+        static addImage(worker: Worker, image: string, name: string, settings?: wijmo.pdf.IPdfImageDrawSettings): void;
         /**
          * Adds named string which will be used in a Web Worker code to generate a PDF document.
          * This method should be used in conjunction with the {@link PdfWebWorkerClient.export} method.
@@ -736,7 +895,7 @@ declare module wijmo.grid.pdf {
          *     <li><b>clientData</b>: A dictionary of {name: value} pairs that contains the data added on the client side.</li>
          * </ul>
          */
-        static initExport(draw: Function): void;
+        static initExport(draw: (doc: wijmo.pdf.PdfDocument, clientData: IClientData) => void): void;
         /**
          * Sends the progress value to a client, where it will be handled by the {@link PdfWebWorkerClient.export}'s progress callback function.
          * Should be used in conjunction with the {@link PdfWebWorkerClient.export} method to inform client about the progress of the export.

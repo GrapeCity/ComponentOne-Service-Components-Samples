@@ -447,7 +447,7 @@ module wijmo.razor.designer {
             });
 
             var self = this;
-            this.mergeManager = new QueryDesignGridMergeManager(this);
+            this.mergeManager = new QueryDesignGridMergeManager();
 
             for (var r = 0; r < QueryDesignGrid._MAX_ROWS; r++) {
                 this.rows.push(new wijmo.grid.Row({

@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\cycling.png" />
+    <None Remove="Resources\newApp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.ScheduleCore">
+      <Version>1.0.20221.5</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.Grid" Version="6.0.20213.167" />
+    <PackageReference Include="C1.WPF.ScheduleCore">
+      <Version>1.0.20221.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cycling.png" />
+    <Resource Include="Resources\newApp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="EditAppointmentDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Themes\Generic.xaml">
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

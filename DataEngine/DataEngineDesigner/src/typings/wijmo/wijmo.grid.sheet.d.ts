@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -15,11 +15,146 @@ declare module wijmo.grid.sheet {
     function softXlsx(): typeof wijmo.xlsx;
 }
 declare module wijmo.grid.sheet {
+    var _ErrorMessages: {
+        InvalidCellRef: string;
+        InvalidSheetRef: string;
+        InvalidTableRef: string;
+        InvalidTableColRef: string;
+        InvalidParameters: string;
+        BadExpression: string;
+        CircRef: string;
+        InvalidParameter: (name: string) => string;
+        ParameterIsOutOfRange: (name: string) => string;
+        RowIsOutOfTableRange: (name: string) => string;
+        UnkFuncName: (name: string) => string;
+        DefNameInvalidSheet: (sheetName: string) => string;
+        InvalidTable: (name: string) => string;
+        InvalidExpression: (expression: string) => string;
+        Atan2ArgsLessThanZero: string;
+        RateCriteriaFails: string;
+        RangesMustBeTheSame: string;
+        TooFewParameters: string;
+        TooManyParameters: string;
+        ExpressionExpected: string;
+        UnbalancedParenthesis: string;
+        UnbalancedSquareBrackets: string;
+        TableReferencesExpected: string;
+        IdentifierExpected: string;
+        CantFindFinalQuote: string;
+        IllegalCrossSheetReference: string;
+        CantFindFinalDateDelimiter: string;
+        CellRefMustBeInSameSheet: string;
+        SyntaxError: string;
+    };
+    /**
+     * Represents the error that occurs when evaluating the formula.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class FormulaError {
+        private _error;
+        private _data;
+        protected constructor(error: string, data?: any);
+        /**
+        * Gets the error code, for example "#DIV/0!".
+        */
+        readonly error: string;
+        /**
+        * Ges the data associated with the error.
+        *
+        * It could be a text that explains the error or a JavaScript exception object associated with the error.
+        */
+        readonly data: any;
+        /**
+         * Returns the string that represents the error.
+         */
+        toString(): any;
+    }
+    /**
+     * Represents the "#DIV/0!" error that occurs when a number is divided by zero.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class DivideByZeroError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#NAME?" error that occurs when FlexSheet is unable to recognize text in a formula (for example, when function name is mistyped).
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class NameError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#REF!" error that occurs when a cell reference is not valid.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class ReferenceError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#NUM!" error that occurs when when a formula contains invalid numeric values.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class NumericError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#VALUE!" error that occurs when value is not the expected type or when the formula is badly formed (incorrect number of parameters in function, unbalanced parenthesis etc).
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class ValueError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#N/A" error that occurs when value a value is not available to a formula.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class NotAvailableError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents the "#NULL!" error that occurs when you specify an intersection of two areas that do not intersect.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class NullError extends FormulaError {
+        constructor(data?: string);
+    }
+    /**
+     * Represents an unknown error, for example a JavaScript exception that raises during the formula evaluation.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class UnknownError extends FormulaError {
+        constructor(data: any);
+    }
+    /**
+     * Represents a syntax error that occurs during parsing the formula.
+     *
+     * This class is not intended to be instantiated in your code.
+     */
+    class SyntaxError extends FormulaError {
+        constructor(data: string);
+    }
+    class _FormulaErrorHelper {
+        private static _errTypeMap;
+        static asError(value: FormulaError | string): FormulaError;
+        private static fromString;
+    }
+}
+declare module wijmo.grid.sheet {
     /**
      * Represents a Table within the {@link FlexSheet} control.
      */
     class Table {
         _owner: FlexSheet;
+        _attached: boolean;
         private _sheet;
         private _name;
         private _columns;
@@ -83,6 +218,9 @@ declare module wijmo.grid.sheet {
          * column should have the style applied.
          */
         alterLastColumn: boolean;
+        _isHeaderRow(row: number): boolean;
+        _getTableRange(): wijmo.grid.CellRange;
+        _getColumns(): TableColumn[];
         /**
          * Gets the range of the specific section and column on the relevant sheet that the table occupies.
          *
@@ -118,10 +256,11 @@ declare module wijmo.grid.sheet {
         _updateCell(rowIndex: number, colIndex: number, cell: HTMLElement): void;
         _updateTableRange(topRowChange: number, bottomRowChage: number, leftColChange: number, rightColChange: number): void;
         _setTableRange(range: wijmo.grid.CellRange, columns?: TableColumn[]): void;
-        _updateColumnName(columnIndex: number, columnName: string): void;
+        _updateColumnName(tblColIndex: number, columnName: string, updateCell?: boolean): void;
         _updateColumnTotalRowContent(column: TableColumn, columnIndex?: number): void;
         _attachSheet(sheet: Sheet): void;
         _detachSheet(): void;
+        private readonly _flex;
         private _pushTableColumns;
         private _generateColumns;
         _getTableCellAppliedStyles(cellRowIndex: number, cellColIndex: number): ITableSectionStyle;
@@ -411,6 +550,7 @@ declare module wijmo.grid.sheet {
         private _columnIndex;
         private _count;
         private _isAdding;
+        _delSubActions: _ColumnsChangedAction[];
         _affectedFormulas: any;
         _affectedDefinedNameVals: any;
         _deletedTables: Table[];
@@ -427,6 +567,8 @@ declare module wijmo.grid.sheet {
         private _rowIndex;
         private _count;
         private _isAdding;
+        private _delSubActions;
+        private _headerRowAtTop;
         _affectedFormulas: any;
         _affectedDefinedNameVals: any;
         _deletedTables: Table[];
@@ -434,6 +576,7 @@ declare module wijmo.grid.sheet {
         undo(): void;
         redo(): void;
         saveNewState(): boolean;
+        addDeleteSubAction(sub: _RowsChangedAction): void;
         private _saveValues;
         private _handleUndoRedo;
     }
@@ -685,6 +828,7 @@ declare module wijmo.grid.sheet {
         private _isDragging;
         private _draggingColumn;
         private _draggingRow;
+        private _draggingSingleRow;
         private _draggingMarker;
         private _draggingTooltip;
         private _draggingCells;
@@ -721,15 +865,16 @@ declare module wijmo.grid.sheet {
         private _fillingRange;
         private _fillingMarker;
         _orgCellSettings: any[];
-        private _fillSmartTagHost;
-        private _fillMenuHost;
         private _fillingTooltip;
-        private _endDragFillOperationHdl;
         private _enableDragDrop;
         private _enableFormulas;
-        private _orgRowVisible;
+        private _allowAutoFill;
         private _headerRowRemoved;
         private _lsmPos;
+        private _clearCalcCacheOnRefresh;
+        private _copyingTo;
+        private _ignoreBindGrid;
+        private _loadingFromWorkbook;
         /**
          * Overrides the template used to instantiate {@link FlexSheet} control.
          */
@@ -779,10 +924,10 @@ declare module wijmo.grid.sheet {
          */
         showFilterIcons: boolean;
         /**
-         * Gets an array the {@link IDefinedName} objects representing named ranges/expressions
+             * Gets an array the {@link DefinedName} objects representing named ranges/expressions
          * defined in the <b>FlexSheet</b>.
          */
-        readonly definedNames: wijmo.collections.ObservableArray;
+        readonly definedNames: wijmo.collections.ObservableArray<DefinedName>;
         /**
          * Gets or sets the value to indicates whether enable drag and drop rows or columns in FlexSheet.
          */
@@ -791,11 +936,16 @@ declare module wijmo.grid.sheet {
          * Gets or sets the value to indicates whether enable formulas in FlexSheet.
          */
         enableFormulas: boolean;
+        /**
+         * Gets or sets the value to indicates whether enable autofill, the feature to fill cells with data that follows
+         * a pattern by dragging the bottom right corner of the cell.
+         */
+        allowAutoFill: boolean;
         _lastSelMovePos: wijmo.grid.CellRange;
         /**
          * Occurs when current sheet index changed.
          */
-        selectedSheetChanged: Event;
+        readonly selectedSheetChanged: Event<FlexSheet, PropertyChangedEventArgs>;
         /**
          * Raises the currentSheetChanged event.
          *
@@ -805,7 +955,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when dragging the rows or the columns of the <b>FlexSheet</b>.
          */
-        draggingRowColumn: Event;
+        readonly draggingRowColumn: Event<FlexSheet, DraggingRowColumnEventArgs>;
         /**
          * Raises the draggingRowColumn event.
          */
@@ -814,7 +964,7 @@ declare module wijmo.grid.sheet {
          * Occurs when dropping the rows or the columns of the <b>FlexSheet</b>.
          * This event has been deprecated. Please use beginDroppingRowColumn and endDroppingRowColumn event instead.
          */
-        droppingRowColumn: Event;
+        readonly droppingRowColumn: Event<FlexSheet, EventArgs>;
         /**
          * Raises the droppingRowColumn event.
          */
@@ -822,7 +972,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when begin dropping the rows or the columns of the <b>FlexSheet</b>.
          */
-        beginDroppingRowColumn: Event;
+        readonly beginDroppingRowColumn: Event<FlexSheet, DroppingRowColumnEventArgs>;
         /**
          * Raises the beginDroppingRowColumn event.
          */
@@ -830,7 +980,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when end dropping the rows or the columns of the <b>FlexSheet</b>.
          */
-        endDroppingRowColumn: Event;
+        readonly endDroppingRowColumn: Event<FlexSheet, CancelEventArgs>;
         /**
          * Raises the endDroppingRowColumn event.
          */
@@ -838,7 +988,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the {@link FlexSheet} loads the {@link Workbook} instance
          */
-        loaded: Event;
+        readonly loaded: Event<FlexSheet, EventArgs>;
         /**
          * Raises the loaded event.
          */
@@ -846,7 +996,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when the {@link FlexSheet} meets the unknown formula.
          */
-        unknownFunction: Event;
+        readonly unknownFunction: Event<FlexSheet, UnknownFunctionEventArgs>;
         /**
          * Raises the unknownFunction event.
          */
@@ -854,7 +1004,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when the {@link FlexSheet} is cleared.
          */
-        sheetCleared: Event;
+        readonly sheetCleared: Event<FlexSheet, EventArgs>;
         /**
          * Raises the sheetCleared event.
          */
@@ -862,7 +1012,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs before the {@link FlexSheet} insert\delete rows.
          */
-        prepareChangingRow: Event;
+        readonly prepareChangingRow: Event<FlexSheet, RowColumnChangedEventArgs>;
         /**
          * Raises the prepareChangingRow event.
          */
@@ -870,7 +1020,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs before the {@link FlexSheet} inserts or deletes columns.
          */
-        prepareChangingColumn: Event;
+        readonly prepareChangingColumn: Event<FlexSheet, RowColumnChangedEventArgs>;
         /**
          * Raises the prepareChangingColumn event.
          */
@@ -878,7 +1028,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the {@link FlexSheet} insert\delete rows.
          */
-        rowChanged: Event;
+        readonly rowChanged: Event<FlexSheet, RowColumnChangedEventArgs>;
         /**
          * Raises the rowChanged event.
          */
@@ -886,11 +1036,27 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the {@link FlexSheet} inserted or deleted columns.
          */
-        columnChanged: Event;
+        readonly columnChanged: Event<FlexSheet, RowColumnChangedEventArgs>;
         /**
          * Raises the columnChanged event.
          */
         onColumnChanged(e: RowColumnChangedEventArgs): void;
+        /**
+         * Occurs before the {@link FlexSheet} performs the auto-fill operation.
+         */
+        readonly autoFilling: Event<FlexSheet, AutoFillingEventArgs>;
+        /**
+         * Raises the autoFilling event.
+         */
+        onAutoFilling(e: AutoFillingEventArgs): void;
+        /**
+         * Occurs after the {@link FlexSheet} has performed the auto-fill operation.
+         */
+        readonly autoFilled: Event<FlexSheet, AutoFilledEventArgs>;
+        /**
+         * Raises the autoFilled event.
+         */
+        onAutoFilled(e: AutoFillingEventArgs): void;
         /**
          * Overridden to refresh the sheet and the TabHolder.
          *
@@ -969,13 +1135,18 @@ declare module wijmo.grid.sheet {
          */
         insertRows(index?: number, count?: number): void;
         /**
-         * Deletes rows from the current {@link Sheet} of the <b>FlexSheet</b> control.
+         * Deletes rows from the current @see:Sheet of the <b>FlexSheet</b> control.
          *
          * @param index The starting index of the deleting rows. If not specified then rows will be deleted
          * starting from the first row of the current selection.
          * @param count The numbers of rows to delete. If not specified then one row will be deleted.
          */
         deleteRows(index?: number, count?: number): void;
+        /**
+         * Deletes rows from the current {@link Sheet} of the <b>FlexSheet</b> control.
+         * @param ranges An array of {@link CellRange} instances that determines the deleting rows.
+         */
+        deleteRows(ranges: wijmo.grid.CellRange[]): void;
         /**
          * Inserts columns in the current {@link Sheet} of the <b>FlexSheet</b> control.
          *
@@ -985,13 +1156,18 @@ declare module wijmo.grid.sheet {
          */
         insertColumns(index?: number, count?: number): void;
         /**
-         * Deletes columns from the current {@link Sheet} of the <b>FlexSheet</b> control.
+         * Deletes columns from the current @see:Sheet of the <b>FlexSheet</b> control.
          *
          * @param index The starting index of the deleting columns. If not specified then columns will be deleted
          * starting from the first column of the current selection.
          * @param count The numbers of columns to delete. If not specified then one column will be deleted.
          */
         deleteColumns(index?: number, count?: number): void;
+        /**
+         * Deletes columns from the current {@link Sheet} of the <b>FlexSheet</b> control.
+         * @param ranges An array of {@link CellRange} instances that determines the deleting columns.
+         */
+        deleteColumns(ranges: wijmo.grid.CellRange[]): void;
         /**
          * Merges the selected {@link CellRange} into one cell.
          *
@@ -1151,16 +1327,16 @@ declare module wijmo.grid.sheet {
          *     }
          * }</pre>
          *
-         * @param workbook A workbook instance or a Blob instance or a base-64 string
-         * or an ArrayBuffer containing xlsx file content.
+         * @param workbook A {@link wijmo.xlsx.Workbook}, Blob, base-64 string, or ArrayBuffer
+         * containing the xlsx file content.
          */
-        load(workbook: any): void;
+        load(workbook: string | ArrayBuffer | Blob | wijmo.xlsx.Workbook): void;
         /**
          * Loads the workbook into <b>FlexSheet</b> asynchronously.
          * This method works with JSZip 3.0.
          *
-         * @param workbook A workbook instance or a Blob instance or a base-64
-         * string or an ArrayBuffer containing xlsx file content.
+         * @param workbook A {@link wijmo.xlsx.Workbook}, Blob, base-64 string, or ArrayBuffer
+         * containing the xlsx file content.
          * @param onLoaded This callback provides access to the loaded workbook instance.
          * Since this method is asynchronous, users cannot get the loaded workbook
          * instance immediately.
@@ -1180,7 +1356,7 @@ declare module wijmo.grid.sheet {
          * });
          * </pre>
          */
-        loadAsync(workbook: any, onLoaded?: (workbook: wijmo.xlsx.Workbook) => void, onError?: (reason?: any) => any): void;
+        loadAsync(workbook: string | ArrayBuffer | Blob | wijmo.xlsx.Workbook, onLoaded?: (workbook: wijmo.xlsx.Workbook) => void, onError?: (reason?: any) => any): void;
         loadFromWorkbookOM(workbook: wijmo.xlsx.IWorkbook): void;
         /**
          * Undo the last user action.
@@ -1198,7 +1374,7 @@ declare module wijmo.grid.sheet {
          * @param rng The cell range to select.
          * @param show Indicates whether to scroll the new selection into view.
          */
-        select(rng: any, show?: any): void;
+        select(rng: any, show?: any): boolean;
         addCustomFunction(name: string, func: Function, description?: string, minParamsCount?: number, maxParamsCount?: number): void;
         /**
          * Add custom function in {@link FlexSheet}.
@@ -1262,14 +1438,17 @@ declare module wijmo.grid.sheet {
          * @param text Tab and newline delimited text to parse into the grid.
          * @param rng {@link CellRange} to copy. If omitted, the current selection is used.
          */
-        setClipString(text: string, rng?: wijmo.grid.CellRange): boolean;
+        setClipString(text: string, rng?: wijmo.grid.CellRange): void;
         /**
          * Get the built-in table style via its name.
          *
          * @param styleName The name of the built-in table style.
          */
         getBuiltInTableStyle(styleName: string): TableStyle;
+        onSortingColumn(e: wijmo.grid.CellRangeEventArgs): boolean;
         _getCvIndex(index: number): number;
+        _headerRowAtTop(): boolean;
+        _getDataRowsOffset(): number;
         protected _bindGrid(full: boolean): void;
         private _init;
         private _flexSheetSyncSelection;
@@ -1290,11 +1469,17 @@ declare module wijmo.grid.sheet {
         private _updateCellsForUpdatingColumn;
         _cloneObject(source: any): any;
         private _evaluate;
+        private _clearAndCheckItemsOwner;
+        _checkCollectionOwner(col: wijmo.grid.RowColCollection, undefOnly?: boolean): void;
+        _checkCollectionsOwner(): void;
         _copyTo(sheet: Sheet): void;
-        _copyFrom(sheet: Sheet, needRefresh?: boolean): void;
+        _copyFrom(sheet: Sheet, needUpdate?: boolean): void;
+        private _updateScrollPos;
+        onUpdatedLayout(e?: wijmo.EventArgs): void;
         private _resetMappedColumns;
         private _loadFromWorkbook;
         private _saveToWorkbook;
+        private _saveSheetToWorkbook;
         private _mouseDown;
         private _mouseMove;
         private _mouseUp;
@@ -1304,13 +1489,13 @@ declare module wijmo.grid.sheet {
         private _keydown;
         private _showDraggingMarker;
         private _showFillMarker;
+        _updateMarquee(): void;
+        private _updateFillingMarquee;
         private _showFillTooltip;
-        private _showFillMenuSmartTag;
-        private _showFillMenu;
-        private _endDragFillOperation;
-        private _removeActiveStyleForFillMenuItem;
-        private _disposeFillSmartTag;
-        private _disposeFillMenu;
+        private _selections;
+        private _isCellSelected;
+        private _isColumnSelected;
+        private _isRowSelected;
         private _handleDropping;
         private _moveCellContent;
         private _allowExchangeCells;
@@ -1355,13 +1540,16 @@ declare module wijmo.grid.sheet {
         _scanFormulas(): any[];
         _resetFormulas(formulas: any[]): void;
         _getCellStyle(rowIndex: number, colIndex: number, sheet?: Sheet): ICellStyle;
+        _getSheet(name: string): Sheet;
         _validateSheetName(sheetName: string): boolean;
         _checkExistDefinedName(name: string, sheetName: string, ignoreIndex?: number): boolean;
         private _updateDefinedNameWithSheetRefUpdating;
+        _updateFormulasTableColumn(table: Table, col: number, oldColName: string, newColName: string): void;
         _updateFormulasWithNameUpdating(oldName: string, newName: string, isTable?: boolean): void;
         _getDefinedNameIndexByName(name: string): number;
         private _updateTablesForUpdatingRow;
         private _updateTablesForUpdatingColumn;
+        private _updateDivContainerHeight;
         _isDisableDeleteRow(topRow: number, bottomRow: number): boolean;
         _copy(key: string, value: any): boolean;
         private _getTableSheetIndex;
@@ -1402,6 +1590,7 @@ declare module wijmo.grid.sheet {
         private _generateTableMediumStyle4;
         private _generateTableDarkStyle1;
         private _generateTableDarkStyle2;
+        static _getHeaderRowText(col: wijmo.grid.Column): string;
         static _toOADate(val: Date): number;
         static _fromOADate(oADate: number): Date;
     }
@@ -1488,20 +1677,36 @@ declare module wijmo.grid.sheet {
         private _index;
         private _count;
         private _added;
+        private _ranges;
         /**
-         * Initializes a new instance of the {@link RowColumnChangedEventArgs} class.
+         * Initializes a new instance of the @see:RowColumnChangedEventArgs class.
          *
          * @param index The start index of the changed rows or columns.
          * @param count The added or removed count of the rows or columns.
          * @param added The value indicates the event is for adding ot removing rows or columns.
+         * @param isCol Determines whether the changes are related to columns or rows.
          */
-        constructor(index: number, count: number, added: boolean);
+        constructor(index: number, count: number, added: boolean, isCol: boolean);
+        /**
+         * Initializes a new instance of the {@link RowColumnChangedEventArgs} class.
+         *
+         * @param ranges An array of {@link CellRange} instances that determines the changed rows or columns.
+         * @param added The value indicates the event is for adding ot removing rows or columns.
+         * @param isCol Determines whether the changes are related to columns or rows.
+         */
+        constructor(ranges: wijmo.grid.CellRange[], added: boolean, isCol: boolean);
+        /**
+         * Gets an array of {@link CellRange} instances that determines the changed rows or columns.
+         */
+        readonly ranges: wijmo.grid.CellRange[];
         /**
          * Gets the start index of the changed rows or columns.
+         * Returns -1 if an array of {@link CellRange} objects containing more than 1 element was used when creating the instance.
          */
         readonly index: number;
         /**
          * Gets the added or removed count of the rows or columns.
+         * Returns -1 if an array of {@link CellRange} objects containing more than 1 element was used when creating the instance.
          */
         readonly count: number;
         /**
@@ -1509,6 +1714,48 @@ declare module wijmo.grid.sheet {
         */
         readonly added: boolean;
         readonly isAdd: boolean;
+    }
+    /**
+     * Provides arguments for the {@link FlexSheet.autoFilling} event.
+     */
+    class AutoFillingEventArgs extends wijmo.CancelEventArgs {
+        private _range;
+        private _op;
+        /**
+         * Initializes a new instance of the {@link AutoFillingEventArgs} class.
+         * @param range Range of cells affected by the event.
+         * @param operation The auto-fill operation.
+         */
+        constructor(range: wijmo.grid.CellRange, operation: AutoFillOperation);
+        /**
+         * Gets the {@link CellRange} affected by this event.
+         */
+        readonly range: wijmo.grid.CellRange;
+        /**
+         * Gets the auto-fill operation.
+         */
+        readonly operation: AutoFillOperation;
+    }
+    /**
+     * Provides arguments for the {@link FlexSheet.autoFilled} event.
+     */
+    class AutoFilledEventArgs extends wijmo.EventArgs {
+        private _range;
+        private _op;
+        /**
+         * Initializes a new instance of the {@link AutoFilledEventArgs} class.
+         * @param range Range of cells affected by the event.
+         * @param operation The auto-fill operation.
+         */
+        constructor(range: wijmo.grid.CellRange, operation: AutoFillOperation);
+        /**
+         * Gets the {@link CellRange} affected by this event.
+         */
+        readonly range: wijmo.grid.CellRange;
+        /**
+         * Gets the auto-fill operation.
+         */
+        readonly operation: AutoFillOperation;
     }
     /**
      * Defines the extension of the {@link GridPanel} class, which is used by <b>FlexSheet</b> where
@@ -1531,9 +1778,9 @@ declare module wijmo.grid.sheet {
          *
          * Overrides this method to support multiple selection showSelectedHeaders for {@link FlexSheet}
          *
-         * @param r Specifies Row index of the cell.
-         * @param c Specifies Column index of the cell.
-         * @param rng {@link CellRange} that contains the cell that would be included.
+         * @param r Row index of the cell to inspect.
+         * @param c Column index of the cell to inspect.
+         * @param rng {@link CellRange} that contains the cell to inspect.
          */
         getSelectedState(r: number, c: number, rng: wijmo.grid.CellRange): wijmo.grid.SelectedState;
         /**
@@ -1556,6 +1803,8 @@ declare module wijmo.grid.sheet {
          */
         setCellData(r: number, c: any, value: any, coerce?: boolean, invalidate?: boolean): boolean;
         _renderCell(row: HTMLElement, r: number, c: number, vrng: wijmo.grid.CellRange, state: boolean, ctr: number): number;
+        private _drkColors;
+        private _darker;
     }
     /**
      * Represents a row used to display column header information for a bound sheet.
@@ -1731,6 +1980,13 @@ declare module wijmo.grid.sheet {
          */
         includeFormulaValues?: boolean;
     }
+    function _isFormula(val: any): val is string;
+    function _isEditingCell(g: wijmo.grid.FlexGrid, r: number, c: number): boolean;
+    enum AutoFillOperation {
+        CopyFormat = 1,
+        CopyContent = 2,
+        FillSeries = 4
+    }
 }
 declare module wijmo.grid.sheet {
     /**
@@ -1765,11 +2021,11 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the undo stack has changed.
          */
-        undoStackChanged: Event;
+        readonly undoStackChanged: Event<UndoStack, EventArgs>;
         /**
          * Raises the {@link undoStackChanged} event.
          */
-        onUndoStackChanged(): void;
+        onUndoStackChanged(e?: wijmo.EventArgs): void;
         /**
          * Undo the last action.
          */
@@ -1884,6 +2140,8 @@ declare module wijmo.grid.sheet {
      * rarely use it directly.
      */
     class FlexSheetColumnFilterEditor extends wijmo.grid.filter.ColumnFilterEditor {
+        private _btnSortAsc;
+        private _btnSortDsc;
         /**
          * Initializes a new instance of the {@link FlexSheetColumnFilterEditor} class.
          *
@@ -1896,6 +2154,7 @@ declare module wijmo.grid.sheet {
         _showFilter(filterType: wijmo.grid.filter.FilterType): void;
         private _sortBtnClick;
         private cloneElement;
+        private _updateSortButtonStateUnbound;
     }
 }
 declare module wijmo.grid.sheet {
@@ -1935,8 +2194,37 @@ declare module wijmo.grid.sheet {
          * @param col The {@link Column} that the filter applies to (or column name or index).
          * @param create Whether to create the filter if it does not exist.
          */
-        getColumnFilter(col: any, create?: boolean): FlexSheetColumnFilter;
+        getColumnFilter(col: string | number | wijmo.grid.Column, create?: boolean): FlexSheetColumnFilter;
+        _isActive(): boolean;
+        _isEditorOpened(): boolean;
         private _checkGroupVisible;
+    }
+}
+declare module wijmo.grid.sheet {
+    class _SmartTag extends wijmo.Control {
+        private readonly CopyCells;
+        private readonly FillSeries;
+        private readonly FillFormat;
+        private readonly FillWithoutFormat;
+        private readonly FullWidth;
+        private readonly CompactWidth;
+        static controlTemplate: string;
+        private _owner;
+        private _icon;
+        private _btnMenu;
+        private _menu;
+        private _op;
+        private _uiEventHdl;
+        constructor(element: HTMLElement, owner: FlexSheet, fillOperation: AutoFillOperation, options?: any);
+        dispose(): void;
+        readonly operation: AutoFillOperation;
+        readonly operationSelected: Event<_SmartTag, EventArgs>;
+        onOperationSelected(e?: wijmo.EventArgs): void;
+        readonly cancelled: Event<_SmartTag, EventArgs>;
+        onCancelled(e?: wijmo.EventArgs): void;
+        private _getPos;
+        private _showFillOpMenu;
+        private _onUIEvent;
     }
 }
 declare module wijmo.grid.sheet {
@@ -2007,10 +2295,8 @@ declare module wijmo.grid.sheet {
     class Sheet {
         private _name;
         _owner: FlexSheet;
-        private _rowCount;
-        private _columnCount;
         private _visible;
-        _unboundSortDesc: collections.ObservableArray;
+        _unboundSortDesc: collections.ObservableArray<_UnboundSortDescription>;
         private _currentStyledCells;
         private _currentMergedRanges;
         private _grid;
@@ -2024,7 +2310,6 @@ declare module wijmo.grid.sheet {
         private _tables;
         _sortList: ColumnSortDescription[];
         private _filterSetting;
-        _showDefaultHeader: boolean;
         _dataView: any[];
         _ownerHeaderRowRemoved: boolean;
         /**
@@ -2074,13 +2359,13 @@ declare module wijmo.grid.sheet {
          * Gets the collection of the {@link Table} objects on this Sheet.
          * It allows to insert/remove {@link Table} on this Sheet via the tables collection.
          */
-        readonly tables: wijmo.collections.ObservableArray;
-        _styledCells: any;
+        readonly tables: wijmo.collections.ObservableArray<Table>;
+        _styledCells: _StyledCellsDict;
         readonly _mergedRanges: wijmo.grid.CellRange[];
         /**
          * Occurs after the sheet name has changed.
          */
-        nameChanged: Event;
+        readonly nameChanged: Event<Sheet, PropertyChangedEventArgs>;
         /**
          * Raises the {@link nameChanged} event.
          */
@@ -2088,7 +2373,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the visible of sheet has changed.
          */
-        visibleChanged: Event;
+        readonly visibleChanged: Event<Sheet, EventArgs>;
         /**
          * Raises the {@link visibleChanged} event.
          */
@@ -2130,7 +2415,8 @@ declare module wijmo.grid.sheet {
         _storeRowSettings(): void;
         _setRowSettings(): void;
         _addTable(range: wijmo.grid.CellRange, tableName?: string, tableStyle?: TableStyle, columns?: TableColumn[], options?: ITableOptions): Table;
-        _addSelection(selection: wijmo.grid.CellRange): void;
+        _addSelection(val: wijmo.grid.CellRange): void;
+        private readonly _flex;
         private _compareRows;
         private _createGrid;
         private _clearGrid;
@@ -2150,20 +2436,21 @@ declare module wijmo.grid.sheet {
         _needAddRowCountForInsertTableRows(count: number, range: wijmo.grid.CellRange): number;
         _getFilterSetting(): void;
         _applyFilterSetting(): void;
-        private _clearFilterSetting;
         _cloneMergedCells(): wijmo.grid.CellRange[];
         _getMergedRange(row: number, col: number): wijmo.grid.CellRange;
+        private _clearFilterSetting;
+        private _adjustStylesDict;
     }
     /**
      * Defines the collection of the {@link Sheet} objects.
      */
-    class SheetCollection extends wijmo.collections.ObservableArray {
+    class SheetCollection<T extends Sheet = Sheet> extends wijmo.collections.ObservableArray<T> {
         private _current;
         _exchangingPosition: boolean;
         /**
          * Occurs when the {@link SheetCollection} is cleared.
          */
-        sheetCleared: Event;
+        readonly sheetCleared: Event<SheetCollection<Sheet>, EventArgs>;
         /**
          * Raises the sheetCleared event.
          */
@@ -2175,7 +2462,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs when the <b>selectedIndex</b> property changes.
          */
-        selectedSheetChanged: Event;
+        readonly selectedSheetChanged: Event<SheetCollection<Sheet>, EventArgs>;
         /**
          * Raises the <b>currentChanged</b> event.
          *
@@ -2183,36 +2470,28 @@ declare module wijmo.grid.sheet {
          */
         onSelectedSheetChanged(e: wijmo.PropertyChangedEventArgs): void;
         /**
-         * Inserts an item at a specific position in the array.
-         * Overrides the insert method of its base class {@link ObservableArray}.
-         *
-         * @param index Position where the item will be added.
-         * @param item Item to add to the array.
-         */
-        insert(index: number, item: any): void;
-        /**
          * Adds one or more items to the end of the array.
          * Overrides the push method of its base class {@link ObservableArray}.
          *
          * @param ...item One or more items to add to the array.
          * @return The new length of the array.
          */
-        push(...item: any[]): number;
+        push(...item: T[]): number;
         /**
          * Removes and/or adds items to the array.
          * Overrides the splice method of its base class {@link ObservableArray}.
          *
          * @param index Position where items will be added or removed.
          * @param count Number of items to remove from the array.
-         * @param item Item to add to the array.
+         * @param ...item Items to add to the array.
          * @return An array containing the removed elements.
          */
-        splice(index: number, count: number, item?: any): any[];
+        splice(index: number, count: number, ...item: T[]): any[];
         onCollectionChanged(e?: wijmo.collections.NotifyCollectionChangedEventArgs): void;
         /**
          * Occurs after the name of the sheet in the collection has changed.
          */
-        sheetNameChanged: Event;
+        readonly sheetNameChanged: Event<SheetCollection<Sheet>, collections.NotifyCollectionChangedEventArgs<any>>;
         /**
          * Raises the <b>sheetNameChanged</b> event.
          */
@@ -2220,7 +2499,7 @@ declare module wijmo.grid.sheet {
         /**
          * Occurs after the visible of the sheet in the collection has changed.
          */
-        sheetVisibleChanged: Event;
+        readonly sheetVisibleChanged: Event<SheetCollection<Sheet>, collections.NotifyCollectionChangedEventArgs<any>>;
         /**
          * Raises the <b>sheetVisibleChanged</b> event.
          */
@@ -2262,17 +2541,19 @@ declare module wijmo.grid.sheet {
          *
          * @param sheet The {@link Sheet} for which the name needs to check.
          */
-        isValidSheetName(sheet: Sheet): boolean;
+        isValidSheetName(sheet: T): boolean;
         /**
          * Gets the valid name for the sheet.
          *
          * @param currentSheet The {@link Sheet} need get the valid name.
          */
-        getValidSheetName(currentSheet: Sheet): string;
+        getValidSheetName(currentSheet: T): string;
         _setCurrentIdx(value: number): void;
         private _moveCurrentTo;
         _getSheetIndexFrom(sheetName: string): number;
         private _postprocessSheet;
+        private _shNameChanged;
+        private _shVisibleChanged;
         private _getUniqueName;
     }
     class _SheetTabs extends wijmo.Control {
@@ -2398,6 +2679,11 @@ declare module wijmo.grid.sheet {
          */
         dataMap?: wijmo.grid.DataMap;
     }
+    type _StyledCellsDict = {
+        [index: number]: ICellStyle;
+        rowCount?: number;
+        columnCount?: number;
+    };
 }
 declare module wijmo.grid.sheet {
     class _TabHolder extends wijmo.Control {
@@ -2429,13 +2715,13 @@ declare module wijmo.grid.sheet {
         _inGroup: boolean;
         constructor(arg?: any);
         readonly token: _Token;
-        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet): any;
+        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet, strictStringCmp?: boolean, throwOnError?: boolean): any;
         static toString(x: _Expression, rowIndex: number, columnIndex: number, sheet?: Sheet): string;
         static toNumber(x: _Expression, rowIndex: number, columnIndex: number, sheet?: Sheet): number;
         static toBoolean(x: _Expression, rowIndex: number, columnIndex: number, sheet?: Sheet): any;
         static toDate(x: _Expression, rowIndex: number, columnIndex: number, sheet?: Sheet): any;
         static isDateValue(val: any): boolean;
-        static isNullOrWhiteSpace(value: string): boolean;
+        _refersTo(rng: wijmo.grid.CellRange): boolean;
         _updateCellRangeExp(sheetIndex: number, index: number, count: number, isAdding: boolean, isRow: boolean, affectRange?: wijmo.grid.CellRange): boolean;
         _moveCellRangeExp(sheetIndex: number, srcRange: wijmo.grid.CellRange, dstRange: wijmo.grid.CellRange, isChangePos?: boolean, isCopying?: boolean): boolean;
         _updateCellRangeExpForReorderingRows(rowDiff: number): boolean;
@@ -2445,7 +2731,8 @@ declare module wijmo.grid.sheet {
     class _UnaryExpression extends _Expression {
         private _expr;
         constructor(arg: any, expr: _Expression);
-        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet): any;
+        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet, strictStringCmp?: boolean, throwOnError?: boolean): any;
+        _refersTo(rng: wijmo.grid.CellRange): boolean;
         _updateCellRangeExp(sheetIndex: number, index: number, count: number, isAdding: boolean, isRow: boolean, affectRange?: wijmo.grid.CellRange): boolean;
         _moveCellRangeExp(sheetIndex: number, srcRange: wijmo.grid.CellRange, dstRange: wijmo.grid.CellRange, isChangePos?: boolean, isCopying?: boolean): boolean;
         _updateCellRangeExpForReorderingRows(rowDiff: number): boolean;
@@ -2455,7 +2742,8 @@ declare module wijmo.grid.sheet {
         private _leftExpr;
         private _rightExpr;
         constructor(arg: any, leftExpr: _Expression, rightExpr: _Expression);
-        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet): any;
+        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet, strictStringCmp?: boolean, throwOnError?: boolean): any;
+        _refersTo(rng: wijmo.grid.CellRange): boolean;
         _updateCellRangeExp(sheetIndex: number, index: number, count: number, isAdding: boolean, isRow: boolean, affectRange?: wijmo.grid.CellRange): boolean;
         _moveCellRangeExp(sheetIndex: number, srcRange: wijmo.grid.CellRange, dstRange: wijmo.grid.CellRange, isChangePos?: boolean, isCopying?: boolean): boolean;
         _updateCellRangeExpForReorderingRows(rowDiff: number): boolean;
@@ -2472,22 +2760,26 @@ declare module wijmo.grid.sheet {
         private _absCol2;
         private _evalutingRange;
         private _isWholeRow;
+        _isEmpty: boolean;
         _tableName: string;
         _tableParams: string[];
         constructor(cells: wijmo.grid.CellRange, sheetRef: string, flex: FlexSheet, isCellRange?: boolean, absRow?: boolean, absCol?: boolean, absRow2?: boolean, absCol2?: boolean, isWholeRow?: boolean);
-        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet): any;
-        getValues(isGetHiddenValue?: boolean, columnIndex?: number, sheet?: Sheet): any[];
-        getValuseWithTwoDimensions(isGetHiddenValue?: boolean, sheet?: Sheet): any[];
+        evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet, strictStringCmp?: boolean, throwOnError?: boolean): any;
+        getValues(isGetHiddenValue?: boolean, columnIndex?: number, sheet?: Sheet, throwOnError?: boolean): any[];
+        getValuesWithTwoDimensions(isGetHiddenValue?: boolean, sheet?: Sheet): any[];
         readonly cells: wijmo.grid.CellRange;
         readonly sheetRef: string;
         private _getCellValue;
         _getSheet(): Sheet;
+        _refersTo(rng: wijmo.grid.CellRange): boolean;
         _updateCellRangeExp(sheetIndex: number, index: number, count: number, isAdding: boolean, isRow: boolean, affectRange?: wijmo.grid.CellRange): boolean;
         _moveCellRangeExp(sheetIndex: number, srcRange: wijmo.grid.CellRange, dstRange: wijmo.grid.CellRange, isChangePos?: boolean, isCopying?: boolean): boolean;
         _updateCellRangeExpForReorderingRows(rowDiff: number): boolean;
         _updateCellBoundary(row: number, col: number): boolean;
         _getStringExpression(): string;
+        private _quoteName;
         private _getTableParamsStringExpression;
+        private _extendRange;
     }
     class _FunctionExpression extends _Expression {
         private _funcId;
@@ -2496,6 +2788,7 @@ declare module wijmo.grid.sheet {
         private _needCacheEvaluatedVal;
         constructor(funcId: string, func: _FunctionDefinition, params: Array<_Expression>, needCacheEvaluatedVal?: boolean);
         evaluate(rowIndex: number, columnIndex: number, sheet?: Sheet): any;
+        _refersTo(rng: wijmo.grid.CellRange): boolean;
         _updateCellRangeExp(sheetIndex: number, index: number, count: number, isAdding: boolean, isRow: boolean, affectRange?: wijmo.grid.CellRange): boolean;
         _moveCellRangeExp(sheetIndex: number, srcRange: wijmo.grid.CellRange, dstRange: wijmo.grid.CellRange, isChangePos?: boolean, isCopying?: boolean): boolean;
         _updateCellRangeExpForReorderingRows(rowDiff: number): boolean;
@@ -2522,9 +2815,9 @@ declare module wijmo.grid.sheet {
         private _containsCellRef;
         private _sheet;
         constructor(owner: FlexSheet);
-        unknownFunction: Event;
+        readonly unknownFunction: Event<_CalcEngine, UnknownFunctionEventArgs>;
         onUnknownFunction(funcName: string, params: Array<_Expression>): _Expression;
-        evaluate(expression: string, format?: string, sheet?: Sheet, rowIndex?: number, columnIndex?: number): any;
+        evaluate(expression: string, format?: string, sheet?: Sheet, rowIndex?: number, columnIndex?: number, strictStringCmp?: boolean): any;
         addCustomFunction(name: string, func: Function, minParamsCount?: number, maxParamsCount?: number): void;
         addFunction(name: string, func: Function, minParamsCount?: number, maxParamsCount?: number): void;
         _clearExpressionCache(): void;
@@ -2538,6 +2831,7 @@ declare module wijmo.grid.sheet {
         private _registLookUpReferenceFunction;
         private _registFinacialFunction;
         private _registAddressRelatedFunction;
+        private _registerErrorFunctions;
         private _addToken;
         private _parseExpression;
         private _parseCompareOrConcat;
@@ -2551,6 +2845,7 @@ declare module wijmo.grid.sheet {
         private _parseDigit;
         private _parseString;
         private _parseDate;
+        private _parseError;
         private _parseSheetRef;
         private _getCellRange;
         private _parseCellRange;
@@ -2559,6 +2854,7 @@ declare module wijmo.grid.sheet {
         private _getTableReference;
         private _getTableParameter;
         private _getTableRange;
+        private _getAggregate;
         private _getAggregateResult;
         private _getFlexSheetAggregateResult;
         private _getItemList;
@@ -2566,26 +2862,27 @@ declare module wijmo.grid.sheet {
         private _countNumberCells;
         private _getRankOfCellRange;
         private _handleCountIfs;
-        private _countCellsByCriterias;
+        private _countCellsByCriteria;
         private _handleSumIfs;
-        private _sumCellsByCriterias;
+        private _sumCellsByCriteria;
         private _getProductOfNumbers;
         private _handleSubtotal;
         private _handleDCount;
-        private _DCountWithCriterias;
+        private _DCountWithCriteria;
         private _getColumnIndexByField;
         private _getSumProduct;
         private _getItemListForSumProduct;
-        private _getSheet;
         private _parseRightExpr;
         private _combineExpr;
         private _parseRegCriteria;
         private _calculateRate;
         private _handleHLookup;
+        private _handleVLookup;
+        private _handleLookup;
         private _exactMatch;
         private _approximateMatch;
         private _parseToScientificValue;
-        _checkCache(expression: string, sheetIndex?: number, rowIndex?: number, columnIndex?: number): _Expression;
+        _checkCache(expression: string, strictStringCmp?: boolean, sheetIndex?: number, rowIndex?: number, columnIndex?: number): _Expression;
         private _ensureNonFunctionExpression;
         private _getDefinedName;
         private _numAlpha;
@@ -2617,7 +2914,8 @@ declare module wijmo.grid.sheet {
         GROUP = 5,
         LITERAL = 6,
         IDENTIFIER = 7,
-        SQUAREBRACKETS = 8
+        ERROR = 8,
+        SQUAREBRACKETS = 9
     }
     enum _TokenID {
         GT = 0,
@@ -2646,11 +2944,9 @@ declare module wijmo.grid.sheet {
     class _FlexSheetCellFactory extends wijmo.grid.CellFactory {
         updateCell(panel: wijmo.grid.GridPanel, r: number, c: number, cell: HTMLElement, rng?: wijmo.grid.CellRange): void;
         private _resetCellStyle;
-        private _getFormattedValue;
         private _getFirstVisibleCell;
         private _isURL;
-        private _getBottomRightBordersForMergeCells;
-        private _checkNeedBottomRightBorder;
+        private _getCellBorders;
     }
 }
 declare module wijmo.grid.sheet {

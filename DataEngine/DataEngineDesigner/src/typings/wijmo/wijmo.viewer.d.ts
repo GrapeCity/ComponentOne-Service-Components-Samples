@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -17,7 +17,8 @@ declare module wijmo.viewer {
         private _multiSelect;
         private _selectedAll;
         private _innerCheckedItemsChanged;
-        checkedItemsChanged: Event;
+        private _lostFocus;
+        readonly checkedItemsChanged: Event<_MultiSelectEx, EventArgs>;
         constructor(element: HTMLElement);
         _updateHeader(): string;
         onIsDroppedDownChanged(): void;
@@ -28,6 +29,7 @@ declare module wijmo.viewer {
         selectedValuePath: string;
         itemsSource: any[];
         checkedItems: any[];
+        readonly lostFocus: wijmo.Event<any, wijmo.EventArgs>;
         _updateSelectedAll(): void;
     }
 }
@@ -85,6 +87,30 @@ declare module wijmo.viewer {
 declare module wijmo.viewer {
     interface _IToolbarSvgButtonClickedEventArgs {
         commandTag: string;
+    }
+}
+declare module wijmo.viewer {
+    /**
+     * Provides arguments for {@link wijmo.viewer.ViewerBase.pageLoaded} event.
+     */
+    class PageLoadedEventArgs extends wijmo.EventArgs {
+        private _pageIndex;
+        private _pageElement;
+        /**
+         * Initializes a new instance of the {@link PageLoadedEventArgs} class.
+         *
+         * @param pageIndex Number containing the page index of loaded page.
+         * @param pageElement HTMLDivElement containing wrapper for rendered SVG of loaded page.
+         */
+        constructor(pageIndex: number, pageElement: HTMLDivElement);
+        /**
+         * Gets or sets the page index of loaded page.
+         */
+        pageIndex: number;
+        /**
+         * Gets or sets the HTMLDivElement containing wrapper for rendered SVG of loaded page.
+         */
+        pageElement: HTMLDivElement;
     }
 }
 declare module wijmo.viewer {
@@ -551,6 +577,9 @@ declare module wijmo.viewer {
     }
     class _Promise implements IPromise {
         private _callbacks;
+        private _finished;
+        readonly isFinished: boolean;
+        cancel(): void;
         then(onFulfilled?: (value?: any) => any, onRejected?: (reason?: any) => any): this;
         catch(onRejected: (reason?: any) => any): IPromise;
         resolve(value?: any): this;
@@ -764,12 +793,14 @@ declare module wijmo.viewer {
         private _validateTimer;
         private _lastEditedParam;
         private static _dateTimeFormat;
-        commit: Event;
-        validate: Event;
+        private _savingParam;
+        readonly commit: Event<_ParametersEditor, EventArgs>;
+        readonly validate: Event<_ParametersEditor, EventArgs>;
         constructor(element: any);
         _setErrors(value: any[]): void;
         readonly parameters: Object;
         itemsSource: _IParameter[];
+        savingParam: boolean;
         _reset(): void;
         _setErrorsVisible(value: boolean): void;
         _updateErrorsVisible(): void;
@@ -792,6 +823,17 @@ declare module wijmo.viewer {
         private _generateDateTimeEditor;
         private _validateNullValueOfParameter;
     }
+}
+declare module wijmo.viewer {
+    function _statusJsonReviver(k: string, v: any): any;
+    function _pageSettingsJsonReviver(k: string, v: any): any;
+    function _appendQueryString(url: string, queries: Object): string;
+    function _joinUrl(...data: (string | string[])[]): string;
+    function _joinStringUrl(data: string[]): string[];
+    function _prepareStringUrl(data: string): string[];
+}
+declare module wijmo.viewer {
+    function _parseReportExecutionInfo(json: string): _IReportExecutionInfo;
 }
 declare module wijmo.viewer {
     enum _TouchEventType {
@@ -999,7 +1041,7 @@ declare module wijmo.viewer {
         private _desiredValue;
         static controlTemplate: string;
         constructor(element: any);
-        valueChanged: Event;
+        readonly valueChanged: Event<_VScroller, EventArgs>;
         onValueChanged(): void;
         preventScrollEvent(): void;
         height: number;
@@ -1041,23 +1083,6 @@ declare module wijmo.viewer {
         private _globalize;
         refresh(fullUpdate?: boolean): void;
     }
-}
-declare module wijmo.viewer {
-    /**
-     * Saves the Blob object as a file.
-     * @param blob The Blob object to save.
-     * @param fileName The name with which the file is saved.
-    */
-    function _saveBlob(blob: Blob, fileName: string): void;
-    function _statusJsonReviver(k: string, v: any): any;
-    function _pageSettingsJsonReviver(k: string, v: any): any;
-    function _appendQueryString(url: string, queries: Object): string;
-    function _joinUrl(...data: (string | string[])[]): string;
-    function _joinStringUrl(data: string[]): string[];
-    function _prepareStringUrl(data: string): string[];
-}
-declare module wijmo.viewer {
-    function _parseReportExecutionInfo(json: string): _IReportExecutionInfo;
 }
 declare module wijmo.viewer {
     interface _IHttpRequest {
@@ -1113,12 +1138,16 @@ declare module wijmo.viewer {
         checked: boolean;
         shown: boolean;
     }
+    interface _IViewModeChangedEventArgs {
+        oldValue: ViewMode;
+        newValue: ViewMode;
+    }
 }
 declare module wijmo.viewer {
     class _HistoryManager {
         private _items;
         private _position;
-        statusChanged: Event;
+        readonly statusChanged: Event<_HistoryManager, EventArgs>;
         private _onStatusChanged;
         readonly current: _IHistory;
         clear(): void;
@@ -1291,12 +1320,12 @@ declare module wijmo.viewer {
         private _executionDateTime;
         private _initialPosition;
         private _httpHandler;
-        pageCountChanged: Event;
-        disposed: Event;
-        pageSettingsChanged: Event;
-        loading: Event;
-        loadCompleted: Event;
-        queryLoadingData: Event;
+        readonly pageCountChanged: Event<_DocumentSource, EventArgs>;
+        readonly disposed: Event<_DocumentSource, EventArgs>;
+        readonly pageSettingsChanged: Event<_DocumentSource, EventArgs>;
+        readonly loading: Event<_DocumentSource, EventArgs>;
+        readonly loadCompleted: Event<_DocumentSource, EventArgs>;
+        readonly queryLoadingData: Event<_DocumentSource, QueryLoadingDataEventArgs>;
         onQueryLoadingData(e: QueryLoadingDataEventArgs): void;
         constructor(options: _IDocumentOptions, httpHandler: IHttpRequestHandler);
         _updateIsLoadCompleted(value: boolean): void;
@@ -1357,7 +1386,7 @@ declare module wijmo.viewer {
     class _ReportSourceBase extends _DocumentSource {
         private _status;
         constructor(options: _IDocumentOptions, httpHandler: IHttpRequestHandler);
-        statusChanged: Event;
+        readonly statusChanged: Event<_ReportSourceBase, EventArgs>;
         readonly autoRun: boolean;
         readonly hasParameters: boolean;
         status: string;
@@ -1365,7 +1394,7 @@ declare module wijmo.viewer {
         setParameters(parameters: Object): IPromise;
         render(): IPromise;
         executeCustomAction(action: _IDocAction): IPromise;
-        onStatusChanged(e: wijmo.EventArgs): void;
+        onStatusChanged(e?: wijmo.EventArgs): void;
         readonly _innerService: _ReportServiceBase;
         _updateDocumentStatus(data: _IReportStatus): void;
     }
@@ -1436,10 +1465,11 @@ declare module wijmo.viewer {
         private _wholeWord;
         private _searchResult;
         private _currentIndex;
-        private _needUpdate;
-        currentChanged: Event;
-        searchStarted: Event;
-        searchCompleted: Event;
+        readonly currentChanged: Event<_SearchManager, EventArgs>;
+        readonly searchStarted: Event<_SearchManager, EventArgs>;
+        readonly searchCompleted: Event<_SearchManager, EventArgs>;
+        readonly resultsCleared: Event<_SearchManager, EventArgs>;
+        readonly textChanged: Event<_SearchManager, EventArgs>;
         readonly current: _ISearchResultItem;
         currentIndex: number;
         documentSource: _DocumentSource;
@@ -1454,6 +1484,8 @@ declare module wijmo.viewer {
         private _onCurrentChanged;
         private _onSearchStarted;
         private _onSearchCompleted;
+        private _onResultsCleared;
+        private _onTextChanged;
     }
 }
 declare module wijmo.viewer {
@@ -1464,6 +1496,8 @@ declare module wijmo.viewer {
         private _content;
         private _index;
         private _rotateAngle;
+        private _contentPromise;
+        private _pendingContent;
         private static _bookmarkReg;
         static _bookmarkAttr: string;
         private static _customActionReg;
@@ -1472,11 +1506,12 @@ declare module wijmo.viewer {
         private static _idReferReg;
         private static _invalidHref;
         constructor(documentSource: _DocumentSource, index: number, size?: _ISize);
-        linkClicked: Event;
+        readonly linkClicked: Event<_Page, EventArgs>;
         readonly index: number;
         readonly size: _ISize;
         rotateAngle: _RotateAngle;
         readonly content: any;
+        readonly pendingContent: boolean;
         getContent(): IPromise;
         protected _processSvgResponse(svg: string): string;
         _extractSize(content: HTMLElement): _ISize;
@@ -1516,6 +1551,7 @@ declare module wijmo.viewer {
         zoomModeChanged: wijmo.Event;
         positionChanged: wijmo.Event;
         rotateAngleChanged: wijmo.Event;
+        pageLoaded: wijmo.Event;
         moveToPage(pageIndex: number): IPromise;
         moveToPosition(position: _IDocumentPosition): IPromise;
         rotatePageTo(pageIndex: number, rotateAngle: _RotateAngle): any;
@@ -1551,19 +1587,20 @@ declare module wijmo.viewer {
         private _zoomModeUpdating;
         protected _pagesWrapper: HTMLElement;
         private _fBorderBoxMode;
+        private _movingPromise;
+        private _targetRenderPageIndex;
         static _pageMargin: number;
         static _pageBorderWidth: number;
         static controlTemplate: string;
         constructor(element: any);
-        _getTemplateParts(): {
-            _pagesWrapper: string;
-        };
+        _getTemplateParts(): object;
         _getPagesContainer(): HTMLElement;
-        pageIndexChanged: Event;
-        zoomFactorChanged: Event;
-        zoomModeChanged: Event;
-        positionChanged: Event;
-        rotateAngleChanged: Event;
+        readonly pageIndexChanged: Event<_PageViewBase, EventArgs>;
+        readonly zoomFactorChanged: Event<_PageViewBase, EventArgs>;
+        readonly zoomModeChanged: Event<_PageViewBase, EventArgs>;
+        readonly positionChanged: Event<_PageViewBase, EventArgs>;
+        readonly rotateAngleChanged: Event<_PageViewBase, EventArgs>;
+        readonly pageLoaded: Event<_PageViewBase, EventArgs>;
         _init(): void;
         dispose(): void;
         _bindTouchEvents(touchManager: _TouchManager): void;
@@ -1577,6 +1614,8 @@ declare module wijmo.viewer {
         pages: _Page[];
         readonly scrollTop: number;
         readonly scrollLeft: number;
+        private _zoomFactorChangeInitiated;
+        private _zoomModeChangeInitiated;
         zoomFactor: number;
         zoomMode: ZoomMode;
         panMode: boolean;
@@ -1589,8 +1628,8 @@ declare module wijmo.viewer {
         _onZoomModeChanged(oldValue: ZoomMode, newValue: ZoomMode): void;
         _onPositionChanged(): void;
         _onRotateAngleChanged(): void;
-        _onPageLoaded(pageIndex: number): void;
-        _renderViewPage(viewPage: HTMLDivElement, pageIndex: number): IPromise;
+        _onPageLoaded(pageIndex: number, pageElement: HTMLDivElement): void;
+        _renderViewPage(viewPage: HTMLDivElement, pageIndex: number, isContinuous: boolean): IPromise;
         _reserveViewPage(): void;
         _getViewPortHeight(): number;
         _getViewPortWidth(): number;
@@ -1606,7 +1645,9 @@ declare module wijmo.viewer {
         moveToPosition(position: _IDocumentPosition): IPromise;
         private _calcZoomModeZoom;
         _zoomToView(): void;
+        private _calcZoomToViewFactor;
         _zoomToViewWidth(): void;
+        protected _calcZoomToViewWidthFactor(): number;
         _getTransformedPoint(pageIndex: number, top: number, left: number): wijmo.Point;
         _hitTestPagePosition(pnt: _IPageHitTestInfo): _IHitTestInfo;
         rotatePageTo(pageIndex: number, rotateAngle: _RotateAngle): void;
@@ -1642,6 +1683,7 @@ declare module wijmo.viewer {
         _reserveViewPage(): void;
         _updatePageViewTransform(): void;
         _zoomToViewWidth(): void;
+        protected _calcZoomToViewWidthFactor(): number;
         private _ensurePageIndexPosition;
         private _getPageViewOffsetLeft;
     }
@@ -1659,11 +1701,7 @@ declare module wijmo.viewer {
         private _initScroller;
         private _initEvents;
         _bindTouchEvents(touchManager: _TouchManager): void;
-        _getTemplateParts(): {
-            _pagesWrapper: string;
-            _pagesContainer: string;
-            _vscroller: string;
-        };
+        _getTemplateParts(): object;
         applyTemplate(css: string, tpl: string, parts: Object): HTMLElement;
         virtualScrollMode: boolean;
         readonly _isScrollerVisible: boolean;
@@ -1693,9 +1731,10 @@ declare module wijmo.viewer {
         _guessPageIndex(): number;
         _reserveViewPage(): void;
         _updatePageViewTransform(): void;
-        _onPageLoaded(pageIndex: number): void;
+        _onPageLoaded(pageIndex: number, pageElement: HTMLDivElement): void;
         _onZoomFactorChanged(oldValue: number, newValue: number): void;
         _zoomToViewWidth(): void;
+        protected _calcZoomToViewWidthFactor(): number;
         refresh(fullUpdate?: boolean): void;
     }
 }
@@ -1707,11 +1746,12 @@ declare module wijmo.viewer {
         private _viewMode;
         static controlTemplate: string;
         constructor(element: any);
-        pageIndexChanged: Event;
-        zoomFactorChanged: Event;
-        zoomModeChanged: Event;
-        positionChanged: Event;
-        rotateAngleChanged: Event;
+        readonly pageIndexChanged: Event<_CompositePageView, EventArgs>;
+        readonly zoomFactorChanged: Event<_CompositePageView, EventArgs>;
+        readonly zoomModeChanged: Event<_CompositePageView, EventArgs>;
+        readonly positionChanged: Event<_CompositePageView, EventArgs>;
+        readonly rotateAngleChanged: Event<_CompositePageView, EventArgs>;
+        readonly pageLoaded: Event<_CompositePageView, EventArgs>;
         applyTemplate(css: string, tpl: string, parts: Object): HTMLElement;
         readonly pageIndex: number;
         pages: _Page[];
@@ -1727,9 +1767,16 @@ declare module wijmo.viewer {
         onZoomModeChanged(oldValue: ZoomMode, newValue: ZoomMode): void;
         onPositionChanged(): void;
         onRotateAngleChanged(): void;
+        onPageLoaded(e: PageLoadedEventArgs): void;
         private _updateActivePageView;
         private _initPageView;
         private _addPageViewHandlers;
+        private _handlerPageIndexChanged;
+        private _handlerZoomFactorChanged;
+        private _handlerZoomModeChanged;
+        private _handlerPositionChanged;
+        private _handlerRotateAngleChanged;
+        private _handlerPageLoaded;
         private _removePageViewHandlers;
         private _updatePageViewsVisible;
         moveToPage(pageIndex: number): IPromise;
@@ -1778,7 +1825,7 @@ declare module wijmo.viewer {
         _globalize(): void;
         resetWidth(): void;
         addSeparator(): HTMLElement;
-        svgButtonClicked: Event;
+        svgButtonClicked: Event<_Toolbar, _IToolbarSvgButtonClickedEventArgs>;
         onSvgButtonClicked(e: _IToolbarSvgButtonClickedEventArgs): void;
         addCustomItem(element: any, commandTag?: any): void;
         addSvgButton(title: string, svgContent: string, commandTag: any, isToggle?: boolean): HTMLElement;
@@ -1803,10 +1850,10 @@ declare module wijmo.viewer {
         private _idCounter;
         private _tabPages;
         private _tabPageDic;
-        tabPageActived: Event;
-        tabPageVisibilityChanged: Event;
-        expanded: Event;
-        collapsed: Event;
+        readonly tabPageActived: Event<_SideTabs, EventArgs>;
+        readonly tabPageVisibilityChanged: Event<_SideTabs, EventArgs>;
+        readonly expanded: Event<_SideTabs, EventArgs>;
+        readonly collapsed: Event<_SideTabs, EventArgs>;
         static _activedCss: string;
         static _collapsedCss: string;
         static controlTemplate: string;
@@ -1891,6 +1938,7 @@ declare module wijmo.viewer {
         private _updateValue;
         private _clonePageSettings;
         _updateUI(): void;
+        private _findIndex;
         refresh(fullUpdate?: boolean): void;
     }
 }
@@ -1904,7 +1952,7 @@ declare module wijmo.viewer {
         private _btnApply;
         private _pageSetupEditor;
         private _gHeader;
-        applied: Event;
+        readonly applied: Event<_PageSetupDialog, EventArgs>;
         static controlTemplate: string;
         constructor(ele: any);
         readonly pageSettings: _IPageSettings;
@@ -1951,7 +1999,7 @@ declare module wijmo.viewer {
 }
 declare module wijmo.viewer {
     class _Rubberband extends _MouseTool {
-        applied: Event;
+        readonly applied: Event<_Rubberband, _RubberbandOnAppliedEventArgs>;
         constructor(element: any, viewPanelContainer: HTMLElement, pageView: _IPageView);
         protected _start(ht: _IHitTestInfo): void;
         protected _move(pnt: wijmo.Point, ht: _IHitTestInfo): void;
@@ -2052,44 +2100,50 @@ declare module wijmo.viewer {
         private static _narrowWidthThreshold;
         private static _thumbnailWidth;
         private static _historyTimeout;
+        private _prohibitAddHistory;
+        private _initialScroll;
+        private _pageMoving;
+        private _devicePixelRatio;
+        static _zoomValuesFormatter: (value: number) => string;
+        static _zoomValuesParser: (text: string) => number;
         static _defaultZoomValues: {
-            name: string;
             value: number;
+            name: string;
         }[];
         private static _exportItems;
         /**
          * Gets or sets the template used to instantiate the viewer controls.
          */
         static controlTemplate: string;
-        _documentSourceChanged: Event;
+        readonly _documentSourceChanged: Event<ViewerBase, EventArgs>;
         /**
          * Occurs after the page index is changed.
          */
-        pageIndexChanged: Event;
+        readonly pageIndexChanged: Event<ViewerBase, EventArgs>;
         /**
          * Occurs after the view mode is changed.
          */
-        viewModeChanged: Event;
-        /**
-         * Deprecated: use mouseModeChanged instead.
-         */
-        selectMouseModeChanged: Event;
+        readonly viewModeChanged: Event<ViewerBase, EventArgs>;
         /**
          * Occurs after the mouse mode is changed.
          */
-        mouseModeChanged: Event;
+        readonly mouseModeChanged: Event<ViewerBase, EventArgs>;
         /**
          * Occurs after the full screen mode is changed.
          */
-        fullScreenChanged: Event;
+        readonly fullScreenChanged: Event<ViewerBase, EventArgs>;
         /**
          * Occurs after the zoom factor is changed.
          */
-        zoomFactorChanged: Event;
+        readonly zoomFactorChanged: Event<ViewerBase, _IZoomFactorChangedEventArgs>;
+        /**
+         * Occurs after the zoom mode is changed.
+         */
+        readonly zoomModeChanged: Event<ViewerBase, _IZoomModeChangedEventArgs>;
         /**
          * Occurs when querying the request data sent to the service before loading the document.
          */
-        queryLoadingData: Event;
+        readonly queryLoadingData: Event<ViewerBase, QueryLoadingDataEventArgs>;
         /**
          * Occurs before every request sent to the server.
          *
@@ -2113,7 +2167,11 @@ declare module wijmo.viewer {
          * window.open() function, or as a HTML link), then the e.settings argument
          * will be null.
          */
-        beforeSendRequest: Event;
+        readonly beforeSendRequest: Event<ViewerBase, RequestEventArgs>;
+        /**
+         * Occurs when the next page has been loaded from the server, and its SVG has been rendered.
+         */
+        readonly pageLoaded: Event<ViewerBase, PageLoadedEventArgs>;
         /**
          * Initializes a new instance of the {@link ViewerBase} class.
          *
@@ -2157,6 +2215,10 @@ declare module wijmo.viewer {
          */
         thresholdWidth: number;
         _innerPaginated: boolean;
+        protected _setTabOrder(value: number): void;
+        protected _setIsDisabled(value: boolean): void;
+        private _updateInnerElementsTabIndex;
+        invalidate(fullUpdate?: boolean): void;
         /**
          * Reloads the document.
          *
@@ -2222,7 +2284,7 @@ declare module wijmo.viewer {
         _isDocumentSourceLoaded(): boolean;
         _actionIsDisabled(action: _ViewerActionType): boolean;
         _actionIsShown(action: _ViewerActionType): boolean;
-        _viewerActionStatusChanged: Event;
+        readonly _viewerActionStatusChanged: Event<ViewerBase, EventArgs>;
         _onViewerActionStatusChanged(e: _IViewerActionChangedEventArgs): void;
         private _setViewerAction;
         private _updateViewerActions;
@@ -2311,10 +2373,6 @@ declare module wijmo.viewer {
         */
         viewMode: ViewMode;
         /**
-        * Deprecated: use mouseMode instead.
-        */
-        selectMouseMode: boolean;
-        /**
         * Gets or sets a value indicating the mouse behavior.
         *
         * The default is SelectTool which means clicking and dragging the mouse will select the text.
@@ -2342,13 +2400,7 @@ declare module wijmo.viewer {
          *
          * @param e The {@link EventArgs} object.
          */
-        onViewModeChanged(e?: wijmo.EventArgs): void;
-        /**
-         * Deprecated: use onMouseModeChanged instead.
-         *
-         * @param e The {@link EventArgs} object.
-         */
-        onSelectMouseModeChanged(e?: wijmo.EventArgs): void;
+        onViewModeChanged(oldValue: ViewMode, newValue: ViewMode): void;
         /**
          * Raises the {@link mouseModeChanged} event.
          *
@@ -2368,6 +2420,12 @@ declare module wijmo.viewer {
          */
         onZoomFactorChanged(e?: wijmo.EventArgs): void;
         /**
+         * Raises the {@link zoomModeChanged} event.
+         *
+         * @param e The {@link EventArgs} object.
+         */
+        onZoomModeChanged(e?: wijmo.EventArgs): void;
+        /**
          * Raises the {@link queryLoadingData} event.
          *
          * @param e The {@link QueryLoadingDataEventArgs} object that contains the loading data.
@@ -2379,6 +2437,12 @@ declare module wijmo.viewer {
          * @param e The {@link RequestEventArgs} object.
          */
         onBeforeSendRequest(e: RequestEventArgs): void;
+        /**
+         * Raises the {@link pageLoaded} event.
+         *
+         * @param e The {@link PageLoadedEventArgs} object.
+         */
+        onPageLoaded(e: PageLoadedEventArgs): void;
         beforeSend(e: RequestEventArgs): void;
     }
 }

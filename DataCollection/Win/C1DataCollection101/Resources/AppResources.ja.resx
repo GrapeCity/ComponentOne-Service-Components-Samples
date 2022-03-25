@@ -138,7 +138,7 @@
     <comment>Grouping</comment>
   </data>
   <data name="OnDemandDescription" xml:space="preserve">
-    <value>YouTube APIを使用したロードオンデマンド</value>
+    <value>YouTube API を使用したロードオンデマンド</value>
     <comment>Shows on-demand loading with YouTube API</comment>
   </data>
   <data name="OnDemandTitle" xml:space="preserve">
@@ -175,9 +175,11 @@ Please check your internet connection</comment>
     <comment>Sort</comment>
   </data>
   <data name="VirtualModeDescription" xml:space="preserve">
-    <value>Shows how to load data on demand thorugh C1VirtualCollectionView</value>
+    <value>C1VirtualCollectionView を介してオンデマンドでデータをロードする方法を示します</value>
+    <comment>Shows how to load data on demand thorugh C1VirtualCollectionView</comment>
   </data>
   <data name="VirtualModeTitle" xml:space="preserve">
-    <value>Virtual Mode</value>
+    <value>仮想モード</value>
+    <comment>Virtual Mode</comment>
   </data>
 </root>

@@ -1,6 +1,6 @@
 /*!
     *
-    * Wijmo Library 5.20191.615
+    * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
     * Copyright(c) GrapeCity, Inc.  All rights reserved.
@@ -277,7 +277,7 @@ declare module wijmo.chart.interaction {
         /**
         * Occurs after the range changes.
         */
-        rangeChanged: Event;
+        readonly rangeChanged: Event<_RangeSlider, EventArgs>;
         /**
          * Raises the {@link rangeChanged} event.
          */
@@ -285,7 +285,7 @@ declare module wijmo.chart.interaction {
         /**
         * Occurs while the range is changing.
         */
-        rangeChanging: Event;
+        readonly rangeChanging: Event<_RangeSlider, EventArgs>;
         /**
          * Raises the {@link rangeChanging} event.
          */
@@ -400,7 +400,7 @@ declare module wijmo.chart.interaction {
         /**
          * Occurs after the range changes.
          */
-        rangeChanged: Event;
+        rangeChanged: Event<RangeSelector, EventArgs>;
         /**
          * Raises the {@link rangeChanged} event.
          */
