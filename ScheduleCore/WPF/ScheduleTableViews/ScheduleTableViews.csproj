@@ -70,9 +70,6 @@
     <PackageReference Include="C1.WPF.ScheduleCore">
       <Version>1.0.20221.5</Version>
     </PackageReference>
-    <PackageReference Include="C1.WPF.ScheduleTableViews">
-      <Version>1.0.20221.5</Version>
-    </PackageReference>
     <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -92,6 +89,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C1.WPF.ScheduleTableViews\C1.WPF.ScheduleTableViews.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="C1NWind.mdb">
