@@ -53,10 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Android.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Constraint.Layout">
       <Version>1.1.2</Version>

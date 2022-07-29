@@ -36,6 +36,7 @@ namespace C1DataCollection101.View
                 new Sample() { Name = AppResources.VirtualModeTitle, Description= AppResources.VirtualModeDescription, SampleViewType = 3, Thumbnail="collectionview.png"},
                 //new Sample() { Name = AppResources.SimpleOnDemandTitle, Description= AppResources.SimpleOnDemandDescription, SampleViewType = 4, Thumbnail="flexgrid_loading.png" },
                 //new Sample() { Name = AppResources.OnDemandTitle, Description= AppResources.OnDemandDescription, SampleViewType = 3, Thumbnail="flexgrid_loading.png" },
+                new Sample() { Name = AppResources.EditingTitle, Description= AppResources.EditingDescription, SampleViewType = 4, Thumbnail="collectionview.png"},
             };
         }
 

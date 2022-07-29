@@ -78,15 +78,15 @@ namespace DataEngineCollectionSample
             await Task.Run(() => LoadTable(CountryTableName, countryList, workspace));
         }
 
-        public static async Task<IDataCollection<object>> LoadDataCollection(Workspace workspace)
+        public static IDataCollection<object> LoadDataCollection(Workspace workspace)
         {
             dynamic employee = workspace.table(EmployeeTableName);
             dynamic post = workspace.table(PostTableName);
             dynamic country = workspace.table(CountryTableName);
             dynamic join = workspace.join(employee, new
             {
-                postTitle = post.Title.As("PostTitle") | employee.PostId == post.Id,
-                countryName = country.Name.As("CountryName") | employee.CountryId == country.Id,
+                pt = post.Title.As("PostTitle") | employee.PostId == post.Id,
+                cn = country.Name.As("CountryName") | employee.CountryId == country.Id,
             });
 
             return new C1DataEngineCollection(workspace, join);

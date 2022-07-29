@@ -69,6 +69,7 @@
             this.lblTitle.Size = new System.Drawing.Size(650, 46);
             this.lblTitle.TabIndex = 6;
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblTitle.Click += new System.EventHandler(this.lblTitle_Click);
             // 
             // listView1
             // 
@@ -82,6 +83,7 @@
             this.listView1.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
+            this.listView1.HideSelection = false;
             listViewItem1.Group = listViewGroup1;
             listViewItem2.Group = listViewGroup2;
             listViewItem3.Group = listViewGroup1;

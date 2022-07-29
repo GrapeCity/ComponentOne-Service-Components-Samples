@@ -52,5 +52,10 @@ namespace C1DataCollection101.View
         {
             _owner.SelectedSampleViewType = -1;
         }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

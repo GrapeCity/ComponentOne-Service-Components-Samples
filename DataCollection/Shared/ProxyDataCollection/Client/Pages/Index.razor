@@ -1,0 +1,75 @@
+﻿@page "/"
+@using C1.Blazor.Core
+@using ProxyDataCollection.Shared
+@using C1.Blazor.Grid
+@using C1.Blazor.Input
+@using C1.DataCollection.SignalR.Client;
+@inject NavigationManager NavigationManager
+@implements IDisposable
+<div style="display:flex;flex-direction:column;height:100%;font-size:small">
+    @if (stocks == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <C1TextBox Placeholder="Search for stocks" @bind-Text="filterText" Style="@("margin:4px; width:400px; align-self:center")" />
+        <FlexGrid ItemsSource="stocks" AutoGenerateColumns="false" IsReadOnly="true" DefaultColumnWidth="90" CellFactory="financialCellFactory" ColumnHeaderStyle="@("font-weight:bold")" Style="@("height:300px")">
+            <FlexGridColumns>
+                <GridColumn Binding="Symbol" />
+                <GridColumn Binding="Name" Width="@GridLength.Star" />
+                <GridColumn Binding="Bid" Format="N2" />
+                <GridColumn Binding="Ask" Format="N2" />
+                <GridColumn Binding="Change" Header="% Change" Format="P2" />
+            </FlexGridColumns>
+            <FlexGridBehaviors>
+                <FullTextFilterBehavior FilterString="@filterText" MatchNumbers="false" />
+            </FlexGridBehaviors>
+        </FlexGrid>
+    }
+</div>
+
+@code {
+    string filterText = "";
+    private C1ProxyDataCollection<Stock> stocks;
+    private FinancialCellFactory financialCellFactory = new FinancialCellFactory();
+
+    protected override void OnInitialized()
+    {
+        var url = NavigationManager.ToAbsoluteUri("financialHub");
+        stocks = new C1ProxyDataCollection<Stock>(url) { PageSize = 50 };
+    }
+
+    public void Dispose()
+    {
+        if (stocks != null)
+            _ = stocks.DisposeAsync();
+    }
+
+    internal class FinancialCellFactory : GridCellFactory
+    {
+        public override RenderFragment GetCellContentRenderFragment(GridCellType cellType, GridCellRange range)
+        {
+            if (cellType == GridCellType.Cell)
+            {
+                var changeColumn = Grid.Columns[nameof(Stock.Change)];
+                if (changeColumn.Index == range.Column)
+                {
+                    var value = Grid.GetCellValue(range) as double?;
+                    if (value != null)
+                    {
+                        return new RenderFragment(b =>
+                        {
+                            b.OpenElement(0, "span");
+                            var color = value > 0 ? C1Color.FromArgb(0xFF, 0x13, 0x73, 0x33) : C1Color.FromArgb(0xFF, 0xa5, 0x0e, 0x0e);
+                            b.AddAttribute(1, "style", new C1Style { FontWeight = C1StyleFontWeight.Bold, Color = color });
+                            b.AddContent(2, Grid.GetCellText(range));
+                            b.CloseElement();
+                        });
+                    }
+                }
+            }
+            return base.GetCellContentRenderFragment(cellType, range);
+        }
+    }
+}

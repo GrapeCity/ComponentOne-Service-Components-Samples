@@ -62,15 +62,18 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.ScheduleCore">
-      <Version>1.0.20221.5</Version>
+      <Version>1.0.20221.6</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.Calendar" Version="6.0.20213.167" />
     <PackageReference Include="C1.WPF.Grid" Version="6.0.20213.167" />
     <PackageReference Include="C1.WPF.Ribbon" Version="6.0.20213.167" />
     <PackageReference Include="C1.WPF.ScheduleCore">
-      <Version>1.0.20221.5</Version>
+      <Version>1.0.20221.6</Version>
     </PackageReference>
     <PackageReference Include="System.Data.OleDb" Version="6.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C1.WPF.ScheduleTableViews\C1.WPF.ScheduleTableViews.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -89,9 +92,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="C1.WPF.ScheduleTableViews\C1.WPF.ScheduleTableViews.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="C1NWind.mdb">

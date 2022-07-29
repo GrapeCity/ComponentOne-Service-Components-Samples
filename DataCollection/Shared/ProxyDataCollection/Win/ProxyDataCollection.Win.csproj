@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.DataCollection">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.BindingList">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.SignalR.Client">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20222.563" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+</Project>

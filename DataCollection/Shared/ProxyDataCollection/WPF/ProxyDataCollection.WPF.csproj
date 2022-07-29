@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.DataCollection.BindingList">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.SignalR.Client">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.DataCollection">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.Grid" Version="6.0.20222.242-beta" />
+    <PackageReference Include="C1.WPF.Sparkline" Version="6.0.20222.242-beta" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />
+  </ItemGroup>
+</Project>

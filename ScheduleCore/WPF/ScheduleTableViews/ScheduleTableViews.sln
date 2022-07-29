@@ -1,10 +1,9 @@
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.1.32319.34
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScheduleTableViews", "ScheduleTableViews.csproj", "{123B4C70-2268-4475-A912-7E72F85916BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduleTableViews", "ScheduleTableViews.csproj", "{123B4C70-2268-4475-A912-7E72F85916BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C1.WPF.ScheduleTableViews", "C1.WPF.ScheduleTableViews\C1.WPF.ScheduleTableViews.csproj", "{D7952FA5-5156-491D-9D41-0A74FAC1D97A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C1.WPF.ScheduleTableViews", "C1.WPF.ScheduleTableViews\C1.WPF.ScheduleTableViews.csproj", "{88B5B206-7ADF-48D2-AABB-C8889B1F793E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,14 +21,14 @@ Global
 		{123B4C70-2268-4475-A912-7E72F85916BD}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
 		{123B4C70-2268-4475-A912-7E72F85916BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{123B4C70-2268-4475-A912-7E72F85916BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Debug_GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Debug_GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7952FA5-5156-491D-9D41-0A74FAC1D97A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Debug_GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Debug_GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88B5B206-7ADF-48D2-AABB-C8889B1F793E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

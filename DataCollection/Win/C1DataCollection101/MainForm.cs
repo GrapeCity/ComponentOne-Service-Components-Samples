@@ -32,6 +32,10 @@ namespace C1DataCollection101
                     tabControl1.SelectedIndex = 4;
                     virtualMode1.ShowPage(menu1);
                     break;
+                case 4:
+                    tabControl1.SelectedIndex = 5;
+                    editing1.ShowPage(menu1);
+                    break;
                 default:
                     tabControl1.SelectedIndex = 0;
                     break;

@@ -83,10 +83,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\Sample.cs" />
-    <Compile Include="ViewModel\VirtualModeCollectionView.cs" />
+    <Compile Include="ViewModel\VirtualModeDataCollection.cs" />
     <Compile Include="ViewModel\YouTubeDataCollection.cs" />
     <Compile Include="View\BaseListView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="View\Editing.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="View\Editing.Designer.cs">
+      <DependentUpon>Editing.cs</DependentUpon>
     </Compile>
     <Compile Include="View\Filtering.cs">
       <SubType>UserControl</SubType>
@@ -147,6 +153,9 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\AppResources.zh-Hans.resx" />
+    <EmbeddedResource Include="View\Editing.resx">
+      <DependentUpon>Editing.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Filtering.resx">
       <DependentUpon>Filtering.cs</DependentUpon>
     </EmbeddedResource>
@@ -195,13 +204,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -40,12 +40,15 @@
             this.grouping1 = new C1DataCollection101.View.Grouping();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.virtualMode1 = new C1DataCollection101.View.VirtualMode();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.editing1 = new C1DataCollection101.View.Editing();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -56,6 +59,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.ItemSize = new System.Drawing.Size(0, 1);
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -160,13 +164,34 @@
             // 
             // virtualMode1
             // 
-            this.virtualMode1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.virtualMode1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.virtualMode1.Location = new System.Drawing.Point(0, 0);
             this.virtualMode1.Name = "virtualMode1";
             this.virtualMode1.Size = new System.Drawing.Size(681, 405);
             this.virtualMode1.TabIndex = 0;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.editing1);
+            this.tabPage6.Location = new System.Drawing.Point(4, 5);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(677, 405);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // editing1
+            // 
+            this.editing1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.editing1.Location = new System.Drawing.Point(0, 0);
+            this.editing1.Name = "editing1";
+            this.editing1.Size = new System.Drawing.Size(677, 405);
+            this.editing1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -184,6 +209,7 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -200,5 +226,7 @@
         private View.Grouping grouping1;
         private System.Windows.Forms.TabPage tabPage5;
         private View.VirtualMode virtualMode1;
+        private System.Windows.Forms.TabPage tabPage6;
+        private View.Editing editing1;
     }
 }

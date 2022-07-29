@@ -1,0 +1,39 @@
+﻿<Window x:Class="ProxyDataCollection.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProxyDataCollection.WPF"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:c1="http://schemas.componentone.com/winfx/2006/xaml"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <c1:C1TextBox x:Name="filter" Margin="4 8 4 4" HorizontalAlignment="Center" Placeholder="Search for stocks" Width="400" />
+        <c1:FlexGrid x:Name="flexGrid" AutoGenerateColumns="False" IsReadOnly="True" DefaultColumnWidth="90" Grid.Row="1">
+            <c1:FlexGrid.Columns>
+                <c1:GridColumn Binding="Symbol" Width="80"/>
+                <c1:GridColumn Binding="Name" Width="*"/>
+                <c1:GridColumn Binding="Bid" Format="C" HorizontalAlignment="Center" HeaderHorizontalAlignment="Center"/>
+                <c1:GridColumn Binding="Ask" Format="C" HorizontalAlignment="Center" HeaderHorizontalAlignment="Center"/>
+                <c1:GridColumn Binding="Change" Header="% Change" Format="P" HorizontalAlignment="Center" HeaderHorizontalAlignment="Center"/>
+                <local:GridSparklineColumn Binding="BidHistory" />
+            </c1:FlexGrid.Columns>
+            <c1:FlexGrid.CellFactory>
+                <local:FinancialCellFactory/>
+            </c1:FlexGrid.CellFactory>
+            <i:Interaction.Behaviors>
+                <c1:FullTextFilterBehavior FilterEntry="{Binding Source={x:Reference filter}}" TreatSpacesAsAndOperator="False"/>
+                <c1:SkeletonLoadingBehavior />
+            </i:Interaction.Behaviors>
+        </c1:FlexGrid>
+        <Grid x:Name="disconnectedLayer" Background="#1D000000" Grid.RowSpan="2" Visibility="Collapsed">
+            <c1:C1Button x:Name="retryButton" Content="Retry" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" Click="OnRetryClicked" />
+        </Grid>
+        <c1:C1ProgressBar x:Name="loadingIndicator" IsIndeterminate="True" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

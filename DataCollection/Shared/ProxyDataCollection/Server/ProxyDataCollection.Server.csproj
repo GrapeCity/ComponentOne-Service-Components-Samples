@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Data\data.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\data.zip" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Blazor.Grid" Version="6.0.20222.239-beta" />
+    <PackageReference Include="C1.DataCollection.SignalR.Server">
+      <Version>1.0.20222.106</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Client\ProxyDataCollection.Client.csproj" />
+    <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+</Project>

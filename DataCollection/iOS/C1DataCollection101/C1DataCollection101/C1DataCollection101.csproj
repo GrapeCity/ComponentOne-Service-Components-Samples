@@ -9,6 +9,7 @@
     <RootNamespace>C1DataCollection101</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>C1DataCollection101</AssemblyName>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -146,10 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.iOS.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

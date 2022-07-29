@@ -4,12 +4,12 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AspNetCore.Mvc" Version="3.0.20213.330" />
+    <PackageReference Include="C1.AspNetCore.Mvc" Version="3.0.20221.337" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20221.247</Version>
+      <Version>5.0.20222.264</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Api">
-      <Version>5.0.20221.247</Version>
+      <Version>5.0.20222.264</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />
   </ItemGroup>

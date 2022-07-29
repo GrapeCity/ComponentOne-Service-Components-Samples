@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.AdoNet.Json">
+      <Version>1.0.20222.83</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection">
+      <Version>1.0.20222.107</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.AdoNet">
+      <Version>1.0.20222.107</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.BindingList">
+      <Version>1.0.20222.107</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataConnector">
+      <Version>1.0.20222.83</Version>
+    </PackageReference>
+    <PackageReference Include="C1.Win.C1Input" Version="4.8.20221.557" />
+    <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20221.557" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="output10k.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="output100k.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

@@ -153,25 +153,26 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20201.25</Version>
+      <Version>1.0.20221.76</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20201.25</Version>
+      <Version>1.0.20221.76</Version>
     </PackageReference>
     <PackageReference Include="C1.UWP.DataCollection">
-      <Version>1.0.20221.65</Version>
+      <Version>1.0.20222.106</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.13</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ODataViewer.gclicx" />
     <None Include="ODataViewer_TemporaryKey.pfx" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

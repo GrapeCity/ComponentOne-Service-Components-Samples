@@ -166,4 +166,10 @@ Please check your internet connection</value>
   <data name="VirtualModeTitle" xml:space="preserve">
     <value>Virtual Mode</value>
   </data>
+  <data name="EditingDescription" xml:space="preserve">
+    <value>Shows how to edit a data-collection in DataGridView</value>
+  </data>
+  <data name="EditingTitle" xml:space="preserve">
+    <value>Editing</value>
+  </data>
 </root>

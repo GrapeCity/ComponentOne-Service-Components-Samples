@@ -29,7 +29,7 @@ namespace DataEngineCollectionSample
             {
                 await DataService.GenerateData(_workspace);
             }
-            _dataCollection = await DataService.LoadDataCollection(_workspace);
+            _dataCollection = DataService.LoadDataCollection(_workspace);
             dataGridView1.DataSource = new C1DataCollectionBindingList(_dataCollection);
             _dataCollection.CollectionChanged += _dataCollection_CollectionChanged;
             this.FormClosed += (s, e) => ((IDisposable)_dataCollection).Dispose();

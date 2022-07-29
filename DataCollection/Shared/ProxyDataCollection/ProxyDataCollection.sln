@@ -1,0 +1,69 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyDataCollection.Server", "Server\ProxyDataCollection.Server.csproj", "{C5A191B3-A9FE-4615-A67F-681F744C972C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyDataCollection.Client", "Client\ProxyDataCollection.Client.csproj", "{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyDataCollection.Shared", "Shared\ProxyDataCollection.Shared.csproj", "{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyDataCollection.WPF", "WPF\ProxyDataCollection.WPF.csproj", "{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProxyDataCollection.Win", "Win\ProxyDataCollection.Win.csproj", "{F49431FC-B7C5-4B11-893F-48790DB2EF16}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+		UTRelease|Any CPU = UTRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A191B3-A9FE-4615-A67F-681F744C972C}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{7128C1D0-EC0E-447C-AFDC-AA0FB0E4626E}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{2C81EBD7-C15C-4D20-8A44-CA4F97EEBA2E}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{9A9F0C12-8FDA-4A05-AC88-68C30876E0E0}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{F49431FC-B7C5-4B11-893F-48790DB2EF16}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E629D1A9-D4E2-4C7E-BD9B-5FBDD0130C2F}
+	EndGlobalSection
+EndGlobal

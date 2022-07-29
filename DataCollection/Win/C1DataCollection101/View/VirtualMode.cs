@@ -27,8 +27,8 @@ namespace C1DataCollection101.View
             {
                 lblMessage.Visible = false;
                 grid.Visible = false;
-                var collectionView = new VirtualModeCollectionView();
-                grid.DataSource = new C1DataCollectionBindingList(collectionView);
+                var collection = new VirtualModeDataCollection();
+                grid.DataSource = new C1DataCollectionBindingList(collection);
                 grid.Visible = true;
             }
             catch
