@@ -1,5 +1,5 @@
 ## Excel Formulas
-#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-WinForms-Samples/tree/master/NetFramework\Excel\CS\ExcelFormulas)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Excel/ExcelFormulas)
 ____
 #### Create a simple Excel worksheet with formulas.
 ____

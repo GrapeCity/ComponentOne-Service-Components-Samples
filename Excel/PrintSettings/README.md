@@ -1,5 +1,5 @@
 ## PrintSettings
-#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-WinForms-Samples/tree/master/NetFramework\Excel\CS\PrintSettings)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Excel/PrintSettings)
 ____
 #### Shows how to get and set print settings saved with a sheet.
 ____
