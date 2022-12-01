@@ -227,7 +227,7 @@ namespace ExcelFormulas
         {
             Console.WriteLine("Excel picture sample...");
             var book = CreateSample();
-            Save(book, "test.xlsх", true);
+            Save(book, "test.xlsx", true);
             Save(book, "test.xls", false);
             Console.WriteLine("Excel test files created.");
         }
