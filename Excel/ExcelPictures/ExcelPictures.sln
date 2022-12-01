@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExcelPictures", "ExcelPictures.csproj", "{48BFCE23-72FB-42FE-A566-E840F71C8110}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_GRAPECITY|Any CPU = Debug_GRAPECITY|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Debug_GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Debug_GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48BFCE23-72FB-42FE-A566-E840F71C8110}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F174BD10-7FCE-4C68-9727-842CAABFAEBD}
+	EndGlobalSection
+EndGlobal
