@@ -100,16 +100,16 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.D365S">
-      <Version>1.0.20222.83</Version>
+      <Version>1.0.20223.90</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20222.83</Version>
+      <Version>1.0.20223.90</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
       <Version>1.0.20201.25</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20222.83</Version>
+      <Version>1.0.20223.90</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
       <Version>1.0.20201.25</Version>

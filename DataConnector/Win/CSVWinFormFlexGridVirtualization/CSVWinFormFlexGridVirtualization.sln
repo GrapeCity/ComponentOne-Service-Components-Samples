@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSVWinFormFlexGridVirtualization", "CSVWinFormFlexGridVirtualization.csproj", "{C1CD88D4-2587-49D6-AE74-6E39466DD208}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+		UTRelease|Any CPU = UTRelease|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.GRAPECITY|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.GRAPECITY|Any CPU.Build.0 = Release|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.UTRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{C1CD88D4-2587-49D6-AE74-6E39466DD208}.UTRelease|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7C01EA8-2E1F-4AE4-8DAE-50F8E76FD53F}
+	EndGlobalSection
+EndGlobal

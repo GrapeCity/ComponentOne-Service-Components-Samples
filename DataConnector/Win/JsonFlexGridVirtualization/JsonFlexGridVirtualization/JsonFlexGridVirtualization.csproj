@@ -8,19 +8,19 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.Json">
-      <Version>1.0.20222.83</Version>
+      <Version>1.0.20223.90</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20222.107</Version>
+      <Version>1.0.20223.117</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20222.107</Version>
+      <Version>1.0.20223.117</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20222.107</Version>
+      <Version>1.0.20223.117</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20222.83</Version>
+      <Version>1.0.20223.90</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Input" Version="4.8.20221.557" />
     <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20221.557" />

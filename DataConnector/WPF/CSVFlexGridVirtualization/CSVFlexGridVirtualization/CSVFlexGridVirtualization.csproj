@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.AdoNet.CSV">
+      <Version>1.0.20223.90</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.AdoNet">
+      <Version>1.0.20223.117</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataCollection.BindingList">
+      <Version>1.0.20223.117</Version>
+    </PackageReference>
+    <PackageReference Include="C1.WPF.Grid" Version="6.0.20222.302" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="output100k.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

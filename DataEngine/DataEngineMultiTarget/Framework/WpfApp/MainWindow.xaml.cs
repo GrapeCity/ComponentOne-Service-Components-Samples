@@ -26,8 +26,12 @@ namespace WpfApp
         {
             InitializeComponent();
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            _ = LoadAsync();
+        }
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+        private async Task LoadAsync()
+        {
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             var results = workspace.GetQueryData("SalesByEmployeeCountry");
             dataGrid1.ItemsSource = ClassFactory.CreateFromDataList(results);
         }

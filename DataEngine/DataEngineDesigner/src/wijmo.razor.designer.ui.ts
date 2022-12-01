@@ -607,7 +607,7 @@ module wijmo.razor.designer {
         private _y: number;
 
         cssUnit(value: any) {
-            return isNumber(value) ? value.toString() + "px" : value;
+            return isNumber(value) ? (value > 0 ? value.toString() + "px" : "0px") : value;
         }
 
         constructor(element: any, controller: DesignerController, options: any) {

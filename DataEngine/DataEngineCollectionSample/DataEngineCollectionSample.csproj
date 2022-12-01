@@ -2,16 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20222.106" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20223.116" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20222.264</Version>
+      <Version>5.0.20223.290</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>5.0.20222.264</Version>
+      <Version>5.0.20223.290</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ Shows how to use C1DataEngine in various combinations of frameworks/runtimes.
 
 This sample uses multi-target versions of C1DataEngine and C1PivotEngine to
 demonstrate their usage in a variety of application contexts (console,
-Windows Forms, WPF) and target frameworks (net5.0, net452). The solution
+Windows Forms, WPF) and target frameworks (net6.0, net452). The solution
 contains 14 projects organized as follows:
 
 Core
@@ -25,7 +25,7 @@ Framework
 - WpfCubeApp
 - WpfPivotApp
 
-Projects in the Core folder target net5.0. Projects in the Framework folder
+Projects in the Core folder target net6.0. Projects in the Framework folder
 target net452. For non-Windows platforms, only the ConsoleApp project in the
 Core folder is usable.
 

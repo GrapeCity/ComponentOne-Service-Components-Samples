@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20222.83" />
+    <PackageReference Include="C1.DataEngine">
+      <Version>5.0.20223.290</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="C1.DataEngine" />
+    <Using Include="C1.AdoNet.OData" />
+    <Using Include="System.Data.Common" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AddNewColumns.gclicx" />
+  </ItemGroup>
+</Project>

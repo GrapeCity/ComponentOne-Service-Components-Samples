@@ -66,7 +66,7 @@ module wijmo.razor {
         }
 
         set showLabel(value: boolean) {
-            if (this._showLabel == value) {
+            if (this._showLabel !== value) {
                 this._showLabel = value;
                 this._divLabel.style.display = (this._label && this._showLabel) ? "block" : "none";
             }
@@ -232,7 +232,7 @@ module wijmo.razor {
         }
 
         set showLabel(value: boolean) {
-            if (this._showLabel == value) {
+            if (this._showLabel !== value) {
                 this._showLabel = value;
                 this._divLabel.style.display = (this._label && this._showLabel) ? "block" : "none";
             }

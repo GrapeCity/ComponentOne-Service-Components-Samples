@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Net;
+using System.Net.Http;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using C1.DataEngine;
@@ -19,15 +20,15 @@ namespace Northwind
         public double Quantity { get; set; }
         public double ExtendedPrice { get; set; }
 
-        public static Workspace GetWorkspace()
+        public static async Task<Workspace> GetWorkspace()
         {
             string path = "workspace"; // absolute or relative path to the workspace folder  
             Workspace workspace = new Workspace();
             workspace.Init(path);
             workspace.Clear();
 
-            WebClient wc = new WebClient();
-            string download = wc.DownloadString("https://services.odata.org/v4/Northwind/Northwind.svc/Invoices");
+            HttpClient hc = new HttpClient();
+            string download = await hc.GetStringAsync("https://services.odata.org/v4/Northwind/Northwind.svc/Invoices");
 
             JObject root = JObject.Parse(download);
             JArray values = (JArray)root["value"];

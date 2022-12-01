@@ -16,12 +16,16 @@ namespace WinFormsApp
         public Form1()
         {
             InitializeComponent();
-            
+            _ = LoadAsync();
+        }
+
+        private async Task LoadAsync()
+        {
             DataGridView grid = new DataGridView();
             Controls.Add(grid);
             grid.Dock = DockStyle.Fill;
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             IDataList results = workspace.GetQueryData("SalesByEmployeeCountry");
             grid.DataSource = results;
         }

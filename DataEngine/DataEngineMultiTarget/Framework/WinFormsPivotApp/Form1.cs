@@ -19,8 +19,12 @@ namespace WinFormsPivotApp
         {
             InitializeComponent();
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            _ = LoadAsync();
+        }
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+        private async Task LoadAsync()
+        {
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             C1PivotEngine pivot = Northwind.Invoice.GetPivotEngine(workspace);
             dataGridView1.ColumnAdded += (s, e) => dataGridView1.Columns[0].Frozen = true;
             dataGridView1.DataSource = pivot.PivotDefaultView;

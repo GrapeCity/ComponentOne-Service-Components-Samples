@@ -182,4 +182,10 @@ Please check your internet connection</comment>
     <value>仮想モード</value>
     <comment>Virtual Mode</comment>
   </data>
+  <data name="EditingDescription" xml:space="preserve">
+    <value>Shows how to edit a data-collection in DataGridView</value>
+  </data>
+  <data name="EditingTitle" xml:space="preserve">
+    <value>Editing</value>
+  </data>
 </root>

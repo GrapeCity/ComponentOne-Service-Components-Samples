@@ -27,8 +27,12 @@ namespace WpfPivotApp
         {
             InitializeComponent();
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            _ = LoadAsync();
+        }
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+        private async Task LoadAsync()
+        {
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             Northwind.Invoice.GetPivotEngine(workspace, (pivot) =>
             {
                 dataGrid1.ItemsSource = pivot.PivotDefaultView;

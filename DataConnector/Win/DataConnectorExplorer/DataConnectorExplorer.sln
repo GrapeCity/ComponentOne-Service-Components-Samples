@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 17
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataConnectorExplorer", "DataConnectorExplorer\DataConnectorExplorer.csproj", "{9EB8785B-F8BD-46B2-BCC7-F8E26C71189B}"
 EndProject
 Global

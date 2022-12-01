@@ -18,8 +18,12 @@ namespace WinFormsApp
         {
             InitializeComponent();
             ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+            _ = LoadAsync();
+        }
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+        private async Task LoadAsync()
+        {
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             IDataList results = workspace.GetQueryData("SalesByEmployeeCountry");
             dataGridView1.DataSource = results;
         }

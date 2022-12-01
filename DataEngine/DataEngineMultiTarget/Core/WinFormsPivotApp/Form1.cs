@@ -17,7 +17,11 @@ namespace WinFormsPivotApp
         public Form1()
         {
             InitializeComponent();
-
+            _ = LoadAsync();
+        }
+        
+        private async Task LoadAsync()
+        {
             DataGridView grid = new DataGridView();
             Controls.Add(grid);
             grid.Dock = DockStyle.Fill;
@@ -26,7 +30,7 @@ namespace WinFormsPivotApp
             grid.AllowUserToDeleteRows = false;
             grid.ColumnAdded += (s, e) => grid.Columns[0].Frozen = true;
 
-            Workspace workspace = Northwind.Invoice.GetWorkspace();
+            Workspace workspace = await Northwind.Invoice.GetWorkspace();
             C1PivotEngine pivot = Northwind.Invoice.GetPivotEngine(workspace);
             grid.DataSource = pivot.PivotDefaultView;
         }
