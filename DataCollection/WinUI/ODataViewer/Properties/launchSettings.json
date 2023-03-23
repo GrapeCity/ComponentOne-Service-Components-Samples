@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ODataViewer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ODataViewer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

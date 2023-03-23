@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20222.83" />
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20223.90" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20223.290</Version>
+      <Version>5.0.20231.300</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

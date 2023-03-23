@@ -8,11 +8,14 @@
     <Compile Include="..\..\Shared\AdventureWorks.cs" Link="AdventureWorks.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20223.290</Version>
+      <Version>5.0.20231.300</Version>
     </PackageReference>
     <PackageReference Include="C1.PivotEngine">
-      <Version>5.0.20223.290</Version>
+      <Version>5.0.20231.300</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

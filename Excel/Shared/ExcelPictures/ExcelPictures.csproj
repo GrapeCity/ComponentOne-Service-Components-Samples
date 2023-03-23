@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\baby.png" />
+    <None Remove="Resources\canada.bmp" />
+    <None Remove="Resources\google.bmp" />
+    <None Remove="Resources\spb.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\baby.png" />
+    <EmbeddedResource Include="Resources\canada.bmp" />
+    <EmbeddedResource Include="Resources\google.bmp" />
+    <EmbeddedResource Include="Resources\spb.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Excel">
+      <Version>5.0.20231.18</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

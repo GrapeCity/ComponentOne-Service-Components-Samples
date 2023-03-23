@@ -1,19 +1,17 @@
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using C1.DataCollection;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/GroupingTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class GroupingActivity : AppCompatActivity
+    public class GroupingActivity : Activity
     {
         private IDataCollection<object> _dataCollection;
 
@@ -23,11 +21,9 @@ namespace C1DataCollection101
 
             SetContentView(Resource.Layout.Main);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = GetString(Resource.String.GroupingTitle);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = GetString(Resource.String.GroupingTitle);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
 
             RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
 

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Window x:Class="ExcelWpf.MainWindow" Title="C1.Excel .NET Standard Samples" Height="225" Width="525" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ExcelWpf">
+    <local:ExcelCreator />
+</Window>

@@ -8,12 +8,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20221.65" />
     <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20221.65" />
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Input" Version="4.8.20222.566" />
     <PackageReference Include="C1.Win.DataCollection" Version="1.0.20221.65" />

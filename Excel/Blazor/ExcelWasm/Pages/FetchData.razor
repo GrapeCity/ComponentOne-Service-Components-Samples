@@ -1,0 +1,157 @@
+﻿@page "/fetchdata"
+@using C1.Excel;
+@using System.Drawing;
+@inject HttpClient Http
+@inject Microsoft.JSInterop.IJSRuntime JS
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<h1>Excel File Download Example</h1>
+
+<button class="btn btn-secondary" @onclick="XlsxExport">Export to XLSX</button>
+<button class="btn btn-secondary" @onclick="BiffExport">Export to XLS</button>
+<button class="btn btn-secondary" @onclick="CsvExport">Export to CSV</button>
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+    }
+
+    async Task ExportAsync(C1.Excel.FileFormat format)
+    {
+        var fileName = "export.xlsx";
+        switch (format)
+        {
+            case C1.Excel.FileFormat.Biff8:
+                fileName = "export.xls";
+                break;
+            case C1.Excel.FileFormat.Csv:
+                fileName = "export.csv";
+                break;
+        }
+        var file = ExcelExport(format);
+        await JS.SaveAs(fileName, file);
+    }
+
+    private async void XlsxExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.OpenXml);
+    }
+    private async void BiffExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.Biff8);
+    }
+    private async void CsvExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.Csv);
+    }
+    private byte[] ExcelExport(C1.Excel.FileFormat format)
+    {
+        var book = new C1.Excel.C1XLBook();
+        book.Author = "GrapeCity";
+
+        var sheet = book.Sheets[0];
+        sheet.Name = "Weather Forecast";
+
+        sheet.Columns[1].Width = 1200;
+        sheet.Columns[2].Width = 1000;
+        sheet.Columns[3].Width = 1000;
+        sheet.Columns[4].Width = 2000;
+
+        var dateStyle = new XLStyle(book);
+        dateStyle.Font = new XLFont("Helvertica", 11, Color.DarkGray);
+        dateStyle.Format = XLStyle.FormatXLToDotNet("dd/MM/yyyy");
+
+        var tempStyle = new XLStyle(book);
+        tempStyle.Font = new XLFont("Helvertica", 11, Color.DarkCyan);
+
+        var summaryStyle = new XLStyle(book);
+        summaryStyle.Font = new XLFont("Helvertica", 11, Color.Black);
+
+        var headerStyle = new XLStyle(book);
+        headerStyle.BorderBottom = XLLineStyle.Thick;
+        headerStyle.BorderColorBottom = Color.Black;
+        headerStyle.Font = new XLFont("Helvertica", 11, true, false);
+
+        sheet[1, 1].Style = headerStyle;
+        sheet[1, 2].Style = headerStyle;
+        sheet[1, 3].Style = headerStyle;
+        sheet[1, 4].Style = headerStyle;
+
+        sheet[1, 1].Value = "Date";
+        sheet[1, 2].Value = "Temp. (C)";
+        sheet[1, 3].Value = "Temp. (F)";
+        sheet[1, 4].Value = "Summary";
+
+        if (forecasts != null)
+        {
+            for (int r = 0; r < forecasts.Length; r++)
+            {
+                int row = r + 2;
+
+                sheet[row, 1].Style = dateStyle;
+                sheet[row, 2].Style = tempStyle;
+                sheet[row, 3].Style = tempStyle;
+                sheet[row, 4].Style = summaryStyle;
+
+                sheet[row, 1].Value = forecasts[r].Date;
+                sheet[row, 2].Value = forecasts[r].TemperatureC;
+                sheet[row, 3].Value = forecasts[r].TemperatureF;
+                sheet[row, 4].Value = forecasts[r].Summary;
+            }
+        }
+
+        using (var stream = new MemoryStream())
+        {
+            book.Save(stream, format);
+            return stream.ToArray();
+        }
+    }
+
+    public class WeatherForecast
+    {
+        public DateTime Date { get; set; }
+
+        public int TemperatureC { get; set; }
+
+        public string? Summary { get; set; }
+
+        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    }
+
+  
+}

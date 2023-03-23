@@ -1,18 +1,16 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
+using AndroidX.SwipeRefreshLayout.Widget;
 using C1.DataCollection;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/OnDemandTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class OnDemandActivity : AppCompatActivity
+    public class OnDemandActivity : Activity
     {
         private YouTubeDataCollection _dataCollection;
 
@@ -22,11 +20,9 @@ namespace C1DataCollection101
 
             SetContentView(Resource.Layout.OnDemand);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = GetString(Resource.String.OnDemandTitle);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = GetString(Resource.String.OnDemandTitle);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
 
             SwipeRefresh = FindViewById<SwipeRefreshLayout>(Resource.Id.SwipeRefresh);
             RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);

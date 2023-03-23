@@ -1,0 +1,135 @@
+﻿@page "/counter"
+@using C1.Excel;
+@using System.Drawing;
+@inject Microsoft.JSInterop.IJSRuntime JS
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Each C1Excel block have 256 lines</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Plus block</button>
+<button class="btn btn-primary" @onclick="DecrementCount">Minus block</button>
+
+<p></p>
+
+<div class="progress" style="height:@(progressWork ? 12 : 1)px;">
+    <div class="progress-bar progress-bar-striped progress-bar-animated"
+        role="progressbar" aria-valuenow="@progressValue%"
+        aria-valuemin="0" aria-valuemax="100" style="width:@progressValue%">
+        @progressValue%
+    </div>
+</div>
+
+<p></p>
+
+<h1>Excel File Download</h1>
+
+<button class="btn btn-secondary" @onclick="XlsxExport">Export to XLSX</button>
+<button class="btn btn-secondary" @onclick="BiffExport">Export to XLS</button>
+<button class="btn btn-secondary" @onclick="CsvExport">Export to CSV</button>
+
+@code {
+    private bool progressWork = false;
+    private int progressValue = 0;
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        if (currentCount < byte.MaxValue)
+        {
+            currentCount++;
+        }
+    }
+    private void DecrementCount()
+    {
+        if (currentCount > 0)
+        {
+            currentCount--;
+        }
+    }
+
+    private async void XlsxExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.OpenXml);
+    }
+    private async void BiffExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.Biff8);
+    }
+    private async void CsvExport()
+    {
+        await ExportAsync(C1.Excel.FileFormat.Csv);
+    }
+
+    async Task ExportAsync(C1.Excel.FileFormat format)
+    {
+        var fileName = "export.xlsx";
+        switch (format)
+        {
+            case C1.Excel.FileFormat.Biff8:
+                fileName = "export.xls";
+                break;
+            case C1.Excel.FileFormat.Csv:
+                fileName = "export.csv";
+                break;
+        }
+        var file = await ExcelExport(format);
+        await JS.SaveAs(fileName, file);
+    }
+
+    async Task<byte[]> ExcelExport(C1.Excel.FileFormat format)
+    {
+        int block = 256;
+        progressValue = 0;
+        progressWork = true;
+        StateHasChanged();
+        await Task.Delay(10);
+
+        var book = new C1.Excel.C1XLBook();
+        book.Author = "GrapeCity";
+
+        var sheet = book.Sheets[0];
+        sheet.Name = "Blocks";
+
+        if (currentCount > 0)
+        {
+            var styleOdd = new XLStyle(book);
+            styleOdd.BackColor = Color.LightGray;
+            styleOdd.Font = new XLFont("Helvertica", 10, Color.Black);
+
+            var styleEvn = new XLStyle(book);
+            styleEvn.Font = new XLFont("Helvertica", 10, Color.DarkGray);
+
+            int max = currentCount * block;
+            for (int r = 0; r < max; r++)
+            {
+                progressValue = r * 90 / max;
+                StateHasChanged();
+                await Task.Delay(10);
+                for (int c = 0; c < block; c++)
+                {
+                    sheet[r, c].Value = $"Cell {r}:{c}";
+                    sheet[r, c].Style = (r % 2) == 0 ? styleOdd : styleEvn;
+                }
+            }
+        }
+
+        progressValue = 90;
+        StateHasChanged();
+        await Task.Delay(10);
+
+        using (var stream = new MemoryStream())
+        {
+            book.Save(stream, format);
+
+            progressValue = 100;
+            progressWork = false;
+            StateHasChanged();
+            await Task.Delay(10);
+
+            return stream.ToArray();
+        }
+    }
+}

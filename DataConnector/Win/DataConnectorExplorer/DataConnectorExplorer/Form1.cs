@@ -16,6 +16,7 @@ using C1.AdoNet.GoogleAnalytics;
 using C1.AdoNet.QuickBooksOnline;
 using C1.AdoNet.ServiceNow;
 using C1.AdoNet.Json;
+using C1.AdoNet.CSV;
 
 namespace DataConnectorExplorer
 {
@@ -67,6 +68,7 @@ namespace DataConnectorExplorer
             cboSource.Items.Add("Google Analytics");
             cboSource.Items.Add("Json");
             cboSource.Items.Add("ServiceNow");
+            cboSource.Items.Add("CSV"); 
 
             cboSource.SelectedIndex = 0; //Select OData initially
         }
@@ -101,6 +103,9 @@ namespace DataConnectorExplorer
                     break;
                 case 7: //ServiceNow
                     _connStringBuilder = new C1ServiceNowConnectionStringBuilder();
+                    break;
+                case 8: //CSV
+                    _connStringBuilder = new C1CSVConnectionStringBuilder();
                     break;
             }
 
@@ -144,6 +149,9 @@ namespace DataConnectorExplorer
                         break;
                     case 7:
                         _connectionBase = new C1ServiceNowConnection(_connStringBuilder as C1ServiceNowConnectionStringBuilder);
+                        break;
+                    case 8:
+                        _connectionBase = new C1CSVConnection(_connStringBuilder as C1CSVConnectionStringBuilder);
                         break;
                 }
 
@@ -292,6 +300,15 @@ namespace DataConnectorExplorer
                     case 7:
                         C1ServiceNowConnection c1ServiceNowConn = _connectionBase as C1ServiceNowConnection;
                         using (C1ServiceNowDataAdapter a = new C1ServiceNowDataAdapter(c1ServiceNowConn, sql))
+                        {
+                            DataTable t = new DataTable();
+                            a.Fill(t);
+                            pivotPage.DataSource = t;
+                        }
+                        break;
+                    case 8:
+                        C1CSVConnection c1CsvConn = _connectionBase as C1CSVConnection;
+                        using (C1CSVDataAdapter a = new C1CSVDataAdapter(c1CsvConn, sql))
                         {
                             DataTable t = new DataTable();
                             a.Fill(t);

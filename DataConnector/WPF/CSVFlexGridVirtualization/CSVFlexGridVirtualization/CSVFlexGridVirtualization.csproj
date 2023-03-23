@@ -7,13 +7,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20223.117</Version>
+      <Version>1.0.20231.130</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20223.117</Version>
+      <Version>1.0.20231.130</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.Grid" Version="6.0.20222.302" />
   </ItemGroup>

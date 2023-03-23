@@ -1,20 +1,18 @@
-using Android.App;
-using Android.Content.PM;
-using Android.OS;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using Android.Views;
-using Android.Widget;
-using C1.DataCollection;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Views;
+using Android.Widget;
+using AndroidX.RecyclerView.Widget;
+using C1.DataCollection;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/SortingTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class SortingActivity : AppCompatActivity
+    public class SortingActivity : Activity
     {
         private C1DataCollection<YouTubeVideo> _dataCollection;
 
@@ -24,11 +22,9 @@ namespace C1DataCollection101
 
             SetContentView(Resource.Layout.Main);
            
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = GetString(Resource.String.SortingTitle);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = GetString(Resource.String.SortingTitle);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
 
             RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
 

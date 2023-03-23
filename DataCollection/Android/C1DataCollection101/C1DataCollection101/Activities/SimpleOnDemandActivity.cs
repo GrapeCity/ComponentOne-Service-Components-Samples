@@ -1,23 +1,21 @@
-using Android.App;
-using Android.Content.PM;
-using Android.OS;
-using Android.Support.V4.Widget;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
-using Android.Views;
-using Android.Widget;
-using C1.Android.DataCollection;
-using C1.DataCollection;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
+using Android.Views;
+using Android.Widget;
+using AndroidX.RecyclerView.Widget;
+using AndroidX.SwipeRefreshLayout.Widget;
+using C1.Android.DataCollection;
+using C1.DataCollection;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/SimpleOnDemandTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class SimpleOnDemandActivity : AppCompatActivity
+    public class SimpleOnDemandActivity : Activity
     {
         private SimpleOnDemandDataCollection _dataCollection;
 
@@ -27,11 +25,9 @@ namespace C1DataCollection101
 
             SetContentView(Resource.Layout.SimpleOnDemand);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = GetString(Resource.String.SimpleOnDemandTitle);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = GetString(Resource.String.SimpleOnDemandTitle);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
 
             SwipeRefresh = FindViewById<SwipeRefreshLayout>(Resource.Id.SwipeRefresh);
             RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);

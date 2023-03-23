@@ -32,13 +32,13 @@ namespace C1DataCollection101
             try
             {
                 indicator.StartAnimating();
-                var videos = (await YouTubeDataCollection.LoadVideosAsync("Xamarin iOS", "relevance", null, 50)).Item2;
+                var videos = (await YouTubeDataCollection.LoadVideosAsync("DotNet iOS", "relevance", null, 50)).Item2;
                 _source = new YouTubeTableViewSource(TableView) { ItemsSource = videos };
                 TableView.Source = _source;
             }
             catch
             {
-                var alert = new UIAlertView("", Foundation.NSBundle.MainBundle.LocalizedString("InternetConnectionError", ""), null, "OK");
+                var alert = new UIAlertView("", Foundation.NSBundle.MainBundle.GetLocalizedString("InternetConnectionError", ""), null, "OK");
                 alert.Show();
             }
             finally

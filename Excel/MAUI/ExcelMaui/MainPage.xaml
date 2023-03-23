@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ExcelMaui.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="ms_office_excel.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="GrapeCity C1 Excel"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Excel for .NET Multi-platform App UI"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="GrapeCity C1 Excel sample for .NET Multi-platform App UI"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="ComplexOpenXmlBtn"
+                Text="To XLSX"
+                SemanticProperties.Hint="Complex Excel sample"
+                Clicked="OnComplexOpenXmlClicked"
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="ComplexBiffBtn"
+                Text="To XLS"
+                SemanticProperties.Hint="Complex Excel sample"
+                Clicked="OnComplexBiffClicked"
+                HorizontalOptions="Center" />
+
+            <Button
+                x:Name="ComplexCsvBtn"
+                Text="To CSV"
+                SemanticProperties.Hint="Complex Excel sample in CSV format"
+                Clicked="OnComplexCsvClicked"
+                HorizontalOptions="Center" />
+
+            <Label
+                x:Name="FileUrl"
+                Text=""
+                SemanticProperties.HeadingLevel="Level3"
+                SemanticProperties.Description="Fule url for download"
+                FontSize="12"
+                FontAttributes="Italic"
+                HorizontalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TapCommand}"
+                                          CommandParameter="" />
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -7,13 +7,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.Grid" Version="6.0.20222.242-beta" />
     <PackageReference Include="C1.WPF.Sparkline" Version="6.0.20222.242-beta" />

@@ -9,13 +9,13 @@
     <PackageReference Include="C1.Blazor.Grid" Version="6.0.20222.239-beta" />
     <PackageReference Include="C1.Blazor.Input" Version="6.0.20222.239-beta" />
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.Serialization">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>1.0.20223.116</Version>
+      <Version>1.0.20231.129</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.3" PrivateAssets="all" />

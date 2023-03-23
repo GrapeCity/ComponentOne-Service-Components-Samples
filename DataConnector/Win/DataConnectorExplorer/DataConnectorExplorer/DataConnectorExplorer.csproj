@@ -91,43 +91,43 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.D365S">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.GoogleAnalytics">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Json">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Kintone">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.OData">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.QuickBooksOnline">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.Salesforce">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.AdoNet.ServiceNow">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20223.90</Version>
+      <Version>1.0.20231.105</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1SplitContainer">
-      <Version>4.5.20203.464</Version>
+      <Version>4.5.20223.588</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Themes">
-      <Version>4.5.20203.464</Version>
+      <Version>4.5.20223.588</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.FlexPivot">
-      <Version>4.5.20203.464</Version>
+      <Version>4.5.20223.588</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AnalysisServices.AdomdClient.retail.amd64">
       <Version>19.12.3</Version>
@@ -184,8 +184,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <EmbeddedResource Include="DataConnectorExplorer.gclicx" />
   </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

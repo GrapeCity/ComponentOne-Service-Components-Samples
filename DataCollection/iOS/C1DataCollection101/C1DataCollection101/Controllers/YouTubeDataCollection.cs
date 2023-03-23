@@ -60,11 +60,12 @@ namespace C1DataCollection101
 
         public static async Task<Tuple<string, IReadOnlyList<YouTubeVideo>>> LoadVideosAsync(string q, string orderBy, string pageToken, int maxResults, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (q == null) q = "";
+            if (q == null)
+                q = "";
 
             var youtubeUrl = string.Format("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q={0}&order={1}&maxResults={2}{3}&key={4}", Uri.EscapeUriString(q), orderBy, maxResults, string.IsNullOrWhiteSpace(pageToken) ? "" : "&pageToken=" + pageToken, "AIzaSyCGIvlreIsHaOVVoR2JAPJnbHkSUv3v4y0");
 
-            var client = new HttpClient();
+            var client = new HttpClient(new NSUrlSessionHandler());
             var response = await client.GetAsync(youtubeUrl, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
@@ -80,7 +81,6 @@ namespace C1DataCollection101
                         Thumbnail = item.Snippet.Thumbnails.Default.Url,
                         Link = "http://www.youtube.com/watch?v=" + item.Id.VideoId,
                         ChannelTitle = item.Snippet.ChannelTitle,
-                        PublishedAt = DateTime.Parse(item.Snippet.PublishedAt),
                     };
                     videos.Add(video);
                 }

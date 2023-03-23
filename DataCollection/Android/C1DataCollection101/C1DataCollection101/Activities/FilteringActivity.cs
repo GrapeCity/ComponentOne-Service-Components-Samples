@@ -1,19 +1,17 @@
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V7.App;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using C1.DataCollection;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/FilteringTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
-    public class FilteringActivity : AppCompatActivity
+    public class FilteringActivity : Activity
     {
         private C1DataCollection<YouTubeVideo> _dataCollection;
 
@@ -23,11 +21,9 @@ namespace C1DataCollection101
 
             SetContentView(Resource.Layout.Filtering);
 
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = GetString(Resource.String.FilteringTitle);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
-            SupportActionBar.SetHomeButtonEnabled(true);
+            ActionBar.Title = GetString(Resource.String.FilteringTitle);
+            ActionBar.SetDisplayHomeAsUpEnabled(true);
+            ActionBar.SetHomeButtonEnabled(true);
 
             RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
             Filter = FindViewById<EditText>(Resource.Id.Filter);
