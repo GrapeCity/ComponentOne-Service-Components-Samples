@@ -21,10 +21,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20231.129</Version>
+      <Version>1.0.20232.161</Version>
     </PackageReference>
     <PackageReference Include="C1.iOS.DataCollection">
-      <Version>1.0.20231.129</Version>
+      <Version>1.0.20232.161</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

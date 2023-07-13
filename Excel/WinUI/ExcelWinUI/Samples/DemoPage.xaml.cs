@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Navigation;
 using C1.Excel;
 
 using _Color = System.Drawing.Color;
+using Windows.Storage;
 
 namespace ExcelWinUI
 {
@@ -34,7 +35,7 @@ namespace ExcelWinUI
         {
             this.InitializeComponent();
 
-            // create a pdf file to work with
+            // create a PDF file to work with
             _book = new C1XLBook();
         }
 
@@ -50,6 +51,8 @@ namespace ExcelWinUI
             var picker = new Windows.Storage.Pickers.FileSavePicker();
             picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
             picker.FileTypeChoices.Add(Strings.Typexlsx, new List<string>() { ".xlsx" });
+            picker.FileTypeChoices.Add(Strings.Typexlsm, new List<string>() { ".xlsm" });
+            picker.FileTypeChoices.Add(Strings.Typexls, new List<string>() { ".xls" });
             picker.FileTypeChoices.Add(Strings.Typecsv, new List<string>() { ".csv" });
             picker.SuggestedFileName = Strings.DefaultFileName;
 
@@ -59,8 +62,13 @@ namespace ExcelWinUI
                 try
                 {
                     // step 1: save file
-                    var fileFormat = Path.GetExtension(file.Path).Equals(".csv") ? FileFormat.Csv : FileFormat.OpenXml;
-                    //await _book.SaveAsync(file, fileFormat);
+                    var fileFormat = GetFormatByName(file.Path);
+                    using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                    using (var s = stream.AsStream())
+                    {
+                        _book.Save(s, fileFormat);
+                        //await stream.FlushAsync();
+                    }
 
                     // step 2: user feedback
                     _tbContent.Text = string.Format(Strings.SaveLocationTip, file.Path);
@@ -112,7 +120,9 @@ namespace ExcelWinUI
                 var picker = new Windows.Storage.Pickers.FileOpenPicker();
                 picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary;
                 picker.FileTypeFilter.Add(".xlsx");
+                picker.FileTypeFilter.Add(".xlsm");
                 picker.FileTypeFilter.Add(".xls");
+                picker.FileTypeFilter.Add(".csv");
 
                 var file = await picker.PickSingleFileAsync();
                 if (file != null)
@@ -121,8 +131,12 @@ namespace ExcelWinUI
                     _book = new C1XLBook();
 
                     // step 2: load existing file
-                    //var fileFormat = FileFormat.OpenXml;
-                    //_book.Load(file, fileFormat);
+                    var fileFormat = GetFormatByName(file.Path);
+                    using (var stream = await file.OpenAsync(FileAccessMode.Read))
+                    using (var s = stream.AsStream())
+                    {
+                        _book.Load(s, fileFormat);
+                    }
 
                     // step 3: allow user to save the file
                     _tbContent.Text = string.Format(Strings.OpenTip, _book.Sheets[0].Name);
@@ -134,6 +148,23 @@ namespace ExcelWinUI
                 _tbContent.Text = string.Format(Strings.SaveAndOpenException, x.Message);
             }
         }
+
+        static FileFormat GetFormatByName(string path)
+        {
+            switch (Path.GetExtension(path).ToLower())
+            {
+                case ".csv":
+                    return FileFormat.Csv;
+                case ".xls":
+                    return FileFormat.Biff8;
+                case ".xlsm":
+                    return FileFormat.OpenXmlMacro;
+                case ".xlsx":
+                default:
+                    return FileFormat.OpenXml;
+            }
+        }
+
     }
 }
 

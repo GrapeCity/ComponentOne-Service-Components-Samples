@@ -177,6 +177,12 @@
   <data name="Typecsv" xml:space="preserve">
     <value>Comma Separated Values file</value>
   </data>
+  <data name="Typexls" xml:space="preserve">
+    <value>Binary Excel file</value>
+  </data>
+  <data name="Typexlsm" xml:space="preserve">
+    <value>Open XML Excel file with macroses</value>
+  </data>
   <data name="Typexlsx" xml:space="preserve">
     <value>Open XML Excel file</value>
   </data>

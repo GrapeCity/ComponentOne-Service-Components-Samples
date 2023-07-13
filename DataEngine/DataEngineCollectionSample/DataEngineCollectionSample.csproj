@@ -8,10 +8,10 @@
   <ItemGroup>
     <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20223.121" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20231.300</Version>
+      <Version>5.0.20232.306</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>5.0.20231.300</Version>
+      <Version>5.0.20232.306</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 17
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrintSettings", "PrintSettings.csproj", "{106F4BB4-5F19-4338-A2B2-C9862B590E55}"
 EndProject
 Global

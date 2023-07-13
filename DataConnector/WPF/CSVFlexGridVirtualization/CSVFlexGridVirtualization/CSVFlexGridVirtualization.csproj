@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -7,15 +8,12 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20231.105</Version>
+      <Version>1.0.20232.150</Version>
     </PackageReference>
-    <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20231.130</Version>
-    </PackageReference>
-    <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20231.130</Version>
-    </PackageReference>
-    <PackageReference Include="C1.WPF.Grid" Version="6.0.20222.302" />
+    <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20231.144" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20231.144" />
+    <PackageReference Include="C1.WPF.DataCollection" Version="1.0.20231.144" />
+    <PackageReference Include="C1.WPF.Grid" Version="6.0.20231.533" />
   </ItemGroup>
   <ItemGroup>
     <None Update="output100k.csv">

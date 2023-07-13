@@ -59,6 +59,21 @@ namespace ExcelWinUI
                 return _loader.GetString("Typexlsx");
             }
         }
+        public static string Typexlsm
+        {
+            get
+            {
+                return _loader.GetString("Typexlsm");
+            }
+        }
+
+        public static string Typexls
+        {
+            get
+            {
+                return _loader.GetString("Typexls");
+            }
+        }
 
         public static string Typecsv
         {

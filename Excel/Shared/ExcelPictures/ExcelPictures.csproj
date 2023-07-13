@@ -16,8 +16,14 @@
     <EmbeddedResource Include="Resources\spb.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove=".gclicx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="C1.Excel">
-      <Version>5.0.20231.18</Version>
+      <Version>5.0.20232.27</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

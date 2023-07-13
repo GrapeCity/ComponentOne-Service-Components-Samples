@@ -1,4 +1,5 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
@@ -8,19 +9,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.Json">
-      <Version>1.0.20231.105</Version>
+      <Version>1.0.20232.150</Version>
     </PackageReference>
-    <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20231.130</Version>
-    </PackageReference>
-    <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20231.130</Version>
-    </PackageReference>
-    <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>1.0.20231.130</Version>
-    </PackageReference>
+    <PackageReference Include="C1.DataCollection" Version="1.0.20231.129" />
+    <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20231.129" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20231.129" />
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20231.105</Version>
+      <Version>1.0.20232.150</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Input" Version="4.8.20221.557" />
     <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20221.557" />
@@ -32,5 +27,8 @@
     <None Update="output100k.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="JsonFlexGridVirtualization.gclicx" />
   </ItemGroup>
 </Project>

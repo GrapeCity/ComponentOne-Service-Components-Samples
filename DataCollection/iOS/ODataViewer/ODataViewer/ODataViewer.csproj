@@ -6,15 +6,15 @@
     <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20222.83" />
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
     <PackageReference Include="C1.DataCollection">
-      <Version>1.0.20231.129</Version>
+      <Version>1.0.20232.161</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20231.129</Version>
+      <Version>1.0.20232.161</Version>
     </PackageReference>
     <PackageReference Include="C1.iOS.DataCollection">
-      <Version>1.0.20231.129</Version>
+      <Version>1.0.20232.161</Version>
     </PackageReference>
   </ItemGroup>
 </Project>
