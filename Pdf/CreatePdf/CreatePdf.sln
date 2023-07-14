@@ -1,0 +1,33 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CreatePdf", "CreatePdf.csproj", "{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_GRAPECITY|Any CPU = Debug_GRAPECITY|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Debug_GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Debug_GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A11E23A-0E6D-42BF-A0EA-BC21A4B417AE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5D64BEF8-664A-421F-8F40-2B6106A29A14}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\Components\Util\Util.Net.projitems*{af697088-f765-4fa8-a786-ea7612d61152}*SharedItemsImports = 5
+		..\..\Components\Word\Word.Net.projitems*{af697088-f765-4fa8-a786-ea7612d61152}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

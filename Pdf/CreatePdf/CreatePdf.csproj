@@ -1,0 +1,128 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove=".gclicx" />
+    <None Remove="Data\flow.txt" />
+    <None Remove="Images\escher\belvedere.jpg" />
+    <None Remove="Images\escher\concave &amp; convex.jpg" />
+    <None Remove="Images\escher\encounter.jpg" />
+    <None Remove="Images\escher\gravitation.jpg" />
+    <None Remove="Images\escher\mobius.jpg" />
+    <None Remove="Images\escher\mosaic.jpg" />
+    <None Remove="Images\escher\relativity.jpg" />
+    <None Remove="Images\icons\BINOCULR.ICO" />
+    <None Remove="Images\icons\BRIDGE.ICO" />
+    <None Remove="Images\icons\BULLSEYE.ICO" />
+    <None Remove="Images\icons\CAMERA.ICO" />
+    <None Remove="Images\icons\CHECKMRK.ICO" />
+    <None Remove="Images\icons\CIRC1.ICO" />
+    <None Remove="Images\icons\CLOCK01.ICO" />
+    <None Remove="Images\icons\EAR.ICO" />
+    <None Remove="Images\icons\EXCLEM.ICO" />
+    <None Remove="Images\icons\FACE01.ICO" />
+    <None Remove="Images\icons\HOUSE.ICO" />
+    <None Remove="Images\icons\LIGHTOFF.ICO" />
+    <None Remove="Images\icons\LIGHTON.ICO" />
+    <None Remove="Images\icons\MIKE.ICO" />
+    <None Remove="Images\icons\MISC01.ICO" />
+    <None Remove="Images\icons\QUESTION.ICO" />
+    <None Remove="Images\icons\SECUR01A.ICO" />
+    <None Remove="Images\icons\TIMER01.ICO" />
+    <None Remove="Images\icons\VOLUME01.ICO" />
+    <None Remove="Images\icons\WATCH01.ICO" />
+    <None Remove="Images\louvre\angelico.jpg" />
+    <None Remove="Images\louvre\bellechose.jpg" />
+    <None Remove="Images\louvre\bruegel.jpg" />
+    <None Remove="Images\louvre\carpaccio.jpg" />
+    <None Remove="Images\louvre\carracci polypheme.jpg" />
+    <None Remove="Images\louvre\delacroix.jpg" />
+    <None Remove="Images\louvre\fragonard.jpg" />
+    <None Remove="Images\louvre\friedrich.jpg" />
+    <None Remove="Images\louvre\gellee.jpg" />
+    <None Remove="Images\louvre\ingres etude de femmes nudes.jpg" />
+    <None Remove="Images\louvre\lebrun colere.jpg" />
+    <None Remove="Images\louvre\mantegna jugement de salomon.jpg" />
+    <None Remove="Images\louvre\millet les pecheurs.jpg" />
+    <None Remove="Images\louvre\pisanello tete d%27un cheval.jpg" />
+    <None Remove="Images\louvre\rubens jeune femme agenouillee.jpg" />
+    <None Remove="Images\louvre\ruisdael.jpg" />
+    <None Remove="Images\other\16.bmp" />
+    <None Remove="Images\other\24.bmp" />
+    <None Remove="Images\other\256.bmp" />
+    <None Remove="Images\other\mono.bmp" />
+    <None Remove="Images\other\pietest.bmp" />
+    <None Remove="Images\other\pietest.gif" />
+    <None Remove="Results\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Results\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include="Data\flow.txt" />
+    <EmbeddedResource Include="Images\escher\belvedere.jpg" />
+    <EmbeddedResource Include="Images\escher\concave &amp; convex.jpg" />
+    <EmbeddedResource Include="Images\escher\encounter.jpg" />
+    <EmbeddedResource Include="Images\escher\gravitation.jpg" />
+    <EmbeddedResource Include="Images\escher\mobius.jpg" />
+    <EmbeddedResource Include="Images\escher\mosaic.jpg" />
+    <EmbeddedResource Include="Images\escher\relativity.jpg" />
+    <EmbeddedResource Include="Images\icons\BINOCULR.ICO" />
+    <EmbeddedResource Include="Images\icons\BRIDGE.ICO" />
+    <EmbeddedResource Include="Images\icons\BULLSEYE.ICO" />
+    <EmbeddedResource Include="Images\icons\CAMERA.ICO" />
+    <EmbeddedResource Include="Images\icons\CHECKMRK.ICO" />
+    <EmbeddedResource Include="Images\icons\CIRC1.ICO" />
+    <EmbeddedResource Include="Images\icons\CLOCK01.ICO" />
+    <EmbeddedResource Include="Images\icons\EAR.ICO" />
+    <EmbeddedResource Include="Images\icons\EXCLEM.ICO" />
+    <EmbeddedResource Include="Images\icons\FACE01.ICO" />
+    <EmbeddedResource Include="Images\icons\HOUSE.ICO" />
+    <EmbeddedResource Include="Images\icons\LIGHTOFF.ICO" />
+    <EmbeddedResource Include="Images\icons\LIGHTON.ICO" />
+    <EmbeddedResource Include="Images\icons\MIKE.ICO" />
+    <EmbeddedResource Include="Images\icons\MISC01.ICO" />
+    <EmbeddedResource Include="Images\icons\QUESTION.ICO" />
+    <EmbeddedResource Include="Images\icons\SECUR01A.ICO" />
+    <EmbeddedResource Include="Images\icons\TIMER01.ICO" />
+    <EmbeddedResource Include="Images\icons\VOLUME01.ICO" />
+    <EmbeddedResource Include="Images\icons\WATCH01.ICO" />
+    <EmbeddedResource Include="Images\louvre\angelico.jpg" />
+    <EmbeddedResource Include="Images\louvre\bellechose.jpg" />
+    <EmbeddedResource Include="Images\louvre\bruegel.jpg" />
+    <EmbeddedResource Include="Images\louvre\carpaccio.jpg" />
+    <EmbeddedResource Include="Images\louvre\carracci polypheme.jpg" />
+    <EmbeddedResource Include="Images\louvre\delacroix.jpg" />
+    <EmbeddedResource Include="Images\louvre\fragonard.jpg" />
+    <EmbeddedResource Include="Images\louvre\friedrich.jpg" />
+    <EmbeddedResource Include="Images\louvre\gellee.jpg" />
+    <EmbeddedResource Include="Images\louvre\ingres etude de femmes nudes.jpg" />
+    <EmbeddedResource Include="Images\louvre\lebrun colere.jpg" />
+    <EmbeddedResource Include="Images\louvre\mantegna jugement de salomon.jpg" />
+    <EmbeddedResource Include="Images\louvre\millet les pecheurs.jpg" />
+    <EmbeddedResource Include="Images\louvre\pisanello tete d'un cheval.jpg" />
+    <EmbeddedResource Include="Images\louvre\rubens jeune femme agenouillee.jpg" />
+    <EmbeddedResource Include="Images\louvre\ruisdael.jpg" />
+    <EmbeddedResource Include="Images\other\16.bmp" />
+    <EmbeddedResource Include="Images\other\24.bmp" />
+    <EmbeddedResource Include="Images\other\256.bmp" />
+    <EmbeddedResource Include="Images\other\mono.bmp" />
+    <EmbeddedResource Include="Images\other\pietest.bmp" />
+    <EmbeddedResource Include="Images\other\pietest.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Data\GcNWind.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Pdf">
+      <Version>5.0.20232.14-beta</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>
