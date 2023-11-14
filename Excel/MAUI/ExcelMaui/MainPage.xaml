@@ -16,7 +16,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="GrapeCity C1 Excel"
+                Text="MESCIUS C1 Excel"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
@@ -24,7 +24,7 @@
             <Label
                 Text="Excel for .NET Multi-platform App UI"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="GrapeCity C1 Excel sample for .NET Multi-platform App UI"
+                SemanticProperties.Description="MESCIUS C1 Excel sample for .NET Multi-platform App UI"
                 FontSize="18"
                 HorizontalOptions="Center" />
 

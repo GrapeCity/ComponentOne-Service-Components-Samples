@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>5.0.20232.14-beta</Version>
+      <Version>5.0.20233.26-beta</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

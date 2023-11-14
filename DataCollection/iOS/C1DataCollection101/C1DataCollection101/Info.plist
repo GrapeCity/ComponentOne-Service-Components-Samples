@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>C1DataCollection101</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.grapecity.ios.C1DataCollection101</string>
+	<string>com.mescius.developer.ios.C1DataCollection101</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

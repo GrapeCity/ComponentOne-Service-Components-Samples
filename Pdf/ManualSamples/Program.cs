@@ -71,7 +71,7 @@ namespace ManualSamples
             // C1 Word
             _word = new C1WordDocument();
             _word.Info.Author = "C1.Pdf .NET Standard";
-            _word.Info.Company = "GrapeCity";
+            _word.Info.Company = "MESCIUS";
 
             // default flow document
             _doc = _pdf;
@@ -235,6 +235,15 @@ namespace ManualSamples
                 // center image within the rectangle, keep original size
                 pdf.DrawImage(image, rc, ContentAlignment.TopLeft, _ImageSizeMode.Clip);
             }
+            else if (_doc is C1WordDocument word)
+            {
+                // center image within the rectangle, scale keeping aspect ratio
+                word.DrawImage(image, rc, ContentAlignment.MiddleCenter, _ImageSizeMode.Scale);
+
+                // center image within the rectangle, keep original size
+                word.DrawImage(image, rc, ContentAlignment.TopLeft, _ImageSizeMode.Clip);
+            }
+
 
             // step 3: save the document to a file
             return "image size modes.pdf";
@@ -357,13 +366,13 @@ namespace ManualSamples
             _Font font = new("Arial", 10, _FontStyle.Underline);
             if (_doc is C1PdfDocument pdf)
             {
-                pdf.AddLink("http://www.grapecity.com/componentone", rc);
+                pdf.AddLink("http://www.mescius.com/componentone", rc);
             }
             else if (_doc is C1WordDocument word)
             {
-                word.AddLink("http://www.grapecity.com/componentone");
+                word.AddLink("http://www.mescius.com/componentone");
             }
-            _doc.DrawString("Visit GrapeCity ComponentOne", font, _Color.Blue, rc);
+            _doc.DrawString("Visit ComponentOne", font, _Color.Blue, rc);
 
             // create a link target
             if (_doc is C1PdfDocument c1pdf)
@@ -512,6 +521,7 @@ namespace ManualSamples
             }
             else if (_doc is C1WordDocument)
             {
+                // clipping is limitation of C1Word
                 _doc.DrawImage(img, rc, rc);
             }
             _doc.DrawRectangle(new _Pen(_Color.Black), rc);
@@ -522,9 +532,9 @@ namespace ManualSamples
             {
                 c1pdf.DrawImage(img, rc, ContentAlignment.MiddleLeft, _ImageSizeMode.Scale);
             }
-            else if (_doc is C1WordDocument)
+            else if (_doc is C1WordDocument word)
             {
-                _doc.DrawImage(img, rc);
+                word.DrawImage(img, rc, ContentAlignment.MiddleLeft, _ImageSizeMode.Scale);
             }
             _doc.DrawRectangle(new _Pen(_Color.Black), rc);
 

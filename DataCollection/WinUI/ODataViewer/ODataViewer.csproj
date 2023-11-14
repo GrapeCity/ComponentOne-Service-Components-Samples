@@ -10,7 +10,7 @@
     <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
-    <PackageCertificateThumbprint>6B6A15EAD937290081ACEE1B73B4F8A05271D546</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>53292AA4A6A2A136FE4468E5033F6D2048BAEAD7</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>ODataViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
   </PropertyGroup>
@@ -26,10 +26,10 @@
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>1.0.20232.161</Version>
+      <Version>7.0.20233.175</Version>
     </PackageReference>
     <PackageReference Include="C1.WinUI.DataCollection">
-      <Version>1.0.20232.161</Version>
+      <Version>7.0.20233.175</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230502000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />

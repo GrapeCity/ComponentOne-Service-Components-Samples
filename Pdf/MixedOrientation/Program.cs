@@ -75,7 +75,7 @@ namespace MixedOrientation
             // C1 Word
             _word = new C1WordDocument();
             _word.Info.Author = "C1.Pdf .NET Standard";
-            _word.Info.Company = "GrapeCity";
+            _word.Info.Company = "MESCIUS";
 
             // default flow document
             _doc = _pdf;

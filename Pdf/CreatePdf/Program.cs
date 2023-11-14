@@ -71,7 +71,7 @@ namespace CreatePdf
             // C1 Word
             _word = new C1WordDocument();
             _word.Info.Author = "C1.Pdf .NET Standard";
-            _word.Info.Company = "GrapeCity";
+            _word.Info.Company = "MESCIUS";
 
             // default flow document
             _doc = _pdf;
@@ -945,7 +945,7 @@ namespace CreatePdf
 			RenderParagraph(title, titleFont, rc, rc, false);
 
 			// create constant font and StringFormat objects
-			Font font = new Font("Tahoma", 18);
+			_Font font = new _Font("Tahoma", 18);
 			StringFormat sf = new StringFormat();
 			sf.Alignment = HorizontalAlignment.Center;
 			sf.LineAlignment = VerticalAlignment.Center;
