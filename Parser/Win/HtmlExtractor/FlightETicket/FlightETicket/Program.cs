@@ -75,7 +75,7 @@ namespace FlightETicket
             IExtractionResult extractedResult = vietjetairTemplate.Extract(source);
 
             Console.WriteLine("------------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - Html extractor sample");
             Console.WriteLine("Test case: Test case: From a vietjetair e-ticket extract relevant information about the flight. Note that the");
             Console.WriteLine("           email used as extraction source was modified on purpose (added random text at different locations)");

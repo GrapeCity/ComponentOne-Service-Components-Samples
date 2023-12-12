@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("D365SalesSimpleBinding")]
-[assembly: AssemblyCopyright("(c) GrapeCity, Inc.. All rights reserved.")]
+[assembly: AssemblyCopyright("(c) MESCIUS inc. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

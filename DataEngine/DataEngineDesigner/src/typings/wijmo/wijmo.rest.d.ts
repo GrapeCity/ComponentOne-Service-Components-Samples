@@ -3,9 +3,9 @@
     * Wijmo Library 5.20213.824
     * http://wijmo.com/
     *
-    * Copyright(c) GrapeCity, Inc.  All rights reserved.
+    * Copyright(c) MESCIUS inc.  All rights reserved.
     *
-    * Licensed under the GrapeCity Commercial License.
+    * Licensed under the MESCIUS Commercial License.
     * sales@wijmo.com
     * wijmo.com/products/wijmo-5/license/
     *

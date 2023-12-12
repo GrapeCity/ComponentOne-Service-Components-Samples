@@ -106,10 +106,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20232.306</Version>
+      <Version>5.0.20233.320</Version>
     </PackageReference>
     <PackageReference Include="C1.PivotEngine">
-      <Version>5.0.20232.306</Version>
+      <Version>5.0.20233.320</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

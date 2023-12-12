@@ -56,7 +56,7 @@ namespace ExtractErrorLogs
             fst.Close();
 
             Console.WriteLine("------------------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - TemplateBased extractor sample");
             Console.WriteLine("Test case: From a server log file, extract all the ERROR logs");
             Console.WriteLine("Detail: Each log follows a predefined fixed structure, that consists in 4 major elements.");

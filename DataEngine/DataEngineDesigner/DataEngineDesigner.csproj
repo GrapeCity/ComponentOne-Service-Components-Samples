@@ -9,20 +9,20 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='GRAPECITY|AnyCPU'">
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'=='MESCIUS|AnyCPU'">
     <PackageReference Include="C1.AspNetCore.Mvc.Ja" Version="3.0.20222.340" />
     <PackageReference Include="C1.AspNetCore.Mvc.Olap.Ja" Version="3.0.20222.340" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)|$(Platform)'!='GRAPECITY|AnyCPU'">
+  <ItemGroup Condition="'$(Configuration)|$(Platform)'!='MESCIUS|AnyCPU'">
     <PackageReference Include="C1.AspNetCore.Mvc" Version="3.0.20222.340" />
     <PackageReference Include="C1.AspNetCore.Mvc.Olap" Version="3.0.20222.340" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20232.306</Version>
+      <Version>5.0.20233.320</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Api">
-      <Version>5.0.20232.306</Version>
+      <Version>5.0.20233.320</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.5.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0" />

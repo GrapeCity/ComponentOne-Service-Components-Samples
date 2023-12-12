@@ -73,7 +73,7 @@ namespace ECommerceOrder
             IExtractionResult extractedResult = amazonTemplate.Extract(source);
 
             Console.WriteLine("------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - Html extractor sample");
             Console.WriteLine("Test case: From amazon order emails extract relevant information about the order itself.");
             Console.WriteLine("           This sample pretends to demonstrate the repeated place holder extraction capabilities of");

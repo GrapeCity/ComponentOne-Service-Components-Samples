@@ -34,7 +34,7 @@ namespace ExtractComments
             inputStream.Close();
 
             Console.WriteLine("--------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - StartsAfterContinuesUntil extractor sample");
             Console.WriteLine("Test case: Extract all the comments from a c++ source file");
             Console.WriteLine("Extractor specification: Starts After // Continues Until \\r\\n");

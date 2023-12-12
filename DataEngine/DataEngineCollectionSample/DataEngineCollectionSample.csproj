@@ -6,15 +6,15 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20223.121" />
-    <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20232.306</Version>
-    </PackageReference>
-    <PackageReference Include="C1.DataEngine.Collection">
-      <Version>5.0.20232.306</Version>
-    </PackageReference>
+    <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20232.164" />
+    <PackageReference Include="C1.DataEngine">
+      <Version>5.0.20233.320</Version>
+    </PackageReference>
+    <PackageReference Include="C1.DataEngine.Collection">
+      <Version>5.0.20233.320</Version>
+    </PackageReference>
   </ItemGroup>
 </Project>

@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ExtractorEditor")]
 [assembly: AssemblyDescription("A Winforms App that allows to quickly create and test C1TextParser's starts after continues until extractor")]
 [assembly: AssemblyProduct("ExtractorEditor")]
-[assembly: AssemblyCompany("GrapeCity, Inc.")]
-[assembly: AssemblyCopyright("(c) GrapeCity, Inc.. All rights reserved.")]
+[assembly: AssemblyCompany("MESCIUS inc.")]
+[assembly: AssemblyCopyright("(c) MESCIUS inc. All Rights Reserved.")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]
 

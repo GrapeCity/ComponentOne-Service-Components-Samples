@@ -34,7 +34,7 @@ namespace ExtractQuotedText
             inputStream.Close();
 
             Console.WriteLine("---------------------------------------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - StartsAfterContinuesUntil extractor sample");
             Console.WriteLine("Test case: Extract all the quoted text from an excerpt of \"The Picture of Dorian Gray\" by Oscar Wilde");
             Console.WriteLine("           (public domain book)");

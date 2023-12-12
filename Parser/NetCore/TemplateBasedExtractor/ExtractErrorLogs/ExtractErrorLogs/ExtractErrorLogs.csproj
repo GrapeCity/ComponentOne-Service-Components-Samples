@@ -5,9 +5,6 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include=".gclicx" />
   </ItemGroup>
   <ItemGroup>
@@ -20,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20213.87</Version>
+      <Version>4.7.20233.104</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

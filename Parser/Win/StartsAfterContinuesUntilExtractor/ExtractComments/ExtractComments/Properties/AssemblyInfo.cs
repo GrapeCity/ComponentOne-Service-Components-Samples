@@ -17,7 +17,7 @@ using System.Runtime.CompilerServices;
 #endif
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("(c) GrapeCity, Inc.. All rights reserved.")]
+[assembly: AssemblyCopyright("(c) MESCIUS inc. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

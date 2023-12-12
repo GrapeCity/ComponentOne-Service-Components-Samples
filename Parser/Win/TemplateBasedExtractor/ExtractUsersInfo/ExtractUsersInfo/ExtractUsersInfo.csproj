@@ -5,10 +5,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include="ExtractUsersInfo.gclicx" />
   </ItemGroup>
   <ItemGroup>
     <None Update="input.txt">
@@ -20,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20213.87</Version>
+      <Version>4.7.20233.104</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

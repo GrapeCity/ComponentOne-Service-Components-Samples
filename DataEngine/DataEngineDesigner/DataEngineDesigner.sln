@@ -6,14 +6,14 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		MESCIUS|Any CPU = MESCIUS|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.GRAPECITY|Any CPU.ActiveCfg = Release|Any CPU
-		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.GRAPECITY|Any CPU.Build.0 = Release|Any CPU
+		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.MESCIUS|Any CPU.ActiveCfg = Release|Any CPU
+		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.MESCIUS|Any CPU.Build.0 = Release|Any CPU
 		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

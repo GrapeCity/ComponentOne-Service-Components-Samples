@@ -47,7 +47,7 @@ namespace ExtractUsersInfo
             fst.Close();
 
             Console.WriteLine("------------------------------------------------------------------------------------------");
-            Console.WriteLine("GrapeCity, inc, all rights reserved");
+            Console.WriteLine("MESCIUS inc. All Rights Reserved.");
             Console.WriteLine("Demo of the C1TextParser library - TemplateBased extractor sample");
             Console.WriteLine("Test case: From a file containing information about the users of a specific service");
             Console.WriteLine("           extract all the fields related to each user, such as its name, age");
