@@ -299,11 +299,11 @@ namespace C1.WPF.Schedule
             if (r1 != null && range.Column == 0)
             {
                 cell.HorizontalContentAlignment = HorizontalAlignment.Left;
-                cell.VerticalAlignment = VerticalAlignment.Center;
                 TextBlock b = new TextBlock();
                 b.FontWeight = FontWeights.Bold;
-                b.Margin = new Thickness(2);
-                b.Text = (string)((Dictionary<GridColumn, object>)r1.DataItem)[Grid.Columns[0]]; //Grid[range.Row, range.Column];
+                b.Padding = new Thickness(2);
+                b.VerticalAlignment = VerticalAlignment.Center;
+                b.Text = (string)Grid[range.Row, 0];
                 cell.Content = b;
                 return;
             }
@@ -311,7 +311,7 @@ namespace C1.WPF.Schedule
             if (range.Column == 1)
             {
                 var r = Grid.Rows[range.Row];
-                Appointment app = ((Dictionary<GridColumn, object>)r.DataItem)[Grid.Columns["Tag"]] as Appointment; 
+                Appointment app = Grid[r, Grid.Columns["Tag"]] as Appointment; 
                 if (app != null && app.BusyStatus != null)
                 {
                     cell.Background = ((C1.WPF.Schedule.C1Brush)app.BusyStatus.Brush).Brush;

@@ -175,7 +175,6 @@ namespace ExcelFormulas
                 picture.ViewType = viewType;
                 sheet[4, col].Value = picture;
                 sheet[5, col].Value = "view type: " + viewType.ToString();
-                ;
 
                 col += 2;
             }

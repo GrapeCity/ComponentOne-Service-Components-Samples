@@ -1,0 +1,52 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+@if (!loaded)
+{
+    <p>Welcome to C1Pdf .NET Standard. <em>Loading...</em></p>
+}
+else
+{
+    @RenderPdf()
+}
+
+@code {
+    RenderFragment RenderPdf()
+    {
+        // PDF to binary
+        var result = string.Empty;
+        using (var ms = new MemoryStream())
+        {
+            pdf.Save(ms);
+            result = $"data:application/pdf;base64,{System.Convert.ToBase64String(ms.ToArray())}";
+        }
+
+        // done
+        return @<embed src="@result" visible="false" width="@wpx" height="@hpx" />;
+    }
+}
+
+@code {
+    private bool loaded = false;
+    private string error = string.Empty;
+    private C1.Pdf.C1PdfDocument pdf = new C1.Pdf.C1PdfDocument();
+    private int wpx = 900;
+    private int hpx = 700;
+
+    protected override void OnInitialized()
+    {
+        var html = "<h1>About the Blazor sample</h1>";
+        html += "<p>This sample uses the <b>C1Pdf .NET Standard</b> library, which can convert various files to <b>PDF</b>.</p>";
+        html += "<p>You can select any tab with supported formats to convert to <b>PDF</b> format.</p>";
+        html += "<p><i><b>Enjoy</b> converting.<i/></p>";
+        pdf.Landscape = true;
+        var rc = pdf.PageRectangle;
+        rc.Inflate(-40, -40);
+        pdf.FillEllipse(System.Drawing.Color.Teal, rc);
+        rc.Inflate(-180, -180);
+        var font = new C1.Util.Font("Arial", 12);
+        pdf.DrawStringHtml(html, font, System.Drawing.Color.WhiteSmoke, rc, 0);
+        loaded = true;
+    }
+}

@@ -1,0 +1,42 @@
+﻿<Window x:Class="WpfElements.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfElements"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid x:Name="Grid1">
+        <StackPanel>
+            <Button Margin="10" Content="PDF Create" Click="PDF_Click" HorizontalAlignment="Left"/>
+
+            <Grid Margin="40" x:Name="cnv" Width="600" Height="310" 
+                          Grid.Row="1" Visibility="Visible"
+                          HorizontalAlignment="Center" VerticalAlignment="Center"
+          >
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Canvas Margin="-57,-45,0,0">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform ScaleX="0.42" ScaleY="0.42"/>
+                    </Canvas.RenderTransform>
+                    <Canvas>
+
+                        <!-- Round rectangle -->
+                        <Path Data="F1 M 306.864,822.928 L 72.864,822.928 C 62.923,822.928 54.864,814.869 54.864,804.928 L 54.864,489.928 C 54.864,479.987 62.923,471.928 72.864,471.928 L 306.864,471.928 C 316.805,471.928 324.864,479.987 324.864,489.928 L 324.864,804.928 C 324.864,814.869 316.805,822.928 306.864,822.928 Z">
+                            <Path.Fill>
+                                <SolidColorBrush x:Name="SampleA" Color="#ffaeccea" />
+                            </Path.Fill>
+                        </Path>
+                        <!-- Narrow -->
+                        <Path Fill="#ffcbcbcb" Data="F1 M 1169.969,7.283 L 1155.381,7.283 L 1155.381,0.500 C 1155.381,0.305 1155.268,0.128 1155.090,0.046 C 1154.913,-0.035 1154.703,-0.008 1154.556,0.120 L 1146.197,7.283 L 1128.959,7.283 C 1119.863,7.283 1112.464,14.683 1112.464,23.778 L 1112.464,202.283 L 1117.464,202.283 L 1117.464,23.778 C 1117.464,17.440 1122.620,12.283 1128.959,12.283 L 1146.197,12.283 L 1154.556,19.446 C 1154.647,19.525 1154.764,19.566 1154.881,19.566 C 1154.952,19.566 1155.023,19.551 1155.090,19.520 C 1155.268,19.439 1155.381,19.261 1155.381,19.066 L 1155.381,12.283 L 1169.969,12.283 C 1176.308,12.283 1181.464,17.440 1181.464,23.778 L 1181.464,24.283 L 1186.464,24.283 L 1186.464,23.778 C 1186.464,14.683 1179.064,7.283 1169.969,7.283 Z"/>
+                        <!-- Heard -->
+                        <Path Fill="#ffeb4b2b" Data="F1 M 140,20 C 73,20 20,74 20,140 c 0,135 136,170 228,303 c 88,-132 229,-173 229,-303 c 0,-66 -54,-120 -120,-120 c -48,0 -90,28 -109,69 c -19,-41 -60,-69 -108,-69 Z"/>
+                    </Canvas>
+                </Canvas>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -16,7 +16,7 @@
                 HorizontalOptions="Center" />
 
             <Label
-                Text="MESCIUS C1 Excel"
+                Text="ComponentOne Excel"
                 SemanticProperties.HeadingLevel="Level1"
                 FontSize="32"
                 HorizontalOptions="Center" />
@@ -24,7 +24,7 @@
             <Label
                 Text="Excel for .NET Multi-platform App UI"
                 SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="MESCIUS C1 Excel sample for .NET Multi-platform App UI"
+                SemanticProperties.Description="ComponentOne Excel sample for .NET Multi-platform App UI"
                 FontSize="18"
                 HorizontalOptions="Center" />
 
@@ -53,7 +53,7 @@
                 x:Name="FileUrl"
                 Text=""
                 SemanticProperties.HeadingLevel="Level3"
-                SemanticProperties.Description="Fule url for download"
+                SemanticProperties.Description="File URL for download"
                 FontSize="12"
                 FontAttributes="Italic"
                 HorizontalOptions="Center">

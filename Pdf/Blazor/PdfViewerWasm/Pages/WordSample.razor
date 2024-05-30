@@ -1,0 +1,110 @@
+﻿@page "/word-sample"
+
+@inject HttpClient Http
+
+@if (loaded == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!loaded.Value)
+{
+    <p>@error</p>
+}
+else
+{
+    @RenderPdf()
+}
+
+@code {
+    RenderFragment RenderPdf()
+    {
+        // PDF to binary
+        var result = string.Empty;
+        using (var ms = new MemoryStream())
+        {
+            flow.Save(ms);
+            result = $"data:application/pdf;base64,{System.Convert.ToBase64String(ms.ToArray())}";
+        }
+
+        // done
+        return @<embed src="@result" visible="false" width="@wpx" height="@hpx" />;
+    }
+}
+
+@code {
+    private bool? loaded;
+    private string error = string.Empty;
+    private int wpx = 900;
+    private int hpx = 900;
+    private C1.Pdf.C1PdfDocument flow = new C1.Pdf.C1PdfDocument();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetByteArrayAsync("sample-data/template.docx");
+        if (data != null && data.Length > 0)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                try
+                {
+                    var document = new C1.Word.C1WordDocument();
+                    document.LoadFromOpenXml(ms);
+                    var html = document.ToHtmlText();
+
+                    // PDF document
+                    var rcPage = flow.PageRectangle;
+                    int cols = 1;       // you can change it
+
+                    // get number of columns, create layout array
+                    var columns = new System.Drawing.RectangleF[cols];
+
+                    // 4 or more columns? switch to landscape
+                    if (cols >= 4) flow.Landscape = true;
+
+                    // create one rectangle per column
+                    rcPage.Inflate(-50, -50);
+                    for (int i = 0; i < cols; i++)
+                    {
+                        var rcc = rcPage;
+                        rcc.Width /= cols;
+                        rcc.Offset(rcc.Width * i, 0);
+                        rcc.Inflate(-10, -10);
+                        columns[i] = rcc;
+                    }
+
+                    // print the HTML string spanning multiple pages
+                    flow.Clear();
+                    var currentColumn = 0;
+                    var font = new C1.Util.Font("Times New Roman", 12);
+                    for (var start = 0F; ;)
+                    {
+                        // render this part
+                        var rc = columns[currentColumn];
+                        start = flow.DrawStringHtml(html, font, System.Drawing.Color.Black, rc, start);
+                        //flow.DrawRectangle(pen, rc);
+
+                        // done?
+                        if (start >= float.MaxValue)
+                        {
+                            break;
+                        }
+
+                        // skip page/column
+                        currentColumn++;
+                        if (currentColumn >= columns.Length)
+                        {
+                            currentColumn = 0;
+                            flow.NewPage();
+                        }
+                    }
+                    loaded = true;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    loaded = false;
+                }
+            }
+        }
+    }
+}

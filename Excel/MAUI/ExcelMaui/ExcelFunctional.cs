@@ -41,7 +41,7 @@ namespace ExcelMaui
             textStyle.Font = new XLFont("Tahoma", 8, false, true);
             textStyle.AlignHorz = XLAlignHorz.Center;
 
-            sheet[1, 1].Value = "MESCIUS C1.Excel";
+            sheet[1, 1].Value = "ComponentOne Excel";
             sheet[1, 1].Style = titleStyle;
             sheet.MergedCells.Add(1, 1, 10, 7);
 

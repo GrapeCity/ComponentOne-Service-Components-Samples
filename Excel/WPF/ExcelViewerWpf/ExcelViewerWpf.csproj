@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Results\Result.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Results\Result.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Excel">
+      <Version>8.0.20241.62</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2088.41" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Results\description.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Results\Description.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

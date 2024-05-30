@@ -1,0 +1,35 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebBrowser", "WebBrowser.csproj", "{180DCAE8-6716-4444-827A-E04682E461F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug_GRAPECITY|Any CPU = Debug_GRAPECITY|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		GRAPECITY|Any CPU = GRAPECITY|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Debug_GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Debug_GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.GRAPECITY|Any CPU.ActiveCfg = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.GRAPECITY|Any CPU.Build.0 = Debug|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{180DCAE8-6716-4444-827A-E04682E461F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F64ADA8-609E-41F6-9CFB-30E57EEF1E63}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\Shared\Components\Word\Word.Net.projitems*{7a5a6f35-2767-4ae8-98a3-35d07a62d1a8}*SharedItemsImports = 13
+		..\..\..\Shared\Components\Util\Util.Net.projitems*{917d031e-42d5-4e25-a452-976c7a15b85d}*SharedItemsImports = 13
+		..\..\..\Shared\Components\Util\Util.Net.projitems*{c464fd44-29ac-46f1-b1e4-79a899504cc8}*SharedItemsImports = 5
+		..\..\..\Shared\Components\Word\Word.Net.projitems*{c464fd44-29ac-46f1-b1e4-79a899504cc8}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

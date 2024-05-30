@@ -5,19 +5,19 @@
     <OutputType>Exe</OutputType>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationId>com.grapecity.android.datacollection</ApplicationId>
+    <ApplicationId>com.componentone.android.datacollection</ApplicationId>
     <ApplicationVersion>1</ApplicationVersion>
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.Android.DataCollection">
-      <Version>8.0.20233.177</Version>
+      <Version>8.0.20241.192</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20233.177</Version>
+      <Version>8.0.20241.192</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.4.6" />
-    <PackageReference Include="Xamarin.AndroidX.RecyclerView" Version="1.3.0.3" />
-    <PackageReference Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.14" />
+    <PackageReference Include="Xamarin.AndroidX.ConstraintLayout" Version="2.1.4.9" />
+    <PackageReference Include="Xamarin.AndroidX.RecyclerView" Version="1.3.2.1" />
+    <PackageReference Include="Xamarin.AndroidX.SwipeRefreshLayout" Version="1.1.0.17" />
   </ItemGroup>
 </Project>

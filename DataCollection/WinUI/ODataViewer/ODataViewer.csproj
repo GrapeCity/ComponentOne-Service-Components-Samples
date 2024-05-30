@@ -27,10 +27,10 @@
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>8.0.20233.177</Version>
+      <Version>8.0.20241.192</Version>
     </PackageReference>
     <PackageReference Include="C1.WinUI.DataCollection">
-      <Version>8.0.20233.177</Version>
+      <Version>8.0.20241.192</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
     <Manifest Include="$(ApplicationManifest)" />

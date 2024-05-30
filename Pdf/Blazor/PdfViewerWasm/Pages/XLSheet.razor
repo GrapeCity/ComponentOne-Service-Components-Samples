@@ -1,0 +1,119 @@
+﻿@page "/xl-sheet"
+@inject HttpClient Http
+
+@if (loaded == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!loaded.Value)
+{
+    <p>@error</p>
+}
+else
+{
+    @RenderPdf()
+}
+
+@code {
+    RenderFragment RenderPdf()
+    {
+        // bitmap to string
+        var result = string.Empty;
+        using (var ms = new MemoryStream())
+        {
+            flow.Save(ms);
+            result = $"data:application/pdf;base64,{System.Convert.ToBase64String(ms.ToArray())}";
+        }
+
+        // done
+        return @<embed src="@result" visible="false" width="@wpx" height="@hpx" />;
+    }
+}
+
+@code {
+    private bool? loaded;
+    private string error = string.Empty;
+    private int wpx = 900;
+    private int hpx = 700;
+    private C1.Pdf.C1PdfDocument flow = new C1.Pdf.C1PdfDocument();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetByteArrayAsync("sample-data/sample.xlsx");
+        if (data != null && data.Length > 0)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                try
+                {
+                    var workbook = new C1.Excel.C1XLBook();
+                    workbook.Load(ms, C1.Excel.FileFormat.OpenXml);
+
+                    // PDF document
+                    //var flow = new C1.Pdf.C1PdfDocument();
+                    var rcPage = flow.PageRectangle;
+
+                    // print the worknook
+                    var count = 0;
+                    foreach (C1.Excel.XLSheet sheet in workbook.Sheets)
+                    {
+                        // next page for next sheet
+                        if (count > 0)
+                        {
+                            flow.NewPage();
+                        }
+
+                        // page rectangle
+                        var rc = rcPage;
+                        if (sheet.PrintSettings != null)
+                        {
+                            var paper = sheet.PrintSettings.PaperSize;
+                            if (sheet.PrintSettings.Landscape)
+                            {
+                                paper = new System.Drawing.SizeF(paper.Height, paper.Width);
+                            }
+                            rc = new System.Drawing.RectangleF(rc.X, rc.Y, paper.Width, paper.Height);
+                            flow.PageSize = paper;
+                        }
+
+                        // render sheet
+                        for (var start = 0F; ;)
+                        {
+                            // convert to pixels
+                            wpx = Math.Max(wpx, C1.Excel.C1XLBook.TwipsToPixels(20 * rc.Width));
+                            //hpx += C1.Excel.C1XLBook.TwipsToPixels(20 * rc.Height);
+
+                            // render this part
+                            count++;
+                            start = flow.DrawSheet(sheet, rc, start);
+
+                            // done?
+                            if (start >= float.MaxValue)
+                            {
+                                break;
+                            }
+
+                            // skip page
+                            flow.NewPage();
+                        }
+                    }
+
+                    loaded = true;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    loaded = false;
+                }
+            }
+        }
+    }
+    // private void LoadSheet(string sheetName)
+    // {
+    //     if (workbook != null && workbook.Sheets.Contains(sheetName))
+    //     {
+    //         // show sheet
+    //         this.sheetName = sheetName;
+    //     }
+    // }
+}

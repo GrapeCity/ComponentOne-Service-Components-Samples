@@ -2,19 +2,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20232.164" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20233.177" />
     <PackageReference Include="C1.DataEngine">
-      <Version>5.0.20233.320</Version>
+      <Version>8.0.20241.331</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>5.0.20233.320</Version>
+      <Version>8.0.20241.331</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

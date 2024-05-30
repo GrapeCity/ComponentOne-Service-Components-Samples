@@ -119,13 +119,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>4.7.20233.104</Version>
+      <Version>8.0.20241.111</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.TextParser">
-      <Version>4.7.20233.104</Version>
+      <Version>8.0.20241.111</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

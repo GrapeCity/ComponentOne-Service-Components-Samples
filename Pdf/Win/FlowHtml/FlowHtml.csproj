@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Resources\borders.htm" />
+    <None Remove="Resources\fonts.htm" />
+    <None Remove="Resources\images.htm" />
+    <None Remove="Resources\indent.htm" />
+    <None Remove="Resources\Lawler.htm" />
+    <None Remove="Resources\links.htm" />
+    <None Remove="Resources\lists.htm" />
+    <None Remove="Resources\longdoc.htm" />
+    <None Remove="Resources\Montgomery.htm" />
+    <None Remove="Resources\nesting.htm" />
+    <None Remove="Resources\padding.htm" />
+    <None Remove="Resources\paragraph.htm" />
+    <None Remove="Resources\RexSwain.htm" />
+    <None Remove="Resources\stylesheet.htm" />
+    <None Remove="Resources\tables.htm" />
+    <None Remove="Resources\tableSizing.htm" />
+    <None Remove="Resources\w3c.htm" />
+    <None Remove="Resources\whitespace.htm" />
+    <None Remove="Resources\wordwrap.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\borders.htm" />
+    <EmbeddedResource Include="Resources\fonts.htm" />
+    <EmbeddedResource Include="Resources\images.htm" />
+    <EmbeddedResource Include="Resources\indent.htm" />
+    <EmbeddedResource Include="Resources\Lawler.htm" />
+    <EmbeddedResource Include="Resources\links.htm" />
+    <EmbeddedResource Include="Resources\lists.htm" />
+    <EmbeddedResource Include="Resources\longdoc.htm" />
+    <EmbeddedResource Include="Resources\Montgomery.htm" />
+    <EmbeddedResource Include="Resources\nesting.htm" />
+    <EmbeddedResource Include="Resources\padding.htm" />
+    <EmbeddedResource Include="Resources\paragraph.htm" />
+    <EmbeddedResource Include="Resources\RexSwain.htm" />
+    <EmbeddedResource Include="Resources\stylesheet.htm" />
+    <EmbeddedResource Include="Resources\tables.htm" />
+    <EmbeddedResource Include="Resources\tableSizing.htm" />
+    <EmbeddedResource Include="Resources\w3c.htm" />
+    <EmbeddedResource Include="Resources\whitespace.htm" />
+    <EmbeddedResource Include="Resources\wordwrap.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Pdf">
+      <Version>8.0.20241.56-beta</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

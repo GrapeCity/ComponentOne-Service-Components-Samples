@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <Platforms>AnyCPU</Platforms>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>WebBrowser</AssemblyName>
+    <TargetFrameworks>net8.0-windows;net462</TargetFrameworks>
+    <Product>C1WebBrowser</Product>
+    <Copyright>Copyright © 2023</Copyright>
+    <UseWPF>true</UseWPF>
+    <Company>C1</Company>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Pdf">
+      <Version>8.0.20241.56-beta</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.774.44" />
+    <PackageReference Include="Microsoft.Web.WebView2.DevToolsProtocolExtension" Version="1.0.824" />
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+</Project>

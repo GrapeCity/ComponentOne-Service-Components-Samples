@@ -1,0 +1,147 @@
+﻿@page "/sample"
+@inject HttpClient Http
+
+<PageTitle>Sample</PageTitle>
+
+<h1>View sample.xlsx</h1>
+
+<p>This page shows the Excel visualization for each worksheet.</p>
+
+@if (loaded == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!loaded.Value)
+{
+    <p>@error</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rows</th>
+                <th>Columns</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (C1.Excel.XLSheet sheet in workbook.Sheets)
+            {
+                <tr>
+                    <td>@sheet.Name</td>
+                    <td>@sheet.Rows.Count</td>
+                    <td>@sheet.Columns.Count</td>
+                    <td><button class="btn btn-secondary" @onclick="() => LoadSheet(sheet.Name)">View</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (string.IsNullOrEmpty(sheetName))
+{
+    <p>To render the worksheet, you need to click View.</p>
+}
+else
+{
+    @RenderSheet()
+}
+
+@code {
+    RenderFragment RenderSheet()
+    {
+        // paper size
+        var sheet = workbook.Sheets[sheetName];
+        var paper = new System.Drawing.SizeF(595.3f, 841.9f);      // A4 by default
+        if (sheet.PrintSettings != null)
+        {
+            paper = sheet.PrintSettings.PaperSize;
+            if (sheet.PrintSettings.Landscape)
+            {
+                paper = new System.Drawing.SizeF(paper.Height, paper.Width);
+            }
+        }
+
+        // convert to pixels
+        int wpx = C1.Excel.C1XLBook.TwipsToPixels(20 * paper.Width);
+        int hpx = C1.Excel.C1XLBook.TwipsToPixels(20 * paper.Height);
+
+        // render sheet
+        var r = new System.Drawing.RectangleF(0, 0, wpx, hpx);
+        var gr = new C1.Util.BitmapGraphicsRendering(wpx, hpx);
+        var sr = new C1.Util.XLSheetRendering(sheet, gr);
+
+        // sheet layout
+        sr.Layout(paper.Width, paper.Height);
+
+        // render sheet
+        int count = 0;
+        var result = string.Empty;
+        var rc = new System.Drawing.RectangleF(0, 0, paper.Width, paper.Height);
+        for (var start = 0F; ;)
+        {
+            // clear bitmaps
+            gr.SetFill(System.Drawing.Color.White);
+            gr.DrawRect(r.X, r.Y, r.Width, r.Height);
+
+            // one page rendering
+            start = sr.Render(rc, start);
+
+            // bitmap to string
+            using (var ms = new MemoryStream())
+            {
+                gr.Bitmap.SaveAsJpeg(ms);
+                result = $"data:image/jpeg;base64, {System.Convert.ToBase64String(ms.ToArray())}";
+            }
+
+            // done?
+            if (start == float.MaxValue)
+            {
+                break;
+            }
+
+            // page counter
+            count++;
+            break;   // onlyu one page for demo
+        }
+
+        return @<img src="@result"/>;
+    }
+}
+
+@code {
+    private bool? loaded;
+    private string error = string.Empty;
+    private string sheetName = string.Empty;
+    private C1.Excel.C1XLBook workbook = new C1.Excel.C1XLBook();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetByteArrayAsync("sample-data/sample.xlsx");
+        if (data != null && data.Length > 0)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                try
+                {
+                    workbook.Load(ms, C1.Excel.FileFormat.OpenXml);
+                    loaded = true;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    loaded = false;
+                }
+            }
+        }
+    }
+    private void LoadSheet(string sheetName)
+    {
+        if (workbook != null && workbook.Sheets.Contains(sheetName))
+        {
+            // show sheet
+            this.sheetName = sheetName;
+        }
+    }
+}

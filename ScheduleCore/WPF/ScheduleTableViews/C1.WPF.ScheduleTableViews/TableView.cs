@@ -1,6 +1,5 @@
 ﻿using C1.Schedule;
 using C1.WPF.DateTimeEditors;
-using C1.WPF.FlexGrid;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -302,7 +301,7 @@ namespace C1.WPF.Schedule
             }
             this.ItemsSource = _source.View;
 
-            AutoSizeRows(0, Rows.Count - 1, true);
+            AutoSizeRows(0, Rows.Count - 1, GridRowColType.Header);
         }
 
         /// <summary>

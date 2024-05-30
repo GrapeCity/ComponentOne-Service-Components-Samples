@@ -1,0 +1,180 @@
+﻿@page "/svg-sample"
+@inject HttpClient Http
+
+<PageTitle>Sample</PageTitle>
+
+<h1>View sample.xlsx</h1>
+
+<p>This page shows the Excel visualization for each worksheet.</p>
+
+@if (loaded == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!loaded.Value)
+{
+    <p>@error</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Rows</th>
+                <th>Columns</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (C1.Excel.XLSheet sheet in workbook.Sheets)
+            {
+                <tr>
+                    <td>@sheet.Name</td>
+                    <td>@sheet.Rows.Count</td>
+                    <td>@sheet.Columns.Count</td>
+                    <td><button class="btn btn-secondary" @onclick="() => LoadSheet(sheet.Name)">View</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (string.IsNullOrEmpty(sheetName))
+{
+    <p>To render the worksheet, you need to click View.</p>
+}
+else
+{
+    @RenderSheet()
+}
+
+@code {
+    RenderFragment RenderSheet()
+    {
+        // paper size
+        var sheet = workbook.Sheets[sheetName];
+        var paper = new System.Drawing.SizeF(595.3f, 841.9f);      // A4 by default
+        if (sheet.PrintSettings != null)
+        {
+            paper = sheet.PrintSettings.PaperSize;
+            if (sheet.PrintSettings.Landscape)
+            {
+                paper = new System.Drawing.SizeF(paper.Height, paper.Width);
+            }
+        }
+
+        // convert to pixels
+        int wpx = C1.Excel.C1XLBook.TwipsToPixels(20 * paper.Width);
+        int hpx = C1.Excel.C1XLBook.TwipsToPixels(20 * paper.Height);
+
+        // render sheet
+        var r = new System.Drawing.RectangleF(0, 0, wpx, hpx);
+        var gr = new C1.Util.SvgRendering(wpx, hpx);
+        var sr = new C1.Util.XLSheetRendering(sheet, gr);
+
+        // sheet layout
+        sr.Layout(paper.Width, paper.Height);
+
+        // render sheet
+        int count = 0;
+        var result = string.Empty;
+        var rc = new System.Drawing.RectangleF(0, 0, paper.Width, paper.Height);
+        for (var start = 0F; ;)
+        {
+            // clear bitmaps
+            //gr.SetFill(System.Drawing.Color.White);
+            //gr.DrawRect(r.X, r.Y, r.Width, r.Height);
+
+            // one page rendering
+            start = sr.Render(rc, start);
+
+            // SVG to string
+            //var txt = gr.ToText();
+            // int idx = txt.IndexOf("\">");
+            // if (idx > 0)
+            // {
+            //     result = txt.Substring(idx + 2, txt.Length - idx - 4);
+            // }
+            result = gr.ToContext();
+
+            //var data = System.Text.Encoding.UTF8.GetBytes(txt);
+            //result = $"data:image/svg+xml;base64,{System.Convert.ToBase64String(data)}";
+            //result = System.Net.WebUtility.HtmlEncode(gr.ToText());
+            // int idx = result.IndexOf("<svg");
+            // if (idx > 0)
+            // {
+            //     result = $"data:image/svg+xml;base64, {System.Convert.ToBase64String((ms.ToArray())}";
+            //     result = result.Substring(idx);
+            // }
+
+            // done?
+            if (start == float.MaxValue)
+            {
+                break;
+            }
+
+            // page counter
+            count++;
+            break;   // only one page for demo
+        }
+        //return @<iframe src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InJlZCIvPjwvc3ZnPg==" />;
+        //return @<img width="@wpx" height="@hpx" src="@result" />;
+        //return @<div>@result</div>;
+
+        //return @<svg width="@wpx" height="@hpx">@result</svg>;
+        //return @<img width="@wpx" height="@hpx" src="@result" />;
+        //return@<img src="data:image/svg+xml,%3Csvg width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='red' /%3E%3C/svg%3E" />;
+
+        // <g id="parent-name"> ... child SVG tags ... </g>
+        //return @<g id="parent-name">@result</g>;
+
+        //return @<iframe width="@wpx" height="@hpx" src="@result">The "iframe" tag is not supported by your browser.</iframe>;
+
+        //return @<svg width="@wpx" height="@hpx">@((MarkupString)$"<foreignObject>{@result}</foreignObject>")</svg>;
+        return @<svg width="@wpx" height="@hpx">@((MarkupString)@result)</svg>;
+        //return <div>@((MarkupString)@result)</div>;
+
+        // return new RenderFragment(builder =>
+        //     {
+        //         //builder.OpenElement(0, "svg");
+        //         builder.AddContent(0, result);
+        //         //builder.CloseElement();
+        //     });
+    }
+}
+
+@code {
+    private bool? loaded;
+    private string error = string.Empty;
+    private string sheetName = string.Empty;
+    private C1.Excel.C1XLBook workbook = new C1.Excel.C1XLBook();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await Http.GetByteArrayAsync("sample-data/sample.xlsx");
+        if (data != null && data.Length > 0)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                try
+                {
+                    workbook.Load(ms, C1.Excel.FileFormat.OpenXml);
+                    loaded = true;
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                    loaded = false;
+                }
+            }
+        }
+    }
+    private void LoadSheet(string sheetName)
+    {
+        if (workbook != null && workbook.Sheets.Contains(sheetName))
+        {
+            // show sheet
+            this.sheetName = sheetName;
+        }
+    }
+}

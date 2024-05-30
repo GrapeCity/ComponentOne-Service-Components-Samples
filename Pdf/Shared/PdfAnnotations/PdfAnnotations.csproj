@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Compile Remove="Images\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <None Remove="Data\**" />
+    <None Remove="Images\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".gclicx" />
+    <None Remove="Resources\angelico.jpg" />
+    <None Remove="Resources\bellechose.jpg" />
+    <None Remove="Resources\bruegel.jpg" />
+    <None Remove="Resources\carpaccio.jpg" />
+    <None Remove="Resources\delacroix.jpg" />
+    <None Remove="Resources\download.png" />
+    <None Remove="Resources\fragonard.jpg" />
+    <None Remove="Resources\friedrich.jpg" />
+    <None Remove="Resources\gellee.jpg" />
+    <None Remove="Resources\phoenix.png" />
+    <None Remove="Resources\ruisdael.jpg" />
+    <None Remove="Resources\top100.png" />
+    <None Remove="Results\readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Results\readme.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include="Resources\download.png" />
+    <EmbeddedResource Include="Resources\phoenix.png" />
+    <EmbeddedResource Include="Resources\top100.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.Pdf">
+      <Version>8.0.20241.56-beta</Version>
+    </PackageReference>
+  </ItemGroup>
+</Project>

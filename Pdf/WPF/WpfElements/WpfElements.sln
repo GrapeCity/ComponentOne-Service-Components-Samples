@@ -1,0 +1,28 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfElements", "WpfElements.csproj", "{8859EBB5-71E5-4EC9-A051-626C953D9999}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8859EBB5-71E5-4EC9-A051-626C953D9999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8859EBB5-71E5-4EC9-A051-626C953D9999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8859EBB5-71E5-4EC9-A051-626C953D9999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8859EBB5-71E5-4EC9-A051-626C953D9999}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F926ED30-E38B-4C6A-8C74-FB25FFB7C096}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\Shared\Components\Util\Util.Net.projitems*{46daef0e-bcf1-45a6-a983-270b67f949fe}*SharedItemsImports = 5
+		..\..\..\Shared\Components\Word\Word.Net.projitems*{46daef0e-bcf1-45a6-a983-270b67f949fe}*SharedItemsImports = 5
+		..\..\..\Shared\Components\Word\Word.Net.projitems*{7a5a6f35-2767-4ae8-98a3-35d07a62d1a8}*SharedItemsImports = 13
+	EndGlobalSection
+EndGlobal

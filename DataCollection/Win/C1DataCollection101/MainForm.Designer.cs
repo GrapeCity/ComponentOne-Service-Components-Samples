@@ -29,189 +29,191 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.tabControl1 = new C1DataCollection101.View.TabControlWithoutMargin();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.menu1 = new C1DataCollection101.View.Menu();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.sorting1 = new C1DataCollection101.View.Sorting();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.filtering1 = new C1DataCollection101.View.Filtering();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.grouping1 = new C1DataCollection101.View.Grouping();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.virtualMode1 = new C1DataCollection101.View.VirtualMode();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.editing1 = new C1DataCollection101.View.Editing();
-            this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            this.tabPage6.SuspendLayout();
-            this.SuspendLayout();
+            tabControl1 = new View.TabControlWithoutMargin();
+            tabPage1 = new System.Windows.Forms.TabPage();
+            menu1 = new View.Menu();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            sorting1 = new View.Sorting();
+            tabPage3 = new System.Windows.Forms.TabPage();
+            filtering1 = new View.Filtering();
+            tabPage4 = new System.Windows.Forms.TabPage();
+            grouping1 = new View.Grouping();
+            tabPage5 = new System.Windows.Forms.TabPage();
+            virtualMode1 = new View.VirtualMode();
+            tabPage6 = new System.Windows.Forms.TabPage();
+            editing1 = new View.Editing();
+            tabControl1.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
+            tabPage4.SuspendLayout();
+            tabPage5.SuspendLayout();
+            tabPage6.SuspendLayout();
+            SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.ItemSize = new System.Drawing.Size(0, 1);
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(685, 414);
-            this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabControl1.TabIndex = 2;
+            tabControl1.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            tabControl1.Controls.Add(tabPage1);
+            tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage5);
+            tabControl1.Controls.Add(tabPage6);
+            tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            tabControl1.ItemSize = new System.Drawing.Size(0, 1);
+            tabControl1.Location = new System.Drawing.Point(0, 0);
+            tabControl1.Margin = new System.Windows.Forms.Padding(0);
+            tabControl1.Name = "tabControl1";
+            tabControl1.Padding = new System.Drawing.Point(0, 0);
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new System.Drawing.Size(913, 637);
+            tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            tabControl1.TabIndex = 2;
             // 
             // tabPage1
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.DarkGray;
-            this.tabPage1.Controls.Add(this.menu1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 5);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(677, 405);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            tabPage1.BackColor = System.Drawing.Color.DarkGray;
+            tabPage1.Controls.Add(menu1);
+            tabPage1.Location = new System.Drawing.Point(4, 5);
+            tabPage1.Margin = new System.Windows.Forms.Padding(0);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Size = new System.Drawing.Size(905, 628);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "tabPage1";
             // 
             // menu1
             // 
-            this.menu1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menu1.Location = new System.Drawing.Point(0, 0);
-            this.menu1.Margin = new System.Windows.Forms.Padding(0);
-            this.menu1.Name = "menu1";
-            this.menu1.SelectedSampleViewType = -2;
-            this.menu1.Size = new System.Drawing.Size(677, 405);
-            this.menu1.TabIndex = 0;
-            this.menu1.SelectionChanged += new System.EventHandler<System.EventArgs>(this.menu1_SelectionChanged);
+            menu1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            menu1.Location = new System.Drawing.Point(0, 0);
+            menu1.Margin = new System.Windows.Forms.Padding(0);
+            menu1.Name = "menu1";
+            menu1.SelectedSampleViewType = -2;
+            menu1.Size = new System.Drawing.Size(903, 623);
+            menu1.TabIndex = 0;
+            menu1.SelectionChanged += menu1_SelectionChanged;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.sorting1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 5);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(677, 405);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Controls.Add(sorting1);
+            tabPage2.Location = new System.Drawing.Point(4, 5);
+            tabPage2.Margin = new System.Windows.Forms.Padding(0);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Size = new System.Drawing.Size(905, 628);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "tabPage2";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
             // sorting1
             // 
-            this.sorting1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sorting1.Location = new System.Drawing.Point(0, 0);
-            this.sorting1.Name = "sorting1";
-            this.sorting1.Size = new System.Drawing.Size(677, 405);
-            this.sorting1.TabIndex = 0;
+            sorting1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            sorting1.Location = new System.Drawing.Point(0, 0);
+            sorting1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            sorting1.Name = "sorting1";
+            sorting1.Size = new System.Drawing.Size(903, 623);
+            sorting1.TabIndex = 0;
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.filtering1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 5);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(677, 405);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            tabPage3.Controls.Add(filtering1);
+            tabPage3.Location = new System.Drawing.Point(4, 5);
+            tabPage3.Margin = new System.Windows.Forms.Padding(0);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Size = new System.Drawing.Size(905, 628);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "tabPage3";
+            tabPage3.UseVisualStyleBackColor = true;
             // 
             // filtering1
             // 
-            this.filtering1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.filtering1.Location = new System.Drawing.Point(0, 0);
-            this.filtering1.Name = "filtering1";
-            this.filtering1.Size = new System.Drawing.Size(677, 405);
-            this.filtering1.TabIndex = 0;
+            filtering1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            filtering1.Location = new System.Drawing.Point(0, 0);
+            filtering1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            filtering1.Name = "filtering1";
+            filtering1.Size = new System.Drawing.Size(903, 623);
+            filtering1.TabIndex = 0;
             // 
             // tabPage4
             // 
-            this.tabPage4.Controls.Add(this.grouping1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 5);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(0);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(677, 405);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "tabPage4";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            tabPage4.Controls.Add(grouping1);
+            tabPage4.Location = new System.Drawing.Point(4, 5);
+            tabPage4.Margin = new System.Windows.Forms.Padding(0);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new System.Drawing.Size(905, 628);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "tabPage4";
+            tabPage4.UseVisualStyleBackColor = true;
             // 
             // grouping1
             // 
-            this.grouping1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grouping1.Location = new System.Drawing.Point(0, 0);
-            this.grouping1.Margin = new System.Windows.Forms.Padding(0);
-            this.grouping1.Name = "grouping1";
-            this.grouping1.Size = new System.Drawing.Size(677, 405);
-            this.grouping1.TabIndex = 0;
+            grouping1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            grouping1.Location = new System.Drawing.Point(0, 0);
+            grouping1.Margin = new System.Windows.Forms.Padding(0);
+            grouping1.Name = "grouping1";
+            grouping1.Size = new System.Drawing.Size(903, 623);
+            grouping1.TabIndex = 0;
             // 
             // tabPage5
             // 
-            this.tabPage5.Controls.Add(this.virtualMode1);
-            this.tabPage5.Location = new System.Drawing.Point(4, 5);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(677, 405);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "tabPage5";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            tabPage5.Controls.Add(virtualMode1);
+            tabPage5.Location = new System.Drawing.Point(4, 5);
+            tabPage5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage5.Size = new System.Drawing.Size(905, 628);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "tabPage5";
+            tabPage5.UseVisualStyleBackColor = true;
             // 
             // virtualMode1
             // 
-            this.virtualMode1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.virtualMode1.Location = new System.Drawing.Point(0, 0);
-            this.virtualMode1.Name = "virtualMode1";
-            this.virtualMode1.Size = new System.Drawing.Size(681, 405);
-            this.virtualMode1.TabIndex = 0;
+            virtualMode1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            virtualMode1.Location = new System.Drawing.Point(0, 0);
+            virtualMode1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            virtualMode1.Name = "virtualMode1";
+            virtualMode1.Size = new System.Drawing.Size(908, 623);
+            virtualMode1.TabIndex = 0;
             // 
             // tabPage6
             // 
-            this.tabPage6.Controls.Add(this.editing1);
-            this.tabPage6.Location = new System.Drawing.Point(4, 5);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(677, 405);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "tabPage6";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            tabPage6.Controls.Add(editing1);
+            tabPage6.Location = new System.Drawing.Point(4, 5);
+            tabPage6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage6.Size = new System.Drawing.Size(905, 628);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "tabPage6";
+            tabPage6.UseVisualStyleBackColor = true;
             // 
             // editing1
             // 
-            this.editing1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.editing1.Location = new System.Drawing.Point(0, 0);
-            this.editing1.Name = "editing1";
-            this.editing1.Size = new System.Drawing.Size(677, 405);
-            this.editing1.TabIndex = 0;
+            editing1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            editing1.Location = new System.Drawing.Point(0, 0);
+            editing1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            editing1.Name = "editing1";
+            editing1.Size = new System.Drawing.Size(903, 623);
+            editing1.TabIndex = 0;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGray;
-            this.ClientSize = new System.Drawing.Size(685, 414);
-            this.Controls.Add(this.tabControl1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "MainForm";
-            this.Text = "C1DataCollection101";
-            this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
-            this.tabPage6.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            BackColor = System.Drawing.Color.DarkGray;
+            ClientSize = new System.Drawing.Size(913, 637);
+            Controls.Add(tabControl1);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            Name = "MainForm";
+            Text = "C1DataCollection101";
+            tabControl1.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
+            tabPage4.ResumeLayout(false);
+            tabPage5.ResumeLayout(false);
+            tabPage6.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion

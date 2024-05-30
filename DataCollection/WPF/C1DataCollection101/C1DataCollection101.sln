@@ -1,19 +1,16 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C1DataCollection101", "C1DataCollection101\C1DataCollection101.csproj", "{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}"
+# Visual Studio Version 17
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "C1DataCollection101", "C1DataCollection101\C1DataCollection101.csproj", "{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		GRAPECITY|Any CPU = GRAPECITY|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.GRAPECITY|Any CPU.ActiveCfg = Release|Any CPU
-		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.GRAPECITY|Any CPU.Build.0 = Release|Any CPU
 		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E8848C4-6C7B-4A75-BB8A-229C4BA10CD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FileViewerWinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "FileViewerWinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

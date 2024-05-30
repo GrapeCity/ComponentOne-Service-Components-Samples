@@ -13,7 +13,7 @@
   <ItemGroup>
     <PackageReference Include="C1.Blazor.Grid" Version="6.0.20231.543" />
     <PackageReference Include="C1.DataCollection.SignalR.Server">
-      <Version>8.0.20233.177</Version>
+      <Version>8.0.20241.192</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.5" />
   </ItemGroup>

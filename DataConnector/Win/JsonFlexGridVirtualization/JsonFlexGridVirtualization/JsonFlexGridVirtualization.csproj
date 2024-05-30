@@ -9,13 +9,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.Json">
-      <Version>1.0.20233.194</Version>
+      <Version>1.0.20233.202</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection" Version="1.0.20231.129" />
     <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20231.129" />
     <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20231.129" />
     <PackageReference Include="C1.DataConnector">
-      <Version>1.0.20233.194</Version>
+      <Version>1.0.20233.202</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Input" Version="4.8.20221.557" />
     <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20221.557" />

@@ -178,7 +178,7 @@ namespace C1.WPF.Schedule
             Appointment app = null;
             if (_tagColumn != null)
             {
-                app = ((Dictionary<Grid.GridColumn, object>)gridRow.DataItem)[_tagColumn] as Appointment;
+                app = this[gridRow, _tagColumn] as Appointment;
                 if (app != null)
                 {
                     return app;
