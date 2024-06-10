@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20233.202</Version>
+      <Version>1.0.20241.218</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20231.144" />
     <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20231.144" />
