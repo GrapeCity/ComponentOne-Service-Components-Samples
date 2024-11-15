@@ -22,10 +22,10 @@
     <None Remove="Resources\friedrich.jpg" />
     <None Remove="Resources\gellee.jpg" />
     <None Remove="Resources\ruisdael.jpg" />
-    <None Remove="Results\readme.txt" />
+    <None Remove="Results\results.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Results\readme.txt">
+    <Content Include="Results\results.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20241.56-beta</Version>
+      <Version>8.0.20242.96</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

@@ -1,7 +1,5 @@
-﻿using C1.Win.Pdf;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Printing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -15,6 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
+using C1.Xaml.Pdf;
+
+using _PaperKind = GrapeCity.Documents.Common.PaperKind;
 
 namespace WpfElements
 {
@@ -30,7 +32,7 @@ namespace WpfElements
 
         private void PDF_Click(object sender, RoutedEventArgs e)
         {
-            C1PdfDocument pdf = new C1PdfDocument(PaperKind.A4, true);
+            C1PdfDocument pdf = new C1PdfDocument(_PaperKind.A4, true);
             pdf.Compression = C1.Pdf.CompressionLevel.NoCompression;
             pdf.DrawPreferences = DrawElementPreferences.Vectors;
 

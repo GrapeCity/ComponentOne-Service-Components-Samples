@@ -5,20 +5,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.Blazor.Core" Version="6.0.20231.543" />
-    <PackageReference Include="C1.Blazor.Grid" Version="6.0.20231.543" />
-    <PackageReference Include="C1.Blazor.Input" Version="6.0.20231.543" />
+    <PackageReference Include="C1.Blazor.Core" Version="8.0.20241.872" />
+    <PackageReference Include="C1.Blazor.Grid" Version="8.0.20241.872" />
+    <PackageReference Include="C1.Blazor.Input" Version="8.0.20241.872" />
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.Serialization">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.5" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.7" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />

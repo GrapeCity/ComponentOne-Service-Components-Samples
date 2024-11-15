@@ -82,7 +82,7 @@
         </DockPanel>
         <wv2:WebView2
             x:Name="webView"
-            Source="https://developer.mescius.com/componentone"
+            Source="https://www.google.com/"
         />
     </DockPanel>
 </Window>

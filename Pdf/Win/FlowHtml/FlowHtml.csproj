@@ -9,6 +9,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Resources\borders.htm" />
+    <None Remove="Resources\dickens.htm" />
     <None Remove="Resources\fonts.htm" />
     <None Remove="Resources\images.htm" />
     <None Remove="Resources\indent.htm" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\borders.htm" />
+    <EmbeddedResource Include="Resources\dickens.htm" />
     <EmbeddedResource Include="Resources\fonts.htm" />
     <EmbeddedResource Include="Resources\images.htm" />
     <EmbeddedResource Include="Resources\indent.htm" />
@@ -51,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20241.56-beta</Version>
+      <Version>8.0.20242.96</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

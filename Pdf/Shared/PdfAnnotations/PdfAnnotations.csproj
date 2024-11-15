@@ -25,10 +25,10 @@
     <None Remove="Resources\phoenix.png" />
     <None Remove="Resources\ruisdael.jpg" />
     <None Remove="Resources\top100.png" />
-    <None Remove="Results\readme.txt" />
+    <None Remove="Results\results.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Results\readme.txt">
+    <Content Include="Results\results.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20241.56-beta</Version>
+      <Version>8.0.20242.96</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

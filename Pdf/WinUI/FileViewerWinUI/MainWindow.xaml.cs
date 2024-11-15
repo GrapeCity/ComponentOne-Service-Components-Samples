@@ -141,7 +141,7 @@ namespace FileViewerWinUI
             }
             else
             {
-                webView.Source = new Uri("https://www.grapecity.com");
+                webView.Source = new Uri("about:blank");
             }
         }
         void ForwardPage(object sender, RoutedEventArgs e)
@@ -152,7 +152,7 @@ namespace FileViewerWinUI
             }
             else
             {
-                webView.Source = new Uri("https://www.grapecity.com");
+                webView.Source = new Uri("about:blank");
             }
         }
 
@@ -180,7 +180,6 @@ namespace FileViewerWinUI
                 await webView.EnsureCoreWebView2Async();
                 webView.CoreWebView2.Navigate($"file:///{_pdfFileName}");
             }
-
         }
 
         string PrintToPdf(string path)
@@ -224,12 +223,6 @@ namespace FileViewerWinUI
                 case ".html":
                     // initialization
                     var html = System.IO.File.ReadAllText(path);
-
-                    //// html comes back with Unicode character codes, other escaped characters, and
-                    //// wrapped in double quotes, so I'm using this code to clean it up for what
-                    //html = Regex.Unescape(html);
-                    //html = html.Remove(0, 1);
-                    //html = html.Remove(html.Length - 1, 1);
 
                     // render html code
                     RenderHtml(flow, rc, html, 1);
@@ -343,14 +336,12 @@ namespace FileViewerWinUI
             flow.Clear();
             var _currentColumn = 0;
             _Font font = new _Font("Times New Roman", 12);
-            //_Pen pen = new _Pen(_Color.LightCoral, 0.01f);
             for (var start = 0F; ;)
             {
                 // render this part
                 this.Title = string.Format("Page {0} Column {1}", flow.PageCount, _currentColumn + 1);
                 _Rect rc = columns[_currentColumn];
                 start = flow.DrawStringHtml(text, font, _Color.Black, rc, start);
-                //flow.DrawRectangle(pen, rc);
 
                 // done?
                 if (start >= _Float.MaxValue)
@@ -382,8 +373,8 @@ namespace FileViewerWinUI
             picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
             picker.FileTypeChoices.Clear();
             picker.FileTypeChoices.Add("PDF Files", new List<string>() { ".pdf" });
-            // picker.FileTypeChoices.Add("Word Files", new List<string>() { ".docx" });
-            // picker.FileTypeChoices.Add("RTF Files", new List<string>() { ".rtf" });
+            picker.FileTypeChoices.Add("Word Files", new List<string>() { ".docx" });
+            picker.FileTypeChoices.Add("RTF Files", new List<string>() { ".rtf" });
 
             // Get the suggested file name from the open file path
             string suggestedFileName = System.IO.Path.GetFileNameWithoutExtension(_pdfFileName);
@@ -408,24 +399,27 @@ namespace FileViewerWinUI
                     case ".docx":
                         flow = new C1WordDocument();
                         break;
-
-
                 }
                 if (!string.IsNullOrEmpty(_pdfFileName) && flow != null)
                 {
                     var sz = flow.PageSize;
                     var rc = new _Rect(0, 0, sz.Width, sz.Height);
-                    if (PrintTo(flow, rc, file.Path))
+                    if (PrintTo(flow, rc, _path))
                     {
                         if (flow is C1WordDocument word)
                             word.Save(file.Path);
                     }
                 }
-                else
+                else if (!string.IsNullOrEmpty(_pdfFileName))
                 {
-                    StorageFile sourceFile = await StorageFile.GetFileFromPathAsync(_pdfFileName);
-                    await sourceFile.CopyAndReplaceAsync(file);
+                    // save as PDF file (clone)
+                    using (var fr = new FileStream(_pdfFileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (var fw = new FileStream(file.Path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                    {
+                        fr.CopyTo(fw);
+                    }
                 }
+
                 // Open the saved file
                 await Launcher.LaunchFileAsync(file);
             }

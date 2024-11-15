@@ -11,11 +11,11 @@
     <EmbeddedResource Include="Data\data.zip" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.Blazor.Grid" Version="6.0.20231.543" />
+    <PackageReference Include="C1.Blazor.Grid" Version="8.0.20241.872" />
     <PackageReference Include="C1.DataCollection.SignalR.Server">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Client\ProxyDataCollection.Client.csproj" />

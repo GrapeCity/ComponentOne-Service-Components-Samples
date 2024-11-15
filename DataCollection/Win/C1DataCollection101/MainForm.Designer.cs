@@ -67,7 +67,7 @@
             tabControl1.Name = "tabControl1";
             tabControl1.Padding = new System.Drawing.Point(0, 0);
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(913, 637);
+            tabControl1.Size = new System.Drawing.Size(799, 478);
             tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             tabControl1.TabIndex = 2;
             // 
@@ -78,7 +78,7 @@
             tabPage1.Location = new System.Drawing.Point(4, 5);
             tabPage1.Margin = new System.Windows.Forms.Padding(0);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new System.Drawing.Size(905, 628);
+            tabPage1.Size = new System.Drawing.Size(791, 469);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "tabPage1";
             // 
@@ -89,7 +89,7 @@
             menu1.Margin = new System.Windows.Forms.Padding(0);
             menu1.Name = "menu1";
             menu1.SelectedSampleViewType = -2;
-            menu1.Size = new System.Drawing.Size(903, 623);
+            menu1.Size = new System.Drawing.Size(790, 467);
             menu1.TabIndex = 0;
             menu1.SelectionChanged += menu1_SelectionChanged;
             // 
@@ -99,7 +99,7 @@
             tabPage2.Location = new System.Drawing.Point(4, 5);
             tabPage2.Margin = new System.Windows.Forms.Padding(0);
             tabPage2.Name = "tabPage2";
-            tabPage2.Size = new System.Drawing.Size(905, 628);
+            tabPage2.Size = new System.Drawing.Size(791, 469);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "tabPage2";
             tabPage2.UseVisualStyleBackColor = true;
@@ -108,9 +108,9 @@
             // 
             sorting1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             sorting1.Location = new System.Drawing.Point(0, 0);
-            sorting1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            sorting1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             sorting1.Name = "sorting1";
-            sorting1.Size = new System.Drawing.Size(903, 623);
+            sorting1.Size = new System.Drawing.Size(790, 467);
             sorting1.TabIndex = 0;
             // 
             // tabPage3
@@ -119,7 +119,7 @@
             tabPage3.Location = new System.Drawing.Point(4, 5);
             tabPage3.Margin = new System.Windows.Forms.Padding(0);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new System.Drawing.Size(905, 628);
+            tabPage3.Size = new System.Drawing.Size(791, 469);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "tabPage3";
             tabPage3.UseVisualStyleBackColor = true;
@@ -128,9 +128,9 @@
             // 
             filtering1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             filtering1.Location = new System.Drawing.Point(0, 0);
-            filtering1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            filtering1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             filtering1.Name = "filtering1";
-            filtering1.Size = new System.Drawing.Size(903, 623);
+            filtering1.Size = new System.Drawing.Size(790, 467);
             filtering1.TabIndex = 0;
             // 
             // tabPage4
@@ -139,7 +139,7 @@
             tabPage4.Location = new System.Drawing.Point(4, 5);
             tabPage4.Margin = new System.Windows.Forms.Padding(0);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new System.Drawing.Size(905, 628);
+            tabPage4.Size = new System.Drawing.Size(791, 469);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "tabPage4";
             tabPage4.UseVisualStyleBackColor = true;
@@ -150,17 +150,17 @@
             grouping1.Location = new System.Drawing.Point(0, 0);
             grouping1.Margin = new System.Windows.Forms.Padding(0);
             grouping1.Name = "grouping1";
-            grouping1.Size = new System.Drawing.Size(903, 623);
+            grouping1.Size = new System.Drawing.Size(790, 467);
             grouping1.TabIndex = 0;
             // 
             // tabPage5
             // 
             tabPage5.Controls.Add(virtualMode1);
             tabPage5.Location = new System.Drawing.Point(4, 5);
-            tabPage5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPage5.Size = new System.Drawing.Size(905, 628);
+            tabPage5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage5.Size = new System.Drawing.Size(791, 469);
             tabPage5.TabIndex = 4;
             tabPage5.Text = "tabPage5";
             tabPage5.UseVisualStyleBackColor = true;
@@ -169,19 +169,19 @@
             // 
             virtualMode1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             virtualMode1.Location = new System.Drawing.Point(0, 0);
-            virtualMode1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            virtualMode1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             virtualMode1.Name = "virtualMode1";
-            virtualMode1.Size = new System.Drawing.Size(908, 623);
+            virtualMode1.Size = new System.Drawing.Size(794, 467);
             virtualMode1.TabIndex = 0;
             // 
             // tabPage6
             // 
             tabPage6.Controls.Add(editing1);
             tabPage6.Location = new System.Drawing.Point(4, 5);
-            tabPage6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            tabPage6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             tabPage6.Name = "tabPage6";
-            tabPage6.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            tabPage6.Size = new System.Drawing.Size(905, 628);
+            tabPage6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            tabPage6.Size = new System.Drawing.Size(791, 469);
             tabPage6.TabIndex = 5;
             tabPage6.Text = "tabPage6";
             tabPage6.UseVisualStyleBackColor = true;
@@ -190,20 +190,20 @@
             // 
             editing1.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
             editing1.Location = new System.Drawing.Point(0, 0);
-            editing1.Margin = new System.Windows.Forms.Padding(5, 8, 5, 8);
+            editing1.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             editing1.Name = "editing1";
-            editing1.Size = new System.Drawing.Size(903, 623);
+            editing1.Size = new System.Drawing.Size(790, 467);
             editing1.TabIndex = 0;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.DarkGray;
-            ClientSize = new System.Drawing.Size(913, 637);
+            ClientSize = new System.Drawing.Size(799, 478);
             Controls.Add(tabControl1);
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
-            Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Name = "MainForm";
             Text = "C1DataCollection101";
             tabControl1.ResumeLayout(false);

@@ -1,21 +1,26 @@
 // Copyright (c) 2023 FIIT B.V. | DeveloperTools (KVK:75050250). All Rights Reserved.
 
-using GrapeCity.Documents.Imaging;
-using GrapeCity.Documents.Svg;
+
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using System.IO;
+using System.Xml.Linq;
 
 using _PaperKind = GrapeCity.Documents.Common.PaperKind;
 using _FontStyle = System.Drawing.FontStyle;
 using _Font = System.Drawing.Font;
 
 using C1.Win.Pdf;
+using C1.Word;
+using C1.Excel;
+using C1.Util;
+
 
 namespace ExcelViewerWin
 {
@@ -62,12 +67,46 @@ namespace ExcelViewerWin
         // create a document with lots of metafiles in it
         private void button1_Click(object sender, System.EventArgs e)
         {
-            DumpMetas("*.emf");
+            switch (comboBox1.Text)
+            {
+                case "docx":
+                    RtfDumpMetas("*.emf", true);
+                    break;
+                case "rtf":
+                    RtfDumpMetas("*.emf");
+                    break;
+                case "svg":
+                    SvgDumpMetas("*.emf");
+                    break;
+                default:
+                    PdfDumpMetas("*.emf");
+                    break;
+            }
         }
         private void button4_Click(object sender, System.EventArgs e)
         {
             if (listBox1 != null && listBox1.SelectedItem != null)
-                DumpMetas(listBox1.SelectedItem.ToString());
+            {
+                var name = listBox1.SelectedItem.ToString();
+                if (name != null)
+                {
+                    switch (comboBox1.Text)
+                    {
+                        case "docx":
+                            RtfDumpMetas(name, true);
+                            break;
+                        case "rtf":
+                            RtfDumpMetas(name);
+                            break;
+                        case "svg":
+                            SvgDumpMetas(name);
+                            break;
+                        default:
+                            PdfDumpMetas(name);
+                            break;
+                    }
+                }
+            }
         }
         private void listBox1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
@@ -76,9 +115,9 @@ namespace ExcelViewerWin
             pictureBox1.Image = Metafile.FromFile(path + "\\" + listBox1.SelectedItem.ToString());
         }
 
-        string tempdir = Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf("\\") + 1);
+        string tempdir = Path.Combine(Application.ExecutablePath.Substring(0, Application.ExecutablePath.LastIndexOf("\\") + 1), "Results") + "\\";
 
-        private void DumpMetas(string mask)
+        private void PdfDumpMetas(string mask)
         {
             Cursor = Cursors.WaitCursor;
 
@@ -88,7 +127,11 @@ namespace ExcelViewerWin
             _c1pdf.Compression = C1.Pdf.CompressionLevel.NoCompression;
             //_c1pdf.UseFontShaping = false;
             _c1pdf.ParseEmfPlus = checkBox1.Checked;
+#if DEBUG
+            _c1pdf.Compression = C1.Pdf.CompressionLevel.NoCompression;
+#else
             _c1pdf.Compression = C1.Pdf.CompressionLevel.BestCompression;
+#endif
             var rnd = new Random();
             var font = new _Font("Courier New", 9, _FontStyle.Bold);
 
@@ -146,9 +189,195 @@ namespace ExcelViewerWin
 
             // show the result
             Text = "Saving...";
-            SaveAndShow(tempdir + "metas.pdf");
+            SavePdfAndShow(tempdir + "metas.pdf");
             Cursor = Cursors.Default;
             Text = "Ready";
+        }
+
+        private void RtfDumpMetas(string mask, bool openXml = false)
+        {
+            // initialization
+            Cursor = Cursors.WaitCursor;
+            var doc = new C1.Win.Word.C1WordDocument();
+            doc.LeftMargin = 0;
+            doc.TopMargin = 0;
+            doc.RightMargin = 0;
+            doc.BottomMargin = 0;
+            doc.ParseEmfPlus = checkBox1.Checked;
+
+            // look for emf files in the executable directory
+            var path = Dir;
+            var first = true;
+            var files = Directory.GetFiles(path, mask);
+            foreach (string fileName in files)
+            {
+                Text = string.Format("Exporting {0}...", Path.GetFileName(fileName));
+                Application.DoEvents();
+
+                // new page
+                if (!first)
+                {
+                    doc.NewPage();
+                }
+                first = false;
+
+                // load metafile
+                var meta = (Metafile)Metafile.FromFile(fileName);
+
+                // get metafile size in points
+                var szPage = GetImageSizeInPoints(meta);
+                Console.WriteLine("Adding page {0:f2}\" x {1:f2}\"", szPage.Width / 72f, szPage.Height / 72f);
+
+                // size page to metafile
+                doc.PageSize = szPage;
+
+                // draw metafile on the page
+                var rc = new RectangleF(0, 0, szPage.Width, szPage.Height);
+                //doc.FillRectangle(Brushes.AntiqueWhite, rc);
+                try
+                {
+                    // safety draw metafile
+                    doc.DrawMetafile(meta, rc);
+                }
+                catch { }
+                //doc.DrawString(fileName, font, Brushes.Black, rc);
+
+                // add outline entry if there's more than one page
+                if (files.Length > 1)
+                    doc.AddBookmark(Path.GetFileName(fileName));
+            }
+
+            // show the result
+            Text = "Saving...";
+            var ext = openXml ? "docx" : "rtf";
+            var savePath = $"{tempdir}metas.{ext}";
+            doc.Save(savePath);
+            Show(savePath);
+            Cursor = Cursors.Default;
+            Text = "Ready";
+        }
+
+        private void SvgDumpMetas(string mask)
+        {
+            // initiakization
+            Cursor = Cursors.WaitCursor;
+            var resultPath = tempdir + "metas.html";
+
+            // create HTML with SVG files
+            using (var fs = new FileStream(resultPath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+            {
+                XmlWriterSettings settings = new XmlWriterSettings();
+                settings.Encoding = Encoding.UTF8;
+                settings.Indent = true;
+                var doc = XmlWriter.Create(fs, settings);
+
+                // create new XHTML document with body and head tags
+                doc.WriteStartElement("html");
+                doc.WriteStartElement("head");
+
+                // to avoid unclosed title tag
+                doc.WriteElementString("title", "Matafiles");
+
+                // add UTF-8 encoding
+                doc.WriteStartElement("meta");
+                doc.WriteAttributeString("charset", "utf-8");
+                doc.WriteEndElement();
+
+                // styles
+                doc.WriteStartElement("style");
+                doc.WriteAttributeString("type", "text/css");
+                doc.WriteString(GetResourceText("Result.css"));
+                doc.WriteEndElement();
+
+                // close head
+                doc.WriteEndElement();
+
+                // add body
+                doc.WriteStartElement("body");
+
+                // add content element
+                doc.WriteStartElement("div");
+                doc.WriteAttributeString("id", "content");
+
+                // look for emf files in the executable directory
+                int count = 0;
+                var path = Dir;
+                var files = Directory.GetFiles(path, mask);
+                foreach (string fileName in files)
+                {
+                    Text = string.Format("Exporting {0}...", Path.GetFileName(fileName));
+                    Application.DoEvents();
+
+                    // load metafile
+                    var meta = (Metafile)Metafile.FromFile(fileName);
+
+                    // get metafile size in points
+                    var szPage = C1PdfDocument.GetImageSizeInPoints(meta);
+                    Console.WriteLine("Adding page {0:f2}\" x {1:f2}\"", szPage.Width / 72f, szPage.Height / 72f);
+
+                    // get SVG data
+                    var data = C1PdfDocument.ToSvg(meta, szPage.Width, szPage.Height);
+
+                    // convert to pixels
+                    int wpx = C1XLBook.TwipsToPixels(20 * szPage.Width);
+                    int hpx = C1XLBook.TwipsToPixels(20 * szPage.Height);
+
+                    // section is created for page content
+                    doc.WriteStartElement("section");
+
+                    // set page ID
+                    doc.WriteAttributeString("id", $"page{1 + count}");
+
+                    // make page-like view
+                    doc.WriteAttributeString("style", $"width:{wpx}px;height:{hpx}px;");
+
+                    // write SVG
+                    var txt = Encoding.UTF8.GetString(data);
+                    doc.WriteRaw(txt);
+
+                    // close tags
+                    doc.WriteEndElement(); // section
+
+                    // page counter
+                    count++;
+                }
+
+                doc.WriteEndElement(); // div#content
+
+                doc.WriteEndElement(); // body
+                doc.WriteEndElement(); // html
+
+                // save html document
+                Text = "Saving...";
+                doc.Flush();
+            }
+
+            // show the result
+            Show(resultPath);
+            Cursor = Cursors.Default;
+            Text = "Ready";
+        }
+
+        static string GetResourceText(string resource)
+        {
+            resource = resource.ToLower();
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (string res in assembly.GetManifestResourceNames())
+            {
+                if (res.ToLower().EndsWith(resource))
+                {
+                    var stream = assembly.GetManifestResourceStream(res);
+                    if (stream != null)
+                    {
+                        using (stream)
+                        {
+                            var reader = new StreamReader(stream, Encoding.UTF8, true);
+                            return reader.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         //=============================================================================
@@ -183,7 +412,7 @@ namespace ExcelViewerWin
             _c1pdf.DrawRectangle(Pens.BlueViolet, rc);
 
             // done
-            SaveAndShow(tempdir + "rtf.pdf");
+            SavePdfAndShow(tempdir + "rtf.pdf");
         }
 
         //=============================================================================
@@ -255,15 +484,31 @@ namespace ExcelViewerWin
             }
 
             // show pdf document
-            SaveAndShow(tempdir + "arcpie.pdf");
+            SavePdfAndShow(tempdir + "arcpie.pdf");
         }
 
         // save current document and show it in Adobe Acrobat
-        private void SaveAndShow(string fileName)
+        private void SavePdfAndShow(string fileName)
         {
             try
             {
                 _c1pdf.Save(fileName);
+                var psi = new ProcessStartInfo()
+                {
+                    FileName = fileName,
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
+            }
+            catch
+            {
+                MessageBox.Show("Can't save, make sure the document is not open.");
+            }
+        }
+        private void Show(string fileName)
+        {
+            try
+            {
                 var psi = new ProcessStartInfo()
                 {
                     FileName = fileName,

@@ -5,13 +5,14 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <ApplicationIcon>C1-ball.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
@@ -19,5 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="C1-ball.ico" />
   </ItemGroup>
 </Project>

@@ -52,13 +52,14 @@
     <None Remove="Images\other\16.bmp" />
     <None Remove="Images\other\24.bmp" />
     <None Remove="Images\other\256.bmp" />
+    <None Remove="Images\other\CMYK.jpg" />
     <None Remove="Images\other\mono.bmp" />
     <None Remove="Images\other\pietest.bmp" />
     <None Remove="Images\other\pietest.gif" />
-    <None Remove="Results\readme.txt" />
+    <None Remove="Results\results.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Results\readme.txt">
+    <Content Include="Results\results.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -111,6 +112,7 @@
     <EmbeddedResource Include="Images\other\16.bmp" />
     <EmbeddedResource Include="Images\other\24.bmp" />
     <EmbeddedResource Include="Images\other\256.bmp" />
+    <EmbeddedResource Include="Images\other\CMYK.jpg" />
     <EmbeddedResource Include="Images\other\mono.bmp" />
     <EmbeddedResource Include="Images\other\pietest.bmp" />
     <EmbeddedResource Include="Images\other\pietest.gif" />
@@ -128,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20241.56-beta</Version>
+      <Version>8.0.20242.96</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

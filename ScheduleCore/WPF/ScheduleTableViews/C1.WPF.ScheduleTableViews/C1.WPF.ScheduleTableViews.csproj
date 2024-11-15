@@ -10,11 +10,11 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.ScheduleCore">
-      <Version>8.0.20241.42</Version>
+      <Version>8.0.20242.54</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.Grid" Version="8.0.20241.778" />
     <PackageReference Include="C1.WPF.ScheduleCore">
-      <Version>8.0.20241.42</Version>
+      <Version>8.0.20242.54</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

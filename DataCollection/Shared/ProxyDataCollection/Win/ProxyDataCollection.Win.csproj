@@ -8,15 +8,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
-    <PackageReference Include="C1.Win.FlexGrid" Version="6.0.20231.603" />
+    <PackageReference Include="C1.Win.FlexGrid" Version="8.0.20241.664" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />

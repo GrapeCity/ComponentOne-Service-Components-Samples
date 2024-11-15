@@ -4,7 +4,6 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
@@ -33,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Win.Pdf">
-      <Version>8.0.20241.56-beta</Version>
+      <Version>8.0.20242.96</Version>
     </PackageReference>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>

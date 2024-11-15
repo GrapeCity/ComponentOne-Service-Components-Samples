@@ -38,7 +38,7 @@ namespace C1DataCollection101
             try
             {
                 indicator.Activated = true;
-                var videos = new ObservableCollection<YouTubeVideo>((await YouTubeDataCollection.LoadVideosAsync("Xamarin Android", "relevance", null, 50)).Item2);
+                var videos = new ObservableCollection<YouTubeVideo>((await YouTubeDataCollection.LoadVideosAsync("Dotnet Android", "relevance", null, 50)).Item2);
                 _dataCollection = new C1DataCollection<YouTubeVideo>(videos).AsPlain();
                 await _dataCollection.GroupAsync("ChannelTitle");
                 RecyclerView.SetLayoutManager(new LinearLayoutManager(this));

@@ -43,8 +43,11 @@ namespace ExcelViewerWinUI
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        const string HOME_URL = "about:blank";
+
         XLSheet _sheet;
         bool _svg = true;
+        bool _svgXL = false;
         bool _loaded = false;
         string _path = string.Empty;
         string _result = string.Empty;
@@ -66,7 +69,7 @@ namespace ExcelViewerWinUI
         {
             if (_sheet != null)
                 return PrintToSvg(_sheet);
-            return "https://developer.mescius.com/componentone";
+            return HOME_URL;
         }
 
         void ToHome()
@@ -121,7 +124,7 @@ namespace ExcelViewerWinUI
             }
             else
             {
-                webView.Source = new Uri("https://www.grapecity.com");
+                webView.Source = new Uri(HOME_URL);
             }
         }
         void ForwardPage(object sender, RoutedEventArgs e)
@@ -132,7 +135,7 @@ namespace ExcelViewerWinUI
             }
             else
             {
-                webView.Source = new Uri("https://www.grapecity.com");
+                webView.Source = new Uri(HOME_URL);
             }
         }
 
@@ -165,7 +168,8 @@ namespace ExcelViewerWinUI
                 }
                 mi.IsChecked = true;
                 _result = mi.Name;
-                _svg = (_result == "SVG");
+                _svg = _result.StartsWith("SVG");
+                _svgXL = _result.Equals("SVGXL");
                 if (_sheet != null)
                 {
                     ToSheet(_sheet);
@@ -218,7 +222,7 @@ namespace ExcelViewerWinUI
                     Title = $"{Title.Split('(')[0].Trim()} ({name})";
 
                     // HTML result
-                    foreach (var tag in "SVG|PNG|JPEG|GIF".Split('|'))
+                    foreach (var tag in "SVG|PNG|JPEG|GIF|SVGXL".Split('|'))
                     {
                         var mi = new ToggleMenuFlyoutItem();
                         mi.Text = mi.Name = tag;
@@ -267,8 +271,8 @@ namespace ExcelViewerWinUI
 
             // render sheet
             var r = new _Rect(0, 0, wpx, hpx);
-            GraphicsRendering gr = _svg
-                ? new SvgGraphicsRendering(wpx, hpx)
+            IRendering gr = _svg
+                ? (_svgXL ? new SvgRendering(wpx, hpx) : new SvgGraphicsRendering(wpx, hpx))
                 : new BitmapGraphicsRendering(wpx, hpx);
             var sr = new XLSheetRendering(sheet, gr);
 
@@ -346,10 +350,18 @@ namespace ExcelViewerWinUI
                     // save image
                     if (_svg)
                     {
-                        var sb = new StringBuilder();
-                        var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
-                        svgDocument.Save(sb, settings);
-                        var txt = sb.ToString();
+                        string txt;
+                        if (_svgXL)
+                        {
+                            txt = ((SvgRendering)gr).ToText();
+                        }
+                        else
+                        {
+                            var sb = new StringBuilder();
+                            var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
+                            svgDocument.Save(sb, settings);
+                            txt = sb.ToString();
+                        }
                         int idx = txt.IndexOf("<svg");
                         if (idx > 0)
                         {
@@ -405,7 +417,7 @@ namespace ExcelViewerWinUI
             }
 
             // disposing
-            gr.Dispose();
+            ((IDisposable)gr).Dispose();
 
             // done
             return path;

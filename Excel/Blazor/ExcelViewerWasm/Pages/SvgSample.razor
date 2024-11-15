@@ -17,6 +17,12 @@ else if (!loaded.Value)
 }
 else
 {
+    @if (string.IsNullOrEmpty(sheetName))
+    {
+        <input type="checkbox" @onchange="eventArgs => { CheckboxClicked(eventArgs.Value); }" />
+        <span> Set it to measure text more accurately (slower).</span>
+        <br />
+    }
     <table class="table">
         <thead>
             <tr>
@@ -71,6 +77,9 @@ else
         var r = new System.Drawing.RectangleF(0, 0, wpx, hpx);
         var gr = new C1.Util.SvgRendering(wpx, hpx);
         var sr = new C1.Util.XLSheetRendering(sheet, gr);
+
+        // switch precese or fast text measurement
+        gr.PreciseText = checkedPrecise;
 
         // sheet layout
         sr.Layout(paper.Width, paper.Height);
@@ -145,6 +154,7 @@ else
 
 @code {
     private bool? loaded;
+    private bool checkedPrecise = false;
     private string error = string.Empty;
     private string sheetName = string.Empty;
     private C1.Excel.C1XLBook workbook = new C1.Excel.C1XLBook();
@@ -176,5 +186,9 @@ else
             // show sheet
             this.sheetName = sheetName;
         }
+    }
+    private void CheckboxClicked(object? checkedValue)
+    {
+        checkedPrecise = checkedValue != null ? (bool)checkedValue : false;
     }
 }

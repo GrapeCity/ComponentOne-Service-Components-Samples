@@ -6,14 +6,14 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:FileViewer"
         mc:Ignorable="d"
-        Title="Excel viewer" Height="450" Width="800">
+        Title="Excel Viewer" Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="Open..." Click="OpenFile"/>
                 <MenuItem Header="Save as..." Click="SaveAsFile"/>
                 <Separator />
-                <MenuItem Header="Sheets" Name="_sheetsMenu"/>
+                <MenuItem Header="Sheets" Name="sheetsMenu"/>
                 <Separator />
                 <MenuItem Header="Exit" Click="ExitProgram"/>
             </MenuItem>
@@ -24,7 +24,7 @@
                 <MenuItem Header="Backward" Click="BackwardPage"/>
                 <MenuItem Header="Forward" Click="ForwardPage"/>
                 <Separator />
-                <MenuItem Header="HTML result" Name="_resultMenu"/>
+                <MenuItem Header="HTML result" Name="resultMenu"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About..." Click="ShowAbout"/>

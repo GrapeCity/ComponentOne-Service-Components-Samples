@@ -45,6 +45,7 @@ namespace ExcelViewerWin
             listBox1 = new ListBox();
             button4 = new Button();
             checkBox1 = new CheckBox();
+            comboBox1 = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
@@ -96,10 +97,10 @@ namespace ExcelViewerWin
             listBox1.BorderStyle = BorderStyle.FixedSingle;
             listBox1.IntegralHeight = false;
             listBox1.ItemHeight = 25;
-            listBox1.Location = new Point(10, 209);
+            listBox1.Location = new Point(10, 245);
             listBox1.Margin = new Padding(4);
             listBox1.Name = "listBox1";
-            listBox1.Size = new Size(210, 643);
+            listBox1.Size = new Size(210, 607);
             listBox1.TabIndex = 2;
             listBox1.SelectedIndexChanged += listBox1_SelectedIndexChanged;
             listBox1.DoubleClick += button4_Click;
@@ -124,11 +125,22 @@ namespace ExcelViewerWin
             checkBox1.Text = "EMF+ rendering";
             checkBox1.UseVisualStyleBackColor = true;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Items.AddRange(new object[] { "docx", "pdf", "rtf", "svg" });
+            comboBox1.Location = new Point(12, 205);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(207, 33);
+            comboBox1.TabIndex = 4;
+            comboBox1.Text = "pdf";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1334, 865);
+            Controls.Add(comboBox1);
             Controls.Add(checkBox1);
             Controls.Add(button1);
             Controls.Add(button2);
@@ -146,5 +158,6 @@ namespace ExcelViewerWin
         #endregion
 
         private CheckBox checkBox1;
+        private ComboBox comboBox1;
     }
 }

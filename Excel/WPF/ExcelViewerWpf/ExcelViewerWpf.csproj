@@ -13,7 +13,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Excel">
-      <Version>8.0.20241.62</Version>
+      <Version>8.0.20242.100</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2088.41" />
   </ItemGroup>

@@ -1,3 +1,3 @@
 PdfViewerWasm
 ------------------------------------------------------------------------
-Demonstrates the rendering functionality of the C1Pdf component in Blazor.
+Demonstrates the rendering (printing) functionality of the C1Pdf component in Blazor.

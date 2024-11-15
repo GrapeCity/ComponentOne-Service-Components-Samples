@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>ODataViewer</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -14,6 +14,7 @@
     <PackageCertificateThumbprint>53292AA4A6A2A136FE4468E5033F6D2048BAEAD7</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>ODataViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <ApplicationIcon>C1-ball.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -23,16 +24,17 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="C1-ball.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20241.224" />
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
     <PackageReference Include="C1.WinUI.DataCollection">
-      <Version>8.0.20241.192</Version>
+      <Version>8.0.20242.201</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231115000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <!-- 

@@ -247,8 +247,9 @@ namespace C1.WPF.Schedule
                 start = start.AddDays(1);
             }
 
-   //         AutoSizeColumns(2, 2);
+            //         AutoSizeColumns(2, 2);
 
+            var tagColumnIndex = this.Columns.IndexOf(_tagColumn);
             Dispatcher.BeginInvoke(() =>
             {
                 if (_viewType == AgendaViewType.DateRange && Rows.Count > 2)
@@ -266,7 +267,7 @@ namespace C1.WPF.Schedule
                     {
                         for (int i = 0; i < Rows.Count; i++)
                         {
-                            if (day.Equals(((Dictionary<GridColumn, object>)Rows[i].DataItem)[_tagColumn]))
+                            if (day.Equals(this[i, tagColumnIndex]))
                             {
                                 base.ScrollIntoView(Rows.Count - 1, 0);
                                 base.ScrollIntoView(i, 0); 

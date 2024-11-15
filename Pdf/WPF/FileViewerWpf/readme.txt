@@ -1,3 +1,3 @@
 FileViewerWpf
 ------------------------------------------------------------------------
-Demonstrates the rendering functionality of the C1Excel and C1Pdf components.
+Demonstrates the rendering (printing) functionality of the C1Pdf component in WPF.

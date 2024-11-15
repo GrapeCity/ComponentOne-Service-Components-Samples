@@ -9,7 +9,7 @@ namespace ExcelMaui;
 public partial class MainPage : ContentPage
 {
     //int count = 0;
-    string _url = "https://mescius.com/";
+    string _url = "about:blank";
 
     /// <summary></summary>
     //public ICommand TapCommand => new Command<string>(async (url) => await Launcher.OpenAsync(string.IsNullOrEmpty(url) ? _url : url));

@@ -9,12 +9,13 @@
     <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20233.177" />
+    <PackageReference Include="C1.DataCollection" Version="8.0.20241.197" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20241.197" />
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20241.331</Version>
+      <Version>8.0.20242.340</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>8.0.20241.331</Version>
+      <Version>8.0.20242.340</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

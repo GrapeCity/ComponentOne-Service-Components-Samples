@@ -101,6 +101,7 @@ namespace FileViewer
         {
             ToHome();
         }
+
         void RefreshPage(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(_path) && File.Exists(_path))
@@ -118,6 +119,7 @@ namespace FileViewer
             }
             ToHome();
         }
+
         void BackwardPage(object sender, RoutedEventArgs e)
         {
             if (webView.CoreWebView2.CanGoBack)
@@ -127,9 +129,9 @@ namespace FileViewer
         }
         void ForwardPage(object sender, RoutedEventArgs e)
         {
-            if (webView.CoreWebView2.CanGoBack)
+            if (webView.CoreWebView2.CanGoForward)
             {
-                webView.CoreWebView2.GoBack();
+                webView.CoreWebView2.GoForward();
             }
         }
 

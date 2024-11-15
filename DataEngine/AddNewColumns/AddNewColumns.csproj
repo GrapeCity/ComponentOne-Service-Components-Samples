@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20232.172" />
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20241.331</Version>
+      <Version>8.0.20242.340</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -103,10 +103,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20241.331</Version>
+      <Version>8.0.20242.340</Version>
     </PackageReference>
     <PackageReference Include="C1.PivotEngine">
-      <Version>8.0.20241.331</Version>
+      <Version>8.0.20242.340</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>

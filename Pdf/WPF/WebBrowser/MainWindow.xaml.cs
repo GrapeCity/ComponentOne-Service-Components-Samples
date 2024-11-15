@@ -92,7 +92,7 @@ namespace C1.WebBrowser
         }
         void HomePage(object sender, RoutedEventArgs e)
         {
-            webView.Source = new Uri("https://www.mescius.com/");
+            webView.Source = new Uri("about:blank");
         }
         async void RefreshPage(object sender, RoutedEventArgs e)
         {
@@ -108,9 +108,9 @@ namespace C1.WebBrowser
         }
         void ForwardPage(object sender, RoutedEventArgs e)
         {
-            if (webView.CoreWebView2.CanGoBack)
+            if (webView.CoreWebView2.CanGoForward)
             {
-                webView.CoreWebView2.GoBack();
+                webView.CoreWebView2.GoForward();
             }
         }
 

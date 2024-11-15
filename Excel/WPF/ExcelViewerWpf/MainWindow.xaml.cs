@@ -63,6 +63,7 @@ namespace FileViewer
     {
         XLSheet? _sheet;
         bool _svg = true;
+        bool _svgXL = false;
         bool _loaded = false;
         string _path = string.Empty;
         string _result = string.Empty;
@@ -84,7 +85,7 @@ namespace FileViewer
         {
             if (_sheet != null)
                 return PrintToSvg(_sheet);
-            return "https://developer.mescius.com/componentone";
+            return "about:blank";
         }
 
         void ToHome()
@@ -130,9 +131,9 @@ namespace FileViewer
         }
         void ForwardPage(object sender, RoutedEventArgs e)
         {
-            if (webView.CoreWebView2.CanGoBack)
+            if (webView.CoreWebView2.CanGoForward)
             {
-                webView.CoreWebView2.GoBack();
+                webView.CoreWebView2.GoForward();
             }
         }
 
@@ -159,7 +160,8 @@ namespace FileViewer
                 }
                 mi.IsChecked = true;
                 _result = mi.Name;
-                _svg = (_result == "SVG");
+                _svg = _result.StartsWith("SVG");
+                _svgXL = _result.Equals("SVGXL");
                 if (_sheet != null)
                 {
                     ToSheet(_sheet);
@@ -201,18 +203,18 @@ namespace FileViewer
 
                     // clear sheet menu
                     var name = System.IO.Path.GetFileName(path);
-                    _sheetsMenu.Header = name;
-                    _sheetsMenu.Items.Clear();
+                    sheetsMenu.Header = name;
+                    sheetsMenu.Items.Clear();
                     Title = $"{Title.Split('(')[0].Trim()} ({name})";
 
                     // HTML result
-                    foreach (var tag in "SVG|PNG|JPEG|GIF".Split('|'))
+                    foreach (var tag in "SVG|PNG|JPEG|GIF|SVGXL".Split('|'))
                     {
                         var mi = new MenuItem();
                         mi.Header = mi.Name = tag;
                         mi.Click += (s, e) => SvgOrBitmap(s, e);
                         mi.IsChecked = (tag == "SVG");
-                        _resultMenu.Items.Add(mi);
+                        resultMenu.Items.Add(mi);
                     }
 
                     // add sheet menu
@@ -223,12 +225,12 @@ namespace FileViewer
                         mi.Header = sheet.Name;
                         mi.Tag = sheet;
                         mi.Click += (s, e) => ChangeSheet(s, e);
-                        if (_sheetsMenu.Items.Count == 0)
+                        if (sheetsMenu.Items.Count == 0)
                         {
                             mi.IsChecked = true;
                             _sheet = sheet;
                         }
-                        _sheetsMenu.Items.Add(mi);
+                        sheetsMenu.Items.Add(mi);
                         count++;
                     }
                     break;
@@ -255,13 +257,13 @@ namespace FileViewer
 
             // render sheet
             var r = new _Rect(0, 0, wpx, hpx);
-            GraphicsRendering gr = _svg
-                ? new SvgGraphicsRendering(wpx, hpx)
+            IRendering gr = _svg
+                ? (_svgXL ? new SvgRendering(wpx, hpx) : new SvgGraphicsRendering(wpx, hpx))
                 : new BitmapGraphicsRendering(wpx, hpx);
             var sr = new XLSheetRendering(sheet, gr);
 
             // output file
-            var fileName = $"{_sheetsMenu.Header}_{sheet.Name}";
+            var fileName = $"{sheetsMenu.Header}_{sheet.Name}";
             fileName = fileName.Replace('.', '_');
             var dir = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var path = System.IO.Path.Combine(dir ?? string.Empty, "Results", $"{fileName}.html");
@@ -334,10 +336,18 @@ namespace FileViewer
                     // save image
                     if (_svg)
                     {
-                        var sb = new StringBuilder();
-                        var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
-                        svgDocument.Save(sb, settings);
-                        var txt = sb.ToString();
+                        string txt;
+                        if (_svgXL)
+                        {
+                            txt = ((SvgRendering)gr).ToText();
+                        }
+                        else
+                        {
+                            var sb = new StringBuilder();
+                            var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
+                            svgDocument.Save(sb, settings);
+                            txt = sb.ToString();
+                        }
                         int idx = txt.IndexOf("<svg");
                         if (idx > 0)
                         {
@@ -393,7 +403,7 @@ namespace FileViewer
             }
 
             // disposing
-            gr.Dispose();
+            ((IDisposable)gr).Dispose();
 
             // done
             return path;

@@ -28,7 +28,7 @@
         </Menu>
         <wv2:WebView2
             x:Name="webView"
-            Source="https://developer.mescius.com/componentone" ContentLoading="webView_ContentLoading"
+            Source="about:blank" ContentLoading="webView_ContentLoading"
         />
     </DockPanel>
 </Window>

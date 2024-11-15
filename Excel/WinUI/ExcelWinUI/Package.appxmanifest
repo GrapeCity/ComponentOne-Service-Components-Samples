@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="14f5dc55-3a1b-480a-b6de-29e0a03be281" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>ExcelWinUI</DisplayName>
-    <PublisherDisplayName>MESCIUS inc.</PublisherDisplayName>
+    <PublisherDisplayName>C1</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

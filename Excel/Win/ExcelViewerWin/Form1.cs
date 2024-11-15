@@ -19,6 +19,7 @@ namespace ExcelViewerWin
     {
         XLSheet _sheet;
         bool _svg = true;
+        bool _svgXL = false;
         bool _loaded = false;
         string _path = string.Empty;
         string _result = string.Empty;
@@ -52,7 +53,7 @@ namespace ExcelViewerWin
         {
             if (_sheet != null)
                 return PrintToSvg(_sheet);
-            return "https://developer.mescius.com/componentone";
+            return "about:blank";
         }
 
         /// <summary>
@@ -138,9 +139,9 @@ namespace ExcelViewerWin
         /// <param name="e">The event arguments</param>
         public void ForwardPage(object sender, EventArgs e)
         {
-            if (webBrowser1.CoreWebView2.CanGoBack)
+            if (webBrowser1.CoreWebView2.CanGoForward)
             {
-                webBrowser1.CoreWebView2.GoBack();
+                webBrowser1.CoreWebView2.GoForward();
             }
         }
 
@@ -183,8 +184,9 @@ namespace ExcelViewerWin
                 }
 
                 clickedItem.Checked = true;
-                _svg = (clickedItem.Text == "SVG");
                 _result = clickedItem.Text;
+                _svg = _result.StartsWith("SVG");
+                _svgXL = _result.Equals("SVGXL");
                 ToSheet(_sheet);
             }
         }
@@ -235,8 +237,9 @@ namespace ExcelViewerWin
                     var name = System.IO.Path.GetFileName(path);
                     sheetsMenu.Text = name;
                     sheetsMenu.DropDownItems.Clear();
+
                     // HTML result
-                    foreach (var tag in "SVG|PNG|JPEG|GIF".Split('|'))
+                    foreach (var tag in "SVG|PNG|JPEG|GIF|SVGXL".Split('|'))
                     {
                         var mi = new ToolStripMenuItem();
                         mi.Text = tag;
@@ -290,8 +293,8 @@ namespace ExcelViewerWin
 
             // Render sheet
             var r = new Rectangle(0, 0, wpx, hpx);
-            GraphicsRendering gr = _svg
-                ? new SvgGraphicsRendering(wpx, hpx)
+            IRendering gr = _svg
+                ? (_svgXL ? new SvgRendering(wpx, hpx) : new SvgGraphicsRendering(wpx, hpx))
                 : new BitmapGraphicsRendering(wpx, hpx);
             var sr = new XLSheetRendering(sheet, gr);
 
@@ -369,10 +372,18 @@ namespace ExcelViewerWin
                     // Save image
                     if (_svg)
                     {
-                        var sb = new StringBuilder();
-                        var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
-                        svgDocument.Save(sb, settings);
-                        var txt = sb.ToString();
+                        string txt;
+                        if (_svgXL)
+                        {
+                            txt = ((SvgRendering)gr).ToText();
+                        }
+                        else
+                        {
+                            var sb = new StringBuilder();
+                            var svgDocument = ((SvgGraphicsRendering)gr).ToDocument();
+                            svgDocument.Save(sb, settings);
+                            txt = sb.ToString();
+                        }
                         int idx = txt.IndexOf("<svg");
                         if (idx > 0)
                         {
@@ -428,7 +439,7 @@ namespace ExcelViewerWin
             }
 
             // Disposing
-            gr.Dispose();
+            ((IDisposable)gr).Dispose();
 
             // Done
             return path;

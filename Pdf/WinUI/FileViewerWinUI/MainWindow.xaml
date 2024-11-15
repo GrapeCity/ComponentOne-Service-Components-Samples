@@ -35,7 +35,7 @@
 
         <controls:WebView2
             Name="webView"
-            Source="https://www.grapecity.com"
+            Source="about:blank"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Grid.Row="1"
