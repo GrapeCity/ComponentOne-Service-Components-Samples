@@ -17,7 +17,7 @@ namespace ExcelViewerWin
     /// </summary>
     public partial class Form1 : Form
     {
-        XLSheet _sheet;
+        XLSheet? _sheet;
         bool _svg = true;
         bool _svgXL = false;
         bool _loaded = false;
@@ -184,10 +184,16 @@ namespace ExcelViewerWin
                 }
 
                 clickedItem.Checked = true;
-                _result = clickedItem.Text;
-                _svg = _result.StartsWith("SVG");
-                _svgXL = _result.Equals("SVGXL");
-                ToSheet(_sheet);
+                if (!string.IsNullOrEmpty(clickedItem.Text))
+                {
+                    _result = clickedItem.Text;
+                    _svg = _result.StartsWith("SVG");
+                    _svgXL = _result.Equals("SVGXL");
+                }
+                if (_sheet != null)
+                {
+                    ToSheet(_sheet);
+                }
             }
         }
 
@@ -239,6 +245,7 @@ namespace ExcelViewerWin
                     sheetsMenu.DropDownItems.Clear();
 
                     // HTML result
+                    htmlResultToolStripMenuItem.DropDownItems.Clear();
                     foreach (var tag in "SVG|PNG|JPEG|GIF|SVGXL".Split('|'))
                     {
                         var mi = new ToolStripMenuItem();

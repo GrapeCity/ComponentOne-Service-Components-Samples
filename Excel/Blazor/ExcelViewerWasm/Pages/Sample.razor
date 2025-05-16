@@ -3,7 +3,7 @@
 
 <PageTitle>Sample</PageTitle>
 
-<h1>View sample.xlsx</h1>
+<h1>View description.xlsx</h1>
 
 <p>This page shows the Excel visualization for each worksheet.</p>
 
@@ -118,7 +118,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var data = await Http.GetByteArrayAsync("sample-data/sample.xlsx");
+        var data = await Http.GetByteArrayAsync("sample-data/description.xlsx");
         if (data != null && data.Length > 0)
         {
             using (var ms = new MemoryStream(data))

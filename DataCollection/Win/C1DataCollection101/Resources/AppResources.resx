@@ -161,7 +161,7 @@ Please check your internet connection</value>
     <value>Sort</value>
   </data>
   <data name="VirtualModeDescription" xml:space="preserve">
-    <value>Shows how to load data on demand thorugh C1VirtualCollectionView</value>
+    <value>Shows how to load data on demand through C1VirtualDataCollection</value>
   </data>
   <data name="VirtualModeTitle" xml:space="preserve">
     <value>Virtual Mode</value>

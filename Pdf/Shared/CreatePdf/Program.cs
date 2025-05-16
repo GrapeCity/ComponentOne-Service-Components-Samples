@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Globalization;
 using System.Reflection;
+using System.Reflection.PortableExecutable;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -16,6 +17,7 @@ using System.Xml;
 
 using C1.Pdf;
 using C1.Word;
+using C1.Word.Objects;
 using C1.Util;
 
 using _Float = System.Single;
@@ -39,8 +41,6 @@ using _PenLineJoin = GrapeCity.Documents.Drawing.PenLineJoin;
 using _Matrix = System.Numerics.Matrix3x2;
 using _Bitmap = GrapeCity.Documents.Imaging.GcBitmap;
 using _Image = GrapeCity.Documents.Drawing.Image;
-using C1.Word.Objects;
-using System.Reflection.PortableExecutable;
 
 namespace CreatePdf
 {

@@ -6,8 +6,8 @@ ____
 Shows the following samples
 
 
-* Filter
-* Group
+* Sorting
+* Filtering
+* Grouping
 * OnDemand
-* Sort
-* Virtual
+* VirtualMode

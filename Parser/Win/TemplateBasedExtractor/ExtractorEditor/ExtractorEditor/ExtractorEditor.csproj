@@ -35,14 +35,14 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>8.0.20241.111</Version>
+      <Version>9.0.20251.12</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.C1Document" Version="4.5.20212.529">
     </PackageReference>
     <PackageReference Include="C1.Win.C1FlexGrid" Version="4.5.20212.529">
     </PackageReference>
     <PackageReference Include="C1.Win.TextParser">
-      <Version>8.0.20241.111</Version>
+      <Version>9.0.20251.12</Version>
     </PackageReference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />

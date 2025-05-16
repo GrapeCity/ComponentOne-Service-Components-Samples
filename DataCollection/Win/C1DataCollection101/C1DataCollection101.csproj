@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -84,13 +84,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.Win.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />

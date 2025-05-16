@@ -369,12 +369,18 @@ namespace FileViewerWinUI
         {
             var window = new Microsoft.UI.Xaml.Window();
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
-            var picker = new FileSavePicker();
-            picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+            var picker = new FileSavePicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
             picker.FileTypeChoices.Clear();
             picker.FileTypeChoices.Add("PDF Files", new List<string>() { ".pdf" });
-            picker.FileTypeChoices.Add("Word Files", new List<string>() { ".docx" });
-            picker.FileTypeChoices.Add("RTF Files", new List<string>() { ".rtf" });
+            var ext = System.IO.Path.GetExtension(_path).Trim().ToLower();
+            if (ext.Length > 0 && !ext.Equals(".pdf"))
+            {
+                picker.FileTypeChoices.Add("Word Files", new List<string>() { ".docx" });
+                picker.FileTypeChoices.Add("RTF Files", new List<string>() { ".rtf" });
+            }
 
             // Get the suggested file name from the open file path
             string suggestedFileName = System.IO.Path.GetFileNameWithoutExtension(_pdfFileName);
@@ -392,7 +398,7 @@ namespace FileViewerWinUI
             if (file != null)
             {
                 IFlowDocument flow = null;
-                var ext = file.FileType.ToLower();
+                ext = file.FileType.ToLower();
                 switch (ext)
                 {
                     case ".rtf":

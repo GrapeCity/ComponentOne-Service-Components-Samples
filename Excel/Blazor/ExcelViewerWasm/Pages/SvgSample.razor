@@ -3,7 +3,7 @@
 
 <PageTitle>Sample</PageTitle>
 
-<h1>View sample.xlsx</h1>
+<h1>View description.xlsx</h1>
 
 <p>This page shows the Excel visualization for each worksheet.</p>
 
@@ -86,35 +86,15 @@ else
 
         // render sheet
         int count = 0;
-        var result = string.Empty;
+        var code = string.Empty;
         var rc = new System.Drawing.RectangleF(0, 0, paper.Width, paper.Height);
         for (var start = 0F; ;)
         {
-            // clear bitmaps
-            //gr.SetFill(System.Drawing.Color.White);
-            //gr.DrawRect(r.X, r.Y, r.Width, r.Height);
-
             // one page rendering
             start = sr.Render(rc, start);
 
             // SVG to string
-            //var txt = gr.ToText();
-            // int idx = txt.IndexOf("\">");
-            // if (idx > 0)
-            // {
-            //     result = txt.Substring(idx + 2, txt.Length - idx - 4);
-            // }
-            result = gr.ToContext();
-
-            //var data = System.Text.Encoding.UTF8.GetBytes(txt);
-            //result = $"data:image/svg+xml;base64,{System.Convert.ToBase64String(data)}";
-            //result = System.Net.WebUtility.HtmlEncode(gr.ToText());
-            // int idx = result.IndexOf("<svg");
-            // if (idx > 0)
-            // {
-            //     result = $"data:image/svg+xml;base64, {System.Convert.ToBase64String((ms.ToArray())}";
-            //     result = result.Substring(idx);
-            // }
+            code = gr.ToContext();
 
             // done?
             if (start == float.MaxValue)
@@ -126,29 +106,9 @@ else
             count++;
             break;   // only one page for demo
         }
-        //return @<iframe src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMSIgaGVpZ2h0PSIxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InJlZCIvPjwvc3ZnPg==" />;
-        //return @<img width="@wpx" height="@hpx" src="@result" />;
-        //return @<div>@result</div>;
 
-        //return @<svg width="@wpx" height="@hpx">@result</svg>;
-        //return @<img width="@wpx" height="@hpx" src="@result" />;
-        //return@<img src="data:image/svg+xml,%3Csvg width='100' height='100'%3E%3Ccircle cx='50' cy='50' r='40' fill='red' /%3E%3C/svg%3E" />;
-
-        // <g id="parent-name"> ... child SVG tags ... </g>
-        //return @<g id="parent-name">@result</g>;
-
-        //return @<iframe width="@wpx" height="@hpx" src="@result">The "iframe" tag is not supported by your browser.</iframe>;
-
-        //return @<svg width="@wpx" height="@hpx">@((MarkupString)$"<foreignObject>{@result}</foreignObject>")</svg>;
-        return @<svg width="@wpx" height="@hpx">@((MarkupString)@result)</svg>;
-        //return <div>@((MarkupString)@result)</div>;
-
-        // return new RenderFragment(builder =>
-        //     {
-        //         //builder.OpenElement(0, "svg");
-        //         builder.AddContent(0, result);
-        //         //builder.CloseElement();
-        //     });
+        // done
+        return @<svg width="@wpx" height="@hpx">@((MarkupString)@code)</svg>;
     }
 }
 
@@ -161,7 +121,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var data = await Http.GetByteArrayAsync("sample-data/sample.xlsx");
+        var data = await Http.GetByteArrayAsync("sample-data/description.xlsx");
         if (data != null && data.Length > 0)
         {
             using (var ms = new MemoryStream(data))

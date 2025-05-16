@@ -1,14 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20232.172" />
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

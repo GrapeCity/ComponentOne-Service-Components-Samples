@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>ODataViewer</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -29,12 +29,12 @@
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20241.224" />
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.WinUI.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <!-- 

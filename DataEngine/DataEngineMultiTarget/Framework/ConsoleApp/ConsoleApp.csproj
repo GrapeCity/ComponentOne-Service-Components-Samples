@@ -58,13 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Api">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
     <PackageReference Include="C1.PivotEngine">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>

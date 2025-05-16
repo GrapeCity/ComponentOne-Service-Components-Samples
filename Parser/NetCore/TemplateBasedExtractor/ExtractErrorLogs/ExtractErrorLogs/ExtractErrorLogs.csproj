@@ -2,7 +2,7 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include=".gclicx" />
@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>8.0.20241.111</Version>
+      <Version>9.0.20251.12</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@ using C1.Win.Pdf;
 using C1.Word;
 using C1.Excel;
 using C1.Util;
+using C1.Zip.ZLib;
 
 
 namespace ExcelViewerWin
@@ -88,26 +89,31 @@ namespace ExcelViewerWin
             if (listBox1 != null && listBox1.SelectedItem != null)
             {
                 var name = listBox1.SelectedItem.ToString();
-                if (name != null)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    switch (comboBox1.Text)
-                    {
-                        case "docx":
-                            RtfDumpMetas(name, true);
-                            break;
-                        case "rtf":
-                            RtfDumpMetas(name);
-                            break;
-                        case "svg":
-                            SvgDumpMetas(name);
-                            break;
-                        default:
-                            PdfDumpMetas(name);
-                            break;
-                    }
+                    DumpMetas(name);
                 }
             }
         }
+        private void DumpMetas(string name)
+        {
+            switch (comboBox1.Text)
+            {
+                case "docx":
+                    RtfDumpMetas(name, true);
+                    break;
+                case "rtf":
+                    RtfDumpMetas(name);
+                    break;
+                case "svg":
+                    SvgDumpMetas(name);
+                    break;
+                default:
+                    PdfDumpMetas(name);
+                    break;
+            }
+        }
+
         private void listBox1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             string path = Dir;
@@ -311,16 +317,30 @@ namespace ExcelViewerWin
                     // load metafile
                     var meta = (Metafile)Metafile.FromFile(fileName);
 
-                    // get metafile size in points
+                    // get and correct a metafile size in points
                     var szPage = C1PdfDocument.GetImageSizeInPoints(meta);
-                    Console.WriteLine("Adding page {0:f2}\" x {1:f2}\"", szPage.Width / 72f, szPage.Height / 72f);
+                    var width = szPage.Width;
+                    var height = szPage.Height;
+                    var sz = C1PdfDocument.GetPaperSizeInPoints(_PaperKind.A4);
+                    var max = Math.Max(sz.Width, sz.Height);
+                    if (width > height && width > max)
+                    {
+                        height = height * max / width;
+                        width = max;
+                    }
+                    else if (height > sz.Height)
+                    {
+                        width = width * max / height;
+                        height = max;
+                    }
+                    Console.WriteLine("Adding page {0:f2}\" x {1:f2}\"", width / 72f, height / 72f);
 
                     // get SVG data
-                    var data = C1PdfDocument.ToSvg(meta, szPage.Width, szPage.Height);
+                    var data = C1PdfDocument.ToSvg(meta, width, height, checkBox1.Checked);
 
-                    // convert to pixels
-                    int wpx = C1XLBook.TwipsToPixels(20 * szPage.Width);
-                    int hpx = C1XLBook.TwipsToPixels(20 * szPage.Height);
+                    // convert to pixels (30px & 10px for margin and shodow)
+                    int wpx = C1XLBook.TwipsToPixels(20 * width) + 10;
+                    int hpx = C1XLBook.TwipsToPixels(20 * height) + 30;
 
                     // section is created for page content
                     doc.WriteStartElement("section");
@@ -417,8 +437,100 @@ namespace ExcelViewerWin
 
         //=============================================================================
         // test arcs and pies
+
+        private void DumpMetas()
+        {
+            _c1pdf.Clear();
+            _c1pdf.Compression = C1.Pdf.CompressionLevel.NoCompression;
+
+            int width = pictureBox1.Width;
+            int height = pictureBox1.Height;
+
+            // create metafile
+            Graphics offScreenBufferGraphics;
+            Metafile m;
+            using (MemoryStream ms = new MemoryStream())
+            using (offScreenBufferGraphics = Graphics.FromHwndInternal(IntPtr.Zero))
+            {
+                IntPtr deviceContextHandle = offScreenBufferGraphics.GetHdc();
+                m = new Metafile(
+                    ms,
+                    deviceContextHandle,
+                    new RectangleF(0, 0, width, height),
+                    MetafileFrameUnit.Pixel,
+                    EmfType.EmfPlusOnly);
+                offScreenBufferGraphics.ReleaseHdc();
+            }
+
+            int penWidth = 0;
+            int penRGB = 0;
+            Rectangle rc = new Rectangle(0, 0, 300, 200);
+
+            string text = "Hello world of .NET Graphics and PDF.\r\nNice to meet you.";
+            _Font font = new _Font("Times New Roman", 12, _FontStyle.Italic | _FontStyle.Underline);
+
+            // start, c1, c2, end1, c3, c4, end
+            PointF[] bezierPoints = new PointF[]
+            {
+                new PointF(10f, 100f), new PointF(20f, 10f),  new PointF(35f, 50f),
+                new PointF(50f, 100f), new PointF(60f, 150f), new PointF(65f, 100f),
+                new PointF(50f, 50f)
+            };
+
+            // draw to .NET Graphics object
+            using (Graphics g = Graphics.FromImage(m))
+            {
+                g.FillRectangle(Brushes.White, 0, 0, width, height);
+                g.FillPie(Brushes.Red, rc, 0, 20f);
+                g.FillPie(Brushes.Green, rc, 20f, 30f);
+                g.FillPie(Brushes.Blue, rc, 60f, 12f);
+                g.FillPie(Brushes.Gold, rc, -80f, -20f);
+                for (float sa = 0; sa < 360; sa += 40)
+                {
+                    Color penColor = Color.FromArgb(penRGB, penRGB, penRGB);
+                    Pen pen = new Pen(penColor, penWidth++);
+                    penRGB = penRGB + 20;
+                    g.DrawArc(pen, rc, sa, 40f);
+                }
+                g.DrawRectangle(Pens.Red, rc);
+                g.DrawBeziers(Pens.Blue, bezierPoints);
+                g.DrawString(text, font, Brushes.Black, rc);
+            }
+            this.pictureBox1.Image = m;
+            this.pictureBox1.Refresh();
+
+            // Get a handle to the metafile
+            IntPtr iptrMetafileHandle = m.GetHenhmetafile();
+
+            // Export metafile to an image file
+            CopyEnhMetaFile(iptrMetafileHandle, @"Samples\draw_test.emf");
+
+            // Delete the metafile from memory
+            DeleteEnhMetaFile(iptrMetafileHandle);
+
+            // show pdf document
+            DumpMetas("draw_test.emf");
+        }
+
+        [DllImport("gdi32.dll")]
+        static extern IntPtr CopyEnhMetaFile(  // Copy EMF to file
+          IntPtr hemfSrc,   // Handle to EMF
+          String lpszFile // File
+        );
+
+        [DllImport("gdi32.dll")]
+        static extern int DeleteEnhMetaFile(  // Delete EMF
+          IntPtr hemf // Handle to EMF
+        );
+
         private void button3_Click(object sender, System.EventArgs e)
         {
+            if (checkBox1.Checked)
+            {
+                DumpMetas();
+                return;
+            }
+
             _c1pdf.Clear();
             _c1pdf.Compression = C1.Pdf.CompressionLevel.NoCompression;
 

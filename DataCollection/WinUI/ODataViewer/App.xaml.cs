@@ -46,6 +46,7 @@ namespace ODataViewer
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             m_window = new MainWindow();
+            m_window.AppWindow.SetIcon("C1-ball.ico");
             m_window.Activate();
         }
 

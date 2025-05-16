@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 namespace C1DataCollection101.View
 {
@@ -40,6 +41,7 @@ namespace C1DataCollection101.View
             };
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int SelectedSampleViewType
         {
             get => _selectedSampleViewType;

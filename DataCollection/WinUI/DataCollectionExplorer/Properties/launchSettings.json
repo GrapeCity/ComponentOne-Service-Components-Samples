@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DataCollectionExplorer (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "DataCollectionExplorer (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

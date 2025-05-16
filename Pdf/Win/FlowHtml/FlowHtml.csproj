@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <UseWPF>true</UseWPF>
     <Nullable>enable</Nullable>
@@ -23,6 +23,7 @@
     <None Remove="Resources\paragraph.htm" />
     <None Remove="Resources\RexSwain.htm" />
     <None Remove="Resources\stylesheet.htm" />
+    <None Remove="Resources\table3.htm" />
     <None Remove="Resources\tables.htm" />
     <None Remove="Resources\tableSizing.htm" />
     <None Remove="Resources\w3c.htm" />
@@ -45,6 +46,7 @@
     <EmbeddedResource Include="Resources\paragraph.htm" />
     <EmbeddedResource Include="Resources\RexSwain.htm" />
     <EmbeddedResource Include="Resources\stylesheet.htm" />
+    <EmbeddedResource Include="Resources\table3.htm" />
     <EmbeddedResource Include="Resources\tables.htm" />
     <EmbeddedResource Include="Resources\tableSizing.htm" />
     <EmbeddedResource Include="Resources\w3c.htm" />
@@ -53,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20242.96</Version>
+      <Version>9.0.20251.139</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

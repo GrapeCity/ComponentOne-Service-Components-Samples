@@ -4,8 +4,8 @@ Shows samples to use DataCollection in controls.
 
 Shows the following samples
 
-	- Filter
-	- Group
+	- Sorting
+	- Filtering
+	- Grouping
 	- OnDemand
-	- Sort
-	- Virtual
+	- VirtualMode

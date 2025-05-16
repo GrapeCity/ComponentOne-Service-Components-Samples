@@ -3,7 +3,7 @@
     <Platforms>AnyCPU</Platforms>
     <OutputType>WinExe</OutputType>
     <AssemblyName>WebBrowser</AssemblyName>
-    <TargetFrameworks>net8.0-windows;net462</TargetFrameworks>
+    <TargetFrameworks>net9.0-windows;net462</TargetFrameworks>
     <Product>C1WebBrowser</Product>
     <Copyright>Copyright © 2023</Copyright>
     <UseWPF>true</UseWPF>
@@ -23,7 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>8.0.20242.96</Version>
+      <Version>9.0.20251.139</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.774.44" />
     <PackageReference Include="Microsoft.Web.WebView2.DevToolsProtocolExtension" Version="1.0.824" />

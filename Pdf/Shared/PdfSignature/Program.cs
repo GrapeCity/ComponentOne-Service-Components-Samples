@@ -140,7 +140,7 @@ namespace PdfSignature
             _Image img = null;
             if (withImage)
             {
-                using var stream = GetManifestResource("c1.png");
+                using var stream = GetManifestResource("signature.png");
                 using var ms = new MemoryStream((int)stream.Length);
                 stream.CopyTo(ms);
                 img = _Image.FromBytes(ms.ToArray());

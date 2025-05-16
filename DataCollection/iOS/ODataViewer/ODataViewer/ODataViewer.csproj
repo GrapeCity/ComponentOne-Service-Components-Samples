@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-ios</TargetFramework>
+    <TargetFramework>net9.0-ios</TargetFramework>
     <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
     <OutputType>Exe</OutputType>
     <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
@@ -8,13 +8,13 @@
   <ItemGroup>
     <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
     <PackageReference Include="C1.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.iOS.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

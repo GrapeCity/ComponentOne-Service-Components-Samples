@@ -1,21 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection" Version="8.0.20241.197" />
-    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20241.197" />
+    <PackageReference Include="C1.DataCollection" Version="8.0.20242.201" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20242.201" />
     <PackageReference Include="C1.DataEngine">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>8.0.20242.340</Version>
+      <Version>9.0.20251.347</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

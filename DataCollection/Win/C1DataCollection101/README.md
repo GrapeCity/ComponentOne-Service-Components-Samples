@@ -6,9 +6,9 @@ ____
 Shows the following samples
 
 
-* Filter
-* Group
-* OnDemand
-* Sort
-* Virtual
+* Sorting
+* Filtering
+* Grouping
+* VirtualMode
+* Editing
 

@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>8.0.20242.201</Version>
+      <Version>9.0.20242.209</Version>
     </PackageReference>
-    <PackageReference Include="C1.WPF.Grid" Version="8.0.20241.854" />
-    <PackageReference Include="C1.WPF.Sparkline" Version="8.0.20241.854" />
+    <PackageReference Include="C1.WPF.Grid" Version="8.0.20242.1005" />
+    <PackageReference Include="C1.WPF.Sparkline" Version="8.0.20242.1005" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />
