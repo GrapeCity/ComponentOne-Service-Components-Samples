@@ -40,7 +40,7 @@ namespace C1.WPF.Schedule
         #region ** Fields
         private bool _showEmptyDays = false;
         private AgendaViewType _viewType = AgendaViewType.Week;
-        private DayCollection _days;
+        private DayCollection? _days;
         private DateTime _start;
         private DateTime _end;
         #endregion
@@ -48,7 +48,7 @@ namespace C1.WPF.Schedule
         //------------------------------------------------
         #region ** Initializing
         /// <summary>
-        /// Initializes the new instance of the <see cref="AgendaView"/> class.
+        /// Initializes the new instance of the <see cref="C1AgendaView"/> class.
         /// </summary>
         public C1AgendaView() : base()
         {
@@ -157,7 +157,7 @@ namespace C1.WPF.Schedule
             Selection = new GridCellRange(0,0);
 
             // clear previous information
-            _days.Clear();
+            _days?.Clear();
             // get new days
             _start = DateTime.Today;
             _end = _start;
@@ -172,16 +172,18 @@ namespace C1.WPF.Schedule
                     break;
             }
             // get days
-            _days.FillDayCollection(_start, _end);
+            _days?.FillDayCollection(_start, _end);
             // fill days with appointments
             var apps = Storage.AppointmentStorage.Appointments.GetOccurrences(_start, _end.AddDays(1));
             foreach (Appointment app in apps)
             {
-                _days.AddAppointment(app);
+                _days?.AddAppointment(app);
             }
 
             // clear rows 
             Rows.Clear();
+            if (_days is null)
+                return;
 
             // re-fill grid with data
             // fill rows
@@ -312,7 +314,7 @@ namespace C1.WPF.Schedule
             if (range.Column == 1)
             {
                 var r = Grid.Rows[range.Row];
-                Appointment app = Grid[r, Grid.Columns["Tag"]] as Appointment; 
+                Appointment? app = Grid[r, Grid.Columns["Tag"]] as Appointment; 
                 if (app != null && app.BusyStatus != null)
                 {
                     cell.Background = ((C1.WPF.Schedule.C1Brush)app.BusyStatus.Brush).Brush;

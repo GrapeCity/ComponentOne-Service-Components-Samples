@@ -8,30 +8,32 @@ namespace ProxyDataCollection.Win
 {
     public partial class Form1 : Form
     {
-        private C1ProxyDataCollection<Stock> _stocks;
+        private C1ProxyDataCollection<Stock> _stocks = null!;
 
         public Form1()
         {
             InitializeComponent();
 
-            Load();
+            _ = Load();
         }
 
-        private async Task Load()
+        private new async Task Load()
         {
             try
             {
                 //loadingIndicator.Visibility = Visibility.Visible;
                 var url = new Uri("https://localhost:7278/financialHub");
                 //var url = new Uri("http://10.41.0.137/ProxyDataCollection/financialHub");
-                _stocks = new C1ProxyDataCollection<Stock>(url) { PageSize = 50 };
+                _stocks = new C1ProxyDataCollection<Stock>(url, StockSerializerContext.Default) { PageSize = 50 };
                 _stocks.PropertyChanged += OnCollectionPropertyChanged;
                 await _stocks.ConnectAsync();
                 c1FlexGrid1.AutoGenerateColumns = false;
+#pragma warning disable CS8620
                 c1FlexGrid1.DataSource = new C1DataCollectionBindingList(_stocks);
+#pragma warning restore CS8620
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //disconnectedLayer.Visibility = Visibility.Visible;
             }

@@ -89,7 +89,7 @@ namespace C1.WPF.Schedule
     {
         #region fields
         internal DateList _boldedDates; // list of dates with appointments
-        private CalendarInfo _info;
+        private CalendarInfo? _info;
         #endregion
 
         #region ctor
@@ -125,7 +125,7 @@ namespace C1.WPF.Schedule
             while (true)
             {
                 DateTime nextDay = day.AddDays(1);
-                if (nextDay.DayOfWeek != _info.WeekStart)
+                if (nextDay.DayOfWeek != _info?.WeekStart)
                 {
                     day = nextDay;
                     AddDay(day);

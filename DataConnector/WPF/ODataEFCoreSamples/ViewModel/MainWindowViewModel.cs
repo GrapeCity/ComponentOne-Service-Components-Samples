@@ -28,7 +28,7 @@ namespace EFCoreSamples.ViewModel
             {
                 var filteredQuery = (from p in context.Invoices
                                         from c in context.Customers
-                                        where p.CustomerID == c.CustomerID && c.Country.Equals(country, StringComparison.OrdinalIgnoreCase)
+                                        where p.CustomerID == c.CustomerID && c.Country.ToLower() == country.ToLower()
                                         select new
                                         {
                                             p.OrderID,

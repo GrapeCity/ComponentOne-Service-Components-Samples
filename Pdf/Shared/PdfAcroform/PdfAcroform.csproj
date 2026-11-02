@@ -12,7 +12,6 @@
     <None Remove="Images\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
     <None Remove="Resources\angelico.jpg" />
     <None Remove="Resources\bellechose.jpg" />
     <None Remove="Resources\bruegel.jpg" />
@@ -33,14 +32,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
     <EmbeddedResource Include="Resources\download.png" />
     <EmbeddedResource Include="Resources\phoenix.png" />
     <EmbeddedResource Include="Resources\top100.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

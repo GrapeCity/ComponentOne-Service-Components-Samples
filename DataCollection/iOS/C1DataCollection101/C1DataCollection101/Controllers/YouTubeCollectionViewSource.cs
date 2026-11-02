@@ -1,11 +1,10 @@
-﻿using C1.iOS.DataCollection;
+﻿using C1.DataCollection;
+using C1.iOS.DataCollection;
 using CoreGraphics;
 using Foundation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UIKit;
-using C1.DataCollection;
-using System;
 
 namespace C1DataCollection101
 {

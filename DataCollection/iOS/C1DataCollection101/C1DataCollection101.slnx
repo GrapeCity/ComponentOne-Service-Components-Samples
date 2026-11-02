@@ -1,0 +1,8 @@
+<Solution>
+
+  <Project Path="C1DataCollection101/C1DataCollection101.csproj">
+    <Platform Solution="Release|*" Project="iPhone" />
+    <Build Solution="Release|*" Project="false" />
+    <Deploy Solution="Debug|*" />
+  </Project>
+</Solution>

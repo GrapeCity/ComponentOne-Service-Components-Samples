@@ -15,7 +15,7 @@ namespace C1.WPF.Schedule
     /// </summary>
     public class BaseTableView : C1.WPF.Grid.FlexGrid, IDisposable
     {
-        protected GridColumn _tagColumn;
+        protected GridColumn? _tagColumn;
         private bool _inUpdate = false;
 
         //------------------------------------------------
@@ -52,7 +52,7 @@ namespace C1.WPF.Schedule
             get { return _inUpdate; }
         }
 
-        private void BaseTableView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void BaseTableView_IsVisibleChanged(object? sender, DependencyPropertyChangedEventArgs e)
         {
             OnIsVisibleChanged();
         }
@@ -82,13 +82,13 @@ namespace C1.WPF.Schedule
         }
         private void OnStorageChanged(DependencyPropertyChangedEventArgs e)
         {
-            if ( e.OldValue != null)
+            if (e.OldValue is C1ScheduleStorage oldStorage)
             {
-                DetachStorage(e.OldValue as C1ScheduleStorage);
+                DetachStorage(oldStorage);
             }
-            if (e.NewValue != null)
+            if (e.NewValue is C1ScheduleStorage newStorage)
             {
-                AttachStorage(e.NewValue as C1ScheduleStorage);
+                AttachStorage(newStorage);
             }
         }
 
@@ -114,24 +114,24 @@ namespace C1.WPF.Schedule
             }
         }
 
-        private void Appointments_Loaded(object sender, EventArgs e)
+        private void Appointments_Loaded(object? sender, EventArgs e)
         {
             // The C1Scheduler doesn't fire AppointmentAdded and other events while it is not loaded. 
             // So refresh view when it is loaded in case we missed some events.
             RefreshView(); 
         }
 
-        private void Appointments_AppointmentChanged(object sender, AppointmentEventArgs e)
+        private void Appointments_AppointmentChanged(object? sender, AppointmentEventArgs e)
         {
             OnAppointmentChanged(e);
         }
 
-        private void Appointments_AppointmentRemoved(object sender, AppointmentEventArgs e)
+        private void Appointments_AppointmentRemoved(object? sender, AppointmentEventArgs e)
         {
             OnAppointmentDeleted(e);
         }
 
-        private void Appointments_AppointmentAdded(object sender, AppointmentEventArgs e)
+        private void Appointments_AppointmentAdded(object? sender, AppointmentEventArgs e)
         {
             OnAppointmentAdded(e);
         }
@@ -164,7 +164,7 @@ namespace C1.WPF.Schedule
         /// </summary>
         /// <param name="row">The row index.</param>
         /// <returns>The <see cref="Appointment"/> object.</returns>
-        protected Appointment GetRowAppointment(int row)
+        protected Appointment? GetRowAppointment(int row)
         {
             if ( row < 0)
             {
@@ -175,7 +175,7 @@ namespace C1.WPF.Schedule
             {
                 return null;
             }
-            Appointment app = null;
+            Appointment? app = null;
             if (_tagColumn != null)
             {
                 app = this[gridRow, _tagColumn] as Appointment;
@@ -201,7 +201,7 @@ namespace C1.WPF.Schedule
         /// </summary>
         /// <param name="row">The row index.</param>
         /// <returns>The <see cref="Appointment"/> object.</returns>
-        protected Appointment GetRowAppointment(DataRow row)
+        protected Appointment? GetRowAppointment(DataRow row)
         {
             if (row == null)
             {
@@ -239,7 +239,7 @@ namespace C1.WPF.Schedule
         /// <summary>
         /// Occurs when the list of selected appointments is changed.
         /// </summary>
-        public event EventHandler SelectedAppointmentsChanged;
+        public event EventHandler? SelectedAppointmentsChanged;
         internal void OnSelectedAppointmentsChanged(EventArgs args)
         {
             SelectedAppointmentsChanged?.Invoke(this, args);
@@ -254,7 +254,7 @@ namespace C1.WPF.Schedule
             {
                 for (int i = range.Row; i <= range.Row2; i++)
                 {
-                    Appointment app = this.GetRowAppointment(i);
+                    Appointment? app = this.GetRowAppointment(i);
                     if (app != null)
                     {
                         appsForSelect.Add(app);
@@ -277,7 +277,7 @@ namespace C1.WPF.Schedule
             {
                 _selectedApps.Clear();
                 _selectedApps.AddRange(appsForSelect);
-                OnSelectedAppointmentsChanged(null);
+                OnSelectedAppointmentsChanged(EventArgs.Empty);
             }
         }
         #endregion
@@ -300,14 +300,14 @@ namespace C1.WPF.Schedule
                 if (IsReadOnly || Columns[hitTest.Column].IsReadOnly)
                 {
                     // open EditAppointmentDialog on double click on readonly areas
-                    Appointment app = GetRowAppointment(hitTest.Row);
+                    Appointment? app = GetRowAppointment(hitTest.Row);
                     if (app != null)
                     {
                         this.FinishEditing();
                         // open appointment in dialog
                         app.BeginEdit();
                         var dlg = new EditAppointmentDialog(Storage, app);
-                        if ((bool)dlg.ShowDialog())
+                        if (dlg.ShowDialog() is bool)
                         {
                             // apply changes
                             app.EndEdit();
@@ -327,7 +327,8 @@ namespace C1.WPF.Schedule
 
         //------------------------------------------------
         #region ** Disposing
-        public void Dispose()
+        /// <inheridoc/>
+        public new void Dispose()
         {
             // detach
             DetachStorage(Storage);

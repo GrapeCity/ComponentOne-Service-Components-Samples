@@ -1,5 +1,4 @@
 using C1.DataCollection;
-using Foundation;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -21,7 +20,9 @@ namespace C1DataCollection101
             RefreshControl = new UIRefreshControl();
             var myDataCollection = new VirtualModedDataCollection();
             var myCollectionViewSource = new SimpleOnDemandCollectionViewSource(TableView);
+#pragma warning disable IL2026
             myCollectionViewSource.ItemsSource = myDataCollection;
+#pragma warning restore IL2026
             myCollectionViewSource.RefreshControl = RefreshControl;
             TableView.Source = myCollectionViewSource;
         }

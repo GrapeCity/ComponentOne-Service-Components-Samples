@@ -20,7 +20,7 @@ namespace C1.WPF.Schedule
         private ListSortDirection? _sort;
         private int _groupIndex;
         private string _caption;
-        private PropertyInfo _pi; // cache PropertyInfo for C1.C1Schedule.Appointment property
+        private PropertyInfo? _pi; // cache PropertyInfo for C1.C1Schedule.Appointment property
         #endregion
 
         //-----------------------------------------------------
@@ -134,7 +134,7 @@ namespace C1.WPF.Schedule
 
         //-----------------------------------------------------
         #region ** Get/Set appointment property
-        internal object GetPropertyValue(Appointment app)
+        internal object? GetPropertyValue(Appointment app)
         {
             return _pi?.GetValue(app, null);
         }
@@ -147,7 +147,7 @@ namespace C1.WPF.Schedule
 
         //-----------------------------------------------------
         #region ** PropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         /// Fires property change notification.
@@ -226,7 +226,7 @@ namespace C1.WPF.Schedule
             return field;
         }
 
-        private void Field_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void Field_PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             if (_initialized)
             {
@@ -237,10 +237,10 @@ namespace C1.WPF.Schedule
         /// <summary>
         /// Fires when one of fields changes.
         /// </summary>
-        public event EventHandler FieldChanged;
+        public event EventHandler? FieldChanged;
         protected virtual void OnFieldChanged()
         {
-            FieldChanged?.Invoke(this, null);
+            FieldChanged?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

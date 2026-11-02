@@ -1,8 +1,5 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Android.Graphics;
+﻿using Android.Graphics;
 using Android.Views;
-using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using C1.Android.DataCollection;
 using C1.DataCollection;
@@ -18,27 +15,30 @@ namespace C1DataCollection101
 
         protected override RecyclerView.ViewHolder OnCreateGroupViewHolder(ViewGroup parent)
         {
-            var itemView = LayoutInflater.FromContext(parent.Context).Inflate(Resource.Layout.ListGroup, parent, false);
+            var itemView = LayoutInflater.FromContext(parent.Context!)?.Inflate(Resource.Layout.ListGroup, parent, false)!;
+
             return new YouTubeGroupViewHolder(itemView);
         }
 
         protected override void OnBindGroupViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var h = holder as YouTubeGroupViewHolder;
+            var h = (YouTubeGroupViewHolder)holder;
             var group = DataCollection[position] as IDataCollectionGroup<object, object>;
-            h.SetTitle(group.Group.ToString().ToUpper());
+            var titleText = group?.Group.ToString()?.ToUpper() ?? string.Empty;
+            h.SetTitle(titleText);
         }
 
         protected override RecyclerView.ViewHolder OnCreateItemViewHolder(ViewGroup parent)
         {
-            var itemView = LayoutInflater.FromContext(parent.Context).Inflate(Resource.Layout.ListItem, parent, false);
+            var itemView = LayoutInflater.FromContext(parent.Context!)?.Inflate(Resource.Layout.ListItem, parent, false)!;
+
             return new YoutubeViewHolder(itemView);
         }
 
         protected override void OnBindItemViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var h = holder as YoutubeViewHolder;
-            var video = DataCollection[position] as YouTubeVideo;
+            var h = (YoutubeViewHolder)holder;
+            var video = (YouTubeVideo)DataCollection[position];
             h.SetTitle(video.Title);
             h.SetSubtitle(video.Description);
             h.SetVideoThumbnail(video.Thumbnail, CancellationToken.None);
@@ -47,16 +47,16 @@ namespace C1DataCollection101
 
     internal class YoutubeViewHolder : RecyclerView.ViewHolder
     {
-        private TextView _title;
-        private TextView _subTitle;
-        private ImageView _icon;
+        private TextView _title = null!;
+        private TextView _subTitle = null!;
+        private ImageView _icon = null!;
 
         public YoutubeViewHolder(View itemView)
             : base(itemView)
         {
-            _title = itemView.FindViewById<TextView>(Resource.Id.Title);
-            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle);
-            _icon = itemView.FindViewById<ImageView>(Resource.Id.Icon);
+            _title = itemView.FindViewById<TextView>(Resource.Id.Title)!;
+            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle)!;
+            _icon = itemView.FindViewById<ImageView>(Resource.Id.Icon)!;
         }
 
         internal void SetTitle(string title)
@@ -72,7 +72,7 @@ namespace C1DataCollection101
         internal void SetVideoThumbnail(string url, CancellationToken cancellationToken)
         {
             _icon.SetImageResource(Resource.Drawable.placeholder);
-            Bitmap imageSource = null;
+            Bitmap? imageSource = null;
             Task.Run(() =>
             {
                 var imageStream = new Java.Net.URL(url).OpenStream();
@@ -90,12 +90,12 @@ namespace C1DataCollection101
 
     internal class YouTubeGroupViewHolder : RecyclerView.ViewHolder
     {
-        private TextView _title;
+        private TextView _title = null!;
 
         public YouTubeGroupViewHolder(View itemView)
             : base(itemView)
         {
-            _title = itemView.FindViewById<TextView>(Resource.Id.Title);
+            _title = itemView.FindViewById<TextView>(Resource.Id.Title)!;
         }
 
         internal void SetTitle(string title)

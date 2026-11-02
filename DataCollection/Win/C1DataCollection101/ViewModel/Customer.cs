@@ -11,7 +11,6 @@ namespace C1DataCollection101
     /// <summary>
     /// Simple data class generator.
     /// </summary>
-    /// <remarks>
     public class Customer : INotifyPropertyChanged, IEditableObject
     {
         #region ** fields
@@ -310,7 +309,7 @@ namespace C1DataCollection101
         Customer _clone;
         public void BeginEdit()
         {
-            _clone = (Customer)this.MemberwiseClone();
+            _clone = (Customer)MemberwiseClone();
         }
 
         public void EndEdit()
@@ -322,7 +321,7 @@ namespace C1DataCollection101
         {
             if (_clone != null)
             {
-                foreach (var p in this.GetType().GetRuntimeProperties())
+                foreach (var p in GetType().GetProperties())
                 {
                     if (p.CanRead && p.CanWrite)
                     {

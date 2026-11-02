@@ -50,23 +50,23 @@ namespace WpfElements
             types[1] = 0x01;
             types[2] = 0x01;
             types[3] = 0x01;
-            types[4] = 0x00;
+            types[4] = 0x80;
             pdf.FillPath(Color.FromArgb(0xff, 0xe4, 0x93, 0x56), pts, types, true);
 
             //rect.in
             //pdf.DrawPreferences = DrawElementPreferences.Pixels;
             pdf.DrawElement(cnv, rect, C1.Util.ContentAlignment.MiddleCenter, Stretch.None);
 
-            //string pdffile = @"c:\temp\test.pdf";
-            string pdffile = GetResult("Results/TestDocument.pdf");
+            //string pdfResult = @"c:\temp\test.pdf";
+            string pdfResult = GetResult("Results/TestDocument.pdf");
 
             try
             {
                 //PDFファイルを保存
-                pdf.Save(pdffile);
+                pdf.Save(pdfResult);
                 //開く
                 System.Diagnostics.Process.Start
-                    (new System.Diagnostics.ProcessStartInfo(pdffile) { UseShellExecute = true });
+                    (new System.Diagnostics.ProcessStartInfo(pdfResult) { UseShellExecute = true });
 
             }
             catch (Exception ex)

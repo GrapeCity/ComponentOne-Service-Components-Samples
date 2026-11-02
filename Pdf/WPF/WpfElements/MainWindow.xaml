@@ -19,8 +19,11 @@
                 </Grid.RowDefinitions>
                 <Canvas Margin="-57,-45,0,0">
                     <Canvas.RenderTransform>
-                        <ScaleTransform ScaleX="0.42" ScaleY="0.42"/>
+                        <ScaleTransform ScaleX="0.4" ScaleY="0.4"/>
                     </Canvas.RenderTransform>
+                    <TextBlock Canvas.Left="519.712" Canvas.Top="392.4380952380952" Foreground="#FF000000" FontFamily="Arial" FontSize="56.72" >
+                        8000
+                    </TextBlock>
                     <Canvas>
 
                         <!-- Round rectangle -->

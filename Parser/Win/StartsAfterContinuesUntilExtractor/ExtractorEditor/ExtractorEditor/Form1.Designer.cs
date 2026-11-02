@@ -42,7 +42,7 @@ namespace ExtractorEditor
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.c1FlexGrid1 = new C1.Win.C1FlexGrid.C1FlexGrid();
+            this.c1FlexGrid1 = new C1.Win.FlexGrid.C1FlexGrid();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -240,7 +240,7 @@ namespace ExtractorEditor
 
         #endregion
 
-        private C1.Win.C1FlexGrid.C1FlexGrid c1FlexGrid1;
+        private C1.Win.FlexGrid.C1FlexGrid c1FlexGrid1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;

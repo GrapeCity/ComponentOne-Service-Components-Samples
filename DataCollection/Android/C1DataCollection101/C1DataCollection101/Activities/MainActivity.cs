@@ -1,23 +1,21 @@
-﻿using System;
-using Android.App;
-using Android.OS;
-using Android.Views;
-using Android.Widget;
+﻿using Android.Views;
 using AndroidX.RecyclerView.Widget;
+using Java.Nio.Channels;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "C1DataCollection101", MainLauncher = true)]
     public class MainActivity : Activity
     {
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle? bundle)
         {
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);
 
-            var recyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
+            var recyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView)!;
             recyclerView.SetLayoutManager(new LinearLayoutManager(BaseContext));
+
             var adapter = new DataCollectionSamplesAdapter();
             adapter.ItemClicked += (s, e) =>
             {
@@ -45,7 +43,7 @@ namespace C1DataCollection101
     }
     internal class DataCollectionSamplesAdapter : RecyclerView.Adapter
     {
-        public event EventHandler<FlexGridSampleItemClickedEventArgs> ItemClicked;
+        public event EventHandler<FlexGridSampleItemClickedEventArgs>? ItemClicked;
 
         public override int ItemCount
         {
@@ -57,12 +55,16 @@ namespace C1DataCollection101
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view = LayoutInflater.From(parent.Context)
-                               .Inflate(Resource.Layout.ListItem, null);
+            var view = LayoutInflater.From(parent.Context)?
+                               .Inflate(Resource.Layout.ListItem, null)!;
+
             view.Click += (s, e) =>
             {
                 var v = s as View;
-                var recyclerView = v.Parent as RecyclerView;
+                var recyclerView = v?.Parent as RecyclerView;
+                if (v is null || recyclerView is null)
+                    throw new NullReferenceException($"Can't find correct RecyclerView.");
+
                 int itemPosition = recyclerView.GetChildAdapterPosition(v);
 
                 if (ItemClicked != null)
@@ -73,8 +75,10 @@ namespace C1DataCollection101
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var h = holder as FlexGridSamplesViewHolder;
-            var resources = holder.ItemView.Context.Resources;
+            var h = (FlexGridSamplesViewHolder)holder;
+
+            var resources = h.ItemView?.Context?.Resources!;
+
             switch (position)
             {
                 case 0:
@@ -113,31 +117,31 @@ namespace C1DataCollection101
 
     internal class FlexGridSamplesViewHolder : RecyclerView.ViewHolder
     {
-        private TextView _title;
-        private TextView _subTitle;
-        private ImageView _icon;
+        private TextView _title = null!;
+        private TextView _subTitle = null!;
+        private ImageView _icon = null!;
 
         public FlexGridSamplesViewHolder(View itemView)
             : base(itemView)
         {
-            _title = itemView.FindViewById<TextView>(Resource.Id.Title);
-            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle);
-            _icon = itemView.FindViewById<ImageView>(Resource.Id.Icon);
+            _title = itemView.FindViewById<TextView>(Resource.Id.Title)!;
+            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle)!;
+            _icon = itemView.FindViewById<ImageView>(Resource.Id.Icon)!;
         }
 
         internal void SetTitle(string title)
         {
-            _title.Text = title;
+            _title?.Text = title;
         }
 
         internal void SetSubtitle(string title)
         {
-            _subTitle.Text = title;
+            _subTitle?.Text = title;
         }
 
         internal void SetIcon(int resourceId)
         {
-            _icon.SetImageResource(resourceId);
+            _icon?.SetImageResource(resourceId);
         }
     }
 

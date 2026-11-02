@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -12,13 +13,22 @@ namespace DataCollectionExplorer;
 /// <summary>
 /// Simple data class generator.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.AllProperties | DynamicallyAccessedMemberTypes.AllConstructors)]
+[UnconditionalSuppressMessage("Trimming", "IL2113", Justification = TrimmingPropertiesJustification)]
 public class Customer : ObservableValidator, IEditableObject
 {
     #region fields
 
+    private const string TrimmingPropertiesJustification = "This class was annotated to preserve the properties.";
+
     int _id, _countryId, _orderCount;
-    string _first, _last;
-    string _address, _city, _postalCode, _email;
+    string _first = null!;
+    string _last = null!;
+    string _address = null!;
+    string _city = null!;
+    string _postalCode = null!;
+    string _email = null!;
+
     bool _active;
     DateTime _lastOrderDate;
     double _orderTotal;
@@ -36,10 +46,12 @@ public class Customer : ObservableValidator, IEditableObject
 
     #region initialization
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public Customer()
     {
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public Customer(int id)
     {
         Id = id;
@@ -66,6 +78,8 @@ public class Customer : ObservableValidator, IEditableObject
     public int Id
     {
         get { return _id; }
+
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
         set
         {
             SetProperty(ref _id, value, true);
@@ -76,6 +90,7 @@ public class Customer : ObservableValidator, IEditableObject
     public string FirstName
     {
         get { return _first; }
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
         set
         {
             SetProperty(ref _first, value, true);
@@ -84,6 +99,7 @@ public class Customer : ObservableValidator, IEditableObject
     }
 
     [Required]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public string LastName
     {
         get { return _last; }
@@ -95,6 +111,7 @@ public class Customer : ObservableValidator, IEditableObject
     }
 
     [MinLength(2)]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public string Address
     {
         get { return _address; }
@@ -104,6 +121,7 @@ public class Customer : ObservableValidator, IEditableObject
         }
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public string City
     {
         get { return _city; }
@@ -115,6 +133,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public int CountryId
     {
         get { return _countryId; }
@@ -129,6 +148,7 @@ public class Customer : ObservableValidator, IEditableObject
         }
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public string PostalCode
     {
         get { return _postalCode; }
@@ -140,6 +160,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(Name = "e-mail")]
     [Required, EmailAddress]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public string Email
     {
         get { return _email; }
@@ -151,6 +172,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public DateTime LastOrderDate
     {
         get { return _lastOrderDate; }
@@ -172,6 +194,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public int OrderCount
     {
         get { return _orderCount; }
@@ -183,6 +206,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public double OrderTotal
     {
         get { return _orderTotal; }
@@ -194,6 +218,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     [Display(AutoGenerateField = false)]
     [JsonIgnore]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
     public bool Active
     {
         get { return _active; }
@@ -222,6 +247,19 @@ public class Customer : ObservableValidator, IEditableObject
     public double OrderAverage
     {
         get { return OrderTotal / (double)OrderCount; }
+    }
+
+
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = TrimmingPropertiesJustification)]
+    public bool Validate()
+    {
+        ValidateAllProperties();
+        return !HasErrors;
+    }
+
+    public static IEnumerable<City> GetCities()
+    {
+        return _countries.SelectMany(country => country.Value, (pair, city) => new City() { Name = city, Country = pair.Key });
     }
 
     #endregion
@@ -268,7 +306,7 @@ public class Customer : ObservableValidator, IEditableObject
 
     // this interface allows transacted edits (user can press escape to restore previous values).
 
-    Customer _clone;
+    Customer? _clone;
     public void BeginEdit()
     {
         _clone = (Customer)this.MemberwiseClone();
@@ -294,23 +332,14 @@ public class Customer : ObservableValidator, IEditableObject
     }
 
     #endregion
-
-    public static IEnumerable<City> GetCities()
-    {
-        return _countries.SelectMany(country => country.Value, (pair, city) => new City() { Name = city, Country = pair.Key });
-    }
-
-    public bool Validate()
-    {
-        ValidateAllProperties();
-        return !HasErrors;
-    }
 }
 
 public class City
 {
     [Display(AutoGenerateField = false)]
     public bool Selected { get; set; }
-    public string Name { get; set; }
-    public string Country { get; set; }
+    [Required]
+    public string Name { get; set; } = null!;
+    [Required]
+    public string Country { get; set; } = null!;
 }

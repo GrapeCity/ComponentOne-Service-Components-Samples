@@ -3,6 +3,8 @@ using C1.DataCollection.AdoNet;
 using C1.iOS.DataCollection;
 using Foundation;
 using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Versioning;
 using UIKit;
 
 namespace ODataViewer
@@ -25,7 +27,9 @@ namespace ODataViewer
             TableView.Source = tableViewSource;
             RefreshControl = new UIRefreshControl();
             tableViewSource.RefreshControl = RefreshControl;
+#pragma warning disable IL2026
             tableViewSource.ItemsSource = dataCollection;
+#pragma warning restore IL2026
         }
     }
 
@@ -47,6 +51,12 @@ namespace ODataViewer
         {
         }
 
+        [ObsoletedOSPlatform("ios12.2")]
+        [ObsoletedOSPlatform("tvos12.2")]
+        [ObsoletedOSPlatform("maccatalyst12.2")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("maccatalyst")]
         public override UITableViewCell GetItemCell(UITableView tableView, NSIndexPath indexPath, Invoice item)
         {
             UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);

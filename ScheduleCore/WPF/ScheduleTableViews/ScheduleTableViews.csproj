@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>$(NoWarn);SYSLIB0014;SYSLIB0051;MC3074</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="C1.WPF.ScheduleTableViews\**" />
@@ -16,7 +17,6 @@
     <Compile Remove="EditAppointmentControl.xaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
     <None Remove="Resources\activeButton.LargeImage.png" />
     <None Remove="Resources\activeButton.SmallImage.png" />
     <None Remove="Resources\C1-ball.ico" />
@@ -40,7 +40,7 @@
     <Page Remove="EditAppointmentControl.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\activeButton.LargeImage.png" />
@@ -66,13 +66,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.ScheduleCore">
-      <Version>9.0.20251.58</Version>
+      <Version>10.0.20262.14</Version>
     </PackageReference>
-    <PackageReference Include="C1.WPF.Calendar" Version="8.0.20241.778" />
-    <PackageReference Include="C1.WPF.Grid" Version="8.0.20241.778" />
-    <PackageReference Include="C1.WPF.Ribbon" Version="8.0.20241.778" />
+    <PackageReference Include="C1.WPF.Calendar" Version="10.0.20261.*" />
+    <PackageReference Include="C1.WPF.Grid" Version="10.0.20261.*" />
+    <PackageReference Include="C1.WPF.Ribbon" Version="10.0.20261.*" />
     <PackageReference Include="C1.WPF.ScheduleCore">
-      <Version>9.0.20251.58</Version>
+      <Version>10.0.20262.14</Version>
     </PackageReference>
     <PackageReference Include="System.Data.OleDb" Version="8.0.0" />
   </ItemGroup>

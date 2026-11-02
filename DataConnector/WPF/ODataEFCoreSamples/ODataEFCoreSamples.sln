@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 18
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ODataEFCoreSamples", "ODataEFCoreSamples.csproj", "{470D1731-7A9F-4A62-98E6-416A9D8688A7}"
 EndProject
 Global
@@ -31,5 +31,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26C9E12C-0EAF-4103-B495-10F2CB7F8FD6}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\Shared\Components\Core\SA3Licensing\SA3Licensing.projitems*{1a2bb22c-50a5-4210-934b-8c4e0645a437}*SharedItemsImports = 5
+		..\..\..\Shared\Components\Core\EFCore\Query\ExpressionTranslators\ExpressionTranslators.projitems*{3359dbf4-8aa5-4193-a3ed-014e99ad41c3}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

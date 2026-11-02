@@ -1,0 +1,15 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="iPhone" />
+    <Platform Name="iPhoneSimulator" />
+  </Configurations>
+
+  <Project Path="ODataViewer/ODataViewer.csproj">
+    <Platform Solution="*|iPhone" Project="iPhone" />
+    <Platform Solution="Release|iPhoneSimulator" Project="iPhoneSimulator" />
+    <Deploy Solution="*|iPhone" />
+    <Deploy Solution="*|iPhoneSimulator" />
+    <Deploy Solution="Debug|Any CPU" />
+  </Project>
+</Solution>

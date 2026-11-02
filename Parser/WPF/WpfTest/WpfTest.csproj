@@ -118,10 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
@@ -129,6 +129,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="WpfTest.gclicx" />
+    <EmbeddedResource Include="WpfTest.sa3licx" />
   </ItemGroup>
 </Project>

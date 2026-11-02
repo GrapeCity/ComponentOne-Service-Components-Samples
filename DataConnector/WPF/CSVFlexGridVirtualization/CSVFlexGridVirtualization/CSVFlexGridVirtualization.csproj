@@ -2,18 +2,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="CSVFlexGridVirtualization.sa3licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CSVFlexGridVirtualization.sa3licx" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="C1.AdoNet.CSV">
-      <Version>1.0.20251.5</Version>
+      <Version>1.0.20262.76</Version>
     </PackageReference>
-    <PackageReference Include="C1.DataCollection.AdoNet" Version="1.0.20231.144" />
-    <PackageReference Include="C1.DataCollection.BindingList" Version="1.0.20231.144" />
-    <PackageReference Include="C1.WPF.DataCollection" Version="1.0.20231.144" />
-    <PackageReference Include="C1.WPF.Grid" Version="6.0.20231.533" />
+    <PackageReference Include="C1.DataCollection.AdoNet" Version="10.0.20252.*" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="10.0.20252.*" />
+    <PackageReference Include="C1.WPF.DataCollection" Version="10.0.20252.*" />
+    <PackageReference Include="C1.WPF.Grid" Version="10.0.20252.*" />
   </ItemGroup>
   <ItemGroup>
     <None Update="output100k.csv">

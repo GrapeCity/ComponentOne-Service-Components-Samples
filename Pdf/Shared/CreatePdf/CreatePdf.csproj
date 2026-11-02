@@ -4,7 +4,7 @@
     <TargetFramework>net9.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
+    <None Remove=".sa3licx" />
     <None Remove="Data\flow.txt" />
     <None Remove="Images\escher\belvedere.jpg" />
     <None Remove="Images\escher\concave &amp; convex.jpg" />
@@ -64,7 +64,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
     <EmbeddedResource Include="Data\flow.txt" />
     <EmbeddedResource Include="Images\escher\belvedere.jpg" />
     <EmbeddedResource Include="Images\escher\concave &amp; convex.jpg" />
@@ -130,7 +130,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

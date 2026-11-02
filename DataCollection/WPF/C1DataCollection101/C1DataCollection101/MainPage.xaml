@@ -14,14 +14,14 @@
             <ColumnDefinition MinWidth="200" Width="Auto"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Samples}" SelectionChanged="OnSampleSelected" SelectionMode="Single">
+        <ListView x:Name="samplesList" ItemsSource="{Binding Samples}" SelectionChanged="OnSampleSelected" SelectionMode="Single">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Name}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Frame x:Name="frame" Source="Sorting.xaml" Grid.Column="1" />
+        <Frame x:Name="frame" Source="Sorting.xaml" Navigated="OnPageNavigated" Grid.Column="1" />
     </Grid>
 </Page>
 

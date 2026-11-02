@@ -431,8 +431,9 @@ namespace ExcelViewerWinUI
             var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
             var picker = new FileSavePicker();
             picker.FileTypeChoices.Clear();
+            picker.FileTypeChoices.Add("Excel Open XML Files (*.xlsx)", new List<string>() { ".xlsx" });
             picker.FileTypeChoices.Add("Excel Macro Files (*.xlsm)", new List<string>() { ".xlsm" });
-            picker.FileTypeChoices.Add("Excel XLS Files (*.xls)", new List<string>() { ".xls" });
+            picker.FileTypeChoices.Add("Excel Binary Files (*.xls)", new List<string>() { ".xls" });
             picker.FileTypeChoices.Add("Comma Separated Values Files (*.csv)", new List<string>() { ".csv" });
             // Get the suggested file name from the open file path
             string suggestedFileName = System.IO.Path.GetFileNameWithoutExtension(_svgFileName);

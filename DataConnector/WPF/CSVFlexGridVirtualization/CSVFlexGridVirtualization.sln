@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# Visual Studio Version 18
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CSVFlexGridVirtualization", "CSVFlexGridVirtualization\CSVFlexGridVirtualization.csproj", "{0E9F9B88-B29E-4437-86D3-E42FF1FE0009}"
 EndProject
 Global
@@ -25,5 +25,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CA348EB4-C56D-4485-8D04-7F47E0389000}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\Shared\Components\Core\SA3Licensing\SA3Licensing.projitems*{5a9d5d7e-f16d-4d59-af54-bbb7300f5ee5}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

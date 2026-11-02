@@ -8,7 +8,6 @@ using System.Globalization;
 using System.Diagnostics;
 
 using C1.Excel;
-using _Image = GrapeCity.Documents.Drawing.Image;
 
 namespace ExcelFormulas
 {
@@ -37,10 +36,10 @@ namespace ExcelFormulas
             XLPictureShape picture;
 
             // create images
-            var spbImage = _Image.FromStream(GetManifestResource("spb.jpg"));
-            var canadaImage = _Image.FromStream(GetManifestResource("canada.bmp"));
-            var googleImage = _Image.FromStream(GetManifestResource("google.bmp"));
-            var babyImage = _Image.FromStream(GetManifestResource("baby.png"));
+            var spbImage = XLImage.FromStream(GetManifestResource("spb.jpg"));
+            var canadaImage = XLImage.FromStream(GetManifestResource("canada.bmp"));
+            var googleImage = XLImage.FromStream(GetManifestResource("google.bmp"));
+            var babyImage = XLImage.FromStream(GetManifestResource("baby.png"));
 
             /////////////////////////////////////////////////////////
             // List "Images" -- three methods add images
@@ -166,36 +165,36 @@ namespace ExcelFormulas
             sheet[2, 1].Value = "hyperlink (click on the picture)";
 
             // others view type
-            col = 1;
+            int c = 1;
             sheet.Rows[4].Height = 2000;
             foreach (XLPictureViewType viewType in Enum.GetValues(typeof(XLPictureViewType)))
             {
-                sheet.Columns[col].Width = 3600;
+                sheet.Columns[c].Width = 3600;
                 picture = new XLPictureShape(spbImage);
                 picture.ViewType = viewType;
-                sheet[4, col].Value = picture;
-                sheet[5, col].Value = "view type: " + viewType.ToString();
+                sheet[4, c].Value = picture;
+                sheet[5, c].Value = "view type: " + viewType.ToString();
 
-                col += 2;
+                c += 2;
             }
 
             // brightness & contrast
-            col = 1;
+            c = 1;
             sheet.Rows[7].Height = sheet.Rows[10].Height = 2000;
             for (int i = 0; i <= 100; i += 10)
             {
-                sheet.Columns[col].Width = 3600;
+                sheet.Columns[c].Width = 3600;
                 picture = new XLPictureShape(spbImage);
                 picture.Brightness = (float)i / 100;
-                sheet[7, col].Value = picture;
-                sheet[8, col].Value = string.Format("brightness: {0}", picture.Brightness);
+                sheet[7, c].Value = picture;
+                sheet[8, c].Value = string.Format("brightness: {0}", picture.Brightness);
 
                 picture = new XLPictureShape(spbImage);
                 picture.Contrast = (float)i / 100;
-                sheet[10, col].Value = picture;
-                sheet[11, col].Value = string.Format("contrast: {0}", picture.Contrast);
+                sheet[10, c].Value = picture;
+                sheet[11, c].Value = string.Format("contrast: {0}", picture.Contrast);
 
-                col += 2;
+                c += 2;
             }
 
             // done

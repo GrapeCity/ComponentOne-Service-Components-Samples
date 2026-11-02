@@ -34,16 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
-    </PackageReference>
-    <PackageReference Include="C1.Win.C1Document" Version="4.5.20212.529">
-    </PackageReference>
-    <PackageReference Include="C1.Win.C1FlexGrid" Version="4.5.20212.529">
-    </PackageReference>
-    <PackageReference Include="C1.Win.TextParser">
-      <Version>9.0.20251.12</Version>
-    </PackageReference>
     <Reference Include="System" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -100,6 +90,20 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <EmbeddedResource Include="ExtractorEditor.gclicx" />
+    <EmbeddedResource Include="ExtractorEditor.sa3licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="C1.TextParser">
+      <Version>10.0.20262.55</Version>
+    </PackageReference>
+    <PackageReference Include="C1.Win.Document">
+      <Version>10.0.20252.761</Version>
+    </PackageReference>
+    <PackageReference Include="C1.Win.FlexGrid">
+      <Version>10.0.20252.761</Version>
+    </PackageReference>
+    <PackageReference Include="C1.Win.TextParser">
+      <Version>10.0.20262.55</Version>
+    </PackageReference>
   </ItemGroup>
 </Project>

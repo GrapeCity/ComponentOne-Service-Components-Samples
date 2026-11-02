@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Excel">
-      <Version>9.0.20251.144</Version>
+      <Version>10.0.20262.328</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2415-prerelease" />
   </ItemGroup>
@@ -28,5 +28,8 @@
     <None Update="Results\readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
 </Project>

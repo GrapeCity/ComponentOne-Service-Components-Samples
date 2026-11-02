@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using C1.DataCollection;
 using C1.Win.DataCollection;
 using C1DataCollection101.Resources;
+using System.Diagnostics.CodeAnalysis;
 
 namespace C1DataCollection101.View
 {
@@ -26,6 +27,7 @@ namespace C1DataCollection101.View
             await UpdateVideos();
         }
 
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The YouTubeVideo class was annotated to avoid trimming.")]
         private async Task UpdateVideos()
         {
             try

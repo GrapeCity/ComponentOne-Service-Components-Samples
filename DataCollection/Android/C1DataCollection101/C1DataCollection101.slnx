@@ -1,0 +1,6 @@
+<Solution>
+
+  <Project Path="C1DataCollection101/C1DataCollection101.csproj">
+    <Deploy />
+  </Project>
+</Solution>

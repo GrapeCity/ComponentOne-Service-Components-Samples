@@ -1,18 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>C1-ball.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.0" />
   </ItemGroup>
   <ItemGroup>

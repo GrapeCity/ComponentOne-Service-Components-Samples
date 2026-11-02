@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -8,6 +9,8 @@ using System.Runtime.InteropServices;
 // to COM components.  If you need to access a type in this assembly from
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+[assembly: SupportedOSPlatform("windows6.1")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("0c1d3b01-2344-4867-a5ab-52f258c595a2")]

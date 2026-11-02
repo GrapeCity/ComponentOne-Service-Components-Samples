@@ -1,27 +1,28 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization;
 
 namespace ProxyDataCollection.Shared
 {
     public class Stock : INotifyPropertyChanged
     {
-        string _symbol;
-        string _name;
+        string? _symbol;
+        string? _name;
         double _bid;
         double _ask;
         double _lastSale;
-        double[] _bidHistory;
+        double[]? _bidHistory;
 
         [Display(Name = "Symbol")]
-        public string Symbol
+        public string? Symbol
         {
             get { return _symbol; }
             set { _symbol = value; OnPropertyChanged(); }
         }
 
         [Display(Name = "Name")]
-        public string Name
+        public string? Name
         {
             get { return _name; }
             set { _name = value; OnPropertyChanged(); }
@@ -34,7 +35,7 @@ namespace ProxyDataCollection.Shared
             set { _bid = value; OnPropertyChanged(); }
         }
 
-        public double[] BidHistory
+        public double[]? BidHistory
         {
             get { return _bidHistory; }
             set { _bidHistory = value; OnPropertyChanged(); }
@@ -61,12 +62,17 @@ namespace ProxyDataCollection.Shared
             get { return _bid / LastSale - 1; }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+    }
+
+    [JsonSerializable(typeof(Stock))]
+    public partial class StockSerializerContext : JsonSerializerContext
+    {
     }
 }

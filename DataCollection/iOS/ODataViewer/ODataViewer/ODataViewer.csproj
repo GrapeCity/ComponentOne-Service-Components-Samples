@@ -1,20 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net9.0-ios</TargetFramework>
+    <TargetFramework>net10.0-ios</TargetFramework>
     <GenerateRuntimeConfigurationFiles>false</GenerateRuntimeConfigurationFiles>
     <OutputType>Exe</OutputType>
-    <SupportedOSPlatformVersion>11.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20231.121" />
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20261.47" />
     <PackageReference Include="C1.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.iOS.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

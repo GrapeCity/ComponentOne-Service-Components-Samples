@@ -58,7 +58,9 @@ namespace CreatePdf
 
             // C1Pdf
             _pdf = new C1PdfDocument();
-#if DEBUG
+            _pdf.UseLinearized = true;              // use this line for multi-page documents
+            //_pdf.UseFileCaching = true;             // use this line for huge documents
+#if DEBUGx
             _pdf.Compression = _CompressionLevel.NoCompression;
 #endif
             // name and security
@@ -110,9 +112,10 @@ namespace CreatePdf
             Save(ImageAlignment("bruegel.jpg"), preview);
             Save(ImageAlignment("gravitation.jpg"), preview);
             Save(AllFonts(), preview);
-            Save(TableContents(), preview);
+            Save(TableContents(30), preview);
             Save(FileAttachments(), preview);
             Save(TextFlow(), preview);
+            Save(MultiPage(100), preview);
 #if RTF
             Save(TextAlignment(), preview);
 #endif
@@ -987,6 +990,60 @@ namespace CreatePdf
 		}
 
         //================================================================================
+        // create a simple document with many pages
+        //
+        private string MultiPage(int pageCount)
+        {
+            // clear PDF or WORD documents
+            _doc.Clear();
+            var title = "Document with Many Pages";
+            if (_doc is C1PdfDocument pdf)
+            {
+                pdf.DocumentInfo.Title = title;
+            }
+            else if (_doc is C1WordDocument word)
+            {
+                word.Info.Title = title;
+            }
+            Console.WriteLine($"Creating {title}...");
+
+            // add title
+            _Font titleFont = new _Font("Tahoma", 24, _FontStyle.Bold);
+            _Rect rcPage = GetPageRect();
+            _Rect rc = RenderParagraph(title, titleFont, rcPage, rcPage, false);
+            rc.Y += 12;
+
+            // create nonsense document
+            List<string[]> bkmk = new();
+            _Font bodyFont = new _Font("Arial", 12);
+            for (int i = 0; i < pageCount; i++)
+            {
+                // next page
+                if (i > 0)
+                {
+                    _doc.NewPage();
+                    rc = rcPage;
+                }
+
+                // create ith header (as a link target and outline entry)
+                string text = string.Format("Page number: {0}", i + 1);
+                //rc = RenderParagraph(text, bodyFont, rcPage, rc, false, false);
+                rc = RenderParagraph(text, bodyFont, rcPage, rc, true, true);
+
+                // save bookmark to build TOC later
+                int pageNumber = _doc.CurrentPage + 1;
+                bkmk.Add(new string[] { pageNumber.ToString(), text });
+            }
+
+            // number pages (before adding TOC)
+            AddFooters();
+
+            // done
+            return "multi-page";
+        }
+
+
+        //================================================================================
         // create a document with a table of contents
         //
         // the sample keeps a list of bookmarks added to the document as it is rendered.
@@ -994,7 +1051,7 @@ namespace CreatePdf
         // contents with links to each topic. finally, the sample moves the table of
         // contents to the start of the document using the Pages collection.
         //
-        private string TableContents()
+        private string TableContents(int count)
 		{
             // clear PDF or WORD documents
             _doc.Clear();
@@ -1019,7 +1076,7 @@ namespace CreatePdf
 			List<string[]> bkmk = new();
 			_Font headerFont = new _Font("Arial", 14, _FontStyle.Bold);
 			_Font bodyFont = new _Font("Times New Roman", 11);
-			for (int i = 0; i < 30; i++)
+			for (int i = 0; i < count; i++)
 			{
 				// create ith header (as a link target and outline entry)
 				string header = string.Format("{0}. {1}", i + 1, BuildRandomTitle());

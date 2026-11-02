@@ -1,0 +1,10 @@
+body{font-family:Arial;margin:0px;} 
+#content {overflow:auto}
+@media print{
+    #content {
+        overflow: inherit;
+        height: auto;
+        background-color: White;
+    }} 
+section{margin:10px auto;box-shadow:10px 10px 20px black;} 
+@media print{section{box-shadow:none;margin:0;}}  

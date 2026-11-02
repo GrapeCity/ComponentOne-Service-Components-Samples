@@ -1,4 +1,5 @@
 ﻿using C1.DataCollection;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
@@ -14,6 +15,7 @@ public partial class Filtering : Page
         _ = LoadVideos();
     }
 
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The list of videos is a List<> object which preserves the interfaces")]
     private async Task LoadVideos()
     {
         var videos = await YouTubeDataCollection.LoadVideosAsync("WPF", "relevance", null, 50);

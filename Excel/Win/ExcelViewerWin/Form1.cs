@@ -471,13 +471,16 @@ namespace ExcelViewerWin
             dlg.Filter += "|Excel XLS Files (*.xls)|*.xls";
             dlg.Filter += "|Comma Separated Values Files (*.csv)|*.csv";
             dlg.ShowDialog();
-            var fileName = dlg.FileName.Replace('\\', '/');
-            var ext = System.IO.Path.GetExtension(fileName).Trim();
-            if (ext.Equals(".csv"))
-                _sheet.SaveCsv(dlg.FileName);
-            else
-                _sheet.Book.Save(dlg.FileName);
-            Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
+            if (!string.IsNullOrWhiteSpace(dlg.FileName))
+            {
+                var fileName = dlg.FileName.Replace('\\', '/');
+                var ext = System.IO.Path.GetExtension(fileName).Trim();
+                if (ext.Equals(".csv"))
+                    _sheet.SaveCsv(dlg.FileName);
+                else
+                    _sheet.Book.Save(dlg.FileName);
+                Process.Start(new ProcessStartInfo { FileName = fileName, UseShellExecute = true });
+            }
         }
 
         /// <summary>

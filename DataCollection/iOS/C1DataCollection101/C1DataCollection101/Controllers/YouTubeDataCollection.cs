@@ -1,11 +1,12 @@
-﻿using System;
+﻿using C1.DataCollection;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Threading.Tasks;
-using C1.DataCollection;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace C1DataCollection101
 {
@@ -13,6 +14,7 @@ namespace C1DataCollection101
     {
         private string _q;
 
+        [DynamicDependency(DynamicallyAccessedMemberTypes.All, typeof(YouTubeSearchResult))]
         public YouTubeDataCollection()
         {
             PageSize = 20;
@@ -53,25 +55,25 @@ namespace C1DataCollection101
             }
         }
 
-        protected override async Task<Tuple<string, IReadOnlyList<YouTubeVideo>>> GetPageAsync(int startingIndex, string pageToken, int? count = null, IReadOnlyList<SortDescription> sortDescriptions = null, FilterExpression filterExpresssion = null, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<Tuple<string, IReadOnlyList<YouTubeVideo>>> GetPageAsync(int startingIndex, string pageToken, int? count = null, IReadOnlyList<SortDescription> sortDescriptions = null, FilterExpression filterExpresssion = null, CancellationToken cancellationToken = default)
         {
             return await LoadVideosAsync(_q, "date", pageToken, PageSize, cancellationToken);
         }
 
-        public static async Task<Tuple<string, IReadOnlyList<YouTubeVideo>>> LoadVideosAsync(string q, string orderBy, string pageToken, int maxResults, CancellationToken cancellationToken = default(CancellationToken))
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The YouTubeSearchResult class was annotated so the properties are not trimmed.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "The YouTubeSearchResult class was annotated so the properties are not trimmed.")]
+        public static async Task<Tuple<string, IReadOnlyList<YouTubeVideo>>> LoadVideosAsync(string q, string orderBy, string pageToken, int maxResults, CancellationToken cancellationToken = default)
         {
-            if (q == null)
-                q = "";
+            q = q ?? "";
 
-            var youtubeUrl = string.Format("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q={0}&order={1}&maxResults={2}{3}&key={4}", Uri.EscapeUriString(q), orderBy, maxResults, string.IsNullOrWhiteSpace(pageToken) ? "" : "&pageToken=" + pageToken, "AIzaSyCGIvlreIsHaOVVoR2JAPJnbHkSUv3v4y0");
+            var youtubeUrl = string.Format("https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q={0}&order={1}&maxResults={2}{3}&key={4}", Uri.EscapeDataString(q), orderBy, maxResults, string.IsNullOrWhiteSpace(pageToken) ? "" : "&pageToken=" + pageToken, "AIzaSyCGIvlreIsHaOVVoR2JAPJnbHkSUv3v4y0");
 
-            var client = new HttpClient(new NSUrlSessionHandler());
+            var client = new HttpClient();
             var response = await client.GetAsync(youtubeUrl, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
                 var videos = new List<YouTubeVideo>();
-                var serializer = new DataContractJsonSerializer(typeof(YouTubeSearchResult));
-                var result = serializer.ReadObject(await response.Content.ReadAsStreamAsync()) as YouTubeSearchResult;
+                var result = await response.Content.ReadFromJsonAsync<YouTubeSearchResult>(cancellationToken);
                 foreach (var item in result.Items)
                 {
                     var video = new YouTubeVideo()
@@ -81,6 +83,7 @@ namespace C1DataCollection101
                         Thumbnail = item.Snippet.Thumbnails.Default.Url,
                         Link = "http://www.youtube.com/watch?v=" + item.Id.VideoId,
                         ChannelTitle = item.Snippet.ChannelTitle,
+                        PublishedAt = DateTime.Parse(item.Snippet.PublishedAt),
                     };
                     videos.Add(video);
                 }
@@ -95,6 +98,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeSearchResult
     {
         [DataMember(Name = "nextPageToken")]
@@ -104,6 +108,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeSearchItemResult
     {
         [DataMember(Name = "id")]
@@ -113,6 +118,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeVideoId
     {
         [DataMember(Name = "videoId")]
@@ -120,6 +126,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeSnippet
     {
         [DataMember(Name = "title")]
@@ -135,6 +142,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeThumbnails
     {
         [DataMember(Name = "default")]
@@ -146,6 +154,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeThumbnail
     {
         [DataMember(Name = "url")]
@@ -153,6 +162,7 @@ namespace C1DataCollection101
     }
 
     [DataContract]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor | DynamicallyAccessedMemberTypes.AllProperties)]
     public class YouTubeVideo
     {
         public string Title { get; set; }

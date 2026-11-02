@@ -2,10 +2,10 @@
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
   <ItemGroup>
     <None Update="input.txt">
@@ -17,7 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

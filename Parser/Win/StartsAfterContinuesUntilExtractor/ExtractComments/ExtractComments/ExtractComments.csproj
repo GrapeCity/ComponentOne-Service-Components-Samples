@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ExtractComments.gclicx" />
+    <EmbeddedResource Include="ExtractComments.sa3licx" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

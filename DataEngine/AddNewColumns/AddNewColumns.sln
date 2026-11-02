@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 17
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AddNewColumns", "AddNewColumns.csproj", "{99285A3F-A231-4953-B798-038A93E9AB16}"
 EndProject
 Global
@@ -22,5 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9DD09840-D650-4671-8B1B-456CD6D16472}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\Components\Licensing\Licensing.projitems*{1187afdc-9a45-46b4-91ee-75833a5265e6}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

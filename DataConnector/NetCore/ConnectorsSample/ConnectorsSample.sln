@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 18
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConnectorsSample", "ConnectorsSample.csproj", "{27A2D607-2161-4618-8AD6-4D2F793649F1}"
 EndProject
 Global
@@ -31,5 +31,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A479C54B-ABA8-4231-ADEA-5AADB733AFF4}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\..\Shared\Components\Core\SA3Licensing\SA3Licensing.projitems*{1a2bb22c-50a5-4210-934b-8c4e0645a437}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

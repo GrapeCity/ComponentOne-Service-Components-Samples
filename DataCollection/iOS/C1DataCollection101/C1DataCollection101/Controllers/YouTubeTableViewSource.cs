@@ -1,9 +1,9 @@
-﻿using Foundation;
+﻿using C1.iOS.DataCollection;
+using Foundation;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using UIKit;
-using C1.DataCollection;
-using C1.iOS.DataCollection;
 
 namespace C1DataCollection101
 {
@@ -17,6 +17,12 @@ namespace C1DataCollection101
         {
         }
 
+        [ObsoletedOSPlatform("ios14.0")]
+        [ObsoletedOSPlatform("tvos14.0")]
+        [ObsoletedOSPlatform("maccatalyst14.0")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("maccatalyst")]
         public override UITableViewCell GetItemCell(UITableView tableView, NSIndexPath indexPath, object item)
         {
             UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);
@@ -31,6 +37,12 @@ namespace C1DataCollection101
             return cell;
         }
 
+        [ObsoletedOSPlatform("ios10.0")]
+        [ObsoletedOSPlatform("tvos10.0")]
+        [ObsoletedOSPlatform("maccatalyst10.0")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("maccatalyst")]
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var video = GetItem(indexPath) as YouTubeVideo;

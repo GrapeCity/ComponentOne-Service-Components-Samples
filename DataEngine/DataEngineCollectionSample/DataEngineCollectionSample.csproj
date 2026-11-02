@@ -1,20 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DataEngineCollectionSample.gclicx" />
+    <EmbeddedResource Include="DataEngineCollectionSample.sa3licx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.DataCollection" Version="8.0.20242.201" />
-    <PackageReference Include="C1.DataCollection.BindingList" Version="8.0.20242.201" />
+    <PackageReference Include="C1.DataCollection.BindingList" Version="10.0.20262.*" />
     <PackageReference Include="C1.DataEngine">
-      <Version>9.0.20251.347</Version>
+      <Version>10.0.20262.421</Version>
     </PackageReference>
     <PackageReference Include="C1.DataEngine.Collection">
-      <Version>9.0.20251.347</Version>
+      <Version>10.0.20262.421</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

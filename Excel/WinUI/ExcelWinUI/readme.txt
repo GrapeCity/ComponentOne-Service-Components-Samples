@@ -1,5 +1,3 @@
-﻿ExcelWinUI
+ExcelWinUI
 ------------------------------------------------------------------------
-Shows how to create, open and save Excel (xlsx) files.
-
-The sample shows how you can create, open and save Excel (xlsx) files using the C1XLBook component on the WinUI platform.
+Demonstrates the rendering functionality of the C1Excel component in WinUI.

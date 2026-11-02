@@ -1,5 +1,5 @@
-## WebBrowser
-#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Pdf/WPF/WebBrowser)
+## WPF WebBrowser
 ____
-#### Demonstrates the basic functionality of HTML rendering from Internet.
+#### WEB browser for demonstation HTML rendering in C1.Pdf.
 ____
+It shows text, database, images, attachments and others.

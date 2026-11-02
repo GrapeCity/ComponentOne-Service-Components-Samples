@@ -24,11 +24,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
   </ItemGroup>
 </Project>

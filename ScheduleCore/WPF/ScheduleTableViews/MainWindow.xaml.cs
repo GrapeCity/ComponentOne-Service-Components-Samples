@@ -27,7 +27,7 @@ namespace ScheduleTableViews
     {
         private const string USHolidaysFile = "US32Holidays.ics";
         private const string USHolidaysDownloadUri = "https://www.officeholidays.com/ics-fed/usa";
-        private static string TEMP_DIR = System.Environment.GetEnvironmentVariable("tmp");
+        private static string? TEMP_DIR = System.Environment.GetEnvironmentVariable("tmp");
 
         private ScheduleTableViews.C1NwindDataSetTableAdapters.AppointmentsTableAdapter appointmentsTableAdapter = new ScheduleTableViews.C1NwindDataSetTableAdapters.AppointmentsTableAdapter();
         private ScheduleTableViews.C1NwindDataSetTableAdapters.AppointeesTableAdapter appointeesTableAdapter = new ScheduleTableViews.C1NwindDataSetTableAdapters.AppointeesTableAdapter();
@@ -108,7 +108,7 @@ namespace ScheduleTableViews
         }
 
         // On closing update data adapters in order to save data to the database.
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
             // this.appointeesTableAdapter.Update(dataSet.Appointees);
             // this.appointmentsTableAdapter.Update(dataSet.Appointments);
@@ -119,7 +119,7 @@ namespace ScheduleTableViews
             Appointment app = new Appointment();
             app.ParentCollection = _storage.AppointmentStorage.Appointments; // to allow referencing objects from all storages
             var dlg = new EditAppointmentDialog(_storage, app);
-            if ((bool)dlg.ShowDialog())
+            if (dlg.ShowDialog() is bool)
             {
                 _storage.AppointmentStorage.Appointments.Add(app);
             }
@@ -176,7 +176,9 @@ namespace ScheduleTableViews
                     fileFormat = FileFormatEnum.iCal;
                     break;
                 case ".dat":
+#pragma warning disable CS0618
                     fileFormat = FileFormatEnum.Binary;
+#pragma warning restore CS0618
                     break;
             }
 

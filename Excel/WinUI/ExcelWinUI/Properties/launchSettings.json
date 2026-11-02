@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ExcelWinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ExcelWinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

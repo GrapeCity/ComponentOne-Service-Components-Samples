@@ -40,7 +40,7 @@ using _Pen = GrapeCity.Documents.Drawing.Pen;
 using _PenLineCap = GrapeCity.Documents.Drawing.PenLineCap;
 using _PenLineJoin = GrapeCity.Documents.Drawing.PenLineJoin;
 using _Bitmap = GrapeCity.Documents.Imaging.GcBitmap;
-using _Image = GrapeCity.Documents.Drawing.Image;
+//using _Image = GrapeCity.Documents.Drawing.Image;
 
 using GrapeCity.Documents.Text;
 using static System.Net.Mime.MediaTypeNames;

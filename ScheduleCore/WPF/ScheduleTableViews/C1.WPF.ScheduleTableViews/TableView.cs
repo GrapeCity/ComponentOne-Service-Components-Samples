@@ -22,12 +22,12 @@ namespace C1.WPF.Schedule
     {
         //------------------------------------------------
         #region ** Fields
-        DataTable _table;
-        CollectionViewSource _source;
+        DataTable? _table;
+        CollectionViewSource? _source;
 
         // todo: public property to allow change field settings both at design-time and run time.
         AppointmentFields _fields =  new AppointmentFields();
-        Dictionary<string, AppointmentField> _currentFields;
+        Dictionary<string, AppointmentField>? _currentFields;
 
         // flags to avoid recurring data updates
         private bool _synchronizing = false; // synchronizing data between view and Scheduler
@@ -40,14 +40,14 @@ namespace C1.WPF.Schedule
         private DateTime _start = DateTime.Today.AddYears(-1);
         private DateTime _end = DateTime.Today.AddYears(1);
 
-        private ResourceDictionary _templates;
+        private ResourceDictionary? _templates;
 
         #endregion
 
         //------------------------------------------------
         #region ** Initializing
         /// <summary>
-        /// Initializes the new instance of the <see cref="TableView"/> class.
+        /// Initializes the new instance of the <see cref="C1TableView"/> class.
         /// </summary>
         public C1TableView() : base()
         {
@@ -130,7 +130,7 @@ namespace C1.WPF.Schedule
 
         private void C1TableView_RowEditEnded(object? sender, GridCellEditEventArgs e)
         {
-            _source.View.Refresh();
+            _source?.View.Refresh();
         }
 
         internal override void AttachStorage(C1ScheduleStorage owner)
@@ -161,7 +161,7 @@ namespace C1.WPF.Schedule
             if (rows == null || rows.Length == 0)
             {
                 AddDataRow(e.Appointment);
-                _source.View.Refresh();
+                _source?.View.Refresh();
             }
         }
 
@@ -173,7 +173,7 @@ namespace C1.WPF.Schedule
             if (rows != null && rows.Length > 0)
             {
                 SetRow(e.Appointment, rows[0]);
-                if (((BindingListCollectionView)_source.View).IsEditingItem)
+                if (_source is null || ((BindingListCollectionView)_source.View).IsEditingItem)
                 {
                     // finish editing and update UI if appointment has been edited in EditAppointmentDialog
                     this.FinishEditing(true);
@@ -243,7 +243,7 @@ namespace C1.WPF.Schedule
                 }
                 if (field.Name == "Icon")
                 {
-                    column.CellTemplate = _templates[new ComponentResourceKey(typeof(C1TableView), "IconColumnTemplate")] as DataTemplate;
+                    column.CellTemplate = _templates is null ? null : _templates[new ComponentResourceKey(typeof(C1TableView), "IconColumnTemplate")] as DataTemplate;
                     column.IsReadOnly = true;
                     column.Header = " ";
                     column.AllowResizing = false;
@@ -257,8 +257,11 @@ namespace C1.WPF.Schedule
             }
             // Id is primary key
             var col = table.Columns["Id"];
-            col.Unique = true;
-            table.PrimaryKey = new DataColumn[] { col };
+            if (col != null)
+            {
+                col.Unique = true;
+                table.PrimaryKey = new DataColumn[] { col };
+            }
 
             table.RowChanged += Table_RowChanged;
             _table = table;
@@ -311,7 +314,7 @@ namespace C1.WPF.Schedule
         {
             if (_table == null)
                 return;
-            using (_source.DeferRefresh())
+            using (_source?.DeferRefresh())
             {
                 _refreshing = true;
                 _table.Rows.Clear();
@@ -321,7 +324,7 @@ namespace C1.WPF.Schedule
                 }
                 _refreshing = false;
             }
-            _source.View.Refresh();
+            _source?.View.Refresh();
         }
         #endregion
 
@@ -360,15 +363,18 @@ namespace C1.WPF.Schedule
             {
                 return;
             }
-            DataRow row = _table.NewRow();
-            SetRow(app, row);
-            _table.Rows.Add(row);
+            if (_table != null)
+            {
+                DataRow row = _table.NewRow();
+                SetRow(app, row);
+                _table.Rows.Add(row);
+            }
         }
 
         // set DataRow fields by Appointment properties
         private void SetRow(Appointment app, DataRow row)
         {
-            if (_synchronizing)
+            if (_synchronizing || _currentFields is null)
                 return;
             _synchronizing = true;
             foreach (var field in _currentFields.Values)
@@ -393,8 +399,8 @@ namespace C1.WPF.Schedule
                     case "Categories":
                     case "Resources":
                     case "Links":
-                        string description = field.GetPropertyValue(app).ToString();
-                        if ( description.Length > 1)
+                        string? description = field.GetPropertyValue(app)?.ToString();
+                        if (description != null && description.Length > 1)
                         {
                             description = description.Substring(0, description.Length - 2);
                             row[field.Name] = description;
@@ -415,10 +421,10 @@ namespace C1.WPF.Schedule
         // set Appointment properties by DataRow fields (only update properties which can be edited in the current view)
         private void SetAppointment(Appointment app, DataRow row)
         {
-            if (_synchronizing || _refreshing)
+            if (_synchronizing || _refreshing || _currentFields is null)
                 return;
             _synchronizing = true;
-            var start = _currentFields.ContainsKey("Start")? (DateTime)row["Start"] : app.Start;
+            var start = _currentFields.ContainsKey("Start") ? (DateTime)row["Start"] : app.Start;
             foreach (var field in _currentFields.Values)
             {
                 if (!field.ReadOnly)
@@ -440,7 +446,10 @@ namespace C1.WPF.Schedule
                             }
                             catch (Exception e)
                             {
-                                row.SetColumnError(_table.Columns["End"], e.Message);
+                                if (_table?.Columns["End"] is DataColumn column)
+                                {
+                                    row.SetColumnError(column, e.Message);
+                                }
                             }
                             break;
                         default:

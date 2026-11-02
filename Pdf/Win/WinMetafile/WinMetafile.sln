@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# Visual Studio Version 18
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinMetafile", "WinMetafile.csproj", "{1D2A6887-EFE3-4752-8669-2ED27F5A1EEF}"
 EndProject
 Global
@@ -29,6 +29,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\..\Shared\Components\Word\Word.Net.projitems*{7a5a6f35-2767-4ae8-98a3-35d07a62d1a8}*SharedItemsImports = 13
 		..\..\..\Shared\Components\Util\Util.Net.projitems*{917d031e-42d5-4e25-a452-976c7a15b85d}*SharedItemsImports = 13
+		..\..\..\Shared\Components\Core\Licensing\Licensing.projitems*{dca03edd-bc7a-4fb3-8263-7738c141b838}*SharedItemsImports = 5
 		..\..\..\Shared\Components\Util\Util.Net.projitems*{dca03edd-bc7a-4fb3-8263-7738c141b838}*SharedItemsImports = 5
 		..\..\..\Shared\Components\Word\Word.Net.projitems*{dca03edd-bc7a-4fb3-8263-7738c141b838}*SharedItemsImports = 5
 	EndGlobalSection

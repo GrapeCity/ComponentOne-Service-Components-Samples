@@ -1,0 +1,24 @@
+[
+  {
+    "Name": "Multiple projects",
+    "Projects": [
+      {
+        "Path": "WPF\\ProxyDataCollection.WPF.csproj",
+        "Action": "Start",
+        "DebugTarget": "ProxyDataCollection.WPF"
+      },
+      {
+        "Path": "Api\\ProxyDataCollection.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Blazor\\ProxyDataCollection.Blazor.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Win\\ProxyDataCollection.Win.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

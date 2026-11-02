@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.54" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -58,7 +58,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ECommerceOrder.gclicx" />
+    <EmbeddedResource Include="ECommerceOrder.sa3licx" />
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

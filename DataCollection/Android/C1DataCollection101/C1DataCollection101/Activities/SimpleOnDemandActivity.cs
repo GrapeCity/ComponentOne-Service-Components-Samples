@@ -1,37 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Android.App;
 using Android.Content.PM;
-using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using AndroidX.SwipeRefreshLayout.Widget;
 using C1.Android.DataCollection;
 using C1.DataCollection;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/SimpleOnDemandTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class SimpleOnDemandActivity : Activity
     {
-        private SimpleOnDemandDataCollection _dataCollection;
+        private SimpleOnDemandDataCollection _dataCollection = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.SimpleOnDemand);
 
-            ActionBar.Title = GetString(Resource.String.SimpleOnDemandTitle);
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
+            if (ActionBar != null)
+            {
+                ActionBar.Title = GetString(Resource.String.SimpleOnDemandTitle);
+                ActionBar.SetDisplayHomeAsUpEnabled(true);
+                ActionBar.SetHomeButtonEnabled(true);
+            }
 
-            SwipeRefresh = FindViewById<SwipeRefreshLayout>(Resource.Id.SwipeRefresh);
-            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
-
+            SwipeRefresh = FindViewById<SwipeRefreshLayout>(Resource.Id.SwipeRefresh)!;
+            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView)!;
 
             _dataCollection = new SimpleOnDemandDataCollection();
             RecyclerView.SetLayoutManager(new LinearLayoutManager(this));
@@ -40,10 +39,10 @@ namespace C1DataCollection101
             SwipeRefresh.Refresh += OnRefresh;
         }
 
-        public SwipeRefreshLayout SwipeRefresh { get; set; }
-        public RecyclerView RecyclerView { get; set; }
+        public SwipeRefreshLayout SwipeRefresh { get; set; } = null!;
+        public RecyclerView RecyclerView { get; set; } = null!;
 
-        private async void OnRefresh(object sender, System.EventArgs e)
+        private async void OnRefresh(object? sender, System.EventArgs e)
         {
             try
             {
@@ -79,14 +78,16 @@ namespace C1DataCollection101
 
         protected override RecyclerView.ViewHolder OnCreateItemViewHolder(ViewGroup parent)
         {
-            var view = LayoutInflater.From(parent.Context)
-                               .Inflate(Resource.Layout.ListItem, null, false);
+            var view = LayoutInflater.From(parent.Context)?
+                               .Inflate(Resource.Layout.ListItem, null, false)!;
+
             return new SimpleOnDemandViewHolder(view);
         }
 
         protected override void OnBindItemViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            var h = holder as SimpleOnDemandViewHolder;
+            var h = (holder as SimpleOnDemandViewHolder)!;
+
             var item = DataCollection[position];
             h.SetTitle(item?.ItemName ?? "");
             h.SetSubtitle(item?.ItemDateTime.ToLongTimeString() ?? "");
@@ -95,15 +96,15 @@ namespace C1DataCollection101
 
     internal class SimpleOnDemandViewHolder : RecyclerView.ViewHolder
     {
-        private TextView _title;
-        private TextView _subTitle;
+        private TextView _title = null!;
+        private TextView _subTitle = null!;
 
         public SimpleOnDemandViewHolder(View itemView)
             : base(itemView)
         {
-            _title = itemView.FindViewById<TextView>(Resource.Id.Title);
-            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle);
-            var icon = itemView.FindViewById<ImageView>(Resource.Id.Icon);
+            _title = itemView.FindViewById<TextView>(Resource.Id.Title)!;
+            _subTitle = itemView.FindViewById<TextView>(Resource.Id.Subtitle)!;
+            var icon = itemView.FindViewById<ImageView>(Resource.Id.Icon)!;
             icon.Visibility = ViewStates.Gone;
         }
 
@@ -127,14 +128,14 @@ namespace C1DataCollection101
         }
 
         public int PageSize { get; set; }
-
-        protected override async Task<Tuple<string, IReadOnlyList<MyDataItem>>> GetPageAsync(int startingIndex, string pageToken, int? count = null, IReadOnlyList<SortDescription> sortDescriptions = null, FilterExpression filterExpresssion = null, CancellationToken cancellationToken = default(CancellationToken))
+                                                                                     
+        protected override async Task<Tuple<string?, IReadOnlyList<MyDataItem>>> GetPageAsync(int startingIndex, string? pageToken, int? count = null, IReadOnlyList<SortDescription>? sortDescriptions = null, FilterExpression? filterExpresssion = null, CancellationToken cancellationToken = default)
         {
             var newItems = new List<MyDataItem>();
             await Task.Run(() =>
             {
                 // create new page of items
-                for (int i = 0; i < this.PageSize; i++)
+                for (int i = 0; i < PageSize; i++)
                 {
                     newItems.Add(new MyDataItem(startingIndex + i));
                 }
@@ -146,8 +147,8 @@ namespace C1DataCollection101
     {
         public MyDataItem(int index)
         {
-            this.ItemName = "My Data Item #" + index.ToString();
-            this.ItemDateTime = DateTime.Now;
+            ItemName = "My Data Item #" + index.ToString();
+            ItemDateTime = DateTime.Now;
         }
         public string ItemName { get; set; }
         public DateTime ItemDateTime { get; set; }

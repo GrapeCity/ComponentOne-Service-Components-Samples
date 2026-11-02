@@ -35,20 +35,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.C1Word">
-      <Version>4.8.20242.700</Version>
+      <Version>4.8.20252.761</Version>
     </PackageReference>
     <PackageReference Include="C1.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
-    <PackageReference Include="C1.Win">
-      <Version>8.0.20242.700</Version>
+    <PackageReference Include="C1.Win.Document" Version="10.0.20252.761">
     </PackageReference>
-    <PackageReference Include="C1.Win.C1Document" Version="4.8.20242.700">
-    </PackageReference>
-    <PackageReference Include="C1.Win.C1FlexGrid" Version="4.8.20242.700">
+    <PackageReference Include="C1.Win.FlexGrid" Version="10.0.20252.761">
     </PackageReference>
     <PackageReference Include="C1.Win.TextParser">
-      <Version>9.0.20251.12</Version>
+      <Version>10.0.20262.55</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.Serialization.Primitives">
       <Version>4.3.0</Version>
@@ -86,7 +83,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ExtractorEditor.gclicx" />
+    <EmbeddedResource Include="ExtractorEditor.sa3licx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -2,7 +2,6 @@ using C1.DataCollection;
 using C1.iOS.DataCollection;
 using CoreGraphics;
 using System;
-using System.Threading.Tasks;
 using UIKit;
 
 namespace C1DataCollection101
@@ -32,7 +31,9 @@ namespace C1DataCollection101
             var grouping = new C1GroupDataCollection<YouTubeVideo>(_collectionView, false);
             await grouping.GroupAsync("PublishedDay");
             var source = new YouTubeCollectionViewSource(CollectionView);
+#pragma warning disable IL2026
             source.ItemsSource = grouping;
+#pragma warning restore IL2026
             source.EmptyMessageLabel.TextColor = UIColor.Black;
             source.EmptyMessageLabel.Text = Foundation.NSBundle.MainBundle.GetLocalizedString("EmptyText", "");
             var layout = new C1CollectionViewFlowLayout();

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>ODataViewer</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -27,15 +27,14 @@
     <Content Include="C1-ball.ico" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20241.224" />
+    <PackageReference Include="C1.AdoNet.OData" Version="1.0.20252.32" />
+    <Manifest Include="$(ApplicationManifest)" />
     <PackageReference Include="C1.DataCollection.AdoNet">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.WinUI.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241106002" />
-    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
   <!-- 
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging

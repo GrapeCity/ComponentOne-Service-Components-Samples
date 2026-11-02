@@ -1,6 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Visual Studio Version 18
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataEngineDesigner", "DataEngineDesigner.csproj", "{40121A3E-9A0E-4DA5-839E-E4DC9D66C00E}"
 EndProject
 Global
@@ -22,5 +22,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5DDCF4FE-A142-4B79-8960-1BAD60D5CB5E}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\Components\Licensing\Licensing.projitems*{cf030e78-07bb-4ead-8ded-d9ace20c6f6d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

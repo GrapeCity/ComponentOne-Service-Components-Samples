@@ -17,7 +17,7 @@ namespace ProxyDataCollection.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private C1ProxyDataCollection<Stock> _stocks;
+        private C1ProxyDataCollection<Stock> _stocks = null!;
 
         public MainWindow()
         {
@@ -33,12 +33,12 @@ namespace ProxyDataCollection.WPF
                 loadingIndicator.Visibility = Visibility.Visible;
                 var url = new Uri("https://localhost:7278/financialHub");
                 //var url = new Uri("http://10.41.0.137/ProxyDataCollection/financialHub");
-                _stocks = new C1ProxyDataCollection<Stock>(url) { PageSize = 50 };
+                _stocks = new C1ProxyDataCollection<Stock>(url, StockSerializerContext.Default) { PageSize = 50 };
                 _stocks.PropertyChanged += OnCollectionPropertyChanged;
                 await _stocks.ConnectAsync();
                 flexGrid.ItemsSource = _stocks;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 disconnectedLayer.Visibility = Visibility.Visible;
             }
@@ -97,7 +97,7 @@ namespace ProxyDataCollection.WPF
             {
                 await _stocks.ConnectAsync();
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 MessageBox.Show(exc.ToString());
             }

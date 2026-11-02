@@ -13,7 +13,6 @@ using C1.Excel;
 using Microsoft.Win32;
 
 using _Size = System.Drawing.Size;
-using _Image = GrapeCity.Documents.Drawing.Image;
 
 namespace ExcelWpf
 {
@@ -129,10 +128,10 @@ namespace ExcelWpf
                 XLPictureShape picture;
 
                 // create images
-                _Image spbImage = _Image.FromStream(GetManifestResource("spb.jpg"));
-                _Image canadaImage = _Image.FromStream(GetManifestResource("canada.bmp"));
-                _Image googleImage = _Image.FromStream(GetManifestResource("google.bmp"));
-                _Image babyImage = _Image.FromStream(GetManifestResource("baby.png"));
+                XLImage spbImage = XLImage.FromStream(GetManifestResource("spb.jpg"));
+                XLImage canadaImage = XLImage.FromStream(GetManifestResource("canada.bmp"));
+                XLImage googleImage = XLImage.FromStream(GetManifestResource("google.bmp"));
+                XLImage babyImage = XLImage.FromStream(GetManifestResource("baby.png"));
 
                 /////////////////////////////////////////////////////////
                 // List "Images" -- three methods add images

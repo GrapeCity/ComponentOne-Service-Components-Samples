@@ -1,6 +1,6 @@
 ﻿using C1.TextParser;
-using C1.Win.C1Document;
-using C1.Win.C1Document.Util;
+using C1.Win.Document;
+using C1.Win.Document.Util;
 using C1.Win.TextParser;
 using System;
 using System.Collections.Generic;
@@ -116,10 +116,10 @@ namespace ExtractorEditor
                 {
                     using (var plainTextStream = new MemoryStream())
                     {
-                        using (C1.C1Word.C1WordDocument doc = new C1.C1Word.C1WordDocument())
+                        using (C1.Word.C1WordDocument doc = new C1.Word.C1WordDocument())
                         {
                             doc.Load(textBox3.Text);
-                            doc.Save(plainTextStream, C1.C1Word.FileFormat.Text);
+                            doc.Save(plainTextStream, C1.Word.FileFormat.Text);
                             var plainTextStream1 = new MemoryStream((plainTextStream as MemoryStream).ToArray());
                             plainTextStream1.Position = 0;
                             var reader = new StreamReader(plainTextStream1);

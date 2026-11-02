@@ -13,9 +13,6 @@
     <UseRidGraph>true</UseRidGraph>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -25,11 +22,11 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />

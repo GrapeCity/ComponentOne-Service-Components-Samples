@@ -1,7 +1,7 @@
 ## PdfSignature
-#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-Service-Components-Samples/tree/master/Pdf/Shared/PdfSignature)
+#### [Download as zip](https://grapecity.github.io/DownGit/#/home?url=https://github.com/GrapeCity/ComponentOne-WinForms-Samples/tree/master/NetFramework\Pdf\CS\PdfSignature)
 ____
-#### Creates a PDF document containing a digital signature.
+#### Creates a Pdf document containing a digital signature.
 ____
 To add a signature to a C1Pdf document, you need to create and configure a PdfSignature object, than add it to the document using the AddField method.
 
@@ -44,5 +44,3 @@ The signature.Handler property in the first code block determines the signature 
 
 * The "PPKMS" mode authenticates using a hash code instead of the actual file data. This mode is faster but less secure.
 * The "PPKLite" mode authenticates using the actual file data. It is slower but more secure.
-
- Generated files are saved into Results folder under application working directory.

@@ -46,7 +46,7 @@ namespace C1.WPF.Schedule
             DataContext = appointment;
         }
 
-        private void EditAppointmentDialog_Loaded(object sender, RoutedEventArgs e)
+        private void EditAppointmentDialog_Loaded(object? sender, RoutedEventArgs e)
 		{
             if (!_isLoaded)
             {
@@ -172,19 +172,19 @@ namespace C1.WPF.Schedule
 			if (_appointment != null)
 			{
 				subject = _appointment.Subject;
-				allDay = chkAllDay.IsChecked.Value;
+				allDay = chkAllDay.IsChecked ?? false;
 			}
             if (String.IsNullOrEmpty(subject))
             {
-                subject = C1Localizer.GetString("EditAppointment", "Untitled", "Untitled");
+                subject = C1.Schedule.Localization.C1Localizer.GetString("EditAppointment", "Untitled", "Untitled");
             }
             if (allDay)
             {
-                result = C1Localizer.GetString("EditAppointment", "Event", "Event") + " - " + subject;
+                result = C1.Schedule.Localization.C1Localizer.GetString("EditAppointment", "Event", "Event") + " - " + subject;
             }
             else
             {
-                result = C1Localizer.GetString("EditAppointment", "Appointment", "Appointment") + " - " + subject;
+                result = C1.Schedule.Localization.C1Localizer.GetString("EditAppointment", "Appointment", "Appointment") + " - " + subject;
             }
 
             Header = result;
@@ -207,7 +207,7 @@ namespace C1.WPF.Schedule
 			}
 		}
 
-		void appointment_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		void appointment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			UpdateRecurrenceState();
 			UpdateEndCalendar();
@@ -274,7 +274,9 @@ namespace C1.WPF.Schedule
                     fileFormat = FileFormatEnum.iCal;
                     break;
                 case ".dat":
+#pragma warning disable CS0618
                     fileFormat = FileFormatEnum.Binary;
+#pragma warning restore CS0618
                     break;
                 default:
                     switch (dlg.FilterIndex)
@@ -294,7 +296,9 @@ namespace C1.WPF.Schedule
                             }
                             break;
                         case 3:
+#pragma warning disable CS0618
                             fileFormat = FileFormatEnum.Binary;
+#pragma warning restore CS0618
                             if (!fileName.EndsWith(".dat"))
                             {
                                 fileName += ".dat";
@@ -330,7 +334,7 @@ namespace C1.WPF.Schedule
 		{
 			if (_appointment != null)
 			{
-				DateTime end = endCalendar.DateTime.Value;
+				DateTime end = endCalendar.DateTime ?? DateTime.Now;
 				if (_appointment.AllDayEvent)
 				{
 					end = end.AddDays(1);
@@ -340,7 +344,7 @@ namespace C1.WPF.Schedule
 					endCalendar.BorderBrush = endCalendar.Foreground = new SolidColorBrush(Colors.Red);
 					endCalendar.BorderThickness = new Thickness(2);
 					ToolTipService.SetToolTip(endCalendar, 
-                        C1Localizer.GetString("Exceptions", "StartEndValidationFailed", "The End value should be greater than Start value."));
+                        C1.Schedule.Localization.C1Localizer.GetString("Exceptions", "StartEndValidationFailed", "The End value should be greater than Start value."));
 					PART_DialogSaveButton.IsEnabled = saveAsButton.IsEnabled = false;
 				}
 				else

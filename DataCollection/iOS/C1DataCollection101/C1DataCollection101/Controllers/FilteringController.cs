@@ -1,9 +1,10 @@
+using C1.DataCollection;
 using CoreGraphics;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using UIKit;
-using C1.DataCollection;
 
 namespace C1DataCollection101
 {
@@ -17,6 +18,10 @@ namespace C1DataCollection101
 
         public UISearchController SearchController { get; private set; }
 
+        [ObsoletedOSPlatform("ios9.0")]
+        [ObsoletedOSPlatform("maccatalyst9.0")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("maccatalyst")]
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -27,6 +32,10 @@ namespace C1DataCollection101
             var task = UpdateVideos();
         }
 
+        [ObsoletedOSPlatform("ios9.0")]
+        [ObsoletedOSPlatform("maccatalyst9.0")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("maccatalyst")]
         private async Task UpdateVideos()
         {
             var indicator = new UIActivityIndicatorView(new CGRect(0, 0, 40, 40));
@@ -37,7 +46,9 @@ namespace C1DataCollection101
             {
                 indicator.StartAnimating();
                 var videos = (await YouTubeDataCollection.LoadVideosAsync("DotNet iOS", "relevance", null, 50)).Item2;
+#pragma warning disable IL2026
                 _source = new YouTubeTableViewSource(TableView) { ItemsSource = videos };
+#pragma warning restore IL2026
                 TableView.Source = _source;
             }
             catch

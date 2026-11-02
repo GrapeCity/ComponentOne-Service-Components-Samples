@@ -1,24 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="C1.DataCollection.BindingList">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.DataCollection.SignalR.Client">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
     <PackageReference Include="C1.WPF.DataCollection">
-      <Version>9.0.20242.209</Version>
+      <Version>10.0.20262.6</Version>
     </PackageReference>
-    <PackageReference Include="C1.WPF.Grid" Version="8.0.20242.1005" />
-    <PackageReference Include="C1.WPF.Sparkline" Version="8.0.20242.1005" />
+    <PackageReference Include="C1.WPF.Grid" Version="10.0.20261.125" />
+    <PackageReference Include="C1.WPF.Sparkline" Version="10.0.20261.125" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Shared\ProxyDataCollection.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
 </Project>

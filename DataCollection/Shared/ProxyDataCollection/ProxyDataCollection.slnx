@@ -1,0 +1,8 @@
+<Solution>
+
+  <Project Path="Api/ProxyDataCollection.Api.csproj" />
+  <Project Path="Blazor/ProxyDataCollection.Blazor.csproj" />
+  <Project Path="Shared/ProxyDataCollection.Shared.csproj" />
+  <Project Path="Win/ProxyDataCollection.Win.csproj" />
+  <Project Path="WPF/ProxyDataCollection.WPF.csproj" />
+</Solution>

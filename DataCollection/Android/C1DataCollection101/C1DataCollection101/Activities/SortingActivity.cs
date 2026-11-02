@@ -1,37 +1,38 @@
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Android.App;
 using Android.Content.PM;
-using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using C1.DataCollection;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/SortingTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class SortingActivity : Activity
     {
-        private C1DataCollection<YouTubeVideo> _dataCollection;
+        private C1DataCollection<YouTubeVideo> _dataCollection = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Main);
-           
-            ActionBar.Title = GetString(Resource.String.SortingTitle);
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
 
-            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
+            if (ActionBar != null)
+            {
+                ActionBar.Title = GetString(Resource.String.SortingTitle);
+                ActionBar.SetDisplayHomeAsUpEnabled(true);
+                ActionBar.SetHomeButtonEnabled(true);
+            }
+
+            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView)!;
 
             var task = UpdateVideos();
         }
-        public RecyclerView RecyclerView { get; set; }
+        public RecyclerView RecyclerView { get; set; } = null!;
 
+        [DynamicDependency(DynamicallyAccessedMemberTypes.Interfaces, typeof(ObservableCollection<YouTubeVideo>))]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The dynamic dependency ensures the interfaces of the observable collection will not be trimmed.")]
         private async Task UpdateVideos()
         {
             var indicator = new ProgressBar(this);
@@ -46,21 +47,26 @@ namespace C1DataCollection101
             catch
             {
                 var builder = new Android.App.AlertDialog.Builder(this);
-                builder.SetMessage(Resources.GetString(Resource.String.InternetConnectionError));
-                var alert = builder.Create();
-                alert.Show();
+                if (Resources != null)
+                {
+                    builder.SetMessage(Resources.GetString(Resource.String.InternetConnectionError));
+                    var alert = builder.Create();
+                    alert?.Show();
+                }
             }
             finally
             {
                 indicator.Activated = false;
             }
         }
-        public override bool OnCreateOptionsMenu(IMenu menu)
+        public override bool OnCreateOptionsMenu(IMenu? menu)
         {
-            var sortMenuItem = menu.Add(0, 0, 0, Resource.String.SortingTitle);
-            sortMenuItem.SetShowAsAction(ShowAsAction.Always);
-            var direction = GetCurrentSortDirection();
-            sortMenuItem.SetIcon(direction == SortDirection.Descending ? Resource.Drawable.ic_sort_ascending : Resource.Drawable.ic_sort_descending);
+            if (menu != null && menu.Add(0, 0, 0, Resource.String.SortingTitle) is IMenuItem sortMenuItem)
+            {
+                sortMenuItem.SetShowAsAction(ShowAsAction.Always);
+                var direction = GetCurrentSortDirection();
+                sortMenuItem.SetIcon(direction == SortDirection.Descending ? Resource.Drawable.ic_sort_ascending : Resource.Drawable.ic_sort_descending);
+            }
             return base.OnCreateOptionsMenu(menu);
         }
 

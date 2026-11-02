@@ -1,6 +1,6 @@
 ﻿using C1.TextParser;
-using C1.Win.C1Document;
-using C1.Win.C1Document.Util;
+using C1.Win.Document;
+using C1.Win.Document.Util;
 using C1.Win.TextParser;
 using System;
 using System.Collections.Generic;

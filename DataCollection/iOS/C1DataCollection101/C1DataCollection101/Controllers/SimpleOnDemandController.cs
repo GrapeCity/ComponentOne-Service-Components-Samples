@@ -1,11 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UIKit;
 using C1.DataCollection;
 using C1.iOS.DataCollection;
-using System.Threading;
 using Foundation;
+using System;
+using System.Collections.Generic;
+using System.Runtime.Versioning;
+using System.Threading;
+using System.Threading.Tasks;
+using UIKit;
 
 namespace C1DataCollection101
 {
@@ -23,7 +24,9 @@ namespace C1DataCollection101
             RefreshControl = new UIRefreshControl();
             var myDataCollection = new SimpleOnDemandDataCollection();
             var myCollectionViewSource = new SimpleOnDemandCollectionViewSource(TableView);
+#pragma warning disable IL2026
             myCollectionViewSource.ItemsSource = myDataCollection;
+#pragma warning restore IL2026
             myCollectionViewSource.RefreshControl = RefreshControl;
             TableView.Source = myCollectionViewSource;
         }
@@ -61,6 +64,12 @@ namespace C1DataCollection101
         {
         }
 
+        [ObsoletedOSPlatform("ios14.0")]
+        [ObsoletedOSPlatform("tvos14.0")]
+        [ObsoletedOSPlatform("maccatalyst14.0")]
+        [SupportedOSPlatform("ios")]
+        [SupportedOSPlatform("tvos")]
+        [SupportedOSPlatform("maccatalyst")]
         public override UITableViewCell GetItemCell(UITableView tableView, NSIndexPath indexPath, MyDataItem item)
         {
             UITableViewCell cell = tableView.DequeueReusableCell(CellIdentifier);

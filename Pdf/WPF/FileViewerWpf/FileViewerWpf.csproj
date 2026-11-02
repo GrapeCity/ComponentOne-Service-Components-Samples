@@ -9,11 +9,11 @@
     <None Remove=".gclicx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2088.41" />
   </ItemGroup>

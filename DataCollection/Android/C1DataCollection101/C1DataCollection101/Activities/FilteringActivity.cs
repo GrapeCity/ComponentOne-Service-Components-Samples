@@ -1,40 +1,43 @@
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Android.App;
 using Android.Content.PM;
-using Android.OS;
 using Android.Views;
-using Android.Widget;
 using AndroidX.RecyclerView.Widget;
 using C1.DataCollection;
+using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace C1DataCollection101
 {
     [Activity(Label = "@string/FilteringTitle", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public class FilteringActivity : Activity
     {
-        private C1DataCollection<YouTubeVideo> _dataCollection;
+        private C1DataCollection<YouTubeVideo> _dataCollection = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.Filtering);
 
-            ActionBar.Title = GetString(Resource.String.FilteringTitle);
-            ActionBar.SetDisplayHomeAsUpEnabled(true);
-            ActionBar.SetHomeButtonEnabled(true);
+            if (ActionBar is not null)
+            {
+                ActionBar.Title = GetString(Resource.String.FilteringTitle);
+                ActionBar.SetDisplayHomeAsUpEnabled(true);
+                ActionBar.SetHomeButtonEnabled(true);
+            }
 
-            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView);
-            Filter = FindViewById<EditText>(Resource.Id.Filter);
+            RecyclerView = FindViewById<RecyclerView>(Resource.Id.RecyclerView)!;
+            Filter = FindViewById<EditText>(Resource.Id.Filter)!;
 
             var task = UpdateVideos();
-            Filter.TextChanged += OnTextChanged;
+            if (Filter != null)
+                Filter.TextChanged += OnTextChanged;
         }
 
-        public RecyclerView RecyclerView { get; set; }
-        public EditText Filter { get; set; }
+        public RecyclerView RecyclerView { get; set; } = null!;
+        public EditText Filter { get; set; } = null!;
 
+        [DynamicDependency(DynamicallyAccessedMemberTypes.Interfaces, typeof(ObservableCollection<YouTubeVideo>))]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "The dynamic dependency ensures the interfaces of the observable collection will not be trimmed.")]
         private async Task UpdateVideos()
         {
             var indicator = new ProgressBar(this);
@@ -49,9 +52,12 @@ namespace C1DataCollection101
             catch
             {
                 var builder = new Android.App.AlertDialog.Builder(this);
-                builder.SetMessage(Resources.GetString(Resource.String.InternetConnectionError));
-                var alert = builder.Create();
-                alert.Show();
+                if (Resources != null)
+                {
+                    builder.SetMessage(Resources.GetString(Resource.String.InternetConnectionError));
+                    var alert = builder.Create();
+                    alert?.Show();
+                }
             }
             finally
             {
@@ -59,9 +65,10 @@ namespace C1DataCollection101
             }
         }
 
-        private async void OnTextChanged(object sender, Android.Text.TextChangedEventArgs e)
+        private async void OnTextChanged(object? sender, Android.Text.TextChangedEventArgs e)
         {
-            await _dataCollection.FilterAsync(Filter.Text);
+            if (!string.IsNullOrEmpty(Filter.Text))
+                await _dataCollection.FilterAsync(Filter.Text);
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {

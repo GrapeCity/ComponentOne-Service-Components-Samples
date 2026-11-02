@@ -12,7 +12,7 @@
     <None Remove="Images\**" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove=".gclicx" />
+    <None Remove=".sa3licx" />
     <None Remove="Resources\angelico.jpg" />
     <None Remove="Resources\bellechose.jpg" />
     <None Remove="Resources\bruegel.jpg" />
@@ -37,13 +37,13 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include=".gclicx" />
+    <EmbeddedResource Include=".sa3licx" />
     <EmbeddedResource Include="Resources\C1PdfTest.pfx" />
     <EmbeddedResource Include="Resources\signature.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="C1.Pdf">
-      <Version>9.0.20251.139</Version>
+      <Version>10.0.20262.331</Version>
     </PackageReference>
   </ItemGroup>
 </Project>
