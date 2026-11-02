@@ -1,0 +1,10 @@
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Debug_OBFUSCATION" />
+    <BuildType Name="Debug_Projects" />
+    <BuildType Name="Release" />
+    <BuildType Name="Release_OBFUSCATION" />
+  </Configurations>
+  <Project Path="ExportReport/ExportReport.csproj" />
+</Solution>
